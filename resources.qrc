@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/plugins/wtyczka_app" >
+        <file>img/logo.png</file>
+    </qresource>
+</RCC>

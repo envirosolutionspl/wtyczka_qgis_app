@@ -1,0 +1,3 @@
+from .dialogs import (
+    WalidacjaDialog
+    )

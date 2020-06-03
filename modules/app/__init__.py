@@ -2,5 +2,9 @@ from .dialogs import (
     PytanieAppDialog,
     ZbiorPrzygotowanieDialog,
     RasterInstrukcjaDialog,
-    RasterFormularzDialog
+    RasterFormularzDialog,
+    DokumentyFormularzDialog,
+    WektorFormularzDialog,
+    GenerowanieGMLDialog,
+    WektorInstrukcjaDialog
     )

@@ -52,6 +52,7 @@ class RasterInstrukcjaDialog(QtWidgets.QDialog, FORM_CLASS2):
         super(RasterInstrukcjaDialog, self).__init__(parent)
         self.setupUi(self)
 
+
 FORM_CLASS3, _ = uic.loadUiType(os.path.join(
     os.path.dirname(__file__),'views', 'ui', 'formularz_raster_dialog_base.ui'))
 
@@ -60,4 +61,48 @@ class RasterFormularzDialog(QtWidgets.QDialog, FORM_CLASS3):
     def __init__(self, parent=None):
         """Constructor."""
         super(RasterFormularzDialog, self).__init__(parent)
+        self.setupUi(self)
+
+
+FORM_CLASS4, _ = uic.loadUiType(os.path.join(
+    os.path.dirname(__file__),'views', 'ui', 'formularz_dokumenty_dialog_base.ui'))
+
+
+class DokumentyFormularzDialog(QtWidgets.QDialog, FORM_CLASS4):
+    def __init__(self, parent=None):
+        """Constructor."""
+        super(DokumentyFormularzDialog, self).__init__(parent)
+        self.setupUi(self)
+
+
+FORM_CLASS5, _ = uic.loadUiType(os.path.join(
+    os.path.dirname(__file__),'views', 'ui', 'formularz_wektor_dialog_base.ui'))
+
+
+class WektorFormularzDialog(QtWidgets.QDialog, FORM_CLASS5):
+    def __init__(self, parent=None):
+        """Constructor."""
+        super(WektorFormularzDialog, self).__init__(parent)
+        self.setupUi(self)
+
+
+FORM_CLASS6, _ = uic.loadUiType(os.path.join(
+    os.path.dirname(__file__),'views', 'ui', 'generowanie_gml_dialog_base.ui'))
+
+
+class GenerowanieGMLDialog(QtWidgets.QDialog, FORM_CLASS6):
+    def __init__(self, parent=None):
+        """Constructor."""
+        super(GenerowanieGMLDialog, self).__init__(parent)
+        self.setupUi(self)
+
+
+FORM_CLASS7, _ = uic.loadUiType(os.path.join(
+    os.path.dirname(__file__),'views', 'ui', 'wektor_instrukcja_dialog_base.ui'))
+
+
+class WektorInstrukcjaDialog(QtWidgets.QDialog, FORM_CLASS7):
+    def __init__(self, parent=None):
+        """Constructor."""
+        super(WektorInstrukcjaDialog, self).__init__(parent)
         self.setupUi(self)

@@ -29,7 +29,9 @@ from qgis.PyQt.QtWidgets import QAction, QToolButton, QMenu
 # Initialize Qt resources from file resources.py
 from .resources import *
 # Import the code for the dialog
-from .modules.app import PytanieAppDialog, ZbiorPrzygotowanieDialog, RasterInstrukcjaDialog, RasterFormularzDialog
+from .modules.app import PytanieAppDialog, ZbiorPrzygotowanieDialog, RasterInstrukcjaDialog, RasterFormularzDialog, WektorFormularzDialog, DokumentyFormularzDialog, WektorInstrukcjaDialog, GenerowanieGMLDialog
+from .modules.metadata import MetadaneDialog
+from .modules.validator import WalidacjaDialog
 
 import os
 
@@ -55,10 +57,47 @@ class WtyczkaAPP:
         self.zbiorPrzygotowanieDialog = ZbiorPrzygotowanieDialog()
         self.rasterInstrukcjaDialog = RasterInstrukcjaDialog()
         self.rasterFormularzDialog = RasterFormularzDialog()
+        self.wektorFormularzDialog = WektorFormularzDialog()
+        self.dokumentyFormularzDialog = DokumentyFormularzDialog()
+        self.wektorInstrukcjaDialog = WektorInstrukcjaDialog()
+        self.generowanieGMLDialog = GenerowanieGMLDialog()
 
         # eventy modul app
         self.pytanieAppDialog.zbior_btn.clicked.connect(self.pytanieAppDialog_zbior_btn_clicked)
         self.pytanieAppDialog.app_btn.clicked.connect(self.pytanieAppDialog_app_btn_clicked)
+        self.rasterInstrukcjaDialog.next_btn.clicked.connect(self.rasterInstrukcjaDialog_next_btn_clicked)
+        self.rasterInstrukcjaDialog.prev_btn.clicked.connect(self.rasterInstrukcjaDialog_prev_btn_clicked)
+        self.rasterFormularzDialog.prev_btn.clicked.connect(self.rasterFormularzDialog_prev_btn_clicked)
+        self.rasterFormularzDialog.next_btn.clicked.connect(self.rasterFormularzDialog_next_btn_clicked)
+        self.wektorInstrukcjaDialog.next_btn.clicked.connect(self.wektorInstrukcjaDialog_next_btn_clicked)
+        self.wektorInstrukcjaDialog.prev_btn.clicked.connect(self.wektorInstrukcjaDialog_prev_btn_clicked)
+        self.wektorFormularzDialog.prev_btn.clicked.connect(self.wektorFormularzDialog_prev_btn_clicked)
+        self.wektorFormularzDialog.next_btn.clicked.connect(self.wektorFormularzDialog_next_btn_clicked)
+        self.dokumentyFormularzDialog.prev_btn.clicked.connect(self.dokumentyFormularzDialog_prev_btn_clicked)
+        self.dokumentyFormularzDialog.next_btn.clicked.connect(self.dokumentyFormularzDialog_next_btn_clicked)
+        self.generowanieGMLDialog.prev_btn.clicked.connect(self.generowanieGMLDialog_prev_btn_clicked)
+        self.generowanieGMLDialog.next_btn.clicked.connect(self.generowanieGMLDialog_next_btn_clicked)
+        self.zbiorPrzygotowanieDialog.prev_btn.clicked.connect(self.zbiorPrzygotowanieDialog_prev_btn_clicked)
+        self.zbiorPrzygotowanieDialog.next_btn.clicked.connect(self.zbiorPrzygotowanieDialog_next_btn_clicked)
+
+        if self.generowanieGMLDialog.noMakeAnotherApp_radioBtn.isChecked():
+            print("lala")
+
+
+        # okno moduł metadata
+        self.metadaneDialog = MetadaneDialog()
+
+        # eventy moduł metadata
+        self.metadaneDialog.prev_btn.clicked.connect(self.metadaneDialog_prev_btn_clicked)
+        self.metadaneDialog.next_btn.clicked.connect(self.metadaneDialog_next_btn_clicked)
+
+        #okno moduł validator
+        self.walidacjaDialog = WalidacjaDialog()
+
+        #eventy moduł validator
+        self.walidacjaDialog.prev_btn.clicked.connect(self.walidacjaDialog_prev_btn_clicked)
+        self.walidacjaDialog.validate_btn.clicked.connect(self.walidacjaDialog.close)
+
 
     def addAction(self, icon_path, text, callback):
         m = self.toolButton.menu()
@@ -87,11 +126,19 @@ class WtyczkaAPP:
         self.toolBtnAction = self.iface.addToolBarWidget(self.toolButton)
 
         self.addAction(icon_path=':/plugins/wtyczka_app/img/logo.png',
-                       text=u'1 Tworzenie zbiorów i aktów planowania przestrzennego',
+                       text=u'Praca z APP / zbiorem APP',
                        callback=self.run_app)
 
         self.addAction(icon_path=':/plugins/wtyczka_app/img/logo.png',
-                       text=u'2 Tworzenie zbiorów i aktów planowania przestrzennego',
+                       text=u'Tworzenie / aktualizacja metadanych',
+                       callback=self.run_metadata)
+
+        self.addAction(icon_path=':/plugins/wtyczka_app/img/logo.png',
+                       text=u'Walidacja plików',
+                       callback=self.run_validator)
+
+        self.addAction(icon_path=':/plugins/wtyczka_app/img/logo.png',
+                       text=u'Ustawienia',
                        callback=self.run_app)
 
     def unload(self):
@@ -107,13 +154,13 @@ class WtyczkaAPP:
         self.openNewDialog(self.pytanieAppDialog)
 
     def run_metadata(self):
-        pass
+        self.openNewDialog(self.metadaneDialog)
 
     def run_settings(self):
         pass
 
     def run_validator(self):
-        pass
+        self.openNewDialog(self.walidacjaDialog)
 
     """Event handlers"""
     def pytanieAppDialog_app_btn_clicked(self):
@@ -122,6 +169,57 @@ class WtyczkaAPP:
     def pytanieAppDialog_zbior_btn_clicked(self):
         self.openNewDialog(self.zbiorPrzygotowanieDialog)
 
+    def rasterInstrukcjaDialog_next_btn_clicked(self):
+        self.openNewDialog(self.rasterFormularzDialog)
+
+    def rasterInstrukcjaDialog_prev_btn_clicked(self):
+        self.openNewDialog(self.pytanieAppDialog)
+
+    def rasterFormularzDialog_prev_btn_clicked(self):
+        self.openNewDialog(self.rasterInstrukcjaDialog)
+
+    def rasterFormularzDialog_next_btn_clicked(self):
+        self.openNewDialog(self.wektorInstrukcjaDialog)
+
+    def wektorInstrukcjaDialog_next_btn_clicked(self):
+        self.openNewDialog(self.wektorFormularzDialog)
+
+    def wektorInstrukcjaDialog_prev_btn_clicked(self):
+        self.openNewDialog(self.rasterFormularzDialog)
+
+    def wektorFormularzDialog_prev_btn_clicked(self):
+        self.openNewDialog(self.wektorInstrukcjaDialog)
+
+    def wektorFormularzDialog_next_btn_clicked(self):
+        self.openNewDialog(self.dokumentyFormularzDialog)
+
+    def dokumentyFormularzDialog_prev_btn_clicked(self):
+        self.openNewDialog(self.wektorFormularzDialog)
+
+    def dokumentyFormularzDialog_next_btn_clicked(self):
+        self.openNewDialog(self.generowanieGMLDialog)
+
+    def generowanieGMLDialog_prev_btn_clicked(self):
+        self.openNewDialog(self.dokumentyFormularzDialog)
+
+    def generowanieGMLDialog_next_btn_clicked(self):
+        self.openNewDialog(self.zbiorPrzygotowanieDialog)
+
+    def zbiorPrzygotowanieDialog_prev_btn_clicked(self):
+        self.openNewDialog(self.pytanieAppDialog)
+
+    def zbiorPrzygotowanieDialog_next_btn_clicked(self):
+        self.openNewDialog(self.metadaneDialog)
+
+    def metadaneDialog_prev_btn_clicked(self):
+        self.openNewDialog(self.zbiorPrzygotowanieDialog)
+
+    def metadaneDialog_next_btn_clicked(self):
+        self.openNewDialog(self.walidacjaDialog)
+
+    def walidacjaDialog_prev_btn_clicked(self):
+        self.openNewDialog(self.metadaneDialog)
+
     """Helper methods"""
     def openNewDialog(self, dlg):
         self.prevDlg = self.activeDlg
@@ -129,3 +227,8 @@ class WtyczkaAPP:
         if self.prevDlg:
             self.prevDlg.close()
         self.activeDlg.show()
+
+    def radioButtonStat(self):
+        radioButton = self.sender()
+        if radioButton.isChecked():
+            print("Test")

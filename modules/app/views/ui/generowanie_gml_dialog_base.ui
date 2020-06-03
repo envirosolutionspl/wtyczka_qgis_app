@@ -115,6 +115,9 @@
          <property name="checked">
           <bool>true</bool>
          </property>
+         <attribute name="buttonGroup">
+          <string notr="true">buttonGroup_2</string>
+         </attribute>
         </widget>
        </item>
        <item>
@@ -122,6 +125,9 @@
          <property name="text">
           <string>Nie</string>
          </property>
+         <attribute name="buttonGroup">
+          <string notr="true">buttonGroup_2</string>
+         </attribute>
         </widget>
        </item>
        <item>
@@ -159,6 +165,9 @@
          <property name="text">
           <string>Tak</string>
          </property>
+         <attribute name="buttonGroup">
+          <string notr="true">buttonGroup</string>
+         </attribute>
         </widget>
        </item>
        <item>
@@ -169,6 +178,9 @@
          <property name="text">
           <string>Nie</string>
          </property>
+         <attribute name="buttonGroup">
+          <string notr="true">buttonGroup</string>
+         </attribute>
         </widget>
        </item>
        <item>
@@ -243,4 +255,8 @@
  </widget>
  <resources/>
  <connections/>
+ <buttongroups>
+  <buttongroup name="buttonGroup"/>
+  <buttongroup name="buttonGroup_2"/>
+ </buttongroups>
 </ui>

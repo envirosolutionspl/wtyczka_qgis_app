@@ -24,7 +24,7 @@
 from PyQt5.QtWidgets import QDialog
 from qgis.PyQt.QtCore import QSettings, QTranslator, QCoreApplication
 from qgis.PyQt.QtGui import QIcon
-from qgis.PyQt.QtWidgets import QAction, QToolButton, QMenu
+from qgis.PyQt.QtWidgets import QAction, QToolButton, QMenu, QMessageBox
 
 # Initialize Qt resources from file resources.py
 from .resources import *
@@ -76,9 +76,22 @@ class WtyczkaAPP:
         self.dokumentyFormularzDialog.prev_btn.clicked.connect(self.dokumentyFormularzDialog_prev_btn_clicked)
         self.dokumentyFormularzDialog.next_btn.clicked.connect(self.dokumentyFormularzDialog_next_btn_clicked)
         self.generowanieGMLDialog.prev_btn.clicked.connect(self.generowanieGMLDialog_prev_btn_clicked)
-        self.generowanieGMLDialog.next_btn.clicked.connect(self.generowanieGMLDialog_next_btn_clicked)
+        #self.generowanieGMLDialog.next_btn.clicked.connect(self.generowanieGMLDialog_next_btn_clicked)
         self.zbiorPrzygotowanieDialog.prev_btn.clicked.connect(self.zbiorPrzygotowanieDialog_prev_btn_clicked)
         self.zbiorPrzygotowanieDialog.next_btn.clicked.connect(self.zbiorPrzygotowanieDialog_next_btn_clicked)
+
+        self.rasterFormularzDialog.saveForm_btn.clicked.connect(self.showPopupSaveForm)
+        self.wektorInstrukcjaDialog.saveLayer_btn.clicked.connect(self.showPopupSaveLayer)
+        self.wektorInstrukcjaDialog.generateTemporaryLayer_btn.clicked.connect(self.showPopupGenerateLayer)
+        self.wektorFormularzDialog.saveForm_btn.clicked.connect(self.showPopupSaveForm)
+        self.dokumentyFormularzDialog.saveForm_btn.clicked.connect(self.showPopupSaveForm)
+        self.generowanieGMLDialog.generate_btn.clicked.connect(self.showPopupGenerate)
+        self.zbiorPrzygotowanieDialog.validateAndGenerate_btn.clicked.connect(self.showPopupGenerate2)
+
+        self.generowanieGMLDialog.yesMakeAnotherApp_radioBtn.toggled.connect(self.yesMakeAnotherApp_radioBtn_clicked)
+        self.generowanieGMLDialog.noMakeAnotherApp_radioBtn.toggled.connect(self.noMakeAnotherApp_radioBtn_clicked)
+        self.generowanieGMLDialog.yesMakeSet_radioBtn.toggled.connect(self.yesMakeSet_radioBtn_clicked)
+        self.generowanieGMLDialog.noMakeSet_radioBtn.toggled.connect(self.noMakeSet_radioBtn_clicked)
 
 
         # okno moduł metadata
@@ -88,12 +101,23 @@ class WtyczkaAPP:
         self.metadaneDialog.prev_btn.clicked.connect(self.metadaneDialog_prev_btn_clicked)
         self.metadaneDialog.next_btn.clicked.connect(self.metadaneDialog_next_btn_clicked)
 
+        self.metadaneDialog.send_btn.clicked.connect(self.showPopupSend)
+        self.metadaneDialog.validateAndSave_btn.clicked.connect(self.showPopupValidateAndSave)
+
+        self.metadaneDialog.newMetadata_radioButton.toggled.connect(self.newMetadataRadioButton_clicked)
+        self.metadaneDialog.existingMetadata_radioButton.toggled.connect(self.existingMetadataRadioButton_clicked)
+
+        self.metadaneDialog.server_checkBox.stateChanged.connect(self.server_checkBoxChangedAction)
+        self.metadaneDialog.email_checkBox.stateChanged.connect(self.email_checkBoxChangedAction)
+
         #okno moduł validator
         self.walidacjaDialog = WalidacjaDialog()
 
         #eventy moduł validator
         self.walidacjaDialog.prev_btn.clicked.connect(self.walidacjaDialog_prev_btn_clicked)
-        self.walidacjaDialog.validate_btn.clicked.connect(self.walidacjaDialog.close)
+
+        self.walidacjaDialog.export_btn.clicked.connect(self.showPopupExport)
+        self.walidacjaDialog.validate_btn.clicked.connect(self.showPopupValidate)
 
 
     def addAction(self, icon_path, text, callback):
@@ -122,21 +146,21 @@ class WtyczkaAPP:
         self.toolButton.setPopupMode(QToolButton.MenuButtonPopup)
         self.toolBtnAction = self.iface.addToolBarWidget(self.toolButton)
 
-        self.addAction(icon_path=':/plugins/wtyczka_app/img/logo.png',
+        self.addAction(icon_path=':/plugins/wtyczka_app/img/praca_z_app.png',
                        text=u'Praca z APP / zbiorem APP',
                        callback=self.run_app)
 
-        self.addAction(icon_path=':/plugins/wtyczka_app/img/logo.png',
+        self.addAction(icon_path=':/plugins/wtyczka_app/img/tworzenie.png',
                        text=u'Tworzenie / aktualizacja metadanych',
                        callback=self.run_metadata)
 
-        self.addAction(icon_path=':/plugins/wtyczka_app/img/logo.png',
+        self.addAction(icon_path=':/plugins/wtyczka_app/img/walidacja.png',
                        text=u'Walidacja plików',
                        callback=self.run_validator)
 
-        self.addAction(icon_path=':/plugins/wtyczka_app/img/logo.png',
+        self.addAction(icon_path=':/plugins/wtyczka_app/img/ustawienia.png',
                        text=u'Ustawienia',
-                       callback=self.run_app)
+                       callback=self.run_settings)
 
     def unload(self):
         """Removes the plugin menu item and icon from QGIS GUI."""
@@ -199,11 +223,14 @@ class WtyczkaAPP:
     def generowanieGMLDialog_prev_btn_clicked(self):
         self.openNewDialog(self.dokumentyFormularzDialog)
 
-    def generowanieGMLDialog_next_btn_clicked(self):
+    def generowanieGMLDialog_next_btn_clicked_set(self):
         self.openNewDialog(self.zbiorPrzygotowanieDialog)
 
+    def generowanieGMLDialog_next_btn_clicked(self):
+        self.openNewDialog(self.rasterInstrukcjaDialog)
+
     def zbiorPrzygotowanieDialog_prev_btn_clicked(self):
-        self.openNewDialog(self.pytanieAppDialog)
+        self.openNewDialog(self.prevDlg)
 
     def zbiorPrzygotowanieDialog_next_btn_clicked(self):
         self.openNewDialog(self.metadaneDialog)
@@ -225,7 +252,133 @@ class WtyczkaAPP:
             self.prevDlg.close()
         self.activeDlg.show()
 
-    def radioButtonStat(self):
-        radioButton = self.sender()
-        if radioButton.isChecked():
-            print("Test")
+    def newMetadataRadioButton_clicked(self, enabled):
+        if enabled:
+            self.metadaneDialog.newFile_widget.setEnabled(True)
+            self.metadaneDialog.chooseFile_widget.setEnabled(False)
+
+    def existingMetadataRadioButton_clicked(self, enabled):
+        if enabled:
+            self.metadaneDialog.newFile_widget.setEnabled(False)
+            self.metadaneDialog.chooseFile_widget.setEnabled(True)
+
+    def yesMakeAnotherApp_radioBtn_clicked(self, enabled):
+        if enabled:
+            self.generowanieGMLDialog.next_btn.setText("Dalej")
+            self.generowanieGMLDialog.yesMakeSet_radioBtn.setChecked(False)
+            self.generowanieGMLDialog.noMakeSet_radioBtn.setChecked(False)
+            self.generowanieGMLDialog.questionMakeSet_lbl.setEnabled(False)
+            self.generowanieGMLDialog.yesMakeSet_radioBtn.setEnabled(False)
+            self.generowanieGMLDialog.noMakeSet_radioBtn.setEnabled(False)
+            self.generowanieGMLDialog.next_btn.clicked.connect(self.generowanieGMLDialog_next_btn_clicked)
+
+    def noMakeAnotherApp_radioBtn_clicked(self, enabled):
+        if enabled:
+            self.generowanieGMLDialog.next_btn.setText("Dalej")
+            self.generowanieGMLDialog.questionMakeSet_lbl.setEnabled(True)
+            self.generowanieGMLDialog.yesMakeSet_radioBtn.setEnabled(True)
+            self.generowanieGMLDialog.noMakeSet_radioBtn.setEnabled(True)
+
+    def yesMakeSet_radioBtn_clicked(self, enabled):
+        if enabled:
+            self.generowanieGMLDialog.next_btn.setText("Dalej")
+            self.generowanieGMLDialog.next_btn.clicked.connect(self.generowanieGMLDialog_next_btn_clicked_set)
+
+    def noMakeSet_radioBtn_clicked(self, enabled):
+        if enabled:
+            self.generowanieGMLDialog.next_btn.setText("Zakończ")
+            self.generowanieGMLDialog.next_btn.clicked.connect(self.generowanieGMLDialog.close)
+
+    def server_checkBoxChangedAction(self, state):
+        if (QtCore.Qt.Checked == state):
+            self.metadaneDialog.send_btn.setEnabled(True)
+        else:
+            if self.metadaneDialog.email_checkBox.isChecked():
+                self.metadaneDialog.send_btn.setEnabled(True)
+            else:
+                self.metadaneDialog.send_btn.setEnabled(False)
+
+    def email_checkBoxChangedAction(self, state):
+        if (QtCore.Qt.Checked == state):
+            self.metadaneDialog.send_btn.setEnabled(True)
+        else:
+            if self.metadaneDialog.server_checkBox.isChecked():
+                self.metadaneDialog.send_btn.setEnabled(True)
+            else:
+                self.metadaneDialog.send_btn.setEnabled(False)
+
+
+
+
+    """Popup windows"""
+    def showPopupSaveForm(self):
+        msg = QMessageBox()
+        msg.setWindowTitle("Zapisz aktualny formularz")
+        msg.setText("Poprawnie zapisano formularz.")
+        msg.setIcon(QMessageBox.Information)
+        msg.setStandardButtons(QMessageBox.Ok)
+        x = msg.exec_()
+
+    def showPopupSaveLayer(self):
+        msg = QMessageBox()
+        msg.setWindowTitle("Zapisz warstwę")
+        msg.setText("Poprawnie zapisano warstwę.")
+        msg.setIcon(QMessageBox.Information)
+        msg.setStandardButtons(QMessageBox.Ok)
+        x = msg.exec_()
+
+    def showPopupGenerateLayer(self):
+        msg = QMessageBox()
+        msg.setWindowTitle("Wygeneruj warstwę")
+        msg.setText("Poprawnie wygenerowano warstwę tymczasową.")
+        msg.setIcon(QMessageBox.Information)
+        msg.setStandardButtons(QMessageBox.Ok)
+        x = msg.exec_()
+
+    def showPopupGenerate(self):
+        msg = QMessageBox()
+        msg.setWindowTitle("Wygeneruj plik GML dla APP")
+        msg.setText("Poprawnie wygenerowano plik GML.")
+        msg.setIcon(QMessageBox.Information)
+        msg.setStandardButtons(QMessageBox.Ok)
+        x = msg.exec_()
+
+    def showPopupGenerate2(self):
+        msg = QMessageBox()
+        msg.setWindowTitle("Wygeneruj plik GML dla zbioru APP")
+        msg.setText("Poprawnie wygenerowano plik GML.")
+        msg.setIcon(QMessageBox.Information)
+        msg.setStandardButtons(QMessageBox.Ok)
+        x = msg.exec_()
+
+    def showPopupExport(self):
+        msg = QMessageBox()
+        msg.setWindowTitle("Wyeksportuj plik z błędami")
+        msg.setText("Poprawnie wyeksportowano plik z błędami.")
+        msg.setIcon(QMessageBox.Information)
+        msg.setStandardButtons(QMessageBox.Ok)
+        x = msg.exec_()
+
+    def showPopupValidateAndSave(self):
+        msg = QMessageBox()
+        msg.setWindowTitle("Zwaliduj i zapisz plik XML")
+        msg.setText("Poprawnie zwalidowano oraz zapisano plik XML.")
+        msg.setIcon(QMessageBox.Information)
+        msg.setStandardButtons(QMessageBox.Ok)
+        x = msg.exec_()
+
+    def showPopupSend(self):
+        msg = QMessageBox()
+        msg.setWindowTitle("Wyśli plik")
+        msg.setText("Wysłano plik XML zawierający metadane.")
+        msg.setIcon(QMessageBox.Information)
+        msg.setStandardButtons(QMessageBox.Ok)
+        x = msg.exec_()
+
+    def showPopupValidate(self):
+        msg = QMessageBox()
+        msg.setWindowTitle("Waliduj pliki")
+        msg.setText("Poprawnie zwalidowano wszystkie wgrane pliki.")
+        msg.setIcon(QMessageBox.Information)
+        msg.setStandardButtons(QMessageBox.Ok)
+        x = msg.exec_()

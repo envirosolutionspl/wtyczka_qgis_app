@@ -194,7 +194,7 @@ class Ui_Dialog(object):
         self.validateAndSave_btn.setObjectName("validateAndSave_btn")
         self.horizontalLayout_3.addWidget(self.validateAndSave_btn)
         self.send_btn = QtWidgets.QPushButton(Dialog)
-        self.send_btn.setEnabled(True)
+        self.send_btn.setEnabled(False)
         self.send_btn.setObjectName("send_btn")
         self.horizontalLayout_3.addWidget(self.send_btn)
         self.next_btn = QtWidgets.QPushButton(Dialog)

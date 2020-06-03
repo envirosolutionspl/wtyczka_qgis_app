@@ -76,7 +76,7 @@ class WtyczkaAPP:
         self.dokumentyFormularzDialog.prev_btn.clicked.connect(self.dokumentyFormularzDialog_prev_btn_clicked)
         self.dokumentyFormularzDialog.next_btn.clicked.connect(self.dokumentyFormularzDialog_next_btn_clicked)
         self.generowanieGMLDialog.prev_btn.clicked.connect(self.generowanieGMLDialog_prev_btn_clicked)
-        #self.generowanieGMLDialog.next_btn.clicked.connect(self.generowanieGMLDialog_next_btn_clicked)
+        self.generowanieGMLDialog.next_btn.clicked.connect(self.generowanieGMLDialog_next_btn_clicked)
         self.zbiorPrzygotowanieDialog.prev_btn.clicked.connect(self.zbiorPrzygotowanieDialog_prev_btn_clicked)
         self.zbiorPrzygotowanieDialog.next_btn.clicked.connect(self.zbiorPrzygotowanieDialog_next_btn_clicked)
 
@@ -223,11 +223,13 @@ class WtyczkaAPP:
     def generowanieGMLDialog_prev_btn_clicked(self):
         self.openNewDialog(self.dokumentyFormularzDialog)
 
-    def generowanieGMLDialog_next_btn_clicked_set(self):
-        self.openNewDialog(self.zbiorPrzygotowanieDialog)
-
     def generowanieGMLDialog_next_btn_clicked(self):
-        self.openNewDialog(self.rasterInstrukcjaDialog)
+        if self.generowanieGMLDialog.yesMakeAnotherApp_radioBtn.isChecked():
+            self.openNewDialog(self.rasterInstrukcjaDialog)
+        if self.generowanieGMLDialog.yesMakeSet_radioBtn.isChecked():
+            self.openNewDialog(self.zbiorPrzygotowanieDialog)
+        if self.generowanieGMLDialog.noMakeSet_radioBtn.isChecked():
+            self.generowanieGMLDialog.close()
 
     def zbiorPrzygotowanieDialog_prev_btn_clicked(self):
         self.openNewDialog(self.prevDlg)
@@ -270,7 +272,6 @@ class WtyczkaAPP:
             self.generowanieGMLDialog.questionMakeSet_lbl.setEnabled(False)
             self.generowanieGMLDialog.yesMakeSet_radioBtn.setEnabled(False)
             self.generowanieGMLDialog.noMakeSet_radioBtn.setEnabled(False)
-            self.generowanieGMLDialog.next_btn.clicked.connect(self.generowanieGMLDialog_next_btn_clicked)
 
     def noMakeAnotherApp_radioBtn_clicked(self, enabled):
         if enabled:
@@ -282,12 +283,10 @@ class WtyczkaAPP:
     def yesMakeSet_radioBtn_clicked(self, enabled):
         if enabled:
             self.generowanieGMLDialog.next_btn.setText("Dalej")
-            self.generowanieGMLDialog.next_btn.clicked.connect(self.generowanieGMLDialog_next_btn_clicked_set)
 
     def noMakeSet_radioBtn_clicked(self, enabled):
         if enabled:
             self.generowanieGMLDialog.next_btn.setText("Zakończ")
-            self.generowanieGMLDialog.next_btn.clicked.connect(self.generowanieGMLDialog.close)
 
     def server_checkBoxChangedAction(self, state):
         if (QtCore.Qt.Checked == state):
@@ -306,8 +305,6 @@ class WtyczkaAPP:
                 self.metadaneDialog.send_btn.setEnabled(True)
             else:
                 self.metadaneDialog.send_btn.setEnabled(False)
-
-
 
 
     """Popup windows"""

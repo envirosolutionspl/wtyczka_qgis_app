@@ -80,9 +80,6 @@ class WtyczkaAPP:
         self.zbiorPrzygotowanieDialog.prev_btn.clicked.connect(self.zbiorPrzygotowanieDialog_prev_btn_clicked)
         self.zbiorPrzygotowanieDialog.next_btn.clicked.connect(self.zbiorPrzygotowanieDialog_next_btn_clicked)
 
-        if self.generowanieGMLDialog.noMakeAnotherApp_radioBtn.isChecked():
-            print("lala")
-
 
         # okno moduł metadata
         self.metadaneDialog = MetadaneDialog()

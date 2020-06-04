@@ -118,6 +118,8 @@ class WtyczkaAPP:
 
         self.walidacjaDialog.export_btn.clicked.connect(self.showPopupExport)
         self.walidacjaDialog.validate_btn.clicked.connect(self.showPopupValidate)
+        self.walidacjaDialog.validateGML_checkBox.stateChanged.connect(self.gml_checkBoxChangedAction)
+        self.walidacjaDialog.validateXML_checkBox.stateChanged.connect(self.xml_checkBoxChangedAction)
 
 
     def addAction(self, icon_path, text, callback):
@@ -176,52 +178,63 @@ class WtyczkaAPP:
 
     def run_metadata(self):
         self.openNewDialog(self.metadaneDialog)
+        self.metadaneDialog.prev_btn.setEnabled(False)
 
     def run_settings(self):
         pass
 
     def run_validator(self):
         self.openNewDialog(self.walidacjaDialog)
+        self.walidacjaDialog.prev_btn.setEnabled(False)
 
     """Event handlers"""
+    listaOkienek = []
+
     def pytanieAppDialog_app_btn_clicked(self):
         self.openNewDialog(self.rasterInstrukcjaDialog)
+        self.listaOkienek.append(self.pytanieAppDialog)
 
     def pytanieAppDialog_zbior_btn_clicked(self):
         self.openNewDialog(self.zbiorPrzygotowanieDialog)
+        self.listaOkienek.append(self.pytanieAppDialog)
 
     def rasterInstrukcjaDialog_next_btn_clicked(self):
         self.openNewDialog(self.rasterFormularzDialog)
+        self.listaOkienek.append(self.rasterInstrukcjaDialog)
 
     def rasterInstrukcjaDialog_prev_btn_clicked(self):
-        self.openNewDialog(self.pytanieAppDialog)
+        self.openNewDialog(self.listaOkienek.pop())
 
     def rasterFormularzDialog_prev_btn_clicked(self):
-        self.openNewDialog(self.rasterInstrukcjaDialog)
+        self.openNewDialog(self.listaOkienek.pop())
 
     def rasterFormularzDialog_next_btn_clicked(self):
         self.openNewDialog(self.wektorInstrukcjaDialog)
+        self.listaOkienek.append(self.rasterFormularzDialog)
 
     def wektorInstrukcjaDialog_next_btn_clicked(self):
         self.openNewDialog(self.wektorFormularzDialog)
+        self.listaOkienek.append(self.wektorInstrukcjaDialog)
 
     def wektorInstrukcjaDialog_prev_btn_clicked(self):
-        self.openNewDialog(self.rasterFormularzDialog)
+        self.openNewDialog(self.listaOkienek.pop())
 
     def wektorFormularzDialog_prev_btn_clicked(self):
-        self.openNewDialog(self.wektorInstrukcjaDialog)
+        self.openNewDialog(self.listaOkienek.pop())
 
     def wektorFormularzDialog_next_btn_clicked(self):
         self.openNewDialog(self.dokumentyFormularzDialog)
+        self.listaOkienek.append(self.wektorFormularzDialog)
 
     def dokumentyFormularzDialog_prev_btn_clicked(self):
-        self.openNewDialog(self.wektorFormularzDialog)
+        self.openNewDialog(self.listaOkienek.pop())
 
     def dokumentyFormularzDialog_next_btn_clicked(self):
         self.openNewDialog(self.generowanieGMLDialog)
+        self.listaOkienek.append(self.dokumentyFormularzDialog)
 
     def generowanieGMLDialog_prev_btn_clicked(self):
-        self.openNewDialog(self.dokumentyFormularzDialog)
+        self.openNewDialog(self.listaOkienek.pop())
 
     def generowanieGMLDialog_next_btn_clicked(self):
         if self.generowanieGMLDialog.yesMakeAnotherApp_radioBtn.isChecked():
@@ -230,21 +243,24 @@ class WtyczkaAPP:
             self.openNewDialog(self.zbiorPrzygotowanieDialog)
         if self.generowanieGMLDialog.noMakeSet_radioBtn.isChecked():
             self.generowanieGMLDialog.close()
+        self.listaOkienek.append(self.generowanieGMLDialog)
 
     def zbiorPrzygotowanieDialog_prev_btn_clicked(self):
-        self.openNewDialog(self.prevDlg)
+        self.openNewDialog(self.listaOkienek.pop())
 
     def zbiorPrzygotowanieDialog_next_btn_clicked(self):
         self.openNewDialog(self.metadaneDialog)
+        self.listaOkienek.append(self.zbiorPrzygotowanieDialog)
 
     def metadaneDialog_prev_btn_clicked(self):
-        self.openNewDialog(self.zbiorPrzygotowanieDialog)
+        self.openNewDialog(self.listaOkienek.pop())
 
     def metadaneDialog_next_btn_clicked(self):
         self.openNewDialog(self.walidacjaDialog)
+        self.listaOkienek.append(self.metadaneDialog)
 
     def walidacjaDialog_prev_btn_clicked(self):
-        self.openNewDialog(self.metadaneDialog)
+        self.openNewDialog(self.listaOkienek.pop())
 
     """Helper methods"""
     def openNewDialog(self, dlg):
@@ -305,6 +321,18 @@ class WtyczkaAPP:
                 self.metadaneDialog.send_btn.setEnabled(True)
             else:
                 self.metadaneDialog.send_btn.setEnabled(False)
+
+    def xml_checkBoxChangedAction(self, state):
+        if (QtCore.Qt.Checked == state):
+            self.walidacjaDialog.chooseXML_widget.setEnabled(True)
+        else:
+            self.walidacjaDialog.chooseXML_widget.setEnabled(False)
+
+    def gml_checkBoxChangedAction(self, state):
+        if (QtCore.Qt.Checked == state):
+            self.walidacjaDialog.chooseGML_widget.setEnabled(True)
+        else:
+            self.walidacjaDialog.chooseGML_widget.setEnabled(False)
 
 
     """Popup windows"""

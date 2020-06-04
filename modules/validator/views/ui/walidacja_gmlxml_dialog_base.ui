@@ -88,7 +88,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QgsFileWidget" name="mQgsFileWidget_3">
+        <widget class="QgsFileWidget" name="chooseXML_widget">
          <property name="enabled">
           <bool>false</bool>
          </property>
@@ -126,8 +126,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>478</width>
-          <height>222</height>
+          <width>484</width>
+          <height>306</height>
          </rect>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_2">

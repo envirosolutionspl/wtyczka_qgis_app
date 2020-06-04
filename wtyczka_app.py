@@ -22,6 +22,8 @@
  ***************************************************************************/
 """
 from PyQt5.QtWidgets import QDialog
+
+from qgis.PyQt import QtGui
 from qgis.PyQt.QtCore import QSettings, QTranslator, QCoreApplication
 from qgis.PyQt.QtGui import QIcon
 from qgis.PyQt.QtWidgets import QAction, QToolButton, QMenu, QMessageBox
@@ -37,6 +39,12 @@ import os
 
 PLUGIN_NAME = 'Wtyczka APP'
 PLUGIN_VERSION = '0.1'
+title_question ='Praca z APP / zbiorem APP'
+title_app = 'Praca z APP'
+title_set = 'Tworzenie zbioru APP'
+title_metadata = 'Tworzenie / aktualizacja metadanych'
+title_validator = 'Walidacja plików'
+title_settings = 'Ustawienia'
 
 class WtyczkaAPP:
     """QGIS Plugin Implementation."""
@@ -52,16 +60,47 @@ class WtyczkaAPP:
         # Declare instance attributes
         self.actions = []
         self.listaOkienek = []
+        icon_path = ':/plugins/wtyczka_app/img/'
+        icon_app = 'praca_z_app.png'
+        icon_metadata = 'tworzenie.png'
+        icon_validator = 'walidacja.png'
+        icon_setting = 'ustawienia.png'
+
+
+
 
         # region okna moduł app
         self.pytanieAppDialog = PytanieAppDialog()
+        self.pytanieAppDialog.setWindowTitle('%s' % (title_question))
+        self.pytanieAppDialog.setWindowIcon(QtGui.QIcon(':/plugins/wtyczka_app/img/logo.png'))
+
         self.zbiorPrzygotowanieDialog = ZbiorPrzygotowanieDialog()
+        self.zbiorPrzygotowanieDialog.setWindowTitle('%s' % (title_set))
+        self.zbiorPrzygotowanieDialog.setWindowIcon(QtGui.QIcon('%s%s' % (icon_path, icon_app)))
+
         self.rasterInstrukcjaDialog = RasterInstrukcjaDialog()
+        self.rasterInstrukcjaDialog.setWindowTitle('%s (1/6)' % (title_app))
+        self.rasterInstrukcjaDialog.setWindowIcon(QtGui.QIcon('%s%s' % (icon_path, icon_app)))
+
         self.rasterFormularzDialog = RasterFormularzDialog()
-        self.wektorFormularzDialog = WektorFormularzDialog()
-        self.dokumentyFormularzDialog = DokumentyFormularzDialog()
+        self.rasterFormularzDialog.setWindowTitle('%s (2/6)' % (title_app))
+        self.rasterFormularzDialog.setWindowIcon(QtGui.QIcon('%s%s' % (icon_path, icon_app)))
+
         self.wektorInstrukcjaDialog = WektorInstrukcjaDialog()
+        self.wektorInstrukcjaDialog.setWindowTitle('%s (3/6)' % (title_app))
+        self.wektorInstrukcjaDialog.setWindowIcon(QtGui.QIcon('%s%s' % (icon_path, icon_app)))
+
+        self.wektorFormularzDialog = WektorFormularzDialog()
+        self.wektorFormularzDialog.setWindowTitle('%s (4/6)' % (title_app))
+        self.wektorFormularzDialog.setWindowIcon(QtGui.QIcon('%s%s' % (icon_path, icon_app)))
+
+        self.dokumentyFormularzDialog = DokumentyFormularzDialog()
+        self.dokumentyFormularzDialog.setWindowTitle('%s (5/6)' % (title_app))
+        self.dokumentyFormularzDialog.setWindowIcon(QtGui.QIcon('%s%s' % (icon_path, icon_app)))
+
         self.generowanieGMLDialog = GenerowanieGMLDialog()
+        self.generowanieGMLDialog.setWindowTitle('%s (6/6)' % (title_app))
+        self.generowanieGMLDialog.setWindowIcon(QtGui.QIcon('%s%s' % (icon_path, icon_app)))
         # endregion
 
         # region eventy modul app
@@ -98,6 +137,8 @@ class WtyczkaAPP:
 
         # okno moduł metadata
         self.metadaneDialog = MetadaneDialog()
+        self.metadaneDialog.setWindowTitle('%s' % (title_metadata))
+        self.metadaneDialog.setWindowIcon(QtGui.QIcon('%s%s' % (icon_path, icon_metadata)))
 
         # region eventy moduł metadata
         self.metadaneDialog.prev_btn.clicked.connect(self.metadaneDialog_prev_btn_clicked)
@@ -115,6 +156,8 @@ class WtyczkaAPP:
 
         #okno moduł validator
         self.walidacjaDialog = WalidacjaDialog()
+        self.walidacjaDialog.setWindowTitle('%s' % (title_validator))
+        self.walidacjaDialog.setWindowIcon(QtGui.QIcon('%s%s' % (icon_path, icon_validator)))
 
         # region eventy moduł validator
         self.walidacjaDialog.prev_btn.clicked.connect(self.walidacjaDialog_prev_btn_clicked)
@@ -166,6 +209,9 @@ class WtyczkaAPP:
         self.addAction(icon_path=':/plugins/wtyczka_app/img/ustawienia.png',
                        text=u'Ustawienia',
                        callback=self.run_settings)
+
+
+
 
     def unload(self):
         """Removes the plugin menu item and icon from QGIS GUI."""

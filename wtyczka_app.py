@@ -292,6 +292,7 @@ class WtyczkaAPP:
     def zbiorPrzygotowanieDialog_next_btn_clicked(self):
         self.openNewDialog(self.metadaneDialog)
         self.listaOkienek.append(self.zbiorPrzygotowanieDialog)
+        self.metadaneDialog.prev_btn.setEnabled(True)
     # endregion
 
     # region metadaneDialog
@@ -301,6 +302,7 @@ class WtyczkaAPP:
     def metadaneDialog_next_btn_clicked(self):
         self.openNewDialog(self.walidacjaDialog)
         self.listaOkienek.append(self.metadaneDialog)
+        self.walidacjaDialog.prev_btn.setEnabled(True)
 
     def newMetadataRadioButton_clicked(self, enabled):
         if enabled:

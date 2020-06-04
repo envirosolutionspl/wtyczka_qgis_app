@@ -51,6 +51,7 @@ class WtyczkaAPP:
         self.prevDlg = None
         # Declare instance attributes
         self.actions = []
+        self.listaOkienek = []
 
         # okna moduł app
         self.pytanieAppDialog = PytanieAppDialog()
@@ -188,8 +189,8 @@ class WtyczkaAPP:
         self.walidacjaDialog.prev_btn.setEnabled(False)
 
     """Event handlers"""
-    listaOkienek = []
 
+    # pytanieAppDialog
     def pytanieAppDialog_app_btn_clicked(self):
         self.openNewDialog(self.rasterInstrukcjaDialog)
         self.listaOkienek.append(self.pytanieAppDialog)
@@ -198,6 +199,7 @@ class WtyczkaAPP:
         self.openNewDialog(self.zbiorPrzygotowanieDialog)
         self.listaOkienek.append(self.pytanieAppDialog)
 
+    # rasterInstrukcjaDialog
     def rasterInstrukcjaDialog_next_btn_clicked(self):
         self.openNewDialog(self.rasterFormularzDialog)
         self.listaOkienek.append(self.rasterInstrukcjaDialog)
@@ -205,6 +207,7 @@ class WtyczkaAPP:
     def rasterInstrukcjaDialog_prev_btn_clicked(self):
         self.openNewDialog(self.listaOkienek.pop())
 
+    # rasterFormularzDialog
     def rasterFormularzDialog_prev_btn_clicked(self):
         self.openNewDialog(self.listaOkienek.pop())
 
@@ -212,6 +215,7 @@ class WtyczkaAPP:
         self.openNewDialog(self.wektorInstrukcjaDialog)
         self.listaOkienek.append(self.rasterFormularzDialog)
 
+    # wektorInstrukcjaDialog
     def wektorInstrukcjaDialog_next_btn_clicked(self):
         self.openNewDialog(self.wektorFormularzDialog)
         self.listaOkienek.append(self.wektorInstrukcjaDialog)
@@ -219,6 +223,7 @@ class WtyczkaAPP:
     def wektorInstrukcjaDialog_prev_btn_clicked(self):
         self.openNewDialog(self.listaOkienek.pop())
 
+    # wektorFormularzDialog
     def wektorFormularzDialog_prev_btn_clicked(self):
         self.openNewDialog(self.listaOkienek.pop())
 
@@ -226,6 +231,7 @@ class WtyczkaAPP:
         self.openNewDialog(self.dokumentyFormularzDialog)
         self.listaOkienek.append(self.wektorFormularzDialog)
 
+    # dokumentyFormularzDialog
     def dokumentyFormularzDialog_prev_btn_clicked(self):
         self.openNewDialog(self.listaOkienek.pop())
 
@@ -233,6 +239,7 @@ class WtyczkaAPP:
         self.openNewDialog(self.generowanieGMLDialog)
         self.listaOkienek.append(self.dokumentyFormularzDialog)
 
+    # generowanieGMLDialog
     def generowanieGMLDialog_prev_btn_clicked(self):
         self.openNewDialog(self.listaOkienek.pop())
 
@@ -244,41 +251,6 @@ class WtyczkaAPP:
         if self.generowanieGMLDialog.noMakeSet_radioBtn.isChecked():
             self.generowanieGMLDialog.close()
         self.listaOkienek.append(self.generowanieGMLDialog)
-
-    def zbiorPrzygotowanieDialog_prev_btn_clicked(self):
-        self.openNewDialog(self.listaOkienek.pop())
-
-    def zbiorPrzygotowanieDialog_next_btn_clicked(self):
-        self.openNewDialog(self.metadaneDialog)
-        self.listaOkienek.append(self.zbiorPrzygotowanieDialog)
-
-    def metadaneDialog_prev_btn_clicked(self):
-        self.openNewDialog(self.listaOkienek.pop())
-
-    def metadaneDialog_next_btn_clicked(self):
-        self.openNewDialog(self.walidacjaDialog)
-        self.listaOkienek.append(self.metadaneDialog)
-
-    def walidacjaDialog_prev_btn_clicked(self):
-        self.openNewDialog(self.listaOkienek.pop())
-
-    """Helper methods"""
-    def openNewDialog(self, dlg):
-        self.prevDlg = self.activeDlg
-        self.activeDlg = dlg
-        if self.prevDlg:
-            self.prevDlg.close()
-        self.activeDlg.show()
-
-    def newMetadataRadioButton_clicked(self, enabled):
-        if enabled:
-            self.metadaneDialog.newFile_widget.setEnabled(True)
-            self.metadaneDialog.chooseFile_widget.setEnabled(False)
-
-    def existingMetadataRadioButton_clicked(self, enabled):
-        if enabled:
-            self.metadaneDialog.newFile_widget.setEnabled(False)
-            self.metadaneDialog.chooseFile_widget.setEnabled(True)
 
     def yesMakeAnotherApp_radioBtn_clicked(self, enabled):
         if enabled:
@@ -303,6 +275,31 @@ class WtyczkaAPP:
     def noMakeSet_radioBtn_clicked(self, enabled):
         if enabled:
             self.generowanieGMLDialog.next_btn.setText("Zakończ")
+    # zbiorPrzygotowanieDialog
+    def zbiorPrzygotowanieDialog_prev_btn_clicked(self):
+        self.openNewDialog(self.listaOkienek.pop())
+
+    def zbiorPrzygotowanieDialog_next_btn_clicked(self):
+        self.openNewDialog(self.metadaneDialog)
+        self.listaOkienek.append(self.zbiorPrzygotowanieDialog)
+
+    # metadaneDialog
+    def metadaneDialog_prev_btn_clicked(self):
+        self.openNewDialog(self.listaOkienek.pop())
+
+    def metadaneDialog_next_btn_clicked(self):
+        self.openNewDialog(self.walidacjaDialog)
+        self.listaOkienek.append(self.metadaneDialog)
+
+    def newMetadataRadioButton_clicked(self, enabled):
+        if enabled:
+            self.metadaneDialog.newFile_widget.setEnabled(True)
+            self.metadaneDialog.chooseFile_widget.setEnabled(False)
+
+    def existingMetadataRadioButton_clicked(self, enabled):
+        if enabled:
+            self.metadaneDialog.newFile_widget.setEnabled(False)
+            self.metadaneDialog.chooseFile_widget.setEnabled(True)
 
     def server_checkBoxChangedAction(self, state):
         if (QtCore.Qt.Checked == state):
@@ -322,6 +319,10 @@ class WtyczkaAPP:
             else:
                 self.metadaneDialog.send_btn.setEnabled(False)
 
+    # walidacjaDialog
+    def walidacjaDialog_prev_btn_clicked(self):
+        self.openNewDialog(self.listaOkienek.pop())
+
     def xml_checkBoxChangedAction(self, state):
         if (QtCore.Qt.Checked == state):
             self.walidacjaDialog.chooseXML_widget.setEnabled(True)
@@ -334,6 +335,13 @@ class WtyczkaAPP:
         else:
             self.walidacjaDialog.chooseGML_widget.setEnabled(False)
 
+    """Helper methods"""
+    def openNewDialog(self, dlg):
+        self.prevDlg = self.activeDlg
+        self.activeDlg = dlg
+        if self.prevDlg:
+            self.prevDlg.close()
+        self.activeDlg.show()
 
     """Popup windows"""
     def showPopupSaveForm(self):

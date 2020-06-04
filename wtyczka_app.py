@@ -53,7 +53,7 @@ class WtyczkaAPP:
         self.actions = []
         self.listaOkienek = []
 
-        # okna moduł app
+        # region okna moduł app
         self.pytanieAppDialog = PytanieAppDialog()
         self.zbiorPrzygotowanieDialog = ZbiorPrzygotowanieDialog()
         self.rasterInstrukcjaDialog = RasterInstrukcjaDialog()
@@ -62,8 +62,9 @@ class WtyczkaAPP:
         self.dokumentyFormularzDialog = DokumentyFormularzDialog()
         self.wektorInstrukcjaDialog = WektorInstrukcjaDialog()
         self.generowanieGMLDialog = GenerowanieGMLDialog()
+        # endregion
 
-        # eventy modul app
+        # region eventy modul app
         self.pytanieAppDialog.zbior_btn.clicked.connect(self.pytanieAppDialog_zbior_btn_clicked)
         self.pytanieAppDialog.app_btn.clicked.connect(self.pytanieAppDialog_app_btn_clicked)
         self.rasterInstrukcjaDialog.next_btn.clicked.connect(self.rasterInstrukcjaDialog_next_btn_clicked)
@@ -93,12 +94,12 @@ class WtyczkaAPP:
         self.generowanieGMLDialog.noMakeAnotherApp_radioBtn.toggled.connect(self.noMakeAnotherApp_radioBtn_clicked)
         self.generowanieGMLDialog.yesMakeSet_radioBtn.toggled.connect(self.yesMakeSet_radioBtn_clicked)
         self.generowanieGMLDialog.noMakeSet_radioBtn.toggled.connect(self.noMakeSet_radioBtn_clicked)
-
+        # endregion
 
         # okno moduł metadata
         self.metadaneDialog = MetadaneDialog()
 
-        # eventy moduł metadata
+        # region eventy moduł metadata
         self.metadaneDialog.prev_btn.clicked.connect(self.metadaneDialog_prev_btn_clicked)
         self.metadaneDialog.next_btn.clicked.connect(self.metadaneDialog_next_btn_clicked)
 
@@ -110,18 +111,19 @@ class WtyczkaAPP:
 
         self.metadaneDialog.server_checkBox.stateChanged.connect(self.server_checkBoxChangedAction)
         self.metadaneDialog.email_checkBox.stateChanged.connect(self.email_checkBoxChangedAction)
+        # endregion
 
         #okno moduł validator
         self.walidacjaDialog = WalidacjaDialog()
 
-        #eventy moduł validator
+        # region eventy moduł validator
         self.walidacjaDialog.prev_btn.clicked.connect(self.walidacjaDialog_prev_btn_clicked)
 
         self.walidacjaDialog.export_btn.clicked.connect(self.showPopupExport)
         self.walidacjaDialog.validate_btn.clicked.connect(self.showPopupValidate)
         self.walidacjaDialog.validateGML_checkBox.stateChanged.connect(self.gml_checkBoxChangedAction)
         self.walidacjaDialog.validateXML_checkBox.stateChanged.connect(self.xml_checkBoxChangedAction)
-
+        # endregion
 
     def addAction(self, icon_path, text, callback):
         m = self.toolButton.menu()
@@ -190,7 +192,7 @@ class WtyczkaAPP:
 
     """Event handlers"""
 
-    # pytanieAppDialog
+    # region pytanieAppDialog
     def pytanieAppDialog_app_btn_clicked(self):
         self.openNewDialog(self.rasterInstrukcjaDialog)
         self.listaOkienek.append(self.pytanieAppDialog)
@@ -198,48 +200,54 @@ class WtyczkaAPP:
     def pytanieAppDialog_zbior_btn_clicked(self):
         self.openNewDialog(self.zbiorPrzygotowanieDialog)
         self.listaOkienek.append(self.pytanieAppDialog)
+    # endregion
 
-    # rasterInstrukcjaDialog
+    # region rasterInstrukcjaDialog
     def rasterInstrukcjaDialog_next_btn_clicked(self):
         self.openNewDialog(self.rasterFormularzDialog)
         self.listaOkienek.append(self.rasterInstrukcjaDialog)
 
     def rasterInstrukcjaDialog_prev_btn_clicked(self):
         self.openNewDialog(self.listaOkienek.pop())
+    # endregion
 
-    # rasterFormularzDialog
+    # region rasterFormularzDialog
     def rasterFormularzDialog_prev_btn_clicked(self):
         self.openNewDialog(self.listaOkienek.pop())
 
     def rasterFormularzDialog_next_btn_clicked(self):
         self.openNewDialog(self.wektorInstrukcjaDialog)
         self.listaOkienek.append(self.rasterFormularzDialog)
+    # endregion
 
-    # wektorInstrukcjaDialog
+    # region wektorInstrukcjaDialog
     def wektorInstrukcjaDialog_next_btn_clicked(self):
         self.openNewDialog(self.wektorFormularzDialog)
         self.listaOkienek.append(self.wektorInstrukcjaDialog)
 
     def wektorInstrukcjaDialog_prev_btn_clicked(self):
         self.openNewDialog(self.listaOkienek.pop())
+    # endregion
 
-    # wektorFormularzDialog
+    # region wektorFormularzDialog
     def wektorFormularzDialog_prev_btn_clicked(self):
         self.openNewDialog(self.listaOkienek.pop())
 
     def wektorFormularzDialog_next_btn_clicked(self):
         self.openNewDialog(self.dokumentyFormularzDialog)
         self.listaOkienek.append(self.wektorFormularzDialog)
+    # endregion
 
-    # dokumentyFormularzDialog
+    # region dokumentyFormularzDialog
     def dokumentyFormularzDialog_prev_btn_clicked(self):
         self.openNewDialog(self.listaOkienek.pop())
 
     def dokumentyFormularzDialog_next_btn_clicked(self):
         self.openNewDialog(self.generowanieGMLDialog)
         self.listaOkienek.append(self.dokumentyFormularzDialog)
+    # endregion
 
-    # generowanieGMLDialog
+    # region generowanieGMLDialog
     def generowanieGMLDialog_prev_btn_clicked(self):
         self.openNewDialog(self.listaOkienek.pop())
 
@@ -275,15 +283,18 @@ class WtyczkaAPP:
     def noMakeSet_radioBtn_clicked(self, enabled):
         if enabled:
             self.generowanieGMLDialog.next_btn.setText("Zakończ")
-    # zbiorPrzygotowanieDialog
+    # endregion
+
+    # region zbiorPrzygotowanieDialog
     def zbiorPrzygotowanieDialog_prev_btn_clicked(self):
         self.openNewDialog(self.listaOkienek.pop())
 
     def zbiorPrzygotowanieDialog_next_btn_clicked(self):
         self.openNewDialog(self.metadaneDialog)
         self.listaOkienek.append(self.zbiorPrzygotowanieDialog)
+    # endregion
 
-    # metadaneDialog
+    # region metadaneDialog
     def metadaneDialog_prev_btn_clicked(self):
         self.openNewDialog(self.listaOkienek.pop())
 
@@ -318,8 +329,9 @@ class WtyczkaAPP:
                 self.metadaneDialog.send_btn.setEnabled(True)
             else:
                 self.metadaneDialog.send_btn.setEnabled(False)
+    # endregion
 
-    # walidacjaDialog
+    # region walidacjaDialog
     def walidacjaDialog_prev_btn_clicked(self):
         self.openNewDialog(self.listaOkienek.pop())
 
@@ -334,16 +346,20 @@ class WtyczkaAPP:
             self.walidacjaDialog.chooseGML_widget.setEnabled(True)
         else:
             self.walidacjaDialog.chooseGML_widget.setEnabled(False)
+    # endregion
 
     """Helper methods"""
+    # region Helper methods
     def openNewDialog(self, dlg):
         self.prevDlg = self.activeDlg
         self.activeDlg = dlg
         if self.prevDlg:
             self.prevDlg.close()
         self.activeDlg.show()
+    # endregion
 
     """Popup windows"""
+    # region Popup windows
     def showPopup(self, title, text, icon=QMessageBox.Information):
         msg = QMessageBox()
         msg.setWindowTitle(title)
@@ -378,3 +394,4 @@ class WtyczkaAPP:
 
     def showPopupValidate(self):
         self.showPopup("Waliduj pliki", "Poprawnie zwalidowano wszystkie wgrane pliki.")
+    # endregion

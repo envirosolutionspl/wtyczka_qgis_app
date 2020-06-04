@@ -256,13 +256,15 @@ class WtyczkaAPP:
         if self.generowanieGMLDialog.yesMakeAnotherApp_radioBtn.isChecked():
             print("1")
             self.openNewDialog(self.rasterInstrukcjaDialog)
-        if self.generowanieGMLDialog.yesMakeSet_radioBtn.isChecked():
-            print("2")
-            self.openNewDialog(self.zbiorPrzygotowanieDialog)
-        if self.generowanieGMLDialog.noMakeSet_radioBtn.isChecked():
-            print("3")
-            self.generowanieGMLDialog.close()
-        self.listaOkienek.append(self.generowanieGMLDialog)
+            self.listaOkienek.append(self.generowanieGMLDialog)
+        if self.generowanieGMLDialog.noMakeAnotherApp_radioBtn.isChecked():
+            if self.generowanieGMLDialog.yesMakeSet_radioBtn.isChecked():
+                print("2")
+                self.openNewDialog(self.zbiorPrzygotowanieDialog)
+                self.listaOkienek.append(self.generowanieGMLDialog)
+            if self.generowanieGMLDialog.noMakeSet_radioBtn.isChecked():
+                print("3")
+                self.generowanieGMLDialog.close()
         print("4")
 
     def makeAnotherApp_radioBtn_toggled(self, setYes):

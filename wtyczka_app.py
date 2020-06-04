@@ -344,74 +344,37 @@ class WtyczkaAPP:
         self.activeDlg.show()
 
     """Popup windows"""
-    def showPopupSaveForm(self):
+    def showPopup(self, title, text, icon=QMessageBox.Information):
         msg = QMessageBox()
-        msg.setWindowTitle("Zapisz aktualny formularz")
-        msg.setText("Poprawnie zapisano formularz.")
-        msg.setIcon(QMessageBox.Information)
+        msg.setWindowTitle(title)
+        msg.setText(text)
+        msg.setIcon(icon)
         msg.setStandardButtons(QMessageBox.Ok)
-        x = msg.exec_()
+        return msg.exec_()
+
+    def showPopupSaveForm(self):
+        self.showPopup("Zapisz aktualny formularz", "Poprawnie zapisano formularz.")
 
     def showPopupSaveLayer(self):
-        msg = QMessageBox()
-        msg.setWindowTitle("Zapisz warstwę")
-        msg.setText("Poprawnie zapisano warstwę.")
-        msg.setIcon(QMessageBox.Information)
-        msg.setStandardButtons(QMessageBox.Ok)
-        x = msg.exec_()
+        self.showPopup("Zapisz warstwę", "Poprawnie zapisano warstwę.")
 
     def showPopupGenerateLayer(self):
-        msg = QMessageBox()
-        msg.setWindowTitle("Wygeneruj warstwę")
-        msg.setText("Poprawnie wygenerowano warstwę tymczasową.")
-        msg.setIcon(QMessageBox.Information)
-        msg.setStandardButtons(QMessageBox.Ok)
-        x = msg.exec_()
+        self.showPopup("Wygeneruj warstwę", "Poprawnie wygenerowano warstwę tymczasową.")
 
     def showPopupGenerate(self):
-        msg = QMessageBox()
-        msg.setWindowTitle("Wygeneruj plik GML dla APP")
-        msg.setText("Poprawnie wygenerowano plik GML.")
-        msg.setIcon(QMessageBox.Information)
-        msg.setStandardButtons(QMessageBox.Ok)
-        x = msg.exec_()
+        self.showPopup("Wygeneruj plik GML dla APP", "Poprawnie wygenerowano plik GML.")
 
     def showPopupGenerate2(self):
-        msg = QMessageBox()
-        msg.setWindowTitle("Wygeneruj plik GML dla zbioru APP")
-        msg.setText("Poprawnie wygenerowano plik GML.")
-        msg.setIcon(QMessageBox.Information)
-        msg.setStandardButtons(QMessageBox.Ok)
-        x = msg.exec_()
+        self.showPopup("Wygeneruj plik GML dla zbioru APP", "Poprawnie wygenerowano plik GML.")
 
     def showPopupExport(self):
-        msg = QMessageBox()
-        msg.setWindowTitle("Wyeksportuj plik z błędami")
-        msg.setText("Poprawnie wyeksportowano plik z błędami.")
-        msg.setIcon(QMessageBox.Information)
-        msg.setStandardButtons(QMessageBox.Ok)
-        x = msg.exec_()
+        self.showPopup("Wyeksportuj plik z błędami", "Poprawnie wyeksportowano plik z błędami.")
 
     def showPopupValidateAndSave(self):
-        msg = QMessageBox()
-        msg.setWindowTitle("Zwaliduj i zapisz plik XML")
-        msg.setText("Poprawnie zwalidowano oraz zapisano plik XML.")
-        msg.setIcon(QMessageBox.Information)
-        msg.setStandardButtons(QMessageBox.Ok)
-        x = msg.exec_()
+        self.showPopup("Zwaliduj i zapisz plik XML", "Poprawnie zwalidowano oraz zapisano plik XML.")
 
     def showPopupSend(self):
-        msg = QMessageBox()
-        msg.setWindowTitle("Wyśli plik")
-        msg.setText("Wysłano plik XML zawierający metadane.")
-        msg.setIcon(QMessageBox.Information)
-        msg.setStandardButtons(QMessageBox.Ok)
-        x = msg.exec_()
+        self.showPopup("Wyśli plik", "Wysłano plik XML zawierający metadane.")
 
     def showPopupValidate(self):
-        msg = QMessageBox()
-        msg.setWindowTitle("Waliduj pliki")
-        msg.setText("Poprawnie zwalidowano wszystkie wgrane pliki.")
-        msg.setIcon(QMessageBox.Information)
-        msg.setStandardButtons(QMessageBox.Ok)
-        x = msg.exec_()
+        self.showPopup("Waliduj pliki", "Poprawnie zwalidowano wszystkie wgrane pliki.")

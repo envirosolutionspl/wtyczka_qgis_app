@@ -90,10 +90,10 @@ class WtyczkaAPP:
         self.generowanieGMLDialog.generate_btn.clicked.connect(self.showPopupGenerate)
         self.zbiorPrzygotowanieDialog.validateAndGenerate_btn.clicked.connect(self.showPopupGenerate2)
 
-        self.generowanieGMLDialog.yesMakeAnotherApp_radioBtn.toggled.connect(self.yesMakeAnotherApp_radioBtn_clicked)
-        self.generowanieGMLDialog.noMakeAnotherApp_radioBtn.toggled.connect(self.noMakeAnotherApp_radioBtn_clicked)
-        self.generowanieGMLDialog.yesMakeSet_radioBtn.toggled.connect(self.yesMakeSet_radioBtn_clicked)
-        self.generowanieGMLDialog.noMakeSet_radioBtn.toggled.connect(self.noMakeSet_radioBtn_clicked)
+        self.generowanieGMLDialog.yesMakeAnotherApp_radioBtn.toggled.connect(self.makeAnotherApp_radioBtn_toggled)
+        # self.generowanieGMLDialog.noMakeAnotherApp_radioBtn.toggled.connect(self.noMakeAnotherApp_radioBtn_toggled)
+        self.generowanieGMLDialog.yesMakeSet_radioBtn.toggled.connect(self.makeSet_radioBtn_toggled)
+        # self.generowanieGMLDialog.noMakeSet_radioBtn.toggled.connect(self.noMakeSet_radioBtn_toggled)
         # endregion
 
         # okno moduł metadata
@@ -106,8 +106,8 @@ class WtyczkaAPP:
         self.metadaneDialog.send_btn.clicked.connect(self.showPopupSend)
         self.metadaneDialog.validateAndSave_btn.clicked.connect(self.showPopupValidateAndSave)
 
-        self.metadaneDialog.newMetadata_radioButton.toggled.connect(self.newMetadataRadioButton_clicked)
-        self.metadaneDialog.existingMetadata_radioButton.toggled.connect(self.existingMetadataRadioButton_clicked)
+        self.metadaneDialog.newMetadata_radioButton.toggled.connect(self.newMetadataRadioButton_toggled)
+        self.metadaneDialog.existingMetadata_radioButton.toggled.connect(self.existingMetadataRadioButton_toggled)
 
         self.metadaneDialog.server_checkBox.stateChanged.connect(self.server_checkBoxChangedAction)
         self.metadaneDialog.email_checkBox.stateChanged.connect(self.email_checkBoxChangedAction)
@@ -252,37 +252,38 @@ class WtyczkaAPP:
         self.openNewDialog(self.listaOkienek.pop())
 
     def generowanieGMLDialog_next_btn_clicked(self):
+        print("generowanieGMLDialog_next_btn_clicked")
         if self.generowanieGMLDialog.yesMakeAnotherApp_radioBtn.isChecked():
+            print("1")
             self.openNewDialog(self.rasterInstrukcjaDialog)
         if self.generowanieGMLDialog.yesMakeSet_radioBtn.isChecked():
+            print("2")
             self.openNewDialog(self.zbiorPrzygotowanieDialog)
         if self.generowanieGMLDialog.noMakeSet_radioBtn.isChecked():
+            print("3")
             self.generowanieGMLDialog.close()
         self.listaOkienek.append(self.generowanieGMLDialog)
+        print("4")
 
-    def yesMakeAnotherApp_radioBtn_clicked(self, enabled):
-        if enabled:
-            self.generowanieGMLDialog.next_btn.setText("Dalej")
+    def makeAnotherApp_radioBtn_toggled(self, setYes):
+        self.generowanieGMLDialog.next_btn.setText("Dalej")
+        if setYes:  # Tak - utworzenie kolejnego APP
             self.generowanieGMLDialog.yesMakeSet_radioBtn.setChecked(False)
             self.generowanieGMLDialog.noMakeSet_radioBtn.setChecked(False)
             self.generowanieGMLDialog.questionMakeSet_lbl.setEnabled(False)
             self.generowanieGMLDialog.yesMakeSet_radioBtn.setEnabled(False)
             self.generowanieGMLDialog.noMakeSet_radioBtn.setEnabled(False)
-
-    def noMakeAnotherApp_radioBtn_clicked(self, enabled):
-        if enabled:
-            self.generowanieGMLDialog.next_btn.setText("Dalej")
+        else:  # nie
             self.generowanieGMLDialog.questionMakeSet_lbl.setEnabled(True)
             self.generowanieGMLDialog.yesMakeSet_radioBtn.setEnabled(True)
             self.generowanieGMLDialog.noMakeSet_radioBtn.setEnabled(True)
 
-    def yesMakeSet_radioBtn_clicked(self, enabled):
-        if enabled:
+    def makeSet_radioBtn_toggled(self, setYes):
+        if setYes:  # finalne tworzenie zbioru app
             self.generowanieGMLDialog.next_btn.setText("Dalej")
-
-    def noMakeSet_radioBtn_clicked(self, enabled):
-        if enabled:
+        else:  # zakończ działąnie wtyczki
             self.generowanieGMLDialog.next_btn.setText("Zakończ")
+
     # endregion
 
     # region zbiorPrzygotowanieDialog
@@ -304,12 +305,12 @@ class WtyczkaAPP:
         self.listaOkienek.append(self.metadaneDialog)
         self.walidacjaDialog.prev_btn.setEnabled(True)
 
-    def newMetadataRadioButton_clicked(self, enabled):
+    def newMetadataRadioButton_toggled(self, enabled):
         if enabled:
             self.metadaneDialog.newFile_widget.setEnabled(True)
             self.metadaneDialog.chooseFile_widget.setEnabled(False)
 
-    def existingMetadataRadioButton_clicked(self, enabled):
+    def existingMetadataRadioButton_toggled(self, enabled):
         if enabled:
             self.metadaneDialog.newFile_widget.setEnabled(False)
             self.metadaneDialog.chooseFile_widget.setEnabled(True)

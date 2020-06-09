@@ -213,7 +213,7 @@ class Ui_Dialog(object):
         self.title_lbl.setText(_translate("Dialog", "Metadane"))
         self.existingMetadata_radioButton.setText(_translate("Dialog", "Wybierz istniejący plik z metadanymi"))
         self.newMetadata_radioButton.setText(_translate("Dialog", "Utwórz nowy plik z metadanymi"))
-        self.addSet_lbl.setText(_translate("Dialog", "Wybierz plik GML dla zbioru (opcjonalne)"))
+        self.addSet_lbl.setText(_translate("Dialog", "Wybierz plik GML dla zbioru APP (opcjonalne)"))
         self.titleForm_lbl.setText(_translate("Dialog", "Formularz metadanych:"))
         self.streszczenie_lbl.setText(_translate("Dialog", "Streszczenie"))
         self.typZbioru_lbl.setText(_translate("Dialog", "Typ zbioru"))

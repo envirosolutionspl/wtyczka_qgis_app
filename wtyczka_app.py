@@ -24,10 +24,10 @@
 from PyQt5.QtWidgets import QDialog
 
 from qgis.PyQt import QtGui
-from qgis.PyQt.QtCore import QSettings, QTranslator, QCoreApplication
+from qgis.PyQt.QtCore import QSettings, QTranslator, QCoreApplication, Qt
 from qgis.PyQt.QtGui import QIcon
 from qgis.PyQt.QtWidgets import QAction, QToolButton, QMenu, QMessageBox
-
+from qgis.PyQt import QtWidgets
 # Initialize Qt resources from file resources.py
 from .resources import *
 # Import the code for the dialog
@@ -43,7 +43,7 @@ title_question ='Praca z APP / zbiorem APP'
 title_app = 'Praca z APP'
 title_set = 'Tworzenie zbioru APP'
 title_metadata = 'Tworzenie / aktualizacja metadanych'
-title_validator = 'Walidacja plików'
+title_validator = 'Walidacja GML / XML'
 title_settings = 'Ustawienia'
 
 class WtyczkaAPP:
@@ -67,40 +67,46 @@ class WtyczkaAPP:
         icon_setting = 'ustawienia.png'
 
 
-
-
         # region okna moduł app
         self.pytanieAppDialog = PytanieAppDialog()
         self.pytanieAppDialog.setWindowTitle('%s' % (title_question))
         self.pytanieAppDialog.setWindowIcon(QtGui.QIcon(':/plugins/wtyczka_app/img/logo.png'))
+        self.pytanieAppDialog.setWindowFlag(Qt.WindowMinMaxButtonsHint, True)
 
         self.zbiorPrzygotowanieDialog = ZbiorPrzygotowanieDialog()
         self.zbiorPrzygotowanieDialog.setWindowTitle('%s' % (title_set))
         self.zbiorPrzygotowanieDialog.setWindowIcon(QtGui.QIcon('%s%s' % (icon_path, icon_app)))
+        self.zbiorPrzygotowanieDialog.setWindowFlag(Qt.WindowMinMaxButtonsHint, True)
 
         self.rasterInstrukcjaDialog = RasterInstrukcjaDialog()
-        self.rasterInstrukcjaDialog.setWindowTitle('%s (1/6)' % (title_app))
+        self.rasterInstrukcjaDialog.setWindowTitle('%s (krok 1 z 6)' % (title_app))
         self.rasterInstrukcjaDialog.setWindowIcon(QtGui.QIcon('%s%s' % (icon_path, icon_app)))
+        self.rasterInstrukcjaDialog.setWindowFlag(Qt.WindowMinMaxButtonsHint, True)
 
         self.rasterFormularzDialog = RasterFormularzDialog()
-        self.rasterFormularzDialog.setWindowTitle('%s (2/6)' % (title_app))
+        self.rasterFormularzDialog.setWindowTitle('%s (krok 2 z 6)' % (title_app))
         self.rasterFormularzDialog.setWindowIcon(QtGui.QIcon('%s%s' % (icon_path, icon_app)))
+        self.rasterFormularzDialog.setWindowFlag(Qt.WindowMinMaxButtonsHint, True)
 
         self.wektorInstrukcjaDialog = WektorInstrukcjaDialog()
-        self.wektorInstrukcjaDialog.setWindowTitle('%s (3/6)' % (title_app))
+        self.wektorInstrukcjaDialog.setWindowTitle('%s (krok 3 z 6)' % (title_app))
         self.wektorInstrukcjaDialog.setWindowIcon(QtGui.QIcon('%s%s' % (icon_path, icon_app)))
+        self.wektorInstrukcjaDialog.setWindowFlag(Qt.WindowMinMaxButtonsHint, True)
 
         self.wektorFormularzDialog = WektorFormularzDialog()
-        self.wektorFormularzDialog.setWindowTitle('%s (4/6)' % (title_app))
+        self.wektorFormularzDialog.setWindowTitle('%s (krok 4 z 6)' % (title_app))
         self.wektorFormularzDialog.setWindowIcon(QtGui.QIcon('%s%s' % (icon_path, icon_app)))
+        self.wektorFormularzDialog.setWindowFlag(Qt.WindowMinMaxButtonsHint, True)
 
         self.dokumentyFormularzDialog = DokumentyFormularzDialog()
-        self.dokumentyFormularzDialog.setWindowTitle('%s (5/6)' % (title_app))
+        self.dokumentyFormularzDialog.setWindowTitle('%s (krok 5 z 6)' % (title_app))
         self.dokumentyFormularzDialog.setWindowIcon(QtGui.QIcon('%s%s' % (icon_path, icon_app)))
+        self.dokumentyFormularzDialog.setWindowFlag(Qt.WindowMinMaxButtonsHint, True)
 
         self.generowanieGMLDialog = GenerowanieGMLDialog()
-        self.generowanieGMLDialog.setWindowTitle('%s (6/6)' % (title_app))
+        self.generowanieGMLDialog.setWindowTitle('%s (krok 6 z 6)' % (title_app))
         self.generowanieGMLDialog.setWindowIcon(QtGui.QIcon('%s%s' % (icon_path, icon_app)))
+        self.generowanieGMLDialog.setWindowFlag(Qt.WindowMinMaxButtonsHint, True)
         # endregion
 
         # region eventy modul app
@@ -139,6 +145,7 @@ class WtyczkaAPP:
         self.metadaneDialog = MetadaneDialog()
         self.metadaneDialog.setWindowTitle('%s' % (title_metadata))
         self.metadaneDialog.setWindowIcon(QtGui.QIcon('%s%s' % (icon_path, icon_metadata)))
+        self.metadaneDialog.setWindowFlag(Qt.WindowMinMaxButtonsHint, True)
 
         # region eventy moduł metadata
         self.metadaneDialog.prev_btn.clicked.connect(self.metadaneDialog_prev_btn_clicked)
@@ -158,6 +165,7 @@ class WtyczkaAPP:
         self.walidacjaDialog = WalidacjaDialog()
         self.walidacjaDialog.setWindowTitle('%s' % (title_validator))
         self.walidacjaDialog.setWindowIcon(QtGui.QIcon('%s%s' % (icon_path, icon_validator)))
+        self.walidacjaDialog.setWindowFlag(Qt.WindowMinMaxButtonsHint, True)
 
         # region eventy moduł validator
         self.walidacjaDialog.prev_btn.clicked.connect(self.walidacjaDialog_prev_btn_clicked)
@@ -181,6 +189,16 @@ class WtyczkaAPP:
         self.iface.addPluginToMenu(u'&' + PLUGIN_NAME, action)
         return action
 
+    def closeEvent(self, event):
+        close = QMessageBox.question(self,
+                                     "QUIT",
+                                     "Sure?",
+                                     QMessageBox.Yes | QMessageBox.No)
+        if close == QMessageBox.Yes:
+            event.accept()
+        else:
+            event.ignore()
+
     def initGui(self):
         """Create the menu entries and toolbar icons inside the QGIS GUI."""
 
@@ -190,7 +208,10 @@ class WtyczkaAPP:
             text=u'&' + PLUGIN_NAME,
             parent=self.iface.mainWindow()
         ))
+        self.toolButton.clicked.connect(self.run_app)
+
         self.toolButton.setMenu(QMenu())
+        #self.toolButton.triggered.connect(self.run_app)
         self.toolButton.setPopupMode(QToolButton.MenuButtonPopup)
         self.toolBtnAction = self.iface.addToolBarWidget(self.toolButton)
 
@@ -203,7 +224,7 @@ class WtyczkaAPP:
                        callback=self.run_metadata)
 
         self.addAction(icon_path=':/plugins/wtyczka_app/img/walidacja.png',
-                       text=u'Walidacja plików',
+                       text=u'Walidacja GML / XML',
                        callback=self.run_validator)
 
         self.addAction(icon_path=':/plugins/wtyczka_app/img/ustawienia.png',
@@ -298,20 +319,15 @@ class WtyczkaAPP:
         self.openNewDialog(self.listaOkienek.pop())
 
     def generowanieGMLDialog_next_btn_clicked(self):
-        print("generowanieGMLDialog_next_btn_clicked")
         if self.generowanieGMLDialog.yesMakeAnotherApp_radioBtn.isChecked():
-            print("1")
             self.openNewDialog(self.rasterInstrukcjaDialog)
             self.listaOkienek.append(self.generowanieGMLDialog)
         if self.generowanieGMLDialog.noMakeAnotherApp_radioBtn.isChecked():
             if self.generowanieGMLDialog.yesMakeSet_radioBtn.isChecked():
-                print("2")
                 self.openNewDialog(self.zbiorPrzygotowanieDialog)
                 self.listaOkienek.append(self.generowanieGMLDialog)
             if self.generowanieGMLDialog.noMakeSet_radioBtn.isChecked():
-                print("3")
                 self.generowanieGMLDialog.close()
-        print("4")
 
     def makeAnotherApp_radioBtn_toggled(self, setYes):
         self.generowanieGMLDialog.next_btn.setText("Dalej")

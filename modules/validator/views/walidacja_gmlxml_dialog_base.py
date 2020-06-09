@@ -117,7 +117,7 @@ class Ui_Dialog(object):
         Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
         self.title_lbl.setText(_translate("Dialog", "Walidacja plików GML/XML"))
         self.validateGML_checkBox.setText(_translate("Dialog", "Walidacja GML"))
-        self.setGML_radioButton.setText(_translate("Dialog", "GML dla zbioru"))
+        self.setGML_radioButton.setText(_translate("Dialog", "GML dla zbioru APP"))
         self.appGML_radioButton.setText(_translate("Dialog", "GML dla APP"))
         self.validateXML_checkBox.setText(_translate("Dialog", "Walidacja XML (metadane)"))
         self.validate_lbl.setText(_translate("Dialog", "Walidacja - progres"))

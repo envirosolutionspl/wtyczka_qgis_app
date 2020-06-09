@@ -59,7 +59,7 @@
        <item>
         <widget class="QRadioButton" name="setGML_radioButton">
          <property name="text">
-          <string>GML dla zbioru</string>
+          <string>GML dla zbioru APP</string>
          </property>
          <property name="checked">
           <bool>true</bool>

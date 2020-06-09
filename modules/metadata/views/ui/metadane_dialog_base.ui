@@ -108,7 +108,7 @@
           </font>
          </property>
          <property name="text">
-          <string>Wybierz plik GML dla zbioru (opcjonalne)</string>
+          <string>Wybierz plik GML dla zbioru APP (opcjonalne)</string>
          </property>
         </widget>
        </item>

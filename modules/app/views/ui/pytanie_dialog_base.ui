@@ -44,7 +44,7 @@
         </font>
        </property>
        <property name="text">
-        <string>Czy będziesz pracować ze zbiorem aktów planowania przestrzennego (Zbiór APP), czy z pojedynczym aktem planowania przestrzennego (APP)?</string>
+        <string>Czy będziesz pracować ze zbiorem danych przestrzennych aktów planowania przestrzennego (zbiór APP), czy z danymi przestrzennymi dla pojedynczego aktu planowania przestrzennego (APP)?</string>
        </property>
        <property name="wordWrap">
         <bool>true</bool>
@@ -68,8 +68,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>558</width>
-          <height>224</height>
+          <width>564</width>
+          <height>300</height>
          </rect>
         </property>
         <layout class="QGridLayout" name="gridLayout">

@@ -98,7 +98,7 @@
         <widget class="QgsMapLayerComboBox" name="mMapLayerComboBox"/>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton">
+        <widget class="QPushButton" name="chooseFile_btn">
          <property name="text">
           <string>Wybierz plik z dysku</string>
          </property>

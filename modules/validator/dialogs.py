@@ -7,6 +7,8 @@ Okna dialogowe modułu Metadata
 
 import os
 
+from PyQt5.QtWidgets import QMessageBox
+
 from qgis.PyQt import uic
 from qgis.PyQt import QtWidgets
 
@@ -22,3 +24,13 @@ class WalidacjaDialog(QtWidgets.QDialog, FORM_CLASS):
         """Constructor."""
         super(WalidacjaDialog, self).__init__(parent)
         self.setupUi(self)
+
+    def closeEvent(self, event):
+        if self.sender() is None:
+            reply = QMessageBox.question(self, 'Opuszczanie wtyczki APP',
+                                         "Jesteś pewien, że chcesz opuścić wtyczkę?", QMessageBox.Yes |
+                                         QMessageBox.No, QMessageBox.No)
+            if reply == QMessageBox.Yes:
+                event.accept()
+            else:
+                event.ignore()

@@ -23,7 +23,7 @@
 """
 import atexit
 
-from PyQt5.QtWidgets import QDialog
+from PyQt5.QtWidgets import QDialog, QFileDialog
 
 from qgis.PyQt import QtGui
 from qgis.PyQt.QtCore import QSettings, QTranslator, QCoreApplication, Qt
@@ -47,6 +47,7 @@ title_set = 'Tworzenie zbioru APP'
 title_metadata = 'Tworzenie / aktualizacja metadanych'
 title_validator = 'Walidacja GML / XML'
 title_settings = 'Ustawienia'
+
 
 class WtyczkaAPP:
     """QGIS Plugin Implementation."""
@@ -136,6 +137,7 @@ class WtyczkaAPP:
         self.dokumentyFormularzDialog.saveForm_btn.clicked.connect(self.showPopupSaveForm)
         self.generowanieGMLDialog.generate_btn.clicked.connect(self.showPopupGenerate)
         self.zbiorPrzygotowanieDialog.validateAndGenerate_btn.clicked.connect(self.showPopupGenerate2)
+        self.wektorInstrukcjaDialog.chooseFile_btn.clicked.connect(self.openShpFile)
 
         self.generowanieGMLDialog.yesMakeAnotherApp_radioBtn.toggled.connect(self.makeAnotherApp_radioBtn_toggled)
         # self.generowanieGMLDialog.noMakeAnotherApp_radioBtn.toggled.connect(self.noMakeAnotherApp_radioBtn_toggled)
@@ -238,6 +240,7 @@ class WtyczkaAPP:
         self.iface.removeToolBarIcon(self.toolBtnAction)
 
     """Action handlers"""
+    # region action handlers
     def run_app(self):
         self.openNewDialog(self.pytanieAppDialog)
 
@@ -251,6 +254,7 @@ class WtyczkaAPP:
     def run_validator(self):
         self.openNewDialog(self.walidacjaDialog)
         self.walidacjaDialog.prev_btn.setEnabled(False)
+    # endregion
 
     """Event handlers"""
 
@@ -425,6 +429,14 @@ class WtyczkaAPP:
         if self.prevDlg:
             self.prevDlg.close()
         self.activeDlg.show()
+
+
+
+    def openShpFile(self):
+        shpFile = str(QFileDialog.getOpenFileName(filter=("Shapefiles (*.shp)"))[0])
+        self.wektorInstrukcjaDialog.label.setText(shpFile)
+        if shpFile is not None:
+            self.iface.addVectorLayer(shpFile, str.split(os.path.basename(shpFile), ".")[0], "ogr")
     # endregion
 
     """Popup windows"""

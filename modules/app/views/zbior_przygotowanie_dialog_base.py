@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'modules/app/views/ui/zbior_przygotowanie_dialog_base.ui'
+# Form implementation generated from reading ui file 'zbior_przygotowanie_dialog_base.ui'
 #
-# Created by: PyQt5 UI code generator 5.11.3
+# Created by: PyQt5 UI code generator 5.13.2
 #
 # WARNING! All changes made in this file will be lost!
 
+
 from PyQt5 import QtCore, QtGui, QtWidgets
+
 
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
@@ -29,7 +31,7 @@ class Ui_Dialog(object):
         self.instruction_scrollArea.setWidgetResizable(True)
         self.instruction_scrollArea.setObjectName("instruction_scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 633, 94))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 656, 72))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.gridLayout = QtWidgets.QGridLayout(self.scrollAreaWidgetContents)
         self.gridLayout.setObjectName("gridLayout")
@@ -113,7 +115,7 @@ class Ui_Dialog(object):
         self.validateAndGenerate_btn.setObjectName("validateAndGenerate_btn")
         self.horizontalLayout_2.addWidget(self.validateAndGenerate_btn)
         self.next_btn = QtWidgets.QPushButton(Dialog)
-        self.next_btn.setEnabled(False)
+        self.next_btn.setEnabled(True)
         self.next_btn.setObjectName("next_btn")
         self.horizontalLayout_2.addWidget(self.next_btn)
         self.verticalLayout.addLayout(self.horizontalLayout_2)
@@ -137,6 +139,16 @@ class Ui_Dialog(object):
         item.setText(_translate("Dialog", "Plik APP (GML)"))
         self.prev_btn.setText(_translate("Dialog", "Wstecz"))
         self.validateAndGenerate_btn.setText(_translate("Dialog", "Waliduj/Generuj"))
+        self.next_btn.setToolTip(_translate("Dialog", "<html><head/><body><p>Przycisk <span style=\" font-style:italic;\">Dalej</span> przeniesie do narzędzia <span style=\" font-style:italic;\">Tworzenie / aktualizacja metadanych</span></p></body></html>"))
         self.next_btn.setText(_translate("Dialog", "Dalej"))
-
 from qgsfilewidget import QgsFileWidget
+
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    Dialog = QtWidgets.QDialog()
+    ui = Ui_Dialog()
+    ui.setupUi(Dialog)
+    Dialog.show()
+    sys.exit(app.exec_())

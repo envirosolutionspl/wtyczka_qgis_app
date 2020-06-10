@@ -30,7 +30,7 @@
         </font>
        </property>
        <property name="text">
-        <string>Walidacja plików GML/XML</string>
+        <string>Walidacja plików GML / XML</string>
        </property>
        <property name="margin">
         <number>7</number>
@@ -205,6 +205,16 @@
         <widget class="QPushButton" name="validate_btn">
          <property name="text">
           <string>Waliduj</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="close_btn">
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Przycisk &lt;span style=&quot; font-style:italic;&quot;&gt;Zakończ&lt;/span&gt; zakończy działanie wtyczki&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="text">
+          <string>Zakończ</string>
          </property>
         </widget>
        </item>

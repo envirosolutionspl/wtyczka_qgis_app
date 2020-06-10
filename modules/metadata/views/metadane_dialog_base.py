@@ -199,6 +199,8 @@ class Ui_Dialog(object):
         self.horizontalLayout_3.addWidget(self.send_btn)
         self.next_btn = QtWidgets.QPushButton(Dialog)
         self.next_btn.setEnabled(True)
+        self.next_btn.setDefault(False)
+        self.next_btn.setFlat(False)
         self.next_btn.setObjectName("next_btn")
         self.horizontalLayout_3.addWidget(self.next_btn)
         self.verticalLayout.addLayout(self.horizontalLayout_3)
@@ -229,6 +231,7 @@ class Ui_Dialog(object):
         self.prev_btn.setText(_translate("Dialog", "Wstecz"))
         self.validateAndSave_btn.setText(_translate("Dialog", "Waliduj/zapisz"))
         self.send_btn.setText(_translate("Dialog", "Wyślij"))
+        self.next_btn.setToolTip(_translate("Dialog", "<html><head/><body><p>Przycisk <span style=\" font-style:italic;\">Dalej</span> przeniesie do narzędzia <span style=\" font-style:italic;\">Walidacja GML / XML</span></p></body></html>"))
         self.next_btn.setText(_translate("Dialog", "Dalej"))
 from qgsfilewidget import QgsFileWidget
 

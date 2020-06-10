@@ -21,6 +21,8 @@
  *                                                                         *
  ***************************************************************************/
 """
+import atexit
+
 from PyQt5.QtWidgets import QDialog
 
 from qgis.PyQt import QtGui
@@ -109,7 +111,7 @@ class WtyczkaAPP:
         self.generowanieGMLDialog.setWindowFlag(Qt.WindowMinMaxButtonsHint, True)
         # endregion
 
-        # region eventy modul app
+        # region eventy moduł app
         self.pytanieAppDialog.zbior_btn.clicked.connect(self.pytanieAppDialog_zbior_btn_clicked)
         self.pytanieAppDialog.app_btn.clicked.connect(self.pytanieAppDialog_app_btn_clicked)
         self.rasterInstrukcjaDialog.next_btn.clicked.connect(self.rasterInstrukcjaDialog_next_btn_clicked)
@@ -141,11 +143,12 @@ class WtyczkaAPP:
         # self.generowanieGMLDialog.noMakeSet_radioBtn.toggled.connect(self.noMakeSet_radioBtn_toggled)
         # endregion
 
-        # okno moduł metadata
+        # region okno moduł metadata
         self.metadaneDialog = MetadaneDialog()
         self.metadaneDialog.setWindowTitle('%s' % (title_metadata))
         self.metadaneDialog.setWindowIcon(QtGui.QIcon('%s%s' % (icon_path, icon_metadata)))
         self.metadaneDialog.setWindowFlag(Qt.WindowMinMaxButtonsHint, True)
+        # endregion
 
         # region eventy moduł metadata
         self.metadaneDialog.prev_btn.clicked.connect(self.metadaneDialog_prev_btn_clicked)
@@ -170,10 +173,12 @@ class WtyczkaAPP:
         # region eventy moduł validator
         self.walidacjaDialog.prev_btn.clicked.connect(self.walidacjaDialog_prev_btn_clicked)
 
+        self.walidacjaDialog.close_btn.setEnabled(False)
         self.walidacjaDialog.export_btn.clicked.connect(self.showPopupExport)
-        self.walidacjaDialog.validate_btn.clicked.connect(self.showPopupValidate)
+        self.walidacjaDialog.validate_btn.clicked.connect(self.walidacjaDialog_validate_btn_clicked)
         self.walidacjaDialog.validateGML_checkBox.stateChanged.connect(self.gml_checkBoxChangedAction)
         self.walidacjaDialog.validateXML_checkBox.stateChanged.connect(self.xml_checkBoxChangedAction)
+        self.walidacjaDialog.close_btn.clicked.connect(self.walidacjaDialog.close)
         # endregion
 
     def addAction(self, icon_path, text, callback):
@@ -189,15 +194,6 @@ class WtyczkaAPP:
         self.iface.addPluginToMenu(u'&' + PLUGIN_NAME, action)
         return action
 
-    def closeEvent(self, event):
-        close = QMessageBox.question(self,
-                                     "QUIT",
-                                     "Sure?",
-                                     QMessageBox.Yes | QMessageBox.No)
-        if close == QMessageBox.Yes:
-            event.accept()
-        else:
-            event.ignore()
 
     def initGui(self):
         """Create the menu entries and toolbar icons inside the QGIS GUI."""
@@ -211,7 +207,6 @@ class WtyczkaAPP:
         self.toolButton.clicked.connect(self.run_app)
 
         self.toolButton.setMenu(QMenu())
-        #self.toolButton.triggered.connect(self.run_app)
         self.toolButton.setPopupMode(QToolButton.MenuButtonPopup)
         self.toolBtnAction = self.iface.addToolBarWidget(self.toolButton)
 
@@ -260,6 +255,7 @@ class WtyczkaAPP:
     """Event handlers"""
 
     # region pytanieAppDialog
+
     def pytanieAppDialog_app_btn_clicked(self):
         self.openNewDialog(self.rasterInstrukcjaDialog)
         self.listaOkienek.append(self.pytanieAppDialog)
@@ -330,8 +326,8 @@ class WtyczkaAPP:
                 self.generowanieGMLDialog.close()
 
     def makeAnotherApp_radioBtn_toggled(self, setYes):
-        self.generowanieGMLDialog.next_btn.setText("Dalej")
-        if setYes:  # Tak - utworzenie kolejnego APP
+        if setYes:  # tak - utworzenie kolejnego APP
+            self.generowanieGMLDialog.next_btn.setText("Dalej")
             self.generowanieGMLDialog.yesMakeSet_radioBtn.setChecked(False)
             self.generowanieGMLDialog.noMakeSet_radioBtn.setChecked(False)
             self.generowanieGMLDialog.questionMakeSet_lbl.setEnabled(False)
@@ -341,11 +337,13 @@ class WtyczkaAPP:
             self.generowanieGMLDialog.questionMakeSet_lbl.setEnabled(True)
             self.generowanieGMLDialog.yesMakeSet_radioBtn.setEnabled(True)
             self.generowanieGMLDialog.noMakeSet_radioBtn.setEnabled(True)
+            if self.generowanieGMLDialog.noMakeSet_radioBtn.isChecked():
+                self.generowanieGMLDialog.next_btn.setText("Zakończ")
 
     def makeSet_radioBtn_toggled(self, setYes):
         if setYes:  # finalne tworzenie zbioru app
             self.generowanieGMLDialog.next_btn.setText("Dalej")
-        else:  # zakończ działąnie wtyczki
+        else:  # zakończ działanie wtyczki
             self.generowanieGMLDialog.next_btn.setText("Zakończ")
 
     # endregion
@@ -401,6 +399,10 @@ class WtyczkaAPP:
     # region walidacjaDialog
     def walidacjaDialog_prev_btn_clicked(self):
         self.openNewDialog(self.listaOkienek.pop())
+
+    def walidacjaDialog_validate_btn_clicked(self):
+        self.showPopupValidate()
+        self.walidacjaDialog.close_btn.setEnabled(True)
 
     def xml_checkBoxChangedAction(self, state):
         if (QtCore.Qt.Checked == state):

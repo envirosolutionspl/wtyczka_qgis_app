@@ -106,6 +106,9 @@ class Ui_Dialog(object):
         self.validate_btn = QtWidgets.QPushButton(Dialog)
         self.validate_btn.setObjectName("validate_btn")
         self.horizontalLayout_5.addWidget(self.validate_btn)
+        self.close_btn = QtWidgets.QPushButton(Dialog)
+        self.close_btn.setObjectName("close_btn")
+        self.horizontalLayout_5.addWidget(self.close_btn)
         self.verticalLayout.addLayout(self.horizontalLayout_5)
         self.gridLayout.addLayout(self.verticalLayout, 0, 0, 1, 1)
 
@@ -115,7 +118,7 @@ class Ui_Dialog(object):
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
-        self.title_lbl.setText(_translate("Dialog", "Walidacja plików GML/XML"))
+        self.title_lbl.setText(_translate("Dialog", "Walidacja plików GML / XML"))
         self.validateGML_checkBox.setText(_translate("Dialog", "Walidacja GML"))
         self.setGML_radioButton.setText(_translate("Dialog", "GML dla zbioru APP"))
         self.appGML_radioButton.setText(_translate("Dialog", "GML dla APP"))
@@ -126,6 +129,8 @@ class Ui_Dialog(object):
         self.export_btn.setText(_translate("Dialog", "Eksportuj"))
         self.prev_btn.setText(_translate("Dialog", "Wstecz"))
         self.validate_btn.setText(_translate("Dialog", "Waliduj"))
+        self.close_btn.setToolTip(_translate("Dialog", "<html><head/><body><p>Przycisk <span style=\" font-style:italic;\">Zakończ</span> zakończy działanie wtyczki</p></body></html>"))
+        self.close_btn.setText(_translate("Dialog", "Zakończ"))
 from qgsfilewidget import QgsFileWidget
 
 

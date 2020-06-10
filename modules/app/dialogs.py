@@ -9,7 +9,7 @@ import os
 
 from PyQt5.QtWidgets import QMessageBox
 
-from qgis.PyQt import uic
+from qgis.PyQt import uic, QtGui
 from qgis.PyQt import QtWidgets
 
 

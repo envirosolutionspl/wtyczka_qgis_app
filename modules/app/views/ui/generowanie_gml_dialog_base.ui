@@ -101,7 +101,10 @@
      <item>
       <widget class="QLabel" name="questionMakeAnotherApp_lbl">
        <property name="text">
-        <string>Czy chcesz utworzyć kolejny APP dla tego zbioru?</string>
+        <string>Czy chcesz utworzyć kolejny APP dla tego zbioru? (Tak - przycisk Dalej przeniesie do narzędzia tworzenia APP)</string>
+       </property>
+       <property name="wordWrap">
+        <bool>true</bool>
        </property>
       </widget>
      </item>
@@ -151,7 +154,10 @@
         <bool>false</bool>
        </property>
        <property name="text">
-        <string>Czy chcesz przejść do finalnego tworzenia zbioru APP oraz metadanych?</string>
+        <string>Czy chcesz przejść do finalnego tworzenia zbioru APP oraz metadanych? (Tak - przycisk Dalej przeniesie do narzędzia tworzenia zbioru APP)</string>
+       </property>
+       <property name="wordWrap">
+        <bool>true</bool>
        </property>
       </widget>
      </item>

@@ -11,6 +11,7 @@ from PyQt5.QtWidgets import QMessageBox
 
 from qgis.PyQt import uic
 from qgis.PyQt import QtWidgets
+from .. import QDialogOverride
 
 
 
@@ -19,7 +20,7 @@ FORM_CLASS, _ = uic.loadUiType(os.path.join(
     os.path.dirname(__file__), 'views', 'ui', 'metadane_dialog_base.ui'))
 
 
-class MetadaneDialog(QtWidgets.QDialog, FORM_CLASS):
+class MetadaneDialog(QDialogOverride, FORM_CLASS):
     def __init__(self, parent=None):
         """Constructor."""
         super(MetadaneDialog, self).__init__(parent)

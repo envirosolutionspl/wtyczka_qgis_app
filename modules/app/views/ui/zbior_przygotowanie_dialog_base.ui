@@ -157,11 +157,6 @@
       <widget class="QTableWidget" name="appTable_widget">
        <column>
         <property name="text">
-         <string>Nr</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
          <string>Plik APP (GML)</string>
         </property>
        </column>

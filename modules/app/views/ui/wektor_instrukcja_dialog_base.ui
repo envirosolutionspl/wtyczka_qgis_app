@@ -49,7 +49,7 @@
           <x>0</x>
           <y>0</y>
           <width>564</width>
-          <height>248</height>
+          <height>234</height>
          </rect>
         </property>
         <layout class="QGridLayout" name="gridLayout">
@@ -83,26 +83,22 @@
       </widget>
      </item>
      <item>
+      <widget class="QLabel" name="addAppShp_lbl">
+       <property name="text">
+        <string>Wybierz plik z z granicami APP (opcjonalne)</string>
+       </property>
+       <property name="margin">
+        <number>0</number>
+       </property>
+      </widget>
+     </item>
+     <item>
       <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
-        <widget class="QLabel" name="addAppShp_lbl">
-         <property name="text">
-          <string>Wybierz plik z z granicami APP (opcjonalne)</string>
-         </property>
-         <property name="margin">
-          <number>0</number>
-         </property>
-        </widget>
+        <widget class="QgsMapLayerComboBox" name="layers_comboBox"/>
        </item>
        <item>
-        <widget class="QgsMapLayerComboBox" name="mMapLayerComboBox"/>
-       </item>
-       <item>
-        <widget class="QPushButton" name="chooseFile_btn">
-         <property name="text">
-          <string>Wybierz plik z dysku</string>
-         </property>
-        </widget>
+        <widget class="QgsFileWidget" name="chooseFile_btn"/>
        </item>
       </layout>
      </item>
@@ -190,6 +186,11 @@
   </layout>
  </widget>
  <customwidgets>
+  <customwidget>
+   <class>QgsFileWidget</class>
+   <extends>QWidget</extends>
+   <header>qgsfilewidget.h</header>
+  </customwidget>
   <customwidget>
    <class>QgsMapLayerComboBox</class>
    <extends>QComboBox</extends>

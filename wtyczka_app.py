@@ -28,7 +28,8 @@ from PyQt5.QtWidgets import QDialog, QFileDialog
 from qgis.PyQt import QtGui
 from qgis.PyQt.QtCore import QSettings, QTranslator, QCoreApplication, Qt
 from qgis.PyQt.QtGui import QIcon
-from qgis.PyQt.QtWidgets import QAction, QToolButton, QMenu, QMessageBox
+from qgis.PyQt.QtWidgets import QAction, QToolButton, QMenu, QMessageBox, QTableWidgetItem
+from qgis.core import QgsVectorLayer
 from qgis.PyQt import QtWidgets
 # Initialize Qt resources from file resources.py
 from .resources import *
@@ -115,34 +116,44 @@ class WtyczkaAPP:
         # region eventy moduł app
         self.pytanieAppDialog.zbior_btn.clicked.connect(self.pytanieAppDialog_zbior_btn_clicked)
         self.pytanieAppDialog.app_btn.clicked.connect(self.pytanieAppDialog_app_btn_clicked)
+
         self.rasterInstrukcjaDialog.next_btn.clicked.connect(self.rasterInstrukcjaDialog_next_btn_clicked)
         self.rasterInstrukcjaDialog.prev_btn.clicked.connect(self.rasterInstrukcjaDialog_prev_btn_clicked)
+
         self.rasterFormularzDialog.prev_btn.clicked.connect(self.rasterFormularzDialog_prev_btn_clicked)
         self.rasterFormularzDialog.next_btn.clicked.connect(self.rasterFormularzDialog_next_btn_clicked)
+        self.rasterFormularzDialog.saveForm_btn.clicked.connect(self.showPopupSaveForm)
+
         self.wektorInstrukcjaDialog.next_btn.clicked.connect(self.wektorInstrukcjaDialog_next_btn_clicked)
         self.wektorInstrukcjaDialog.prev_btn.clicked.connect(self.wektorInstrukcjaDialog_prev_btn_clicked)
-        self.wektorFormularzDialog.prev_btn.clicked.connect(self.wektorFormularzDialog_prev_btn_clicked)
-        self.wektorFormularzDialog.next_btn.clicked.connect(self.wektorFormularzDialog_next_btn_clicked)
-        self.dokumentyFormularzDialog.prev_btn.clicked.connect(self.dokumentyFormularzDialog_prev_btn_clicked)
-        self.dokumentyFormularzDialog.next_btn.clicked.connect(self.dokumentyFormularzDialog_next_btn_clicked)
-        self.generowanieGMLDialog.prev_btn.clicked.connect(self.generowanieGMLDialog_prev_btn_clicked)
-        self.generowanieGMLDialog.next_btn.clicked.connect(self.generowanieGMLDialog_next_btn_clicked)
-        self.zbiorPrzygotowanieDialog.prev_btn.clicked.connect(self.zbiorPrzygotowanieDialog_prev_btn_clicked)
-        self.zbiorPrzygotowanieDialog.next_btn.clicked.connect(self.zbiorPrzygotowanieDialog_next_btn_clicked)
-
-        self.rasterFormularzDialog.saveForm_btn.clicked.connect(self.showPopupSaveForm)
         self.wektorInstrukcjaDialog.saveLayer_btn.clicked.connect(self.showPopupSaveLayer)
         self.wektorInstrukcjaDialog.generateTemporaryLayer_btn.clicked.connect(self.showPopupGenerateLayer)
-        self.wektorFormularzDialog.saveForm_btn.clicked.connect(self.showPopupSaveForm)
-        self.dokumentyFormularzDialog.saveForm_btn.clicked.connect(self.showPopupSaveForm)
-        self.generowanieGMLDialog.generate_btn.clicked.connect(self.showPopupGenerate)
-        self.zbiorPrzygotowanieDialog.validateAndGenerate_btn.clicked.connect(self.showPopupGenerate2)
-        self.wektorInstrukcjaDialog.chooseFile_btn.clicked.connect(self.openShpFile)
+        # self.wektorInstrukcjaDialog.chooseFile_btn.clicked.connect(self.openShpFile)
+        # self.wektorInstrukcjaDialog.chooseFile_btn.setFilter("%s" % QgsVectorLayer)
+        self.wektorInstrukcjaDialog.chooseFile_btn.fileChanged.connect(self.openQgsFile)
+        self.wektorInstrukcjaDialog.layers_comboBox.layerChanged.connect(self.selectQgsLayer)
 
+        self.wektorFormularzDialog.prev_btn.clicked.connect(self.wektorFormularzDialog_prev_btn_clicked)
+        self.wektorFormularzDialog.next_btn.clicked.connect(self.wektorFormularzDialog_next_btn_clicked)
+        self.wektorFormularzDialog.saveForm_btn.clicked.connect(self.showPopupSaveForm)
+
+        self.dokumentyFormularzDialog.prev_btn.clicked.connect(self.dokumentyFormularzDialog_prev_btn_clicked)
+        self.dokumentyFormularzDialog.next_btn.clicked.connect(self.dokumentyFormularzDialog_next_btn_clicked)
+        self.dokumentyFormularzDialog.saveForm_btn.clicked.connect(self.showPopupSaveForm)
+
+        self.generowanieGMLDialog.prev_btn.clicked.connect(self.generowanieGMLDialog_prev_btn_clicked)
+        self.generowanieGMLDialog.next_btn.clicked.connect(self.generowanieGMLDialog_next_btn_clicked)
+        self.generowanieGMLDialog.generate_btn.clicked.connect(self.showPopupGenerate)
         self.generowanieGMLDialog.yesMakeAnotherApp_radioBtn.toggled.connect(self.makeAnotherApp_radioBtn_toggled)
-        # self.generowanieGMLDialog.noMakeAnotherApp_radioBtn.toggled.connect(self.noMakeAnotherApp_radioBtn_toggled)
         self.generowanieGMLDialog.yesMakeSet_radioBtn.toggled.connect(self.makeSet_radioBtn_toggled)
-        # self.generowanieGMLDialog.noMakeSet_radioBtn.toggled.connect(self.noMakeSet_radioBtn_toggled)
+        self.generowanieGMLDialog.addElement_btn.clicked.connect(self.addTableContentGML)
+        self.generowanieGMLDialog.deleteElement_btn.clicked.connect(self.deleteTableContentGML)
+
+        self.zbiorPrzygotowanieDialog.prev_btn.clicked.connect(self.zbiorPrzygotowanieDialog_prev_btn_clicked)
+        self.zbiorPrzygotowanieDialog.next_btn.clicked.connect(self.zbiorPrzygotowanieDialog_next_btn_clicked)
+        self.zbiorPrzygotowanieDialog.validateAndGenerate_btn.clicked.connect(self.showPopupGenerate2)
+        self.zbiorPrzygotowanieDialog.addElement_btn.clicked.connect(self.addTableContentSet)
+        self.zbiorPrzygotowanieDialog.deleteElement_btn.clicked.connect(self.deleteTableContentSet)
         # endregion
 
         # region okno moduł metadata
@@ -166,11 +177,12 @@ class WtyczkaAPP:
         self.metadaneDialog.email_checkBox.stateChanged.connect(self.email_checkBoxChangedAction)
         # endregion
 
-        #okno moduł validator
+        # region okno moduł validator
         self.walidacjaDialog = WalidacjaDialog()
         self.walidacjaDialog.setWindowTitle('%s' % (title_validator))
         self.walidacjaDialog.setWindowIcon(QtGui.QIcon('%s%s' % (icon_path, icon_validator)))
         self.walidacjaDialog.setWindowFlag(Qt.WindowMinMaxButtonsHint, True)
+        # endregion
 
         # region eventy moduł validator
         self.walidacjaDialog.prev_btn.clicked.connect(self.walidacjaDialog_prev_btn_clicked)
@@ -430,13 +442,57 @@ class WtyczkaAPP:
             self.prevDlg.close()
         self.activeDlg.show()
 
-
-
     def openShpFile(self):
         shpFile = str(QFileDialog.getOpenFileName(filter=("Shapefiles (*.shp)"))[0])
         self.wektorInstrukcjaDialog.label.setText(shpFile)
         if shpFile is not None:
             self.iface.addVectorLayer(shpFile, str.split(os.path.basename(shpFile), ".")[0], "ogr")
+
+    def openQgsFile(self):
+        shpFile = self.wektorInstrukcjaDialog.chooseFile_btn.filePath()
+        self.wektorInstrukcjaDialog.label.setText(shpFile)
+        if shpFile is not None:
+            self.iface.addVectorLayer(shpFile, str.split(os.path.basename(shpFile), ".")[0], "ogr")
+
+    def selectQgsLayer(self):
+        # co jak użytkownik usunie wszystkie warstwy??
+        aktywna_warstwa = self.wektorInstrukcjaDialog.layers_comboBox.currentLayer()
+        if aktywna_warstwa:
+            self.wektorInstrukcjaDialog.label.setText(aktywna_warstwa.name())
+        else:
+            self.wektorInstrukcjaDialog.label.setText("...")
+
+    def addTableContentGML(self):
+        plik = str(QFileDialog.getOpenFileName(filter=("XML/GML files (*.xml *.gml)"))[0])
+        if plik:
+            rows = self.generowanieGMLDialog.filesTable_widget.rowCount()
+            self.generowanieGMLDialog.filesTable_widget.setRowCount(rows+1)
+            self.generowanieGMLDialog.filesTable_widget.setItem(rows, 0, QTableWidgetItem(plik))
+
+    def deleteTableContentGML(self):
+        row_num = self.generowanieGMLDialog.filesTable_widget.rowCount()
+        if row_num > 0:
+            do_usuniecia = self.generowanieGMLDialog.filesTable_widget.currentRow()
+            self.generowanieGMLDialog.filesTable_widget.removeRow(do_usuniecia)
+        else:
+            pass
+
+    def addTableContentSet(self):
+        plik = str(QFileDialog.getOpenFileName(filter=("GML file (*.gml)"))[0])
+        if plik:
+            rows = self.zbiorPrzygotowanieDialog.appTable_widget.rowCount()
+            self.zbiorPrzygotowanieDialog.appTable_widget.setRowCount(rows+1)
+            self.zbiorPrzygotowanieDialog.appTable_widget.setItem(rows, 0, QTableWidgetItem(plik))
+
+    def deleteTableContentSet(self):
+        row_num = self.zbiorPrzygotowanieDialog.appTable_widget.rowCount()
+        if row_num > 0:
+            do_usuniecia = self.zbiorPrzygotowanieDialog.appTable_widget.currentRow()
+            self.zbiorPrzygotowanieDialog.appTable_widget.removeRow(do_usuniecia)
+        else:
+            pass
+
+
     # endregion
 
     """Popup windows"""

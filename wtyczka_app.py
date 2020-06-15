@@ -127,13 +127,9 @@ class WtyczkaAPP:
 
         self.wektorInstrukcjaDialog.next_btn.clicked.connect(self.wektorInstrukcjaDialog_next_btn_clicked)
         self.wektorInstrukcjaDialog.prev_btn.clicked.connect(self.wektorInstrukcjaDialog_prev_btn_clicked)
-        self.wektorInstrukcjaDialog.saveLayer_btn.clicked.connect(self.showPopupSaveLayer)
         self.wektorInstrukcjaDialog.generateTemporaryLayer_btn.clicked.connect(self.showPopupGenerateLayer)
         self.wektorInstrukcjaDialog.chooseFile_btn.clicked.connect(self.openFile)
-        #self.wektorInstrukcjaDialog.chooseFile_btn.setFilter("%s" % QgsVectorLayer)
-        #self.wektorInstrukcjaDialog.chooseFile_btn.fileChanged.connect(self.openQgsFile)
-        #self.wektorInstrukcjaDialog.layers_comboBox.layerChanged.connect(self.selectQgsLayer)
-        #setSdditionalItems to combobox
+        self.wektorInstrukcjaDialog.layers_comboBox.setAllowEmptyLayer(True)
 
         self.wektorFormularzDialog.prev_btn.clicked.connect(self.wektorFormularzDialog_prev_btn_clicked)
         self.wektorFormularzDialog.next_btn.clicked.connect(self.wektorFormularzDialog_next_btn_clicked)
@@ -183,8 +179,12 @@ class WtyczkaAPP:
         self.metadaneDialog.server_checkBox.stateChanged.connect(self.server_checkBoxChangedAction)
         self.metadaneDialog.email_checkBox.stateChanged.connect(self.email_checkBoxChangedAction)
 
-        self.metadaneDialog.chooseFile_widget.setFilter("*.xml")
-        self.metadaneDialog.chooseSet_widget.setFilter("*.gml")
+        self.metadaneDialog.newFile_widget.clicked.connect(self.saveMetaFile)
+        self.metadaneDialog.chooseFile_widget.clicked.connect(self.openMetaFile)
+
+        #self.metadaneDialog.chooseFile_widget.setFilter("*.xml")
+        #self.metadaneDialog.chooseSet_widget.setFilter("*.gml")
+        #self.metadaneDialog.newFile_widget.clicked.connect(self.getSaveFileName(filter="*.xml")[0])
         # endregion
 
         # region okno moduł validator
@@ -252,8 +252,6 @@ class WtyczkaAPP:
         self.addAction(icon_path=':/plugins/wtyczka_app/img/ustawienia.png',
                        text=u'Ustawienia',
                        callback=self.run_settings)
-
-
 
 
     def unload(self):
@@ -400,11 +398,13 @@ class WtyczkaAPP:
         if enabled:
             self.metadaneDialog.newFile_widget.setEnabled(True)
             self.metadaneDialog.chooseFile_widget.setEnabled(False)
+            self.metadaneDialog.file_lbl.setText("...")
 
     def existingMetadataRadioButton_toggled(self, enabled):
         if enabled:
             self.metadaneDialog.newFile_widget.setEnabled(False)
             self.metadaneDialog.chooseFile_widget.setEnabled(True)
+            self.metadaneDialog.file_lbl.setText("...")
 
     def server_checkBoxChangedAction(self, state):
         if (QtCore.Qt.Checked == state):
@@ -461,6 +461,16 @@ class WtyczkaAPP:
         self.wektorInstrukcjaDialog.label.setText(shpFile)
         if shpFile is not None:
             self.iface.addVectorLayer(shpFile, str.split(os.path.basename(shpFile), ".")[0], "ogr")
+
+    def saveMetaFile(self):
+        self.outputPlik = QFileDialog.getSaveFileName(filter="*.xml")[0]
+        if self.outputPlik != '':
+            self.metadaneDialog.file_lbl.setText(self.outputPlik)
+
+    def openMetaFile(self):
+        self.plik = QFileDialog.getOpenFileName(filter="*.xml")[0]
+        if self.plik != '':
+            self.metadaneDialog.file_lbl.setText(self.plik)
 
     #setAdditionalItems nie działa, niepoprawny argument
     #dodać inne rozszerzenia
@@ -537,7 +547,7 @@ class WtyczkaAPP:
         self.showPopup("Zapisz warstwę", "Poprawnie zapisano warstwę.")
 
     def showPopupGenerateLayer(self):
-        self.showPopup("Wygeneruj warstwę", "Poprawnie wygenerowano warstwę tymczasową.")
+        self.showPopup("Wygeneruj warstwę", "Poprawnie utworzono pustą warstwę. Uzupełnij ją danymi wektorowymi oraz wypełnij atrybuty.")
 
     def showPopupGenerate(self):
         self.showPopup("Wygeneruj plik GML dla APP", "Poprawnie wygenerowano plik GML.")

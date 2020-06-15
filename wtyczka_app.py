@@ -148,12 +148,16 @@ class WtyczkaAPP:
         self.generowanieGMLDialog.yesMakeSet_radioBtn.toggled.connect(self.makeSet_radioBtn_toggled)
         self.generowanieGMLDialog.addElement_btn.clicked.connect(self.addTableContentGML)
         self.generowanieGMLDialog.deleteElement_btn.clicked.connect(self.deleteTableContentGML)
+        header_gml = self.generowanieGMLDialog.filesTable_widget.horizontalHeader()
+        header_gml.setSectionResizeMode(0, QtWidgets.QHeaderView.ResizeToContents)
 
         self.zbiorPrzygotowanieDialog.prev_btn.clicked.connect(self.zbiorPrzygotowanieDialog_prev_btn_clicked)
         self.zbiorPrzygotowanieDialog.next_btn.clicked.connect(self.zbiorPrzygotowanieDialog_next_btn_clicked)
         self.zbiorPrzygotowanieDialog.validateAndGenerate_btn.clicked.connect(self.showPopupGenerate2)
         self.zbiorPrzygotowanieDialog.addElement_btn.clicked.connect(self.addTableContentSet)
         self.zbiorPrzygotowanieDialog.deleteElement_btn.clicked.connect(self.deleteTableContentSet)
+        header_zbior = self.zbiorPrzygotowanieDialog.appTable_widget.horizontalHeader()
+        header_zbior.setSectionResizeMode(0, QtWidgets.QHeaderView.ResizeToContents)
         # endregion
 
         # region okno moduł metadata

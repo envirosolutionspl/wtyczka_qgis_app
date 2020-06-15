@@ -48,8 +48,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>564</width>
-          <height>234</height>
+          <width>554</width>
+          <height>180</height>
          </rect>
         </property>
         <layout class="QGridLayout" name="gridLayout">
@@ -83,46 +83,43 @@
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="addAppShp_lbl">
-       <property name="text">
-        <string>Wybierz plik z z granicami APP (opcjonalne)</string>
-       </property>
-       <property name="margin">
-        <number>0</number>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout">
+      <layout class="QHBoxLayout" name="horizontalLayout_4">
        <item>
-        <widget class="QgsMapLayerComboBox" name="layers_comboBox"/>
+        <widget class="QLabel" name="addAppShp_lbl">
+         <property name="text">
+          <string>Wybierz plik z z granicami APP (opcjonalne)</string>
+         </property>
+         <property name="margin">
+          <number>0</number>
+         </property>
+        </widget>
        </item>
        <item>
-        <widget class="QgsFileWidget" name="chooseFile_btn"/>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_3">
-       <item>
-        <spacer name="horizontalSpacer_3">
+        <spacer name="horizontalSpacer_2">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
          <property name="sizeHint" stdset="0">
           <size>
-           <width>563</width>
-           <height>17</height>
+           <width>40</width>
+           <height>20</height>
           </size>
          </property>
         </spacer>
        </item>
        <item>
-        <widget class="QLabel" name="label">
+        <widget class="QPushButton" name="chooseFile_btn">
          <property name="text">
           <string>...</string>
          </property>
         </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QgsMapLayerComboBox" name="layers_comboBox"/>
        </item>
       </layout>
      </item>
@@ -186,11 +183,6 @@
   </layout>
  </widget>
  <customwidgets>
-  <customwidget>
-   <class>QgsFileWidget</class>
-   <extends>QWidget</extends>
-   <header>qgsfilewidget.h</header>
-  </customwidget>
   <customwidget>
    <class>QgsMapLayerComboBox</class>
    <extends>QComboBox</extends>

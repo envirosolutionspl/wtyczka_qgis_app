@@ -29,7 +29,7 @@ from qgis.PyQt import QtGui
 from qgis.PyQt.QtCore import QSettings, QTranslator, QCoreApplication, Qt
 from qgis.PyQt.QtGui import QIcon
 from qgis.PyQt.QtWidgets import QAction, QToolButton, QMenu, QMessageBox, QTableWidgetItem
-from qgis.core import QgsVectorLayer
+#from qgis.core import QgsVectorLayer
 from qgis.PyQt import QtWidgets
 # Initialize Qt resources from file resources.py
 from .resources import *
@@ -69,6 +69,7 @@ class WtyczkaAPP:
         icon_metadata = 'tworzenie.png'
         icon_validator = 'walidacja.png'
         icon_setting = 'ustawienia.png'
+        self.listaPlikow = []
 
 
         # region okna moduł app
@@ -128,10 +129,11 @@ class WtyczkaAPP:
         self.wektorInstrukcjaDialog.prev_btn.clicked.connect(self.wektorInstrukcjaDialog_prev_btn_clicked)
         self.wektorInstrukcjaDialog.saveLayer_btn.clicked.connect(self.showPopupSaveLayer)
         self.wektorInstrukcjaDialog.generateTemporaryLayer_btn.clicked.connect(self.showPopupGenerateLayer)
-        # self.wektorInstrukcjaDialog.chooseFile_btn.clicked.connect(self.openShpFile)
-        # self.wektorInstrukcjaDialog.chooseFile_btn.setFilter("%s" % QgsVectorLayer)
-        self.wektorInstrukcjaDialog.chooseFile_btn.fileChanged.connect(self.openQgsFile)
-        self.wektorInstrukcjaDialog.layers_comboBox.layerChanged.connect(self.selectQgsLayer)
+        self.wektorInstrukcjaDialog.chooseFile_btn.clicked.connect(self.openFile)
+        #self.wektorInstrukcjaDialog.chooseFile_btn.setFilter("%s" % QgsVectorLayer)
+        #self.wektorInstrukcjaDialog.chooseFile_btn.fileChanged.connect(self.openQgsFile)
+        #self.wektorInstrukcjaDialog.layers_comboBox.layerChanged.connect(self.selectQgsLayer)
+        #setSdditionalItems to combobox
 
         self.wektorFormularzDialog.prev_btn.clicked.connect(self.wektorFormularzDialog_prev_btn_clicked)
         self.wektorFormularzDialog.next_btn.clicked.connect(self.wektorFormularzDialog_next_btn_clicked)
@@ -156,8 +158,9 @@ class WtyczkaAPP:
         self.zbiorPrzygotowanieDialog.validateAndGenerate_btn.clicked.connect(self.showPopupGenerate2)
         self.zbiorPrzygotowanieDialog.addElement_btn.clicked.connect(self.addTableContentSet)
         self.zbiorPrzygotowanieDialog.deleteElement_btn.clicked.connect(self.deleteTableContentSet)
-        header_zbior = self.zbiorPrzygotowanieDialog.appTable_widget.horizontalHeader()
+        header_zbior = self.zbiorPrzygotowanieDialog.appTable_widget.horizontalHeader() #auto resize kolumn
         header_zbior.setSectionResizeMode(0, QtWidgets.QHeaderView.ResizeToContents)
+        self.zbiorPrzygotowanieDialog.addFile_widget.setFilter("*.gml")
         # endregion
 
         # region okno moduł metadata
@@ -179,6 +182,9 @@ class WtyczkaAPP:
 
         self.metadaneDialog.server_checkBox.stateChanged.connect(self.server_checkBoxChangedAction)
         self.metadaneDialog.email_checkBox.stateChanged.connect(self.email_checkBoxChangedAction)
+
+        self.metadaneDialog.chooseFile_widget.setFilter("*.xml")
+        self.metadaneDialog.chooseSet_widget.setFilter("*.gml")
         # endregion
 
         # region okno moduł validator
@@ -197,6 +203,9 @@ class WtyczkaAPP:
         self.walidacjaDialog.validateGML_checkBox.stateChanged.connect(self.gml_checkBoxChangedAction)
         self.walidacjaDialog.validateXML_checkBox.stateChanged.connect(self.xml_checkBoxChangedAction)
         self.walidacjaDialog.close_btn.clicked.connect(self.walidacjaDialog.close)
+
+        self.walidacjaDialog.chooseXML_widget.setFilter("*.xml")
+        self.walidacjaDialog.chooseGML_widget.setFilter("*.gml")
         # endregion
 
     def addAction(self, icon_path, text, callback):
@@ -446,18 +455,30 @@ class WtyczkaAPP:
             self.prevDlg.close()
         self.activeDlg.show()
 
+    #działa, ale trzeba dodać również inne rozszerzenia
     def openShpFile(self):
         shpFile = str(QFileDialog.getOpenFileName(filter=("Shapefiles (*.shp)"))[0])
         self.wektorInstrukcjaDialog.label.setText(shpFile)
         if shpFile is not None:
             self.iface.addVectorLayer(shpFile, str.split(os.path.basename(shpFile), ".")[0], "ogr")
 
+    #setAdditionalItems nie działa, niepoprawny argument
+    #dodać inne rozszerzenia
+    def openFile(self):
+        shpFile = str(QFileDialog.getOpenFileName(filter=("Shapefiles (*.shp)"))[0])
+        #self.listaPlikow.append(shpFile)
+        #self.wektorInstrukcjaDialog.layers_comboBox.setAdditionalItems(self.listaPlikow)
+        if shpFile:
+            self.iface.addVectorLayer(shpFile, str.split(os.path.basename(shpFile), ".")[0], "ogr")
+
+    #niepotrzebne, było używane do QgsFileWidget - obecnie jest PushButton
     def openQgsFile(self):
         shpFile = self.wektorInstrukcjaDialog.chooseFile_btn.filePath()
         self.wektorInstrukcjaDialog.label.setText(shpFile)
         if shpFile is not None:
             self.iface.addVectorLayer(shpFile, str.split(os.path.basename(shpFile), ".")[0], "ogr")
 
+    #wybór warstwy z QgsMapLayerComboBox
     def selectQgsLayer(self):
         # co jak użytkownik usunie wszystkie warstwy??
         aktywna_warstwa = self.wektorInstrukcjaDialog.layers_comboBox.currentLayer()

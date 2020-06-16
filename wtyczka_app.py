@@ -55,8 +55,7 @@ class WtyczkaAPP(AppModule):
         # initialize plugin directory
         self.plugin_dir = os.path.dirname(__file__)
 
-        self.activeDlg = None
-        self.prevDlg = None
+
         # Declare instance attributes
         self.actions = []
 
@@ -241,12 +240,7 @@ class WtyczkaAPP(AppModule):
 
     """Helper methods"""
     # region Helper methods
-    def openNewDialog(self, dlg):
-        self.prevDlg = self.activeDlg
-        self.activeDlg = dlg
-        if self.prevDlg:
-            self.prevDlg.close()
-        self.activeDlg.show()
+
 
     #działa, ale trzeba dodać również inne rozszerzenia
     def openShpFile(self):

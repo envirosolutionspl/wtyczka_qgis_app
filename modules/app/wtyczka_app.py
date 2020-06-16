@@ -12,7 +12,6 @@ class AppModule(BaseModule):
     metadaneDialog = None
 
     def __init__(self, iface):
-        super(BaseModule, self).__init__()
         self.iface = iface
 
         # region okna moduł app

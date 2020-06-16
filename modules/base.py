@@ -1,4 +1,9 @@
 class BaseModule:
     listaOkienek = []
-    def __init__(self):
-        pass
+    activeDlg = None
+
+    def openNewDialog(self, dlg):
+        if self.activeDlg:
+            self.activeDlg.close()
+        self.activeDlg = dlg
+        self.activeDlg.show()

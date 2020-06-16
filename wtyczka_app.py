@@ -44,10 +44,11 @@ class WtyczkaAPP(AppModule, MetadataModule, ValidatorModule):
     """QGIS Plugin Implementation."""
 
     def __init__(self, iface):
+
         # wczytanie modułów
-        super(AppModule, self).__init__(iface)
-        super(MetadataModule, self).__init__(iface)
-        super(ValidatorModule, self).__init__(iface)
+        AppModule.__init__(self, iface)
+        MetadataModule.__init__(self, iface)
+        ValidatorModule.__init__(self, iface)
 
         # Save reference to the QGIS interface
         self.iface = iface

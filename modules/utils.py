@@ -1,6 +1,5 @@
 from PyQt5.QtWidgets import QMessageBox
 
-@staticmethod
 def showPopup(title, text, icon=QMessageBox.Information):
     msg = QMessageBox()
     msg.setWindowTitle(title)

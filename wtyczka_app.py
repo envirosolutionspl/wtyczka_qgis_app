@@ -31,7 +31,7 @@ from .resources import *
 # Import the code for the dialog
 from .modules.app.wtyczka_app import AppModule
 from .modules.metadata.wtyczka_app import MetadataModule
-from .modules.validator import WalidacjaDialog
+from .modules.validator.wtyczka_app import ValidatorModule
 from .modules.utils import showPopup
 
 import os
@@ -40,12 +40,14 @@ PLUGIN_NAME = 'Wtyczka APP'
 PLUGIN_VERSION = '0.1'
 
 
-class WtyczkaAPP(AppModule, MetadataModule):
+class WtyczkaAPP(AppModule, MetadataModule, ValidatorModule):
     """QGIS Plugin Implementation."""
 
     def __init__(self, iface):
         # wczytanie modułów
         super(AppModule, self).__init__(iface)
+        super(MetadataModule, self).__init__(iface)
+        super(ValidatorModule, self).__init__(iface)
 
         # Save reference to the QGIS interface
         self.iface = iface
@@ -59,23 +61,7 @@ class WtyczkaAPP(AppModule, MetadataModule):
         self.listaPlikow = []
 
 
-        # region okno moduł validator
-        self.walidacjaDialog = WalidacjaDialog()
-        # endregion
 
-        # region eventy moduł validator
-        self.walidacjaDialog.prev_btn.clicked.connect(self.walidacjaDialog_prev_btn_clicked)
-
-        self.walidacjaDialog.close_btn.setEnabled(False)
-        self.walidacjaDialog.export_btn.clicked.connect(self.showPopupExport)
-        self.walidacjaDialog.validate_btn.clicked.connect(self.walidacjaDialog_validate_btn_clicked)
-        self.walidacjaDialog.validateGML_checkBox.stateChanged.connect(self.gml_checkBoxChangedAction)
-        self.walidacjaDialog.validateXML_checkBox.stateChanged.connect(self.xml_checkBoxChangedAction)
-        self.walidacjaDialog.close_btn.clicked.connect(self.walidacjaDialog.close)
-
-        self.walidacjaDialog.chooseXML_widget.setFilter("*.xml")
-        self.walidacjaDialog.chooseGML_widget.setFilter("*.gml")
-        # endregion
 
     def addAction(self, icon_path, text, callback):
         m = self.toolButton.menu()
@@ -148,30 +134,6 @@ class WtyczkaAPP(AppModule, MetadataModule):
         self.walidacjaDialog.prev_btn.setEnabled(False)
     # endregion
 
-    """Event handlers"""
-
-
-
-    # region walidacjaDialog
-    def walidacjaDialog_prev_btn_clicked(self):
-        self.openNewDialog(self.listaOkienek.pop())
-
-    def walidacjaDialog_validate_btn_clicked(self):
-        self.showPopupValidate()
-        self.walidacjaDialog.close_btn.setEnabled(True)
-
-    def xml_checkBoxChangedAction(self, state):
-        if (QtCore.Qt.Checked == state):
-            self.walidacjaDialog.chooseXML_widget.setEnabled(True)
-        else:
-            self.walidacjaDialog.chooseXML_widget.setEnabled(False)
-
-    def gml_checkBoxChangedAction(self, state):
-        if (QtCore.Qt.Checked == state):
-            self.walidacjaDialog.chooseGML_widget.setEnabled(True)
-        else:
-            self.walidacjaDialog.chooseGML_widget.setEnabled(False)
-    # endregion
 
     """Helper methods"""
     # region Helper methods
@@ -183,7 +145,6 @@ class WtyczkaAPP(AppModule, MetadataModule):
         self.wektorInstrukcjaDialog.label.setText(shpFile)
         if shpFile is not None:
             self.iface.addVectorLayer(shpFile, str.split(os.path.basename(shpFile), ".")[0], "ogr")
-
 
     #niepotrzebne, było używane do QgsFileWidget - obecnie jest PushButton
     def openQgsFile(self):
@@ -208,12 +169,4 @@ class WtyczkaAPP(AppModule, MetadataModule):
 
     def showPopupSaveLayer(self):
         showPopup("Zapisz warstwę", "Poprawnie zapisano warstwę.")
-
-    def showPopupExport(self):
-        showPopup("Wyeksportuj plik z błędami", "Poprawnie wyeksportowano plik z błędami.")
-
-
-
-    def showPopupValidate(self):
-        showPopup("Waliduj pliki", "Poprawnie zwalidowano wszystkie wgrane pliki.")
     # endregion

@@ -42,9 +42,8 @@ import os
 
 PLUGIN_NAME = 'Wtyczka APP'
 PLUGIN_VERSION = '0.1'
-title_question ='Praca z APP / zbiorem APP'
+
 title_app = 'Praca z APP'
-title_set = 'Tworzenie zbioru APP'
 title_metadata = 'Tworzenie / aktualizacja metadanych'
 title_validator = 'Walidacja GML / XML'
 title_settings = 'Ustawienia'
@@ -74,44 +73,14 @@ class WtyczkaAPP:
 
         # region okna moduł app
         self.pytanieAppDialog = PytanieAppDialog()
-        self.pytanieAppDialog.setWindowTitle('%s' % (title_question))
-        self.pytanieAppDialog.setWindowIcon(QtGui.QIcon(':/plugins/wtyczka_app/img/logo.png'))
-        self.pytanieAppDialog.setWindowFlag(Qt.WindowMinMaxButtonsHint, True)
-
         self.zbiorPrzygotowanieDialog = ZbiorPrzygotowanieDialog()
-        self.zbiorPrzygotowanieDialog.setWindowTitle('%s' % (title_set))
-        self.zbiorPrzygotowanieDialog.setWindowIcon(QtGui.QIcon('%s%s' % (icon_path, icon_app)))
-        self.zbiorPrzygotowanieDialog.setWindowFlag(Qt.WindowMinMaxButtonsHint, True)
-
         self.rasterInstrukcjaDialog = RasterInstrukcjaDialog()
-        self.rasterInstrukcjaDialog.setWindowTitle('%s (krok 1 z 6)' % (title_app))
-        self.rasterInstrukcjaDialog.setWindowIcon(QtGui.QIcon('%s%s' % (icon_path, icon_app)))
-        self.rasterInstrukcjaDialog.setWindowFlag(Qt.WindowMinMaxButtonsHint, True)
-
         self.rasterFormularzDialog = RasterFormularzDialog()
-        self.rasterFormularzDialog.setWindowTitle('%s (krok 2 z 6)' % (title_app))
-        self.rasterFormularzDialog.setWindowIcon(QtGui.QIcon('%s%s' % (icon_path, icon_app)))
-        self.rasterFormularzDialog.setWindowFlag(Qt.WindowMinMaxButtonsHint, True)
-
         self.wektorInstrukcjaDialog = WektorInstrukcjaDialog()
-        self.wektorInstrukcjaDialog.setWindowTitle('%s (krok 3 z 6)' % (title_app))
-        self.wektorInstrukcjaDialog.setWindowIcon(QtGui.QIcon('%s%s' % (icon_path, icon_app)))
-        self.wektorInstrukcjaDialog.setWindowFlag(Qt.WindowMinMaxButtonsHint, True)
-
         self.wektorFormularzDialog = WektorFormularzDialog()
-        self.wektorFormularzDialog.setWindowTitle('%s (krok 4 z 6)' % (title_app))
-        self.wektorFormularzDialog.setWindowIcon(QtGui.QIcon('%s%s' % (icon_path, icon_app)))
-        self.wektorFormularzDialog.setWindowFlag(Qt.WindowMinMaxButtonsHint, True)
-
         self.dokumentyFormularzDialog = DokumentyFormularzDialog()
-        self.dokumentyFormularzDialog.setWindowTitle('%s (krok 5 z 6)' % (title_app))
-        self.dokumentyFormularzDialog.setWindowIcon(QtGui.QIcon('%s%s' % (icon_path, icon_app)))
-        self.dokumentyFormularzDialog.setWindowFlag(Qt.WindowMinMaxButtonsHint, True)
-
         self.generowanieGMLDialog = GenerowanieGMLDialog()
-        self.generowanieGMLDialog.setWindowTitle('%s (krok 6 z 6)' % (title_app))
-        self.generowanieGMLDialog.setWindowIcon(QtGui.QIcon('%s%s' % (icon_path, icon_app)))
-        self.generowanieGMLDialog.setWindowFlag(Qt.WindowMinMaxButtonsHint, True)
+
         # endregion
 
         # region eventy moduł app

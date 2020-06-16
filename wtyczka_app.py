@@ -23,17 +23,14 @@
 """
 from PyQt5.QtWidgets import QDialog, QFileDialog
 
-from qgis.PyQt import QtGui
-from qgis.PyQt.QtCore import QSettings, QTranslator, QCoreApplication, Qt
 from qgis.PyQt.QtGui import QIcon
 from qgis.PyQt.QtWidgets import QAction, QToolButton, QMenu
-#from qgis.core import QgsVectorLayer
 
 # Initialize Qt resources from file resources.py
 from .resources import *
 # Import the code for the dialog
 from .modules.app.wtyczka_app import AppModule
-from .modules.metadata import MetadaneDialog
+from .modules.metadata.wtyczka_app import MetadataModule
 from .modules.validator import WalidacjaDialog
 from .modules.utils import showPopup
 
@@ -43,7 +40,7 @@ PLUGIN_NAME = 'Wtyczka APP'
 PLUGIN_VERSION = '0.1'
 
 
-class WtyczkaAPP(AppModule):
+class WtyczkaAPP(AppModule, MetadataModule):
     """QGIS Plugin Implementation."""
 
     def __init__(self, iface):
@@ -61,30 +58,6 @@ class WtyczkaAPP(AppModule):
 
         self.listaPlikow = []
 
-        # region okno moduł metadata
-        self.metadaneDialog = MetadaneDialog()
-        # endregion
-
-        # region eventy moduł metadata
-        self.metadaneDialog.prev_btn.clicked.connect(self.metadaneDialog_prev_btn_clicked)
-        self.metadaneDialog.next_btn.clicked.connect(self.metadaneDialog_next_btn_clicked)
-
-        self.metadaneDialog.send_btn.clicked.connect(self.showPopupSend)
-        self.metadaneDialog.validateAndSave_btn.clicked.connect(self.showPopupValidateAndSave)
-
-        self.metadaneDialog.newMetadata_radioButton.toggled.connect(self.newMetadataRadioButton_toggled)
-        self.metadaneDialog.existingMetadata_radioButton.toggled.connect(self.existingMetadataRadioButton_toggled)
-
-        self.metadaneDialog.server_checkBox.stateChanged.connect(self.server_checkBoxChangedAction)
-        self.metadaneDialog.email_checkBox.stateChanged.connect(self.email_checkBoxChangedAction)
-
-        self.metadaneDialog.newFile_widget.clicked.connect(self.saveMetaFile)
-        self.metadaneDialog.chooseFile_widget.clicked.connect(self.openMetaFile)
-
-        #self.metadaneDialog.chooseFile_widget.setFilter("*.xml")
-        #self.metadaneDialog.chooseSet_widget.setFilter("*.gml")
-        #self.metadaneDialog.newFile_widget.clicked.connect(self.getSaveFileName(filter="*.xml")[0])
-        # endregion
 
         # region okno moduł validator
         self.walidacjaDialog = WalidacjaDialog()
@@ -177,45 +150,7 @@ class WtyczkaAPP(AppModule):
 
     """Event handlers"""
 
-    # region metadaneDialog
-    def metadaneDialog_prev_btn_clicked(self):
-        self.openNewDialog(self.listaOkienek.pop())
 
-    def metadaneDialog_next_btn_clicked(self):
-        self.openNewDialog(self.walidacjaDialog)
-        self.listaOkienek.append(self.metadaneDialog)
-        self.walidacjaDialog.prev_btn.setEnabled(True)
-
-    def newMetadataRadioButton_toggled(self, enabled):
-        if enabled:
-            self.metadaneDialog.newFile_widget.setEnabled(True)
-            self.metadaneDialog.chooseFile_widget.setEnabled(False)
-            self.metadaneDialog.file_lbl.setText("...")
-
-    def existingMetadataRadioButton_toggled(self, enabled):
-        if enabled:
-            self.metadaneDialog.newFile_widget.setEnabled(False)
-            self.metadaneDialog.chooseFile_widget.setEnabled(True)
-            self.metadaneDialog.file_lbl.setText("...")
-
-    def server_checkBoxChangedAction(self, state):
-        if (QtCore.Qt.Checked == state):
-            self.metadaneDialog.send_btn.setEnabled(True)
-        else:
-            if self.metadaneDialog.email_checkBox.isChecked():
-                self.metadaneDialog.send_btn.setEnabled(True)
-            else:
-                self.metadaneDialog.send_btn.setEnabled(False)
-
-    def email_checkBoxChangedAction(self, state):
-        if (QtCore.Qt.Checked == state):
-            self.metadaneDialog.send_btn.setEnabled(True)
-        else:
-            if self.metadaneDialog.server_checkBox.isChecked():
-                self.metadaneDialog.send_btn.setEnabled(True)
-            else:
-                self.metadaneDialog.send_btn.setEnabled(False)
-    # endregion
 
     # region walidacjaDialog
     def walidacjaDialog_prev_btn_clicked(self):
@@ -249,15 +184,6 @@ class WtyczkaAPP(AppModule):
         if shpFile is not None:
             self.iface.addVectorLayer(shpFile, str.split(os.path.basename(shpFile), ".")[0], "ogr")
 
-    def saveMetaFile(self):
-        self.outputPlik = QFileDialog.getSaveFileName(filter="*.xml")[0]
-        if self.outputPlik != '':
-            self.metadaneDialog.file_lbl.setText(self.outputPlik)
-
-    def openMetaFile(self):
-        self.plik = QFileDialog.getOpenFileName(filter="*.xml")[0]
-        if self.plik != '':
-            self.metadaneDialog.file_lbl.setText(self.plik)
 
     #niepotrzebne, było używane do QgsFileWidget - obecnie jest PushButton
     def openQgsFile(self):
@@ -286,11 +212,7 @@ class WtyczkaAPP(AppModule):
     def showPopupExport(self):
         showPopup("Wyeksportuj plik z błędami", "Poprawnie wyeksportowano plik z błędami.")
 
-    def showPopupValidateAndSave(self):
-        showPopup("Zwaliduj i zapisz plik XML", "Poprawnie zwalidowano oraz zapisano plik XML.")
 
-    def showPopupSend(self):
-        showPopup("Wyśli plik", "Wysłano plik XML zawierający metadane.")
 
     def showPopupValidate(self):
         showPopup("Waliduj pliki", "Poprawnie zwalidowano wszystkie wgrane pliki.")

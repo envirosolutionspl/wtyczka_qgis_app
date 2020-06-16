@@ -9,11 +9,13 @@ import os
 
 from PyQt5.QtWidgets import QMessageBox
 
-from qgis.PyQt import uic
+from qgis.PyQt.QtCore import Qt
+from qgis.PyQt import uic, QtGui
 from qgis.PyQt import QtWidgets
 from .. import QDialogOverride
 
-
+title_validator = 'Walidacja GML / XML'
+icon_validator = ':/plugins/wtyczka_app/img/walidacja.png'
 
 # This loads your .ui file so that PyQt can populate your plugin with the elements from Qt Designer
 FORM_CLASS, _ = uic.loadUiType(os.path.join(
@@ -25,3 +27,6 @@ class WalidacjaDialog(QDialogOverride, FORM_CLASS):
         """Constructor."""
         super(WalidacjaDialog, self).__init__(parent)
         self.setupUi(self)
+        self.setWindowTitle(title_validator)
+        self.setWindowIcon(QtGui.QIcon(icon_validator))
+        self.setWindowFlag(Qt.WindowMinMaxButtonsHint, True)

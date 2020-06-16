@@ -43,12 +43,6 @@ import os
 PLUGIN_NAME = 'Wtyczka APP'
 PLUGIN_VERSION = '0.1'
 
-title_app = 'Praca z APP'
-title_metadata = 'Tworzenie / aktualizacja metadanych'
-title_validator = 'Walidacja GML / XML'
-title_settings = 'Ustawienia'
-
-
 class WtyczkaAPP:
     """QGIS Plugin Implementation."""
 
@@ -63,13 +57,8 @@ class WtyczkaAPP:
         # Declare instance attributes
         self.actions = []
         self.listaOkienek = []
-        icon_path = ':/plugins/wtyczka_app/img/'
-        icon_app = 'praca_z_app.png'
-        icon_metadata = 'tworzenie.png'
-        icon_validator = 'walidacja.png'
-        icon_setting = 'ustawienia.png'
-        self.listaPlikow = []
 
+        self.listaPlikow = []
 
         # region okna moduł app
         self.pytanieAppDialog = PytanieAppDialog()
@@ -80,7 +69,6 @@ class WtyczkaAPP:
         self.wektorFormularzDialog = WektorFormularzDialog()
         self.dokumentyFormularzDialog = DokumentyFormularzDialog()
         self.generowanieGMLDialog = GenerowanieGMLDialog()
-
         # endregion
 
         # region eventy moduł app
@@ -130,9 +118,6 @@ class WtyczkaAPP:
 
         # region okno moduł metadata
         self.metadaneDialog = MetadaneDialog()
-        self.metadaneDialog.setWindowTitle('%s' % (title_metadata))
-        self.metadaneDialog.setWindowIcon(QtGui.QIcon('%s%s' % (icon_path, icon_metadata)))
-        self.metadaneDialog.setWindowFlag(Qt.WindowMinMaxButtonsHint, True)
         # endregion
 
         # region eventy moduł metadata
@@ -158,9 +143,6 @@ class WtyczkaAPP:
 
         # region okno moduł validator
         self.walidacjaDialog = WalidacjaDialog()
-        self.walidacjaDialog.setWindowTitle('%s' % (title_validator))
-        self.walidacjaDialog.setWindowIcon(QtGui.QIcon('%s%s' % (icon_path, icon_validator)))
-        self.walidacjaDialog.setWindowFlag(Qt.WindowMinMaxButtonsHint, True)
         # endregion
 
         # region eventy moduł validator

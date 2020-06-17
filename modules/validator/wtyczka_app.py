@@ -49,9 +49,13 @@ class ValidatorModule(BaseModule):
     def gml_checkBoxChangedAction(self, state):
         if Qt.Checked == state:
             self.walidacjaDialog.chooseGML_widget.setEnabled(True)
+            self.walidacjaDialog.setGML_radioButton.setEnabled(True)
+            self.walidacjaDialog.appGML_radioButton.setEnabled(True)
         else:
             self.walidacjaDialog.chooseGML_widget.setEnabled(False)
-    # endregion
+            self.walidacjaDialog.setGML_radioButton.setEnabled(False)
+            self.walidacjaDialog.appGML_radioButton.setEnabled(False)
+            # endregion
 
     """Helper methods"""
 

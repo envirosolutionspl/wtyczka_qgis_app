@@ -8,10 +8,10 @@ Okna dialogowe modułu APP
 import os, sys
 
 import PyQt5
-from PyQt5.QtWidgets import QMessageBox, QPushButton
+from PyQt5.QtWidgets import *
 from qgis.PyQt.QtCore import Qt
 from qgis.PyQt import uic, QtGui
-from qgis.PyQt import QtWidgets
+from PyQt5.QtXmlPatterns import *
 from .. import QDialogOverride
 
 title_question ='Praca z APP / zbiorem APP'
@@ -74,6 +74,12 @@ class RasterInstrukcjaDialog(QDialogOverride, FORM_CLASS2):
         self.setWindowFlag(Qt.WindowMinMaxButtonsHint, True)
 
 
+class FormElement:
+    def __init__(self, name, type='', documentation=''):
+        self.name = name
+        self.type = type
+        self.documentation = documentation
+
 class RasterFormularzDialog(QDialogOverride, FORM_CLASS3):
     def __init__(self, parent=None):
         """Constructor."""
@@ -82,7 +88,42 @@ class RasterFormularzDialog(QDialogOverride, FORM_CLASS3):
         self.setWindowTitle('%s (krok 2 z 6)' % title_app)
         self.setWindowIcon(QtGui.QIcon(icon_path))
         self.setWindowFlag(Qt.WindowMinMaxButtonsHint, True)
+        self.clearForm()
+        self.createForm()
 
+    def clearForm(self):
+        self.form_scrollArea.takeWidget()
+
+    def createForm(self):
+        formElements = [
+            FormElement('test1'),
+            FormElement('test2'),
+            FormElement('test3'),
+            FormElement('test4'),
+            FormElement('test5'),
+            FormElement('test6'),
+            FormElement('test7'),
+            FormElement('test8'),
+            FormElement('test9'),
+            FormElement('test10'),
+            FormElement('test11'),
+            FormElement('test12'),
+        ]
+        wgtMain = QWidget()
+        vbox = QVBoxLayout(wgtMain)
+        for formElement in formElements:
+            hbox = QHBoxLayout()
+            lbl = QLabel(text=formElement.name)
+            lbl.setObjectName(formElement.name + '_lbl')
+            led = QLineEdit()
+            led.setObjectName(formElement.name + '_lineEdit')
+            btn = QPushButton(text='?')
+            btn.setObjectName(formElement.name + 'Help_btn')
+            hbox.addWidget(lbl)
+            hbox.addWidget(led)
+            hbox.addWidget(btn)
+            vbox.addLayout(hbox)
+        self.form_scrollArea.setWidget(wgtMain)
 
 class WektorInstrukcjaDialog(QDialogOverride, FORM_CLASS7):
     def __init__(self, parent=None):

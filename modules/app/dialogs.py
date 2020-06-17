@@ -92,7 +92,7 @@ class WektorInstrukcjaDialog(QDialogOverride, FORM_CLASS7):
         self.setWindowTitle('%s (krok 3 z 6)' % title_app)
         self.setWindowIcon(QtGui.QIcon(icon_path))
         self.setWindowFlag(Qt.WindowMinMaxButtonsHint, True)
-
+        self.layers_comboBox.setAllowEmptyLayer(True)
 
 class WektorFormularzDialog(QDialogOverride, FORM_CLASS5):
     def __init__(self, parent=None):

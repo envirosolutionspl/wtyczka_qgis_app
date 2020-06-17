@@ -22,7 +22,7 @@
  ***************************************************************************/
 """
 from PyQt5.QtWidgets import QDialog, QFileDialog
-
+from .modules import xsd
 from qgis.PyQt.QtGui import QIcon
 from qgis.PyQt.QtWidgets import QAction, QToolButton, QMenu
 
@@ -61,6 +61,7 @@ class WtyczkaAPP(AppModule, MetadataModule, ValidatorModule):
 
         self.listaPlikow = []
 
+        xsd.validateXml()
 
 
 

@@ -64,7 +64,6 @@ class WtyczkaAPP(AppModule, MetadataModule, ValidatorModule):
         xsd.validateXml()
 
 
-
     def addAction(self, icon_path, text, callback):
         m = self.toolButton.menu()
         action = QAction(

@@ -13,6 +13,8 @@ from qgis.PyQt.QtCore import Qt
 from qgis.PyQt import uic, QtGui
 from PyQt5.QtXmlPatterns import *
 from .. import QDialogOverride
+from ..models import FormElement
+from .. import utils
 
 title_question ='Praca z APP / zbiorem APP'
 title_app = 'Praca z APP'
@@ -74,12 +76,6 @@ class RasterInstrukcjaDialog(QDialogOverride, FORM_CLASS2):
         self.setWindowFlag(Qt.WindowMinMaxButtonsHint, True)
 
 
-class FormElement:
-    def __init__(self, name, type='', documentation=''):
-        self.name = name
-        self.type = type
-        self.documentation = documentation
-
 class RasterFormularzDialog(QDialogOverride, FORM_CLASS3):
     def __init__(self, parent=None):
         """Constructor."""
@@ -89,26 +85,27 @@ class RasterFormularzDialog(QDialogOverride, FORM_CLASS3):
         self.setWindowIcon(QtGui.QIcon(icon_path))
         self.setWindowFlag(Qt.WindowMinMaxButtonsHint, True)
         self.clearForm()
-        self.createForm()
+        # self.createForm(formElements = [
+        #     FormElement('test1'),
+        #     FormElement('test2'),
+        #     FormElement('test3'),
+        #     FormElement('test4'),
+        #     FormElement('test5'),
+        #     FormElement('test6'),
+        #     FormElement('test7'),
+        #     FormElement('test8'),
+        #     FormElement('test9'),
+        #     FormElement('test10'),
+        #     FormElement('test11'),
+        #     FormElement('test12'),
+        # ])
+        self.createForm(utils.createFormElementsRysunekAPP())
 
     def clearForm(self):
         self.form_scrollArea.takeWidget()
 
-    def createForm(self):
-        formElements = [
-            FormElement('test1'),
-            FormElement('test2'),
-            FormElement('test3'),
-            FormElement('test4'),
-            FormElement('test5'),
-            FormElement('test6'),
-            FormElement('test7'),
-            FormElement('test8'),
-            FormElement('test9'),
-            FormElement('test10'),
-            FormElement('test11'),
-            FormElement('test12'),
-        ]
+    def createForm(self, formElements):
+
         wgtMain = QWidget()
         vbox = QVBoxLayout(wgtMain)
         for formElement in formElements:
@@ -124,6 +121,8 @@ class RasterFormularzDialog(QDialogOverride, FORM_CLASS3):
             hbox.addWidget(btn)
             vbox.addLayout(hbox)
         self.form_scrollArea.setWidget(wgtMain)
+
+
 
 class WektorInstrukcjaDialog(QDialogOverride, FORM_CLASS7):
     def __init__(self, parent=None):

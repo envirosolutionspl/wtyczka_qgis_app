@@ -10,10 +10,10 @@ import os, sys
 import PyQt5
 from PyQt5.QtWidgets import *
 
-from qgis.PyQt.QtCore import Qt
+from qgis.PyQt.QtCore import Qt, QRegExp
 from qgis.PyQt import uic, QtGui
 from PyQt5.QtXmlPatterns import *
-from qgis.gui import QgsDateTimeEdit
+from qgis.gui import QgsDateTimeEdit, QgsFilterLineEdit
 from .. import QDialogOverride
 from ..models import FormElement
 from .. import utils
@@ -112,9 +112,18 @@ class RasterFormularzDialog(QDialogOverride, FORM_CLASS3):
                 input = QgsDateTimeEdit()
                 input.setDisplayFormat('dd.MM.yyyy')
                 input.setObjectName(formElement.name + '_dateEdit')
-            else:
-                input = QLineEdit()
+            elif formElement.type == 'integer':
+                input = QgsFilterLineEdit()
+                input.setValidator(QtGui.QRegExpValidator(QRegExp("[0-9]*")))  # tylko liczby calkowite
                 input.setObjectName(formElement.name + '_lineEdit')
+            elif formElement.type == 'anyURI':
+                input = QgsFilterLineEdit()
+                input.setValidator(QtGui.QRegExpValidator(QRegExp(r"\S*")))  # tylko liczby calkowite
+                input.setObjectName(formElement.name + '_lineEdit')
+            else:
+                input = QgsFilterLineEdit()
+                input.setObjectName(formElement.name + '_lineEdit')
+            input.setToolTip(formElement.type)
             hbox.addWidget(input)
 
             # PushButton "?"

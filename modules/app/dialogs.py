@@ -85,20 +85,6 @@ class RasterFormularzDialog(QDialogOverride, FORM_CLASS3):
         self.setWindowIcon(QtGui.QIcon(icon_path))
         self.setWindowFlag(Qt.WindowMinMaxButtonsHint, True)
         self.clearForm()
-        # self.createForm(formElements = [
-        #     FormElement('test1'),
-        #     FormElement('test2'),
-        #     FormElement('test3'),
-        #     FormElement('test4'),
-        #     FormElement('test5'),
-        #     FormElement('test6'),
-        #     FormElement('test7'),
-        #     FormElement('test8'),
-        #     FormElement('test9'),
-        #     FormElement('test10'),
-        #     FormElement('test11'),
-        #     FormElement('test12'),
-        # ])
         self.createForm(utils.createFormElementsRysunekAPP())
 
     def clearForm(self):
@@ -109,16 +95,32 @@ class RasterFormularzDialog(QDialogOverride, FORM_CLASS3):
         wgtMain = QWidget()
         vbox = QVBoxLayout(wgtMain)
         for formElement in formElements:
-            hbox = QHBoxLayout()
-            lbl = QLabel(text=formElement.name)
+            hbox = QHBoxLayout()  # wiersz formularza
+
+            # label
+            lbl = QLabel(text=formElement.name + ('*' if formElement.minOccurs else ''))
             lbl.setObjectName(formElement.name + '_lbl')
-            led = QLineEdit()
-            led.setObjectName(formElement.name + '_lineEdit')
+            hbox.addWidget(lbl)
+
+            # pole wprowadzania
+            if formElement.type == 'dateTime':
+                input = QDateTimeEdit()
+                input.setObjectName(formElement.name + '_dateTimeEdit')
+            elif formElement.type == 'date':
+                input = QDateEdit()
+                input.setObjectName(formElement.name + '_dateEdit')
+            else:
+                input = QLineEdit()
+                input.setObjectName(formElement.name + '_lineEdit')
+            hbox.addWidget(input)
+
+            # PushButton "?"
             btn = QPushButton(text='?')
             btn.setObjectName(formElement.name + 'Help_btn')
-            hbox.addWidget(lbl)
-            hbox.addWidget(led)
+            btn.setMaximumWidth(50)
             hbox.addWidget(btn)
+
+
             vbox.addLayout(hbox)
         self.form_scrollArea.setWidget(wgtMain)
 

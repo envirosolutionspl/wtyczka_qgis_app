@@ -1,5 +1,5 @@
 class FormElement:
-    def __init__(self, name, type='', minOccurs=-1, documentation=''):
+    def __init__(self, name, type='', minOccurs=1, documentation=''):
         self.setName(name)
         self.setType(type)
         self.setMinOccurs(minOccurs)
@@ -12,7 +12,7 @@ class FormElement:
         self.type = type
 
     def setMinOccurs(self, minOccurs):
-        self.minOccurs = minOccurs
+        self.minOccurs = int(minOccurs)
 
     def setDocumentation(self, documentation):
         self.documentation = documentation

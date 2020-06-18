@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:app="http://iip.mib.gov.pl/schemas/app/1.0" xmlns:gmd="http://www.isotc211.org/2005/gmd" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:gmlexr="http://www.opengis.net/gml/3.3/exr" targetNamespace="http://iip.mib.gov.pl/schemas/app/1.0" elementFormDefault="qualified" version="1.0">
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:app="http://zagospodarowanieprzestrzenne.gov.pl/schemas/app/1.0" xmlns:gmd="http://www.isotc211.org/2005/gmd" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:gmlexr="http://www.opengis.net/gml/3.3/exr" targetNamespace="http://zagospodarowanieprzestrzenne.gov.pl/schemas/app/1.0" elementFormDefault="qualified" version="1.0">
 	<import namespace="http://www.isotc211.org/2005/gmd" schemaLocation="http://schemas.opengis.net/iso/19139/20070417/gmd/gmd.xsd"/>
 	<import namespace="http://www.opengis.net/gml/3.2" schemaLocation="http://schemas.opengis.net/gml/3.2.1/gml.xsd"/>
 	<import namespace="http://www.opengis.net/gml/3.3/exr" schemaLocation="http://schemas.opengis.net/gml/3.3/extdEncRule.xsd"/>
@@ -83,7 +83,7 @@ KOMENTARZ 1. Atrybut ma zastosowanie tylko w przypadku dokumentów urzędowych b
 							<documentation>dziennik urzędowy: Nazwa dziennika urzędowego, w którym opublikowano dokument formalny.</documentation>
 						</annotation>
 					</element>
-					<element name="lacze" minOccurs="0" maxOccurs="unbounded" type="anyURI">
+					<element name="lacze" type="anyURI" minOccurs="0" maxOccurs="unbounded">
 						<annotation>
 							<documentation>łącze: Łącze (adres URL) pod którym dostępny jest tekst dokumentu formalnego.</documentation>
 						</annotation>
@@ -92,7 +92,7 @@ KOMENTARZ 1. Atrybut ma zastosowanie tylko w przypadku dokumentów urzędowych b
 						<annotation>
 							<documentation>przystąpienie: Odniesienie do aktu planowania przestrzennego w stosunku, do którego akt prawny ustanawia przystąpienie do jego sporządzenia.</documentation>
 							<appinfo>
-								<targetElement xmlns="http://www.opengis.net/gml/3.2">app:PlanZagospodarowaniaPrzestrzennego</targetElement>
+								<targetElement xmlns="http://www.opengis.net/gml/3.2">app:AktPlanowaniaPrzestrzennego</targetElement>
 								<reversePropertyName xmlns="http://www.opengis.net/gml/3.2">app:aktNormatywnyPrzystapienie</reversePropertyName>
 							</appinfo>
 						</annotation>
@@ -101,7 +101,7 @@ KOMENTARZ 1. Atrybut ma zastosowanie tylko w przypadku dokumentów urzędowych b
 						<annotation>
 							<documentation>uchwala: Odniesienie do aktu planowania przestrzennego, który akt prawny uchwala.</documentation>
 							<appinfo>
-								<targetElement xmlns="http://www.opengis.net/gml/3.2">app:PlanZagospodarowaniaPrzestrzennego</targetElement>
+								<targetElement xmlns="http://www.opengis.net/gml/3.2">app:AktPlanowaniaPrzestrzennego</targetElement>
 								<reversePropertyName xmlns="http://www.opengis.net/gml/3.2">app:aktNormatywnyUchwalajacy</reversePropertyName>
 							</appinfo>
 						</annotation>
@@ -110,7 +110,7 @@ KOMENTARZ 1. Atrybut ma zastosowanie tylko w przypadku dokumentów urzędowych b
 						<annotation>
 							<documentation>zmienia: Odniesienie do aktu planowania przestrzennego, który akt prawny zmienia.</documentation>
 							<appinfo>
-								<targetElement xmlns="http://www.opengis.net/gml/3.2">app:PlanZagospodarowaniaPrzestrzennego</targetElement>
+								<targetElement xmlns="http://www.opengis.net/gml/3.2">app:AktPlanowaniaPrzestrzennego</targetElement>
 								<reversePropertyName xmlns="http://www.opengis.net/gml/3.2">app:aktNormatywnyZmieniajacy</reversePropertyName>
 							</appinfo>
 						</annotation>
@@ -119,7 +119,7 @@ KOMENTARZ 1. Atrybut ma zastosowanie tylko w przypadku dokumentów urzędowych b
 						<annotation>
 							<documentation>uchyla: Odniesienie do aktu planowania przestrzennego, który akt prawny uchyla.</documentation>
 							<appinfo>
-								<targetElement xmlns="http://www.opengis.net/gml/3.2">app:PlanZagospodarowaniaPrzestrzennego</targetElement>
+								<targetElement xmlns="http://www.opengis.net/gml/3.2">app:AktPlanowaniaPrzestrzennego</targetElement>
 								<reversePropertyName xmlns="http://www.opengis.net/gml/3.2">app:aktNormatywnyUchylajacy</reversePropertyName>
 							</appinfo>
 						</annotation>
@@ -165,6 +165,11 @@ KOMENTARZ 01. Unikalność identyfikatora w przestrzeni nazw gwarantuje dostawca
 KOMENTARZ 01. Wartość atrybutu przestrzeń nazw powinna zawierać unikalny identyfikator zbioru danych przestrzennych do którego należy instancja typu obiektu.</documentation>
 				</annotation>
 			</element>
+			<element name="wersjaId" type="string">
+				<annotation>
+					<documentation>identyfikator wersji: Identyfikator poszczególnej wersji obiektu przestrzennego.</documentation>
+				</annotation>
+			</element>
 		</sequence>
 	</complexType>
 	<complexType name="IdentyfikatorPropertyType">
@@ -172,7 +177,7 @@ KOMENTARZ 01. Wartość atrybutu przestrzeń nazw powinna zawierać unikalny ide
 			<element ref="app:Identyfikator"/>
 		</sequence>
 	</complexType>
-	<element name="PlanZagospodarowaniaPrzestrzennego" type="app:PlanZagospodarowaniaPrzestrzennegoType" substitutionGroup="gml:AbstractFeature">
+	<element name="AktPlanowaniaPrzestrzennego" type="app:AktPlanowaniaPrzestrzennegoType" substitutionGroup="gml:AbstractFeature">
 		<annotation>
 			<documentation>Akt planowania przestrzennego: Reprezentacja aktu ustanawiającego i kształtującego politykę przestrzenną na terenie kraju, województwa, miejskiego obszaru funkcjonalnego ośrodka wojewódzkiego, obszaru związku metropolitalnego oraz gminy, którego tryb tworzenia, uchwalenia, a także jego zawartość reguluje ustawa z dnia 27 marca 2003 r. o planowaniu i zagospodarowaniu przestrzennym (Dz. U. z 2017 r. poz. 1073 oraz …) oraz ustawa z dnia 11 sierpnia 2001 r. o szczególnych zasadach odbudowy, remontów i rozbiórek obiektów budowlanych zniszczonych lub uszkodzonych w wyniku działania żywiołu (Dz. U. z 2018 r. poz. 1345). Do ww. aktów planowania przestrzennego należą:
 
@@ -197,7 +202,7 @@ Zasięg przestrzenny obiektu reprezentuje granicę obszaru, który jest objęty 
 </documentation>
 		</annotation>
 	</element>
-	<complexType name="PlanZagospodarowaniaPrzestrzennegoType">
+	<complexType name="AktPlanowaniaPrzestrzennegoType">
 		<complexContent>
 			<extension base="gml:AbstractFeatureType">
 				<sequence>
@@ -276,6 +281,11 @@ Komentarz 01. Dla poszczególnych typów aktu planowania przestrzennego atrybut 
 					<element name="zmiana" type="integer">
 						<annotation>
 							<documentation>zmiana: Informacja o ilości zmian aktu planowania przestrzennego lub wydanych dla niego rozstrzygnięć nadzorczych lub wyroków sądowych.</documentation>
+						</annotation>
+					</element>
+					<element name="mapaPodkladowa" type="app:MapaPodkladowaPropertyType">
+						<annotation>
+							<documentation>mapa podkładowa: Odniesienie do mapy podkładowej użytej do sporządzenia danego aktu planowania przestrzennego.</documentation>
 						</annotation>
 					</element>
 					<element name="zasiegPrzestrzenny" type="gml:MultiSurfacePropertyType">
@@ -373,9 +383,9 @@ KOMENTARZ 02. Za pośrednictwem asocjacji dokument może wskazywać wszystkie in
 			</extension>
 		</complexContent>
 	</complexType>
-	<complexType name="PlanZagospodarowaniaPrzestrzennegoPropertyType">
+	<complexType name="AktPlanowaniaPrzestrzennegoPropertyType">
 		<sequence minOccurs="0">
-			<element ref="app:PlanZagospodarowaniaPrzestrzennego"/>
+			<element ref="app:AktPlanowaniaPrzestrzennego"/>
 		</sequence>
 		<attributeGroup ref="gml:AssociationAttributeGroup"/>
 		<attributeGroup ref="gml:OwnershipAttributeGroup"/>
@@ -394,7 +404,7 @@ KOMENTARZ 02. Za pośrednictwem asocjacji dokument może wskazywać wszystkie in
 							<documentation>identyfikator: Zewnętrzny identyfikator obiektu dla obiektu.</documentation>
 						</annotation>
 					</element>
-					<element name="poczatekWersjiObiektu" type="dateTime" minOccurs="0">
+					<element name="poczatekWersjiObiektu" type="dateTime">
 						<annotation>
 							<documentation>początek wersji obiektu: Data i godzina, w której ta wersja obiektu została wprowadzona do zbioru lub zmieniona w tym zbiorze.</documentation>
 						</annotation>
@@ -450,7 +460,7 @@ KOMENTARZ 01. Układ odniesienia przestrzennego musi zostać podany zgodnie z EP
 						<annotation>
 							<documentation>plan: Odniesienie do aktu planowania przestrzennego dla którego obiekt stanowi część graficzną.</documentation>
 							<appinfo>
-								<targetElement xmlns="http://www.opengis.net/gml/3.2">app:PlanZagospodarowaniaPrzestrzennego</targetElement>
+								<targetElement xmlns="http://www.opengis.net/gml/3.2">app:AktPlanowaniaPrzestrzennego</targetElement>
 								<reversePropertyName xmlns="http://www.opengis.net/gml/3.2">app:rysunek</reversePropertyName>
 							</appinfo>
 						</annotation>
@@ -465,5 +475,41 @@ KOMENTARZ 01. Układ odniesienia przestrzennego musi zostać podany zgodnie z EP
 		</sequence>
 		<attributeGroup ref="gml:AssociationAttributeGroup"/>
 		<attributeGroup ref="gml:OwnershipAttributeGroup"/>
+	</complexType>
+	<element name="MapaPodkladowa" type="app:MapaPodkladowaType" substitutionGroup="gml:AbstractObject">
+		<annotation>
+			<documentation>Informacje dotyczące mapy użytej jako dokument podkładowy w założeniach aktu zagospodarowania przestrzennego.</documentation>
+		</annotation>
+	</element>
+	<complexType name="MapaPodkladowaType">
+		<sequence>
+			<element name="referencja" type="string">
+				<annotation>
+					<documentation>referencja: Odniesienie do użytej mapy podkładowej.</documentation>
+				</annotation>
+			</element>
+			<element name="aktualnosc" type="dateTime">
+				<annotation>
+					<documentation>aktualność: Data aktualności użytej mapy podkładowej.</documentation>
+				</annotation>
+			</element>
+			<element name="lacze" nillable="true">
+				<annotation>
+					<documentation>łącze: Łącze (adres URI) do serwisu, w którym udostępniona jest mapa podkładowa.</documentation>
+				</annotation>
+				<complexType>
+					<simpleContent>
+						<extension base="anyURI">
+							<attribute name="nilReason" type="gml:NilReasonType"/>
+						</extension>
+					</simpleContent>
+				</complexType>
+			</element>
+		</sequence>
+	</complexType>
+	<complexType name="MapaPodkladowaPropertyType">
+		<sequence>
+			<element ref="app:MapaPodkladowa"/>
+		</sequence>
 	</complexType>
 </schema>

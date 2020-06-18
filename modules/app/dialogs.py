@@ -9,9 +9,11 @@ import os, sys
 
 import PyQt5
 from PyQt5.QtWidgets import *
+
 from qgis.PyQt.QtCore import Qt
 from qgis.PyQt import uic, QtGui
 from PyQt5.QtXmlPatterns import *
+from qgis.gui import QgsDateTimeEdit
 from .. import QDialogOverride
 from ..models import FormElement
 from .. import utils
@@ -104,10 +106,11 @@ class RasterFormularzDialog(QDialogOverride, FORM_CLASS3):
 
             # pole wprowadzania
             if formElement.type == 'dateTime':
-                input = QDateTimeEdit()
+                input = QgsDateTimeEdit()
                 input.setObjectName(formElement.name + '_dateTimeEdit')
             elif formElement.type == 'date':
-                input = QDateEdit()
+                input = QgsDateTimeEdit()
+                input.setDisplayFormat('dd.MM.yyyy')
                 input.setObjectName(formElement.name + '_dateEdit')
             else:
                 input = QLineEdit()
@@ -118,6 +121,7 @@ class RasterFormularzDialog(QDialogOverride, FORM_CLASS3):
             btn = QPushButton(text='?')
             btn.setObjectName(formElement.name + 'Help_btn')
             btn.setMaximumWidth(50)
+            btn.setToolTip("test123")
             hbox.addWidget(btn)
 
 

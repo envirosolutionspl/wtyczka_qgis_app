@@ -43,8 +43,9 @@ def createFormElementsRysunekAPP():
             pass
         # na wypadek braku 'documentation'
         try:
+            documentation = element
             formElement.setDocumentation(attrib['documentation'])
-        except KeyError:
+        except:
             pass
         formElements.append(formElement)
 

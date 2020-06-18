@@ -121,7 +121,7 @@ class RasterFormularzDialog(QDialogOverride, FORM_CLASS3):
             btn = QPushButton(text='?')
             btn.setObjectName(formElement.name + 'Help_btn')
             btn.setMaximumWidth(50)
-            btn.setToolTip("test123")
+            btn.setToolTip("<FONT COLOR=black>%s</FONT>" % formElement.documentation)  # dodanie tooltip z documentation 'rich text' dla zawijania
             hbox.addWidget(btn)
 
 

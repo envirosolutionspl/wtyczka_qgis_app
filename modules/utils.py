@@ -16,11 +16,12 @@ def getNamespace(element):
     return m.group(0) if m else ''
 
 def createFormElementsRysunekAPP():
-    """Tworzy """
+    """Tworzy listę obiektów klasy 'FormElement'
+    na podstawie pliku xsd"""
     xsd = os.path.join(os.path.dirname(__file__), 'planowaniePrzestrzenne.xsd')
     formElements = []
     ns = {'glowny': "http://www.w3.org/2001/XMLSchema",
-          'app': "http://iip.mib.gov.pl/schemas/app/1.0",
+          'app': "http://zagospodarowanieprzestrzenne.gov.pl/schemas/app/1.0",
           'gmd': "http://www.isotc211.org/2005/gmd",
           'gml': "http://www.opengis.net/gml/3.2",
           'gmlexr': "http://www.opengis.net/gml/3.3/exr"}
@@ -41,12 +42,10 @@ def createFormElementsRysunekAPP():
             formElement.setMinOccurs(attrib['minOccurs'])
         except KeyError:
             pass
-        # na wypadek braku 'documentation'
-        try:
-            documentation = element
-            formElement.setDocumentation(attrib['documentation'])
-        except:
-            pass
+        # documentation
+        documentation = element.find("glowny:annotation", ns).find("glowny:documentation", ns)
+        formElement.setDocumentation(documentation.text)
+
         formElements.append(formElement)
 
     return formElements

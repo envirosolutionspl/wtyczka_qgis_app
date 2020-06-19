@@ -86,7 +86,7 @@ class RasterFormularzDialog(QDialogOverride, FORM_CLASS3, Formularz):
         self.setWindowTitle('%s (krok 2 z 6)' % title_app)
         self.setWindowIcon(QtGui.QIcon(icon_path))
         self.setWindowFlag(Qt.WindowMinMaxButtonsHint, True)
-        self.clearForm(container=self.form_scrollArea)
+        self.removeForm(container=self.form_scrollArea)
         self.createForm(container=self.form_scrollArea, formElements=utils.createFormElementsRysunekAPP())
 
 

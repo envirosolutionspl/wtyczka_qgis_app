@@ -1,15 +1,22 @@
+# -*- coding: utf-8 -*-
 from PyQt5.QtWidgets import *
 from qgis.gui import QgsDateTimeEdit, QgsFilterLineEdit
 from qgis.PyQt.QtCore import Qt, QRegExp
 from qgis.PyQt.QtGui import QRegExpValidator, QPixmap
 
 class Formularz:
+    """Klasa reprezentująca formularz"""
 
-    def clearForm(self, container):
+    def removeForm(self, container):
+        """usuwa zawartość kontenera(container), żeby zrobić miejsce na formularz"""
         container.takeWidget()
 
-    def createForm(self, container, formElements):
+    def clearForm(self, container):
+        """czyści pola formularza"""
+        pass
 
+    def createForm(self, container, formElements):
+        """tworzy formularz w miejscu kontenera (container), na podstawie listy obiektów klasy <FormElement>"""
         wgtMain = QWidget()
         vbox = QVBoxLayout(wgtMain)
         i = 0

@@ -2,6 +2,7 @@ from PyQt5.QtWidgets import QMessageBox
 
 from qgis.PyQt import QtWidgets
 from .base import BaseModule
+from .Formularz import Formularz
 
 
 class QDialogOverride(QtWidgets.QDialog):

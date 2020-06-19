@@ -10,13 +10,13 @@ import os, sys
 import PyQt5
 from PyQt5.QtWidgets import *
 
-from qgis.PyQt.QtCore import Qt, QRegExp
+from qgis.PyQt.QtCore import Qt
 from qgis.PyQt import uic, QtGui
 from PyQt5.QtXmlPatterns import *
-from qgis.gui import QgsDateTimeEdit, QgsFilterLineEdit
-from .. import QDialogOverride
+
+from .. import QDialogOverride, utils, Formularz
 from ..models import FormElement
-from .. import utils
+
 
 title_question ='Praca z APP / zbiorem APP'
 title_app = 'Praca z APP'
@@ -78,7 +78,7 @@ class RasterInstrukcjaDialog(QDialogOverride, FORM_CLASS2):
         self.setWindowFlag(Qt.WindowMinMaxButtonsHint, True)
 
 
-class RasterFormularzDialog(QDialogOverride, FORM_CLASS3):
+class RasterFormularzDialog(QDialogOverride, FORM_CLASS3, Formularz):
     def __init__(self, parent=None):
         """Constructor."""
         super(RasterFormularzDialog, self).__init__(parent)
@@ -86,56 +86,8 @@ class RasterFormularzDialog(QDialogOverride, FORM_CLASS3):
         self.setWindowTitle('%s (krok 2 z 6)' % title_app)
         self.setWindowIcon(QtGui.QIcon(icon_path))
         self.setWindowFlag(Qt.WindowMinMaxButtonsHint, True)
-        self.clearForm()
-        self.createForm(utils.createFormElementsRysunekAPP())
-
-    def clearForm(self):
-        self.form_scrollArea.takeWidget()
-
-    def createForm(self, formElements):
-
-        wgtMain = QWidget()
-        vbox = QVBoxLayout(wgtMain)
-        for formElement in formElements:
-            hbox = QHBoxLayout()  # wiersz formularza
-
-            # label
-            lbl = QLabel(text=formElement.name + ('*' if formElement.minOccurs else ''))
-            lbl.setObjectName(formElement.name + '_lbl')
-            hbox.addWidget(lbl)
-
-            # pole wprowadzania
-            if formElement.type == 'dateTime':
-                input = QgsDateTimeEdit()
-                input.setObjectName(formElement.name + '_dateTimeEdit')
-            elif formElement.type == 'date':
-                input = QgsDateTimeEdit()
-                input.setDisplayFormat('dd.MM.yyyy')
-                input.setObjectName(formElement.name + '_dateEdit')
-            elif formElement.type == 'integer':
-                input = QgsFilterLineEdit()
-                input.setValidator(QtGui.QRegExpValidator(QRegExp("[0-9]*")))  # tylko liczby calkowite
-                input.setObjectName(formElement.name + '_lineEdit')
-            elif formElement.type == 'anyURI':
-                input = QgsFilterLineEdit()
-                input.setValidator(QtGui.QRegExpValidator(QRegExp(r"\S*")))  # tylko liczby calkowite
-                input.setObjectName(formElement.name + '_lineEdit')
-            else:
-                input = QgsFilterLineEdit()
-                input.setObjectName(formElement.name + '_lineEdit')
-            input.setToolTip(formElement.type)
-            hbox.addWidget(input)
-
-            # PushButton "?"
-            btn = QPushButton(text='?')
-            btn.setObjectName(formElement.name + 'Help_btn')
-            btn.setMaximumWidth(50)
-            btn.setToolTip("<FONT COLOR=black>%s</FONT>" % formElement.documentation)  # dodanie tooltip z documentation 'rich text' dla zawijania
-            hbox.addWidget(btn)
-
-
-            vbox.addLayout(hbox)
-        self.form_scrollArea.setWidget(wgtMain)
+        self.clearForm(container=self.form_scrollArea)
+        self.createForm(container=self.form_scrollArea, formElements=utils.createFormElementsRysunekAPP())
 
 
 

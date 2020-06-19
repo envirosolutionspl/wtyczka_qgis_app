@@ -33,7 +33,7 @@ class AppModule(BaseModule):
         self.rasterInstrukcjaDialog.prev_btn.clicked.connect(self.rasterInstrukcjaDialog_prev_btn_clicked)
 
         self.rasterFormularzDialog.prev_btn.clicked.connect(self.rasterFormularzDialog_prev_btn_clicked)
-        self.rasterFormularzDialog.next_btn.clicked.connect(self.rasterFormularzDialog_next_btn_clicked)
+        self.rasterFormularzDialog.next_btn.clicked.connect(self.showSaveForm)
         self.rasterFormularzDialog.saveForm_btn.clicked.connect(self.showPopupSaveForm)
 
         self.wektorInstrukcjaDialog.next_btn.clicked.connect(self.wektorInstrukcjaDialog_next_btn_clicked)
@@ -41,13 +41,12 @@ class AppModule(BaseModule):
         self.wektorInstrukcjaDialog.generateTemporaryLayer_btn.clicked.connect(self.showPopupGenerateLayer)
         self.wektorInstrukcjaDialog.chooseFile_btn.clicked.connect(self.openFile)
 
-
         self.wektorFormularzDialog.prev_btn.clicked.connect(self.wektorFormularzDialog_prev_btn_clicked)
-        self.wektorFormularzDialog.next_btn.clicked.connect(self.wektorFormularzDialog_next_btn_clicked)
+        self.wektorFormularzDialog.next_btn.clicked.connect(self.showSaveForm)
         self.wektorFormularzDialog.saveForm_btn.clicked.connect(self.showPopupSaveForm)
 
         self.dokumentyFormularzDialog.prev_btn.clicked.connect(self.dokumentyFormularzDialog_prev_btn_clicked)
-        self.dokumentyFormularzDialog.next_btn.clicked.connect(self.dokumentyFormularzDialog_next_btn_clicked)
+        self.dokumentyFormularzDialog.next_btn.clicked.connect(self.showSaveForm)
         self.dokumentyFormularzDialog.saveForm_btn.clicked.connect(self.showPopupSaveForm)
 
         self.generowanieGMLDialog.prev_btn.clicked.connect(self.generowanieGMLDialog_prev_btn_clicked)
@@ -268,9 +267,7 @@ class AppModule(BaseModule):
         if msg.clickedButton() is yes:
             self.openNewDialog(self.rasterInstrukcjaDialog)
             self.listaOkienek.append(self.generowanieGMLDialog)
-            print("tak app")
         elif msg.clickedButton() is no:
-            print("nie app")
             self.showPopupSet()
 
 
@@ -293,7 +290,29 @@ class AppModule(BaseModule):
         if msg.clickedButton() is set:
             self.openNewDialog(self.zbiorPrzygotowanieDialog)
             self.listaOkienek.append(self.generowanieGMLDialog)
-            print("tak set")
         elif msg.clickedButton() is quit:
             self.generowanieGMLDialog.close()
-            print("zamknij")
+
+    def showSaveForm(self, dlg):
+        print(self.activeDlg)
+        msg = QMessageBox()
+        msg.setIcon(QtWidgets.QMessageBox.Question)
+        msg.setWindowTitle('Niezapisany formularz')
+        msg.setText('Formularz nie został zapisany. Czy na pewno chcesz przejść dalej?')
+        yes = msg.addButton(
+            'Tak', QtWidgets.QMessageBox.AcceptRole)
+        no = msg.addButton(
+            'Nie', QtWidgets.QMessageBox.RejectRole)
+        msg.setDefaultButton(no)
+        msg.exec_()
+        msg.deleteLater()
+        if msg.clickedButton() is yes:
+            if self.activeDlg == self.rasterFormularzDialog:
+                self.openNewDialog(self.wektorInstrukcjaDialog)
+                self.listaOkienek.append(self.rasterFormularzDialog)
+            elif self.activeDlg == self.wektorFormularzDialog:
+                self.openNewDialog(self.dokumentyFormularzDialog)
+                self.listaOkienek.append(self.wektorFormularzDialog)
+            elif self.activeDlg == self.dokumentyFormularzDialog:
+                self.openNewDialog(self.generowanieGMLDialog)
+                self.listaOkienek.append(self.dokumentyFormularzDialog)

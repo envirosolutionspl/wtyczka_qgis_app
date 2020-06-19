@@ -45,8 +45,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>484</width>
-          <height>242</height>
+          <width>478</width>
+          <height>193</height>
          </rect>
         </property>
         <layout class="QGridLayout" name="gridLayout">
@@ -132,8 +132,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>484</width>
-          <height>242</height>
+          <width>478</width>
+          <height>193</height>
          </rect>
         </property>
         <layout class="QGridLayout" name="gridLayout_2">
@@ -285,6 +285,20 @@
          </item>
         </layout>
        </widget>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="requiredFields_lbl">
+       <property name="text">
+        <string>*pola wymagane</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string/>
+       </property>
       </widget>
      </item>
      <item>

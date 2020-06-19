@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'modules/app/views/ui/formularz_raster_dialog_base.ui'
+# Form implementation generated from reading ui file 'formularz_raster_dialog_base.ui'
 #
-# Created by: PyQt5 UI code generator 5.11.3
+# Created by: PyQt5 UI code generator 5.13.2
 #
 # WARNING! All changes made in this file will be lost!
 
+
 from PyQt5 import QtCore, QtGui, QtWidgets
+
 
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
@@ -28,7 +30,7 @@ class Ui_Dialog(object):
         self.instruction_scrollArea.setWidgetResizable(True)
         self.instruction_scrollArea.setObjectName("instruction_scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 478, 218))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 478, 193))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.gridLayout = QtWidgets.QGridLayout(self.scrollAreaWidgetContents)
         self.gridLayout.setObjectName("gridLayout")
@@ -62,7 +64,7 @@ class Ui_Dialog(object):
         self.form_scrollArea.setWidgetResizable(True)
         self.form_scrollArea.setObjectName("form_scrollArea")
         self.scrollAreaWidgetContents_2 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 478, 218))
+        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 478, 193))
         self.scrollAreaWidgetContents_2.setObjectName("scrollAreaWidgetContents_2")
         self.gridLayout_2 = QtWidgets.QGridLayout(self.scrollAreaWidgetContents_2)
         self.gridLayout_2.setObjectName("gridLayout_2")
@@ -128,6 +130,13 @@ class Ui_Dialog(object):
         self.gridLayout_2.addWidget(self.legendaHelp_btn, 3, 2, 1, 1)
         self.form_scrollArea.setWidget(self.scrollAreaWidgetContents_2)
         self.verticalLayout.addWidget(self.form_scrollArea)
+        self.requiredFields_lbl = QtWidgets.QLabel(Dialog)
+        self.requiredFields_lbl.setObjectName("requiredFields_lbl")
+        self.verticalLayout.addWidget(self.requiredFields_lbl)
+        self.label_2 = QtWidgets.QLabel(Dialog)
+        self.label_2.setText("")
+        self.label_2.setObjectName("label_2")
+        self.verticalLayout.addWidget(self.label_2)
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         self.prev_btn = QtWidgets.QPushButton(Dialog)
@@ -165,7 +174,17 @@ class Ui_Dialog(object):
         self.laczeHelp_btn.setText(_translate("Dialog", "?"))
         self.legenda_lbl.setText(_translate("Dialog", "legenda"))
         self.legendaHelp_btn.setText(_translate("Dialog", "?"))
+        self.requiredFields_lbl.setText(_translate("Dialog", "*pola wymagane"))
         self.prev_btn.setText(_translate("Dialog", "Wstecz"))
         self.saveForm_btn.setText(_translate("Dialog", "Zapisz aktualny formularz"))
         self.next_btn.setText(_translate("Dialog", "Dalej"))
 
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    Dialog = QtWidgets.QDialog()
+    ui = Ui_Dialog()
+    ui.setupUi(Dialog)
+    Dialog.show()
+    sys.exit(app.exec_())

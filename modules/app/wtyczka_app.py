@@ -51,10 +51,7 @@ class AppModule(BaseModule):
         self.dokumentyFormularzDialog.saveForm_btn.clicked.connect(self.showPopupSaveForm)
 
         self.generowanieGMLDialog.prev_btn.clicked.connect(self.generowanieGMLDialog_prev_btn_clicked)
-        #self.generowanieGMLDialog.next_btn.clicked.connect(self.generowanieGMLDialog_next_btn_clicked)
-        self.generowanieGMLDialog.generate_btn.clicked.connect(self.showPopupWhatNext)
-        # self.generowanieGMLDialog.yesMakeAnotherApp_radioBtn.toggled.connect(self.makeAnotherApp_radioBtn_toggled)
-        # self.generowanieGMLDialog.yesMakeSet_radioBtn.toggled.connect(self.makeSet_radioBtn_toggled)
+        self.generowanieGMLDialog.generate_btn.clicked.connect(self.showPopupApp)
         self.generowanieGMLDialog.addElement_btn.clicked.connect(self.addTableContentGML)
         self.generowanieGMLDialog.deleteElement_btn.clicked.connect(self.deleteTableContentGML)
         header_gml = self.generowanieGMLDialog.filesTable_widget.horizontalHeader()
@@ -235,7 +232,7 @@ class AppModule(BaseModule):
         msg = QMessageBox()
         msg.setIcon(QtWidgets.QMessageBox.Question)
         msg.setWindowTitle('Dokąd teraz?')
-        msg.setText('Wygenerowałeś plik GML dla APP. Zdecyduj czy chcesz wygenerować kolejny GML dla APP, przejść do tworzenia zbioru APP czy zakończyć pracę we wtyczce?')
+        msg.setText('Wygenerowano plik GML dla APP. Zdecyduj czy chcesz wygenerować kolejny GML dla APP, przejść do tworzenia zbioru APP czy zakończyć pracę we wtyczce?')
         app = msg.addButton(
             'Nowy APP', QtWidgets.QMessageBox.AcceptRole)
         zbior = msg.addButton(
@@ -246,12 +243,46 @@ class AppModule(BaseModule):
         msg.exec_()
         msg.deleteLater()
         if msg.clickedButton() is app:
-            print('jedziemy do app')
             self.openNewDialog(self.rasterInstrukcjaDialog)
             self.listaOkienek.append(self.generowanieGMLDialog)
         elif msg.clickedButton() is zbior:
-            print('CHANGE')
             self.openNewDialog(self.zbiorPrzygotowanieDialog)
             self.listaOkienek.append(self.generowanieGMLDialog)
-        else:
+        elif msg.clickedButton() is quit:
+            self.generowanieGMLDialog.close()
+
+    def showPopupApp(self):
+        msg = QMessageBox()
+        msg.setIcon(QtWidgets.QMessageBox.Question)
+        msg.setWindowTitle('Czy chcesz utworzyć kolejny APP?')
+        msg.setText('Wygenerowano plik GML dla APP. Czy chcesz wygenerować kolejny GML dla APP?')
+        yes = msg.addButton(
+            'Tak', QtWidgets.QMessageBox.AcceptRole)
+        no = msg.addButton(
+            'Nie', QtWidgets.QMessageBox.RejectRole)
+        msg.setDefaultButton(yes)
+        msg.exec_()
+        msg.deleteLater()
+        if msg.clickedButton() is yes:
+            self.openNewDialog(self.rasterInstrukcjaDialog)
+            self.listaOkienek.append(self.generowanieGMLDialog)
+        elif msg.clickedButton() is no:
+            self.showPopupSet()
+
+    def showPopupSet(self):
+        msg = QMessageBox()
+        msg.setIcon(QtWidgets.QMessageBox.Question)
+        msg.setWindowTitle('Czy chcesz utworzyć zbiór APP?')
+        msg.setText('Czy chcesz przejść do tworzenia zbioru czy zakończyć pracę?')
+        set = msg.addButton(
+            'Tworzenie zbioru', QtWidgets.QMessageBox.AcceptRole)
+        quit = msg.addButton(
+            'Zakończ', QtWidgets.QMessageBox.RejectRole)
+        msg.setDefaultButton(set)
+        msg.exec_()
+        msg.deleteLater()
+        if msg.clickedButton() is set:
+            self.openNewDialog(self.zbiorPrzygotowanieDialog)
+            self.listaOkienek.append(self.generowanieGMLDialog)
+        elif msg.clickedButton() is quit:
             self.generowanieGMLDialog.close()

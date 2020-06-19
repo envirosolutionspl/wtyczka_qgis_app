@@ -14,6 +14,8 @@ class AppModule(BaseModule):
     def __init__(self, iface):
         self.iface = iface
 
+        self.saved = False
+
         # region okna moduł app
         self.pytanieAppDialog = PytanieAppDialog()
         self.zbiorPrzygotowanieDialog = ZbiorPrzygotowanieDialog()
@@ -33,7 +35,7 @@ class AppModule(BaseModule):
         self.rasterInstrukcjaDialog.prev_btn.clicked.connect(self.rasterInstrukcjaDialog_prev_btn_clicked)
 
         self.rasterFormularzDialog.prev_btn.clicked.connect(self.rasterFormularzDialog_prev_btn_clicked)
-        self.rasterFormularzDialog.next_btn.clicked.connect(self.showSaveForm)
+        self.rasterFormularzDialog.next_btn.clicked.connect(self.showPopupCheckSave)
         self.rasterFormularzDialog.saveForm_btn.clicked.connect(self.showPopupSaveForm)
 
         self.wektorInstrukcjaDialog.next_btn.clicked.connect(self.wektorInstrukcjaDialog_next_btn_clicked)
@@ -42,11 +44,11 @@ class AppModule(BaseModule):
         self.wektorInstrukcjaDialog.chooseFile_btn.clicked.connect(self.openFile)
 
         self.wektorFormularzDialog.prev_btn.clicked.connect(self.wektorFormularzDialog_prev_btn_clicked)
-        self.wektorFormularzDialog.next_btn.clicked.connect(self.showSaveForm)
+        self.wektorFormularzDialog.next_btn.clicked.connect(self.showPopupCheckSave)
         self.wektorFormularzDialog.saveForm_btn.clicked.connect(self.showPopupSaveForm)
 
         self.dokumentyFormularzDialog.prev_btn.clicked.connect(self.dokumentyFormularzDialog_prev_btn_clicked)
-        self.dokumentyFormularzDialog.next_btn.clicked.connect(self.showSaveForm)
+        self.dokumentyFormularzDialog.next_btn.clicked.connect(self.showPopupCheckSave)
         self.dokumentyFormularzDialog.saveForm_btn.clicked.connect(self.showPopupSaveForm)
 
         self.generowanieGMLDialog.prev_btn.clicked.connect(self.generowanieGMLDialog_prev_btn_clicked)
@@ -217,6 +219,8 @@ class AppModule(BaseModule):
     """Popup windows"""
     def showPopupSaveForm(self):
         showPopup("Zapisz aktualny formularz", "Poprawnie zapisano formularz.")
+        self.saved = True
+        return self.saved
 
     def showPopupGenerateLayer(self):
         showPopup("Wygeneruj warstwę", "Poprawnie utworzono pustą warstwę. Uzupełnij ją danymi wektorowymi oraz wypełnij atrybuty.")
@@ -226,29 +230,6 @@ class AppModule(BaseModule):
 
     def showPopupGenerate2(self):
         showPopup("Wygeneruj plik GML dla zbioru APP", "Poprawnie wygenerowano plik GML.")
-
-    def showPopupWhatNext(self):
-        msg = QMessageBox()
-        msg.setIcon(QtWidgets.QMessageBox.Question)
-        msg.setWindowTitle('Dokąd teraz?')
-        msg.setText('Wygenerowano plik GML dla APP. Zdecyduj czy chcesz wygenerować kolejny GML dla APP, przejść do tworzenia zbioru APP czy zakończyć pracę we wtyczce?')
-        app = msg.addButton(
-            'Nowy APP', QtWidgets.QMessageBox.AcceptRole)
-        zbior = msg.addButton(
-            'Zbiór APP', QtWidgets.QMessageBox.AcceptRole)
-        quit = msg.addButton(
-            'Zakończ', QtWidgets.QMessageBox.RejectRole)
-        msg.setDefaultButton(app)
-        msg.exec_()
-        msg.deleteLater()
-        if msg.clickedButton() is app:
-            self.openNewDialog(self.rasterInstrukcjaDialog)
-            self.listaOkienek.append(self.generowanieGMLDialog)
-        elif msg.clickedButton() is zbior:
-            self.openNewDialog(self.zbiorPrzygotowanieDialog)
-            self.listaOkienek.append(self.generowanieGMLDialog)
-        elif msg.clickedButton() is quit:
-            self.generowanieGMLDialog.close()
 
     def showPopupApp(self):
         msg = QMessageBox()
@@ -293,8 +274,25 @@ class AppModule(BaseModule):
         elif msg.clickedButton() is quit:
             self.generowanieGMLDialog.close()
 
-    def showSaveForm(self, dlg):
-        print(self.activeDlg)
+    def showPopupCheckSave(self):
+        if self.saved:
+            if self.activeDlg == self.rasterFormularzDialog:
+                self.openNewDialog(self.wektorInstrukcjaDialog)
+                self.listaOkienek.append(self.rasterFormularzDialog)
+                self.saved = False
+            elif self.activeDlg == self.wektorFormularzDialog:
+                self.openNewDialog(self.dokumentyFormularzDialog)
+                self.listaOkienek.append(self.wektorFormularzDialog)
+                self.saved = False
+            elif self.activeDlg == self.dokumentyFormularzDialog:
+                self.openNewDialog(self.generowanieGMLDialog)
+                self.listaOkienek.append(self.dokumentyFormularzDialog)
+                self.saved = False
+        elif not self.saved:
+            self.showSaveForm()
+        return self.saved
+
+    def showSaveForm(self):
         msg = QMessageBox()
         msg.setIcon(QtWidgets.QMessageBox.Question)
         msg.setWindowTitle('Niezapisany formularz')

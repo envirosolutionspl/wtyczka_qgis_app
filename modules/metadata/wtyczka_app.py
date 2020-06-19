@@ -22,21 +22,13 @@ class MetadataModule(BaseModule):
         self.metadaneDialog.prev_btn.clicked.connect(self.metadaneDialog_prev_btn_clicked)
         self.metadaneDialog.next_btn.clicked.connect(self.metadaneDialog_next_btn_clicked)
 
-        self.metadaneDialog.send_btn.clicked.connect(self.showPopupSend)
         self.metadaneDialog.validateAndSave_btn.clicked.connect(self.showPopupValidateAndSave)
 
         self.metadaneDialog.newMetadata_radioButton.toggled.connect(self.newMetadataRadioButton_toggled)
         self.metadaneDialog.existingMetadata_radioButton.toggled.connect(self.existingMetadataRadioButton_toggled)
 
-        self.metadaneDialog.server_checkBox.stateChanged.connect(self.server_checkBoxChangedAction)
-        self.metadaneDialog.email_checkBox.stateChanged.connect(self.email_checkBoxChangedAction)
-
         self.metadaneDialog.newFile_widget.clicked.connect(self.saveMetaFile)
         self.metadaneDialog.chooseFile_widget.clicked.connect(self.openMetaFile)
-
-        #self.metadaneDialog.chooseFile_widget.setFilter("*.xml")
-        #self.metadaneDialog.chooseSet_widget.setFilter("*.gml")
-        #self.metadaneDialog.newFile_widget.clicked.connect(self.getSaveFileName(filter="*.xml")[0])
         # endregion
 
     """Event handlers"""

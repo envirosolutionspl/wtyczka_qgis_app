@@ -213,10 +213,10 @@
           <bool>true</bool>
          </property>
          <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Przycisk &lt;span style=&quot; font-style:italic;&quot;&gt;Dalej&lt;/span&gt; przeniesie do narzędzia &lt;span style=&quot; font-style:italic;&quot;&gt;Tworzenie / aktualizacja metadanych&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Przycisk przeniesie do narzędzia &lt;span style=&quot; font-style:italic;&quot;&gt;Tworzenie / aktualizacja metadanych&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
          <property name="text">
-          <string>Dalej</string>
+          <string>Przejdź do metadanych</string>
          </property>
         </widget>
        </item>

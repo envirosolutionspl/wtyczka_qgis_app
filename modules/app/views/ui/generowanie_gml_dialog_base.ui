@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>666</width>
-    <height>394</height>
+    <height>331</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -81,126 +81,15 @@
       <widget class="QTableWidget" name="filesTable_widget">
        <column>
         <property name="text">
-         <string>Pliki XML/GML</string>
+         <string>Plik XML / GML</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>Rodzaj dokumentu</string>
         </property>
        </column>
       </widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="empty2_lbl">
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="questionMakeAnotherApp_lbl">
-       <property name="text">
-        <string>Czy chcesz utworzyć kolejny APP dla tego zbioru? (Tak - przycisk Dalej przeniesie do narzędzia tworzenia APP)</string>
-       </property>
-       <property name="wordWrap">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_2">
-       <item>
-        <widget class="QRadioButton" name="yesMakeAnotherApp_radioBtn">
-         <property name="text">
-          <string>Tak</string>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
-         <attribute name="buttonGroup">
-          <string notr="true">buttonGroup_2</string>
-         </attribute>
-        </widget>
-       </item>
-       <item>
-        <widget class="QRadioButton" name="noMakeAnotherApp_radioBtn">
-         <property name="text">
-          <string>Nie</string>
-         </property>
-         <attribute name="buttonGroup">
-          <string notr="true">buttonGroup_2</string>
-         </attribute>
-        </widget>
-       </item>
-       <item>
-        <spacer name="horizontalSpacer">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <widget class="QLabel" name="questionMakeSet_lbl">
-       <property name="enabled">
-        <bool>false</bool>
-       </property>
-       <property name="text">
-        <string>Czy chcesz przejść do finalnego tworzenia zbioru APP oraz metadanych? (Tak - przycisk Dalej przeniesie do narzędzia tworzenia zbioru APP)</string>
-       </property>
-       <property name="wordWrap">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_3">
-       <item>
-        <widget class="QRadioButton" name="yesMakeSet_radioBtn">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
-         <property name="text">
-          <string>Tak</string>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
-         <attribute name="buttonGroup">
-          <string notr="true">buttonGroup</string>
-         </attribute>
-        </widget>
-       </item>
-       <item>
-        <widget class="QRadioButton" name="noMakeSet_radioBtn">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
-         <property name="text">
-          <string>Nie</string>
-         </property>
-         <attribute name="buttonGroup">
-          <string notr="true">buttonGroup</string>
-         </attribute>
-        </widget>
-       </item>
-       <item>
-        <spacer name="horizontalSpacer_2">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-      </layout>
      </item>
      <item>
       <widget class="QLabel" name="empty3_lbl">
@@ -241,16 +130,6 @@
          </property>
         </widget>
        </item>
-       <item>
-        <widget class="QPushButton" name="next_btn">
-         <property name="enabled">
-          <bool>true</bool>
-         </property>
-         <property name="text">
-          <string>Dalej</string>
-         </property>
-        </widget>
-       </item>
       </layout>
      </item>
     </layout>
@@ -259,8 +138,4 @@
  </widget>
  <resources/>
  <connections/>
- <buttongroups>
-  <buttongroup name="buttonGroup"/>
-  <buttongroup name="buttonGroup_2"/>
- </buttongroups>
 </ui>

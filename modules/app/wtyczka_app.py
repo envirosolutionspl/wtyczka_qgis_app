@@ -4,7 +4,7 @@ from .. import BaseModule
 from ..utils import showPopup
 
 from qgis.PyQt import QtWidgets
-from PyQt5.QtWidgets import QFileDialog, QTableWidgetItem
+from PyQt5.QtWidgets import QFileDialog, QTableWidgetItem, QMessageBox
 import os
 
 
@@ -51,14 +51,15 @@ class AppModule(BaseModule):
         self.dokumentyFormularzDialog.saveForm_btn.clicked.connect(self.showPopupSaveForm)
 
         self.generowanieGMLDialog.prev_btn.clicked.connect(self.generowanieGMLDialog_prev_btn_clicked)
-        self.generowanieGMLDialog.next_btn.clicked.connect(self.generowanieGMLDialog_next_btn_clicked)
-        self.generowanieGMLDialog.generate_btn.clicked.connect(self.showPopupGenerate)
-        self.generowanieGMLDialog.yesMakeAnotherApp_radioBtn.toggled.connect(self.makeAnotherApp_radioBtn_toggled)
-        self.generowanieGMLDialog.yesMakeSet_radioBtn.toggled.connect(self.makeSet_radioBtn_toggled)
+        #self.generowanieGMLDialog.next_btn.clicked.connect(self.generowanieGMLDialog_next_btn_clicked)
+        self.generowanieGMLDialog.generate_btn.clicked.connect(self.showPopupWhatNext)
+        # self.generowanieGMLDialog.yesMakeAnotherApp_radioBtn.toggled.connect(self.makeAnotherApp_radioBtn_toggled)
+        # self.generowanieGMLDialog.yesMakeSet_radioBtn.toggled.connect(self.makeSet_radioBtn_toggled)
         self.generowanieGMLDialog.addElement_btn.clicked.connect(self.addTableContentGML)
         self.generowanieGMLDialog.deleteElement_btn.clicked.connect(self.deleteTableContentGML)
         header_gml = self.generowanieGMLDialog.filesTable_widget.horizontalHeader()
         header_gml.setSectionResizeMode(0, QtWidgets.QHeaderView.ResizeToContents)
+        header_gml.setSectionResizeMode(1, QtWidgets.QHeaderView.ResizeToContents)
 
         self.zbiorPrzygotowanieDialog.prev_btn.clicked.connect(self.zbiorPrzygotowanieDialog_prev_btn_clicked)
         self.zbiorPrzygotowanieDialog.next_btn.clicked.connect(self.zbiorPrzygotowanieDialog_next_btn_clicked)
@@ -132,15 +133,17 @@ class AppModule(BaseModule):
         self.openNewDialog(self.listaOkienek.pop())
 
     def generowanieGMLDialog_next_btn_clicked(self):
-        if self.generowanieGMLDialog.yesMakeAnotherApp_radioBtn.isChecked():
-            self.openNewDialog(self.rasterInstrukcjaDialog)
-            self.listaOkienek.append(self.generowanieGMLDialog)
-        if self.generowanieGMLDialog.noMakeAnotherApp_radioBtn.isChecked():
-            if self.generowanieGMLDialog.yesMakeSet_radioBtn.isChecked():
-                self.openNewDialog(self.zbiorPrzygotowanieDialog)
-                self.listaOkienek.append(self.generowanieGMLDialog)
-            if self.generowanieGMLDialog.noMakeSet_radioBtn.isChecked():
-                self.generowanieGMLDialog.close()
+        self.openNewDialog(self.zbiorPrzygotowanieDialog)
+        self.listaOkienek.append(self.generowanieGMLDialog)
+        # if self.generowanieGMLDialog.yesMakeAnotherApp_radioBtn.isChecked():
+        #     self.openNewDialog(self.rasterInstrukcjaDialog)
+        #     self.listaOkienek.append(self.generowanieGMLDialog)
+        # if self.generowanieGMLDialog.noMakeAnotherApp_radioBtn.isChecked():
+        #     if self.generowanieGMLDialog.yesMakeSet_radioBtn.isChecked():
+        #         self.openNewDialog(self.zbiorPrzygotowanieDialog)
+        #         self.listaOkienek.append(self.generowanieGMLDialog)
+        #     if self.generowanieGMLDialog.noMakeSet_radioBtn.isChecked():
+        #         self.generowanieGMLDialog.close()
 
     def makeAnotherApp_radioBtn_toggled(self, setYes):
         if setYes:  # tak - utworzenie kolejnego APP
@@ -227,3 +230,28 @@ class AppModule(BaseModule):
 
     def showPopupGenerate2(self):
         showPopup("Wygeneruj plik GML dla zbioru APP", "Poprawnie wygenerowano plik GML.")
+
+    def showPopupWhatNext(self):
+        msg = QMessageBox()
+        msg.setIcon(QtWidgets.QMessageBox.Question)
+        msg.setWindowTitle('Dokąd teraz?')
+        msg.setText('Wygenerowałeś plik GML dla APP. Zdecyduj czy chcesz wygenerować kolejny GML dla APP, przejść do tworzenia zbioru APP czy zakończyć pracę we wtyczce?')
+        app = msg.addButton(
+            'Nowy APP', QtWidgets.QMessageBox.AcceptRole)
+        zbior = msg.addButton(
+            'Zbiór APP', QtWidgets.QMessageBox.AcceptRole)
+        quit = msg.addButton(
+            'Zakończ', QtWidgets.QMessageBox.RejectRole)
+        msg.setDefaultButton(app)
+        msg.exec_()
+        msg.deleteLater()
+        if msg.clickedButton() is app:
+            print('jedziemy do app')
+            self.openNewDialog(self.rasterInstrukcjaDialog)
+            self.listaOkienek.append(self.generowanieGMLDialog)
+        elif msg.clickedButton() is zbior:
+            print('CHANGE')
+            self.openNewDialog(self.zbiorPrzygotowanieDialog)
+            self.listaOkienek.append(self.generowanieGMLDialog)
+        else:
+            self.generowanieGMLDialog.close()

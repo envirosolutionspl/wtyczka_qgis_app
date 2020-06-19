@@ -135,8 +135,8 @@ class Ui_Dialog(object):
         item.setText(_translate("Dialog", "Plik APP (GML)"))
         self.prev_btn.setText(_translate("Dialog", "Wstecz"))
         self.validateAndGenerate_btn.setText(_translate("Dialog", "Waliduj/Generuj"))
-        self.next_btn.setToolTip(_translate("Dialog", "<html><head/><body><p>Przycisk <span style=\" font-style:italic;\">Dalej</span> przeniesie do narzędzia <span style=\" font-style:italic;\">Tworzenie / aktualizacja metadanych</span></p></body></html>"))
-        self.next_btn.setText(_translate("Dialog", "Dalej"))
+        self.next_btn.setToolTip(_translate("Dialog", "<html><head/><body><p>Przycisk przeniesie do narzędzia <span style=\" font-style:italic;\">Tworzenie / aktualizacja metadanych</span></p></body></html>"))
+        self.next_btn.setText(_translate("Dialog", "Przejdź do metadanych"))
 from qgsfilewidget import QgsFileWidget
 
 

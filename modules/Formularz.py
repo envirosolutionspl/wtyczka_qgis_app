@@ -1,7 +1,7 @@
 from PyQt5.QtWidgets import *
 from qgis.gui import QgsDateTimeEdit, QgsFilterLineEdit
 from qgis.PyQt.QtCore import Qt, QRegExp
-from qgis.PyQt.QtGui import QRegExpValidator
+from qgis.PyQt.QtGui import QRegExpValidator, QPixmap
 
 class Formularz:
 
@@ -12,6 +12,7 @@ class Formularz:
 
         wgtMain = QWidget()
         vbox = QVBoxLayout(wgtMain)
+        i = 0
         for formElement in formElements:
             hbox = QHBoxLayout()  # wiersz formularza
 
@@ -43,12 +44,15 @@ class Formularz:
             hbox.addWidget(input)
 
             # PushButton "?"
-            btn = QPushButton(text='?')
-            btn.setObjectName(formElement.name + 'Help_btn')
-            btn.setMaximumWidth(50)
-            btn.setToolTip("<FONT COLOR=black>%s</FONT>" % formElement.documentation)  # dodanie tooltip z documentation 'rich text' dla zawijania
-            hbox.addWidget(btn)
-
-
+            tooltipImg = QLabel()
+            tooltipImg.setObjectName(formElement.name + '_tooltip')
+            tooltipImg.setMaximumWidth(16)
+            # tooltipImg.setScaledContents(True)
+            tooltipImg.setToolTip("<FONT COLOR=black>%s</FONT>" % formElement.documentation)  # dodanie tooltip z documentation 'rich text' dla zawijania
+            p = QPixmap(':/plugins/wtyczka_app/img/info%d.png' % ((i % 6) + 1))
+            tooltipImg.setPixmap(p.scaled(16, 16, Qt.KeepAspectRatio))
+            hbox.addWidget(tooltipImg)
             vbox.addLayout(hbox)
+            i += 1
         container.setWidget(wgtMain)
+

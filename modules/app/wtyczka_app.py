@@ -259,7 +259,9 @@ class AppModule(BaseModule):
         yes = msg.addButton(
             'Tak', QtWidgets.QMessageBox.AcceptRole)
         no = msg.addButton(
-            'Nie', QtWidgets.QMessageBox.RejectRole)
+            'Nie', QtWidgets.QMessageBox.AcceptRole)
+        cancel = msg.addButton(
+            'Anuluj', QtWidgets.QMessageBox.RejectRole)
         msg.setDefaultButton(yes)
         msg.exec_()
         msg.deleteLater()

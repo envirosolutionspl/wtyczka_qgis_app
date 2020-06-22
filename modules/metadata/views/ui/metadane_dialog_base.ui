@@ -25,7 +25,6 @@
       <widget class="QLabel" name="title_lbl">
        <property name="font">
         <font>
-         <pointsize>12</pointsize>
          <weight>75</weight>
          <bold>true</bold>
         </font>
@@ -173,8 +172,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>676</width>
-          <height>385</height>
+          <width>666</width>
+          <height>282</height>
          </rect>
         </property>
         <layout class="QGridLayout" name="gridLayout_2">

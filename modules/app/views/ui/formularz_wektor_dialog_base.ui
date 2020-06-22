@@ -45,8 +45,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>478</width>
-          <height>211</height>
+          <width>474</width>
+          <height>193</height>
          </rect>
         </property>
         <layout class="QGridLayout" name="gridLayout">
@@ -71,6 +71,24 @@
         </layout>
        </widget>
       </widget>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <item>
+        <widget class="QPushButton" name="getValues_btn">
+         <property name="text">
+          <string>Pobierz wartości z istniejącego formularza</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="clear_btn">
+         <property name="text">
+          <string>Wyczyść formularz</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </item>
      <item>
       <widget class="QLabel" name="titleForm_lbl">
@@ -101,42 +119,11 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>478</width>
-          <height>210</height>
+          <width>474</width>
+          <height>192</height>
          </rect>
         </property>
         <layout class="QGridLayout" name="gridLayout_2">
-         <item row="3" column="0">
-          <widget class="QLabel" name="lacze_lbl">
-           <property name="text">
-            <string>lacze</string>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="5">
-          <widget class="QPushButton" name="laczeHelp_btn">
-           <property name="font">
-            <font>
-             <pointsize>7</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string>?</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="5">
-          <widget class="QPushButton" name="tytulHelp_btn">
-           <property name="font">
-            <font>
-             <pointsize>7</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string>?</string>
-           </property>
-          </widget>
-         </item>
          <item row="4" column="0">
           <widget class="QLabel" name="legenda_lbl">
            <property name="text">
@@ -144,7 +131,7 @@
            </property>
           </widget>
          </item>
-         <item row="4" column="5">
+         <item row="4" column="4">
           <widget class="QPushButton" name="legendaHelp_btn">
            <property name="font">
             <font>
@@ -156,39 +143,64 @@
            </property>
           </widget>
          </item>
-         <item row="2" column="4">
-          <widget class="QPushButton" name="tytulGetValues_btn">
+         <item row="3" column="0">
+          <widget class="QLabel" name="lacze_lbl">
+           <property name="text">
+            <string>lacze</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="4">
+          <widget class="QPushButton" name="laczeHelp_btn">
            <property name="font">
             <font>
              <pointsize>7</pointsize>
             </font>
            </property>
-           <property name="layoutDirection">
-            <enum>Qt::LeftToRight</enum>
+           <property name="text">
+            <string>?</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="4">
+          <widget class="QPushButton" name="tytulHelp_btn">
+           <property name="font">
+            <font>
+             <pointsize>7</pointsize>
+            </font>
            </property>
            <property name="text">
-            <string>&lt;</string>
+            <string>?</string>
            </property>
           </widget>
          </item>
          <item row="0" column="4">
-          <widget class="QPushButton" name="idGetValues_btn">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
+          <widget class="QPushButton" name="idHelp_btn">
            <property name="font">
             <font>
              <pointsize>7</pointsize>
             </font>
            </property>
-           <property name="layoutDirection">
-            <enum>Qt::LeftToRight</enum>
-           </property>
            <property name="text">
-            <string>&lt;</string>
+            <string>?</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="1" colspan="2">
+          <widget class="QLineEdit" name="legenda_lineEdit">
+           <property name="font">
+            <font>
+             <pointsize>7</pointsize>
+            </font>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1" colspan="2">
+          <widget class="QLineEdit" name="lacze_lineEdit">
+           <property name="font">
+            <font>
+             <pointsize>7</pointsize>
+            </font>
            </property>
           </widget>
          </item>
@@ -203,57 +215,6 @@
           <widget class="QLabel" name="tytul_lbl">
            <property name="text">
             <string>tytul</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="5">
-          <widget class="QPushButton" name="idHelp_btn">
-           <property name="font">
-            <font>
-             <pointsize>7</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string>?</string>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="4">
-          <widget class="QPushButton" name="laczeGetValues_btn">
-           <property name="font">
-            <font>
-             <pointsize>7</pointsize>
-            </font>
-           </property>
-           <property name="layoutDirection">
-            <enum>Qt::LeftToRight</enum>
-           </property>
-           <property name="text">
-            <string>&lt;</string>
-           </property>
-          </widget>
-         </item>
-         <item row="4" column="4">
-          <widget class="QPushButton" name="legendaGetValues_btn">
-           <property name="font">
-            <font>
-             <pointsize>7</pointsize>
-            </font>
-           </property>
-           <property name="layoutDirection">
-            <enum>Qt::LeftToRight</enum>
-           </property>
-           <property name="text">
-            <string>&lt;</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="1" colspan="2">
-          <widget class="QLineEdit" name="tytul_lineEdit">
-           <property name="font">
-            <font>
-             <pointsize>7</pointsize>
-            </font>
            </property>
           </widget>
          </item>
@@ -272,17 +233,8 @@
            </property>
           </widget>
          </item>
-         <item row="3" column="1" colspan="2">
-          <widget class="QLineEdit" name="lacze_lineEdit">
-           <property name="font">
-            <font>
-             <pointsize>7</pointsize>
-            </font>
-           </property>
-          </widget>
-         </item>
-         <item row="4" column="1" colspan="2">
-          <widget class="QLineEdit" name="legenda_lineEdit">
+         <item row="2" column="1" colspan="2">
+          <widget class="QLineEdit" name="tytul_lineEdit">
            <property name="font">
             <font>
              <pointsize>7</pointsize>

@@ -56,10 +56,9 @@ class Formularz:
             tooltipImg.setMaximumWidth(16)
             # tooltipImg.setScaledContents(True)
             tooltipImg.setToolTip("<FONT COLOR=black>%s</FONT>" % formElement.documentation)  # dodanie tooltip z documentation 'rich text' dla zawijania
-            p = QPixmap(':/plugins/wtyczka_app/img/info%d.png' % ((i % 6) + 1))
+            p = QPixmap(':/plugins/wtyczka_app/img/info1.png')
             tooltipImg.setPixmap(p.scaled(16, 16, Qt.KeepAspectRatio))
             hbox.addWidget(tooltipImg)
             vbox.addLayout(hbox)
-            i += 1
         container.setWidget(wgtMain)
 

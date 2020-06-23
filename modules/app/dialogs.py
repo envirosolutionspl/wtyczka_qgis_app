@@ -101,7 +101,7 @@ class WektorInstrukcjaDialog(QDialogOverride, FORM_CLASS7):
         self.setWindowFlag(Qt.WindowMinMaxButtonsHint, True)
         self.layers_comboBox.setAllowEmptyLayer(True)
 
-class WektorFormularzDialog(QDialogOverride, FORM_CLASS5):
+class WektorFormularzDialog(QDialogOverride, FORM_CLASS5, Formularz):
     def __init__(self, parent=None):
         """Constructor."""
         super(WektorFormularzDialog, self).__init__(parent)
@@ -109,9 +109,11 @@ class WektorFormularzDialog(QDialogOverride, FORM_CLASS5):
         self.setWindowTitle('%s (krok 4 z 6)' % title_app)
         self.setWindowIcon(QtGui.QIcon(icon_path))
         self.setWindowFlag(Qt.WindowMinMaxButtonsHint, True)
+        self.removeForm(container=self.form_scrollArea)
+        self.createForm(container=self.form_scrollArea, formElements=utils.createFormElementsAktPlanowaniaPrzestrzennego())
 
 
-class DokumentyFormularzDialog(QDialogOverride, FORM_CLASS4):
+class DokumentyFormularzDialog(QDialogOverride, FORM_CLASS4, Formularz):
     def __init__(self, parent=None):
         """Constructor."""
         super(DokumentyFormularzDialog, self).__init__(parent)
@@ -119,6 +121,8 @@ class DokumentyFormularzDialog(QDialogOverride, FORM_CLASS4):
         self.setWindowTitle('%s (krok 5 z 6)' % title_app)
         self.setWindowIcon(QtGui.QIcon(icon_path))
         self.setWindowFlag(Qt.WindowMinMaxButtonsHint, True)
+        self.removeForm(container=self.form_scrollArea)
+        self.createForm(container=self.form_scrollArea, formElements=utils.createFormElementsDokumentFormalny())
 
 
 class GenerowanieGMLDialog(QDialogOverride, FORM_CLASS6):

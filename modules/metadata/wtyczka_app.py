@@ -29,6 +29,7 @@ class MetadataModule(BaseModule):
 
         self.metadaneDialog.newFile_widget.clicked.connect(self.saveMetaFile)
         self.metadaneDialog.chooseFile_widget.clicked.connect(self.openMetaFile)
+        self.metadaneDialog.chooseSet_widget.setFilter("*.gml")
         # endregion
 
     """Event handlers"""

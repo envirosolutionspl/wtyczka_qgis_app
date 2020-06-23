@@ -49,3 +49,98 @@ def createFormElementsRysunekAPP():
         formElements.append(formElement)
 
     return formElements
+
+def createFormElementsDokumentFormalny():
+    #TODO lista rozwijalna dla atrybutu poziomHierarchii
+    """Tworzy listę obiektów klasy 'FormElement'
+    na podstawie pliku xsd"""
+    xsd = os.path.join(os.path.dirname(__file__), 'planowaniePrzestrzenne.xsd')
+    formElements = []
+    ns = {'glowny': "http://www.w3.org/2001/XMLSchema",
+          'app': "http://zagospodarowanieprzestrzenne.gov.pl/schemas/app/1.0",
+          'gmd': "http://www.isotc211.org/2005/gmd",
+          'gml': "http://www.opengis.net/gml/3.2",
+          'gmlexr': "http://www.opengis.net/gml/3.3/exr"}
+
+    tree = ET.parse(xsd)
+    root = tree.getroot()
+
+    complexType = root.find("glowny:complexType[@name='DokumentFormalnyType']", ns)
+    sequence = complexType[0][0][0]  # sekwencja z listą pól
+    for element in sequence:
+        attrib = element.attrib
+        try:
+            print('smile pepe')
+            formElement = FormElement(
+                name=attrib['name'],
+                type=attrib['type']
+            )
+        except:
+            # TODO obsługa NilReason - podanie powodu braku
+
+            elementComplexType = element.find("glowny:complexType", ns)
+            elementAttrib = elementComplexType[0][0].attrib
+            formElement = FormElement(
+                name=attrib['name'],
+                type=elementAttrib['base']
+            )
+        # na wypadek braku 'minOccurs'
+        try:
+            formElement.setMinOccurs(attrib['minOccurs'])
+        except KeyError:
+            pass
+        # documentation
+        documentation = element.find("glowny:annotation", ns).find("glowny:documentation", ns)
+        formElement.setDocumentation(documentation.text)
+
+        formElements.append(formElement)
+
+    return formElements
+
+def createFormElementsAktPlanowaniaPrzestrzennego():
+    """Tworzy listę obiektów klasy 'FormElement'
+    na podstawie pliku xsd"""
+    xsd = os.path.join(os.path.dirname(__file__), 'planowaniePrzestrzenne.xsd')
+    formElements = []
+    ns = {'glowny': "http://www.w3.org/2001/XMLSchema",
+          'app': "http://zagospodarowanieprzestrzenne.gov.pl/schemas/app/1.0",
+          'gmd': "http://www.isotc211.org/2005/gmd",
+          'gml': "http://www.opengis.net/gml/3.2",
+          'gmlexr': "http://www.opengis.net/gml/3.3/exr"}
+
+    tree = ET.parse(xsd)
+    root = tree.getroot()
+
+    complexType = root.find("glowny:complexType[@name='AktPlanowaniaPrzestrzennegoType']", ns)
+    sequence = complexType[0][0][0]  # sekwencja z listą pól
+    for element in sequence:
+        attrib = element.attrib
+        try:
+            print('sad pepe')
+            formElement = FormElement(
+                name=attrib['name'],
+                type=attrib['type']
+            )
+        except:
+            #TODO obsługa NilReason - podanie powodu braku
+            print('lololo')
+            #print(element.iterparse())
+
+            elementComplexType = element.find("glowny:complexType", ns)
+            elementAttrib = elementComplexType[0][0].attrib
+            formElement = FormElement(
+                name=attrib['name'],
+                type=elementAttrib['base']
+            )
+        # na wypadek braku 'minOccurs'
+        try:
+            formElement.setMinOccurs(attrib['minOccurs'])
+        except KeyError:
+            pass
+        # documentation
+        documentation = element.find("glowny:annotation", ns).find("glowny:documentation", ns)
+        formElement.setDocumentation(documentation.text)
+
+        formElements.append(formElement)
+
+    return formElements

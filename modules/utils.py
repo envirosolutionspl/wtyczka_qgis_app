@@ -70,7 +70,6 @@ def createFormElementsDokumentFormalny():
     for element in sequence:
         attrib = element.attrib
         try:
-            print('smile pepe')
             formElement = FormElement(
                 name=attrib['name'],
                 type=attrib['type']
@@ -116,15 +115,12 @@ def createFormElementsAktPlanowaniaPrzestrzennego():
     for element in sequence:
         attrib = element.attrib
         try:
-            print('sad pepe')
             formElement = FormElement(
                 name=attrib['name'],
                 type=attrib['type']
             )
         except:
             #TODO obsługa NilReason - podanie powodu braku
-            print('lololo')
-            #print(element.iterparse())
 
             elementComplexType = element.find("glowny:complexType", ns)
             elementAttrib = elementComplexType[0][0].attrib

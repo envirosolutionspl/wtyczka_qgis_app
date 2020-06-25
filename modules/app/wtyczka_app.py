@@ -1,10 +1,22 @@
+from qgis.utils import iface
 from . import (PytanieAppDialog, ZbiorPrzygotowanieDialog, RasterInstrukcjaDialog, RasterFormularzDialog,
                WektorFormularzDialog, DokumentyFormularzDialog, WektorInstrukcjaDialog, GenerowanieGMLDialog)
 from .. import BaseModule
 from ..utils import showPopup
-
 from qgis.PyQt import QtWidgets
 from PyQt5.QtWidgets import QFileDialog, QTableWidgetItem, QMessageBox
+from qgis.PyQt.QtCore import QVariant
+from qgis.core import (
+  QgsCoordinateReferenceSystem,
+  QgsPointXY,
+  QgsField,
+  QgsFields,
+  QgsFeature,
+  QgsGeometry,
+  QgsVectorLayer,
+  QgsVectorFileWriter,
+  QgsWkbTypes
+)
 import os
 
 
@@ -40,7 +52,7 @@ class AppModule(BaseModule):
 
         self.wektorInstrukcjaDialog.next_btn.clicked.connect(self.wektorInstrukcjaDialog_next_btn_clicked)
         self.wektorInstrukcjaDialog.prev_btn.clicked.connect(self.wektorInstrukcjaDialog_prev_btn_clicked)
-        self.wektorInstrukcjaDialog.generateTemporaryLayer_btn.clicked.connect(self.showPopupGenerateLayer)
+        self.wektorInstrukcjaDialog.generateTemporaryLayer_btn.clicked.connect(self.newEmptyLayer)
         self.wektorInstrukcjaDialog.chooseFile_btn.clicked.connect(self.openFile)
 
         self.wektorFormularzDialog.prev_btn.clicked.connect(self.wektorFormularzDialog_prev_btn_clicked)
@@ -64,12 +76,13 @@ class AppModule(BaseModule):
         self.zbiorPrzygotowanieDialog.validateAndGenerate_btn.clicked.connect(self.showPopupGenerate2)
         self.zbiorPrzygotowanieDialog.addElement_btn.clicked.connect(self.addTableContentSet)
         self.zbiorPrzygotowanieDialog.deleteElement_btn.clicked.connect(self.deleteTableContentSet)
-        header_zbior = self.zbiorPrzygotowanieDialog.appTable_widget.horizontalHeader() #auto resize kolumn
+        header_zbior = self.zbiorPrzygotowanieDialog.appTable_widget.horizontalHeader()  # auto resize kolumn
         header_zbior.setSectionResizeMode(0, QtWidgets.QHeaderView.ResizeToContents)
         self.zbiorPrzygotowanieDialog.addFile_widget.setFilter("*.gml")
         # endregion
 
     """Event handlers"""
+
     # region pytanieAppDialog
 
     def pytanieAppDialog_app_btn_clicked(self):
@@ -79,6 +92,7 @@ class AppModule(BaseModule):
     def pytanieAppDialog_zbior_btn_clicked(self):
         self.openNewDialog(self.zbiorPrzygotowanieDialog)
         self.listaOkienek.append(self.pytanieAppDialog)
+
     # endregion
 
     # region rasterInstrukcjaDialog
@@ -88,6 +102,7 @@ class AppModule(BaseModule):
 
     def rasterInstrukcjaDialog_prev_btn_clicked(self):
         self.openNewDialog(self.listaOkienek.pop())
+
     # endregion
 
     # region rasterFormularzDialog
@@ -97,6 +112,7 @@ class AppModule(BaseModule):
     def rasterFormularzDialog_next_btn_clicked(self):
         self.openNewDialog(self.wektorInstrukcjaDialog)
         self.listaOkienek.append(self.rasterFormularzDialog)
+
     # endregion
 
     # region wektorInstrukcjaDialog
@@ -106,6 +122,7 @@ class AppModule(BaseModule):
 
     def wektorInstrukcjaDialog_prev_btn_clicked(self):
         self.openNewDialog(self.listaOkienek.pop())
+
     # endregion
 
     # region wektorFormularzDialog
@@ -115,6 +132,7 @@ class AppModule(BaseModule):
     def wektorFormularzDialog_next_btn_clicked(self):
         self.openNewDialog(self.dokumentyFormularzDialog)
         self.listaOkienek.append(self.wektorFormularzDialog)
+
     # endregion
 
     # region dokumentyFormularzDialog
@@ -124,6 +142,7 @@ class AppModule(BaseModule):
     def dokumentyFormularzDialog_next_btn_clicked(self):
         self.openNewDialog(self.generowanieGMLDialog)
         self.listaOkienek.append(self.dokumentyFormularzDialog)
+
     # endregion
 
     # region generowanieGMLDialog
@@ -174,15 +193,15 @@ class AppModule(BaseModule):
         self.openNewDialog(self.metadaneDialog)
         self.listaOkienek.append(self.zbiorPrzygotowanieDialog)
         self.metadaneDialog.prev_btn.setEnabled(True)
+
     # endregion
 
     """Helper methods"""
-    #setAdditionalItems nie działa, niepoprawny argument
-    #dodać inne rozszerzenia
+    # TODO dodać inne rozszerzenia plików wektorowych
     def openFile(self):
         shpFile = str(QFileDialog.getOpenFileName(filter=("Shapefiles (*.shp)"))[0])
-        #self.listaPlikow.append(shpFile)
-        #self.wektorInstrukcjaDialog.layers_comboBox.setAdditionalItems(self.listaPlikow)
+        # self.listaPlikow.append(shpFile)
+        # self.wektorInstrukcjaDialog.layers_comboBox.setAdditionalItems(self.listaPlikow)
         if shpFile:
             self.iface.addVectorLayer(shpFile, str.split(os.path.basename(shpFile), ".")[0], "ogr")
 
@@ -190,7 +209,7 @@ class AppModule(BaseModule):
         plik = str(QFileDialog.getOpenFileName(filter=("XML/GML files (*.xml *.gml)"))[0])
         if plik:
             rows = self.generowanieGMLDialog.filesTable_widget.rowCount()
-            self.generowanieGMLDialog.filesTable_widget.setRowCount(rows+1)
+            self.generowanieGMLDialog.filesTable_widget.setRowCount(rows + 1)
             self.generowanieGMLDialog.filesTable_widget.setItem(rows, 0, QTableWidgetItem(plik))
 
     def deleteTableContentGML(self):
@@ -205,7 +224,7 @@ class AppModule(BaseModule):
         plik = str(QFileDialog.getOpenFileName(filter=("GML file (*.gml)"))[0])
         if plik:
             rows = self.zbiorPrzygotowanieDialog.appTable_widget.rowCount()
-            self.zbiorPrzygotowanieDialog.appTable_widget.setRowCount(rows+1)
+            self.zbiorPrzygotowanieDialog.appTable_widget.setRowCount(rows + 1)
             self.zbiorPrzygotowanieDialog.appTable_widget.setItem(rows, 0, QTableWidgetItem(plik))
 
     def deleteTableContentSet(self):
@@ -216,7 +235,20 @@ class AppModule(BaseModule):
         else:
             pass
 
+    def newEmptyLayer(self):
+        # TODO shp --> geopackage, nadać poprawne atrybuty, ograniczenie liczby obiektów do 1
+        self.fn = QFileDialog.getSaveFileName(filter="Shapefile (*.shp)")[0]
+        if self.fn:
+            fields = QgsFields()
+            fields.append(QgsField('idIIP', QVariant.String))
+            fields.append(QgsField('nazwa', QVariant.String))
+            writer = QgsVectorFileWriter(self.fn, 'UTF-8', fields, QgsWkbTypes.Polygon, QgsCoordinateReferenceSystem('EPSG:2180'), 'ESRI Shapefile')
+            feat = QgsFeature()
+            writer.addFeature(feat)
+            iface.addVectorLayer(self.fn, '', 'ogr')
+
     """Popup windows"""
+
     def showPopupSaveForm(self):
         showPopup("Zapisz aktualny formularz", "Poprawnie zapisano formularz.")
         self.saved = True
@@ -251,7 +283,6 @@ class AppModule(BaseModule):
         elif msg.clickedButton() is no:
             self.showPopupSet()
 
-
     def showPopupSet(self):
         msg = QMessageBox()
         msg.setIcon(QtWidgets.QMessageBox.Question)
@@ -263,7 +294,6 @@ class AppModule(BaseModule):
             'Anuluj', QtWidgets.QMessageBox.RejectRole)
         quit = msg.addButton(
             'Zakończ', QtWidgets.QMessageBox.AcceptRole)
-
 
         msg.setDefaultButton(set)
         msg.exec_()

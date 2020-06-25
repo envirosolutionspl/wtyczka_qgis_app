@@ -15,7 +15,8 @@ from qgis.core import (
   QgsGeometry,
   QgsVectorLayer,
   QgsVectorFileWriter,
-  QgsWkbTypes
+  QgsWkbTypes,
+  QgsMapLayerProxyModel
 )
 import os
 
@@ -54,6 +55,7 @@ class AppModule(BaseModule):
         self.wektorInstrukcjaDialog.prev_btn.clicked.connect(self.wektorInstrukcjaDialog_prev_btn_clicked)
         self.wektorInstrukcjaDialog.generateTemporaryLayer_btn.clicked.connect(self.newEmptyLayer)
         self.wektorInstrukcjaDialog.chooseFile_btn.clicked.connect(self.openFile)
+        self.wektorInstrukcjaDialog.layers_comboBox.setFilters(QgsMapLayerProxyModel.PolygonLayer)
 
         self.wektorFormularzDialog.prev_btn.clicked.connect(self.wektorFormularzDialog_prev_btn_clicked)
         self.wektorFormularzDialog.next_btn.clicked.connect(self.showPopupCheckSave)
@@ -200,8 +202,6 @@ class AppModule(BaseModule):
     # TODO dodać inne rozszerzenia plików wektorowych
     def openFile(self):
         shpFile = str(QFileDialog.getOpenFileName(filter=("Shapefiles (*.shp)"))[0])
-        # self.listaPlikow.append(shpFile)
-        # self.wektorInstrukcjaDialog.layers_comboBox.setAdditionalItems(self.listaPlikow)
         if shpFile:
             self.iface.addVectorLayer(shpFile, str.split(os.path.basename(shpFile), ".")[0], "ogr")
 

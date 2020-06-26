@@ -89,6 +89,11 @@
          <string>Rodzaj dokumentu</string>
         </property>
        </column>
+       <column>
+        <property name="text">
+         <string>Data modyfikacji</string>
+        </property>
+       </column>
       </widget>
      </item>
      <item>

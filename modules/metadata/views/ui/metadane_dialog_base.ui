@@ -280,6 +280,9 @@
       <layout class="QGridLayout" name="gridLayout">
        <item row="0" column="1">
         <widget class="QPushButton" name="server_btn">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
          <property name="text">
           <string>Wyślij na serwer katalogowy</string>
          </property>
@@ -287,6 +290,9 @@
        </item>
        <item row="0" column="0">
         <widget class="QPushButton" name="email_btn">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
          <property name="text">
           <string>Wyślij na adres email</string>
          </property>
@@ -340,25 +346,6 @@
         <widget class="QPushButton" name="validateAndSave_btn">
          <property name="text">
           <string>Waliduj/zapisz</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="next_btn">
-         <property name="enabled">
-          <bool>true</bool>
-         </property>
-         <property name="toolTip">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Przycisk &lt;span style=&quot; font-style:italic;&quot;&gt;Dalej&lt;/span&gt; przeniesie do narzędzia &lt;span style=&quot; font-style:italic;&quot;&gt;Walidacja GML / XML&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-         <property name="text">
-          <string>Dalej</string>
-         </property>
-         <property name="default">
-          <bool>false</bool>
-         </property>
-         <property name="flat">
-          <bool>false</bool>
          </property>
         </widget>
        </item>

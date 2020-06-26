@@ -163,9 +163,11 @@ class Ui_Dialog(object):
         self.gridLayout = QtWidgets.QGridLayout()
         self.gridLayout.setObjectName("gridLayout")
         self.server_btn = QtWidgets.QPushButton(Dialog)
+        self.server_btn.setEnabled(False)
         self.server_btn.setObjectName("server_btn")
         self.gridLayout.addWidget(self.server_btn, 0, 1, 1, 1)
         self.email_btn = QtWidgets.QPushButton(Dialog)
+        self.email_btn.setEnabled(False)
         self.email_btn.setObjectName("email_btn")
         self.gridLayout.addWidget(self.email_btn, 0, 0, 1, 1)
         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
@@ -185,12 +187,6 @@ class Ui_Dialog(object):
         self.validateAndSave_btn = QtWidgets.QPushButton(Dialog)
         self.validateAndSave_btn.setObjectName("validateAndSave_btn")
         self.horizontalLayout_3.addWidget(self.validateAndSave_btn)
-        self.next_btn = QtWidgets.QPushButton(Dialog)
-        self.next_btn.setEnabled(True)
-        self.next_btn.setDefault(False)
-        self.next_btn.setFlat(False)
-        self.next_btn.setObjectName("next_btn")
-        self.horizontalLayout_3.addWidget(self.next_btn)
         self.verticalLayout.addLayout(self.horizontalLayout_3)
         self.gridLayout_3.addLayout(self.verticalLayout, 0, 0, 1, 1)
 
@@ -219,8 +215,6 @@ class Ui_Dialog(object):
         self.email_btn.setText(_translate("Dialog", "Wyślij na adres email"))
         self.prev_btn.setText(_translate("Dialog", "Wstecz"))
         self.validateAndSave_btn.setText(_translate("Dialog", "Waliduj/zapisz"))
-        self.next_btn.setToolTip(_translate("Dialog", "<html><head/><body><p>Przycisk <span style=\" font-style:italic;\">Dalej</span> przeniesie do narzędzia <span style=\" font-style:italic;\">Walidacja GML / XML</span></p></body></html>"))
-        self.next_btn.setText(_translate("Dialog", "Dalej"))
 from qgsfilewidget import QgsFileWidget
 
 

@@ -20,7 +20,7 @@ class MetadataModule(BaseModule):
 
         # region eventy moduł metadata
         self.metadaneDialog.prev_btn.clicked.connect(self.metadaneDialog_prev_btn_clicked)
-        self.metadaneDialog.next_btn.clicked.connect(self.metadaneDialog_next_btn_clicked)
+        #self.metadaneDialog.next_btn.clicked.connect(self.metadaneDialog_next_btn_clicked)
 
         self.metadaneDialog.validateAndSave_btn.clicked.connect(self.showPopupValidateAndSave)
 
@@ -36,6 +36,8 @@ class MetadataModule(BaseModule):
     # region metadaneDialog
     def metadaneDialog_prev_btn_clicked(self):
         self.openNewDialog(self.listaOkienek.pop())
+        self.metadaneDialog.server_btn.setEnabled(False)
+        self.metadaneDialog.email_btn.setEnabled(False)
 
     def metadaneDialog_next_btn_clicked(self):
         self.openNewDialog(self.walidacjaDialog)
@@ -87,6 +89,8 @@ class MetadataModule(BaseModule):
     """Popup windows"""
     def showPopupValidateAndSave(self):
         showPopup("Zwaliduj i zapisz plik XML", "Poprawnie zwalidowano oraz zapisano plik XML.")
+        self.metadaneDialog.server_btn.setEnabled(True)
+        self.metadaneDialog.email_btn.setEnabled(True)
 
     def showPopupSend(self):
         showPopup("Wyśli plik", "Wysłano plik XML zawierający metadane.")

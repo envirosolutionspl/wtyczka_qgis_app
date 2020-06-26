@@ -32,6 +32,7 @@ from .resources import *
 from .modules.app.wtyczka_app import AppModule
 from .modules.metadata.wtyczka_app import MetadataModule
 from .modules.validator.wtyczka_app import ValidatorModule
+from .modules.settings.wtyczka_app import SettingsModule
 from .modules.utils import showPopup
 
 import os
@@ -40,7 +41,7 @@ PLUGIN_NAME = 'Wtyczka APP'
 PLUGIN_VERSION = '0.1'
 
 
-class WtyczkaAPP(AppModule, MetadataModule, ValidatorModule):
+class WtyczkaAPP(AppModule, MetadataModule, ValidatorModule, SettingsModule):
     """QGIS Plugin Implementation."""
 
     def __init__(self, iface):
@@ -49,6 +50,7 @@ class WtyczkaAPP(AppModule, MetadataModule, ValidatorModule):
         AppModule.__init__(self, iface)
         MetadataModule.__init__(self, iface)
         ValidatorModule.__init__(self, iface)
+        SettingsModule.__init__(self, iface)
 
         # Save reference to the QGIS interface
         self.iface = iface
@@ -128,9 +130,8 @@ class WtyczkaAPP(AppModule, MetadataModule, ValidatorModule):
         self.metadaneDialog.prev_btn.setEnabled(False)
 
     def run_settings(self):
-        pass
+        self.openNewDialog(self.ustawieniaDialog)
 
     def run_validator(self):
         self.openNewDialog(self.walidacjaDialog)
-        self.walidacjaDialog.prev_btn.setEnabled(False)
     # endregion

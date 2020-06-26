@@ -18,7 +18,7 @@ class ValidatorModule(BaseModule):
         # endregion
 
         # region eventy moduł validator
-        self.walidacjaDialog.prev_btn.clicked.connect(self.walidacjaDialog_prev_btn_clicked)
+        #self.walidacjaDialog.prev_btn.clicked.connect(self.walidacjaDialog_prev_btn_clicked)
 
         self.walidacjaDialog.close_btn.setEnabled(False)
         self.walidacjaDialog.export_btn.clicked.connect(self.showPopupExport)

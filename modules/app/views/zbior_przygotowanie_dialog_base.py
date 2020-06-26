@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'modules/app/views/ui/zbior_przygotowanie_dialog_base.ui'
+# Form implementation generated from reading ui file 'zbior_przygotowanie_dialog_base.ui'
 #
-# Created by: PyQt5 UI code generator 5.11.3
+# Created by: PyQt5 UI code generator 5.13.2
 #
 # WARNING! All changes made in this file will be lost!
 
+
 from PyQt5 import QtCore, QtGui, QtWidgets
+
 
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
@@ -85,10 +87,12 @@ class Ui_Dialog(object):
         self.verticalLayout.addLayout(self.horizontalLayout_3)
         self.appTable_widget = QtWidgets.QTableWidget(Dialog)
         self.appTable_widget.setObjectName("appTable_widget")
-        self.appTable_widget.setColumnCount(1)
+        self.appTable_widget.setColumnCount(2)
         self.appTable_widget.setRowCount(0)
         item = QtWidgets.QTableWidgetItem()
         self.appTable_widget.setHorizontalHeaderItem(0, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.appTable_widget.setHorizontalHeaderItem(1, item)
         self.verticalLayout.addWidget(self.appTable_widget)
         self.empty2_lbl = QtWidgets.QLabel(Dialog)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
@@ -131,9 +135,20 @@ class Ui_Dialog(object):
         self.deleteElement_btn.setText(_translate("Dialog", "-"))
         item = self.appTable_widget.horizontalHeaderItem(0)
         item.setText(_translate("Dialog", "Plik APP (GML)"))
+        item = self.appTable_widget.horizontalHeaderItem(1)
+        item.setText(_translate("Dialog", "Data modyfikacji"))
         self.prev_btn.setText(_translate("Dialog", "Wstecz"))
         self.validateAndGenerate_btn.setText(_translate("Dialog", "Waliduj/Generuj"))
         self.next_btn.setToolTip(_translate("Dialog", "<html><head/><body><p>Przycisk przeniesie do narzędzia <span style=\" font-style:italic;\">Tworzenie / aktualizacja metadanych</span></p></body></html>"))
         self.next_btn.setText(_translate("Dialog", "Przejdź do metadanych"))
-
 from qgsfilewidget import QgsFileWidget
+
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    Dialog = QtWidgets.QDialog()
+    ui = Ui_Dialog()
+    ui.setupUi(Dialog)
+    Dialog.show()
+    sys.exit(app.exec_())

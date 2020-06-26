@@ -30,13 +30,3 @@ class MetadaneDialog(QDialogOverride, FORM_CLASS):
         self.setWindowTitle(title_metadata)
         self.setWindowIcon(QtGui.QIcon(icon_metadata))
         self.setWindowFlag(Qt.WindowMinMaxButtonsHint, True)
-
-    def closeEvent(self, event):
-        if self.sender() is None:
-            reply = QMessageBox.question(self, 'Opuszczanie wtyczki APP',
-                                         "Jesteś pewien, że chcesz opuścić wtyczkę?", QMessageBox.Yes |
-                                         QMessageBox.No, QMessageBox.No)
-            if reply == QMessageBox.Yes:
-                event.accept()
-            else:
-                event.ignore()

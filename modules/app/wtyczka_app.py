@@ -23,6 +23,8 @@ import os
 
 class AppModule(BaseModule):
     metadaneDialog = None
+    ustawieniaDialog = None
+    pomocDialog = None
 
     def __init__(self, iface):
         self.iface = iface
@@ -43,6 +45,8 @@ class AppModule(BaseModule):
         # region eventy moduł app
         self.pytanieAppDialog.zbior_btn.clicked.connect(self.pytanieAppDialog_zbior_btn_clicked)
         self.pytanieAppDialog.app_btn.clicked.connect(self.pytanieAppDialog_app_btn_clicked)
+        self.pytanieAppDialog.settings_btn.clicked.connect(self.pytanieAppDialog_settings_btn_clicked)
+        self.pytanieAppDialog.help_btn.clicked.connect(self.pytanieAppDialog_help_btn_clicked)
 
         self.rasterInstrukcjaDialog.next_btn.clicked.connect(self.rasterInstrukcjaDialog_next_btn_clicked)
         self.rasterInstrukcjaDialog.prev_btn.clicked.connect(self.rasterInstrukcjaDialog_prev_btn_clicked)
@@ -94,6 +98,12 @@ class AppModule(BaseModule):
     def pytanieAppDialog_zbior_btn_clicked(self):
         self.openNewDialog(self.zbiorPrzygotowanieDialog)
         self.listaOkienek.append(self.pytanieAppDialog)
+
+    def pytanieAppDialog_settings_btn_clicked(self):
+        self.ustawieniaDialog.exec()
+
+    def pytanieAppDialog_help_btn_clicked(self):
+        self.pomocDialog.exec()
 
     # endregion
 

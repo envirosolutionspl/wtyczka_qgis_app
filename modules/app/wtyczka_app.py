@@ -18,7 +18,7 @@ from qgis.core import (
   QgsWkbTypes,
   QgsMapLayerProxyModel
 )
-import os
+import os, os.path, time, datetime
 
 
 class AppModule(BaseModule):
@@ -76,6 +76,7 @@ class AppModule(BaseModule):
         header_gml = self.generowanieGMLDialog.filesTable_widget.horizontalHeader()
         header_gml.setSectionResizeMode(0, QtWidgets.QHeaderView.ResizeToContents)
         header_gml.setSectionResizeMode(1, QtWidgets.QHeaderView.ResizeToContents)
+        header_gml.setSectionResizeMode(2, QtWidgets.QHeaderView.ResizeToContents)
 
         self.zbiorPrzygotowanieDialog.prev_btn.clicked.connect(self.zbiorPrzygotowanieDialog_prev_btn_clicked)
         self.zbiorPrzygotowanieDialog.next_btn.clicked.connect(self.zbiorPrzygotowanieDialog_next_btn_clicked)
@@ -84,6 +85,7 @@ class AppModule(BaseModule):
         self.zbiorPrzygotowanieDialog.deleteElement_btn.clicked.connect(self.deleteTableContentSet)
         header_zbior = self.zbiorPrzygotowanieDialog.appTable_widget.horizontalHeader()  # auto resize kolumn
         header_zbior.setSectionResizeMode(0, QtWidgets.QHeaderView.ResizeToContents)
+        header_zbior.setSectionResizeMode(1, QtWidgets.QHeaderView.ResizeToContents)
         self.zbiorPrzygotowanieDialog.addFile_widget.setFilter("*.gml")
         # endregion
 
@@ -217,31 +219,69 @@ class AppModule(BaseModule):
 
     def addTableContentGML(self):
         plik = str(QFileDialog.getOpenFileName(filter=("XML/GML files (*.xml *.gml)"))[0])
+        param = True
         if plik:
             rows = self.generowanieGMLDialog.filesTable_widget.rowCount()
-            self.generowanieGMLDialog.filesTable_widget.setRowCount(rows + 1)
-            self.generowanieGMLDialog.filesTable_widget.setItem(rows, 0, QTableWidgetItem(plik))
+            if rows > 0:
+                for i in range(rows):
+                    item = self.generowanieGMLDialog.filesTable_widget.item(i, 0).text()
+                    if plik == item:
+                        param = False
+                        self.showPopupSameRecord()
+                        break
+                if param:
+                    self.generowanieGMLDialog.filesTable_widget.setRowCount(rows + 1)
+                    self.generowanieGMLDialog.filesTable_widget.setItem(rows, 0, QTableWidgetItem(plik))
+                    t = os.path.getmtime(plik)
+                    mtime = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(t))
+                    self.generowanieGMLDialog.filesTable_widget.setItem(rows, 2, QTableWidgetItem(mtime))
+            else:
+                self.generowanieGMLDialog.filesTable_widget.setRowCount(rows + 1)
+                self.generowanieGMLDialog.filesTable_widget.setItem(rows, 0, QTableWidgetItem(plik))
+                t = os.path.getmtime(plik)
+                mtime = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(t))
+                self.generowanieGMLDialog.filesTable_widget.setItem(rows, 2, QTableWidgetItem(mtime))
 
     def deleteTableContentGML(self):
         row_num = self.generowanieGMLDialog.filesTable_widget.rowCount()
         if row_num > 0:
             do_usuniecia = self.generowanieGMLDialog.filesTable_widget.currentRow()
             self.generowanieGMLDialog.filesTable_widget.removeRow(do_usuniecia)
+            self.generowanieGMLDialog.filesTable_widget.setCurrentCell(-1, -1)
         else:
             pass
 
     def addTableContentSet(self):
         plik = str(QFileDialog.getOpenFileName(filter=("GML file (*.gml)"))[0])
+        param = True
         if plik:
             rows = self.zbiorPrzygotowanieDialog.appTable_widget.rowCount()
-            self.zbiorPrzygotowanieDialog.appTable_widget.setRowCount(rows + 1)
-            self.zbiorPrzygotowanieDialog.appTable_widget.setItem(rows, 0, QTableWidgetItem(plik))
+            if rows > 0:
+                for i in range(rows):
+                    item = self.zbiorPrzygotowanieDialog.appTable_widget.item(i, 0).text()
+                    if plik == item:
+                        param = False
+                        self.showPopupSameRecord()
+                        break
+                if param:
+                    self.zbiorPrzygotowanieDialog.appTable_widget.setRowCount(rows + 1)
+                    self.zbiorPrzygotowanieDialog.appTable_widget.setItem(rows, 0, QTableWidgetItem(plik))
+                    t = os.path.getmtime(plik)
+                    mtime = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(t))
+                    self.zbiorPrzygotowanieDialog.appTable_widget.setItem(rows, 1, QTableWidgetItem(mtime))
+            else:
+                self.zbiorPrzygotowanieDialog.appTable_widget.setRowCount(rows + 1)
+                self.zbiorPrzygotowanieDialog.appTable_widget.setItem(rows, 0, QTableWidgetItem(plik))
+                t = os.path.getmtime(plik)
+                mtime = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(t))
+                self.zbiorPrzygotowanieDialog.appTable_widget.setItem(rows, 1, QTableWidgetItem(mtime))
 
     def deleteTableContentSet(self):
         row_num = self.zbiorPrzygotowanieDialog.appTable_widget.rowCount()
         if row_num > 0:
             do_usuniecia = self.zbiorPrzygotowanieDialog.appTable_widget.currentRow()
             self.zbiorPrzygotowanieDialog.appTable_widget.removeRow(do_usuniecia)
+            self.zbiorPrzygotowanieDialog.appTable_widget.setCurrentCell(-1, -1)
         else:
             pass
 
@@ -263,6 +303,9 @@ class AppModule(BaseModule):
         showPopup("Zapisz aktualny formularz", "Poprawnie zapisano formularz.")
         self.saved = True
         return self.saved
+
+    def showPopupSameRecord(self):
+        showPopup("Błąd tabeli", "Wybrany plik znajduje się już w tabeli")
 
     def showPopupGenerateLayer(self):
         showPopup("Wygeneruj warstwę", "Poprawnie utworzono pustą warstwę. Uzupełnij ją danymi wektorowymi oraz wypełnij atrybuty.")

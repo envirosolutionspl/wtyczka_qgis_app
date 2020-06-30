@@ -349,6 +349,16 @@
          </property>
         </widget>
        </item>
+       <item>
+        <widget class="QPushButton" name="close_btn">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="text">
+          <string>Zakończ</string>
+         </property>
+        </widget>
+       </item>
       </layout>
      </item>
     </layout>

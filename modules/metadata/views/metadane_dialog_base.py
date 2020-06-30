@@ -187,6 +187,10 @@ class Ui_Dialog(object):
         self.validateAndSave_btn = QtWidgets.QPushButton(Dialog)
         self.validateAndSave_btn.setObjectName("validateAndSave_btn")
         self.horizontalLayout_3.addWidget(self.validateAndSave_btn)
+        self.close_btn = QtWidgets.QPushButton(Dialog)
+        self.close_btn.setEnabled(True)
+        self.close_btn.setObjectName("close_btn")
+        self.horizontalLayout_3.addWidget(self.close_btn)
         self.verticalLayout.addLayout(self.horizontalLayout_3)
         self.gridLayout_3.addLayout(self.verticalLayout, 0, 0, 1, 1)
 
@@ -215,6 +219,7 @@ class Ui_Dialog(object):
         self.email_btn.setText(_translate("Dialog", "Wyślij na adres email"))
         self.prev_btn.setText(_translate("Dialog", "Wstecz"))
         self.validateAndSave_btn.setText(_translate("Dialog", "Waliduj/zapisz"))
+        self.close_btn.setText(_translate("Dialog", "Zakończ"))
 from qgsfilewidget import QgsFileWidget
 
 

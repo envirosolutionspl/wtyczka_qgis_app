@@ -212,7 +212,7 @@ class AppModule(BaseModule):
     # endregion
 
     """Helper methods"""
-    # TODO dodać inne rozszerzenia plików wektorowych
+    # TODO dodać inne rozszerzenia plików wektorowych - najlepiej qgisowym narzędziem
     def openFile(self):
         shpFile = str(QFileDialog.getOpenFileName(filter=("Shapefiles (*.shp)"))[0])
         if shpFile:
@@ -293,7 +293,9 @@ class AppModule(BaseModule):
             pass
 
     def newEmptyLayer(self):
-        # TODO shp --> geopackage, nadać poprawne atrybuty, ograniczenie liczby obiektów do 1
+        # TODO shp --> geopackage???,
+        #  nadać poprawne atrybuty (czy są w ogóle potrzebne???),
+        #  ograniczenie liczby obiektów do 1
         self.fn = QFileDialog.getSaveFileName(filter="Shapefile (*.shp)")[0]
         if self.fn:
             fields = QgsFields()

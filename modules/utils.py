@@ -75,7 +75,6 @@ def createFormElementsDokumentFormalny():
                 type=attrib['type']
             )
         except:
-            # TODO obsługa NilReason - podanie powodu braku
 
             elementComplexType = element.find("glowny:complexType", ns)
             elementAttrib = elementComplexType[0][0].attrib
@@ -120,8 +119,6 @@ def createFormElementsAktPlanowaniaPrzestrzennego():
                 type=attrib['type']
             )
         except:
-            #TODO obsługa NilReason - podanie powodu braku
-
             elementComplexType = element.find("glowny:complexType", ns)
             elementAttrib = elementComplexType[0][0].attrib
             formElement = FormElement(

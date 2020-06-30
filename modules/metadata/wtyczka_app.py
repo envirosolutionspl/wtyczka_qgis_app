@@ -22,9 +22,8 @@ class MetadataModule(BaseModule):
 
         # region eventy moduł metadata
         self.metadaneDialog.prev_btn.clicked.connect(self.metadaneDialog_prev_btn_clicked)
-        #self.metadaneDialog.next_btn.clicked.connect(self.metadaneDialog_next_btn_clicked)
-
         self.metadaneDialog.validateAndSave_btn.clicked.connect(self.showPopupValidateAndSave)
+        self.metadaneDialog.close_btn.clicked.connect(self.metadaneDialog.close)
 
         self.metadaneDialog.newMetadata_radioButton.toggled.connect(self.newMetadataRadioButton_toggled)
         self.metadaneDialog.existingMetadata_radioButton.toggled.connect(self.existingMetadataRadioButton_toggled)

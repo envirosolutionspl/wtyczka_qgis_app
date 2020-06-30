@@ -32,10 +32,12 @@ class Formularz:
             if formElement.type == 'dateTime':
                 input = QgsDateTimeEdit()
                 input.setObjectName(formElement.name + '_dateTimeEdit')
+                input.clear()
             elif formElement.type == 'date':
                 input = QgsDateTimeEdit()
                 input.setDisplayFormat('dd.MM.yyyy')
                 input.setObjectName(formElement.name + '_dateEdit')
+                input.clear()
             elif formElement.type == 'integer':
                 input = QgsFilterLineEdit()
                 input.setValidator(QRegExpValidator(QRegExp("[0-9]*")))  # tylko liczby calkowite

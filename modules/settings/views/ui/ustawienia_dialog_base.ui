@@ -54,8 +54,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>476</width>
-            <height>452</height>
+            <width>482</width>
+            <height>500</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout_2">
@@ -101,13 +101,6 @@
         <widget class="QPushButton" name="save_btn">
          <property name="text">
           <string>Zapisz</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="back_btn">
-         <property name="text">
-          <string>Cofnij do ostatniego zapisu</string>
          </property>
         </widget>
        </item>

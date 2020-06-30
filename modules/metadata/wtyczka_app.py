@@ -14,6 +14,8 @@ class MetadataModule(BaseModule):
     def __init__(self, iface):
         self.iface = iface
 
+        self.saved = False
+
         # region okno moduł metadata
         self.metadaneDialog = MetadaneDialog()
         # endregion
@@ -93,4 +95,4 @@ class MetadataModule(BaseModule):
         self.metadaneDialog.email_btn.setEnabled(True)
 
     def showPopupSend(self):
-        showPopup("Wyśli plik", "Wysłano plik XML zawierający metadane.")
+        showPopup("Wyślij plik", "Wysłano plik XML zawierający metadane.")

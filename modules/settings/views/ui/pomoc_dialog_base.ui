@@ -52,8 +52,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>478</width>
-          <height>454</height>
+          <width>484</width>
+          <height>502</height>
          </rect>
         </property>
         <layout class="QGridLayout" name="gridLayout">
@@ -91,7 +91,7 @@
        <item>
         <widget class="QPushButton" name="help_btn">
          <property name="text">
-          <string>Pomoc</string>
+          <string>Info</string>
          </property>
         </widget>
        </item>

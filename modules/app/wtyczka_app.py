@@ -5,7 +5,7 @@ from .. import BaseModule
 from ..utils import showPopup
 from qgis.PyQt import QtWidgets
 from PyQt5.QtWidgets import QFileDialog, QTableWidgetItem, QMessageBox
-from qgis.PyQt.QtCore import QVariant
+from qgis.PyQt.QtCore import QVariant, Qt
 from qgis.core import (
   QgsCoordinateReferenceSystem,
   QgsPointXY,
@@ -30,6 +30,7 @@ class AppModule(BaseModule):
         self.iface = iface
 
         self.saved = False
+        self.generated = False
 
         # region okna moduł app
         self.pytanieAppDialog = PytanieAppDialog()
@@ -52,7 +53,7 @@ class AppModule(BaseModule):
         self.rasterInstrukcjaDialog.prev_btn.clicked.connect(self.rasterInstrukcjaDialog_prev_btn_clicked)
 
         self.rasterFormularzDialog.prev_btn.clicked.connect(self.rasterFormularzDialog_prev_btn_clicked)
-        self.rasterFormularzDialog.next_btn.clicked.connect(self.showPopupCheckSave)
+        self.rasterFormularzDialog.next_btn.clicked.connect(self.checkSaveForms)
         self.rasterFormularzDialog.saveForm_btn.clicked.connect(self.showPopupSaveForm)
 
         self.wektorInstrukcjaDialog.next_btn.clicked.connect(self.wektorInstrukcjaDialog_next_btn_clicked)
@@ -62,11 +63,11 @@ class AppModule(BaseModule):
         self.wektorInstrukcjaDialog.layers_comboBox.setFilters(QgsMapLayerProxyModel.PolygonLayer)
 
         self.wektorFormularzDialog.prev_btn.clicked.connect(self.wektorFormularzDialog_prev_btn_clicked)
-        self.wektorFormularzDialog.next_btn.clicked.connect(self.showPopupCheckSave)
+        self.wektorFormularzDialog.next_btn.clicked.connect(self.checkSaveForms)
         self.wektorFormularzDialog.saveForm_btn.clicked.connect(self.showPopupSaveForm)
 
         self.dokumentyFormularzDialog.prev_btn.clicked.connect(self.dokumentyFormularzDialog_prev_btn_clicked)
-        self.dokumentyFormularzDialog.next_btn.clicked.connect(self.showPopupCheckSave)
+        self.dokumentyFormularzDialog.next_btn.clicked.connect(self.checkSaveForms)
         self.dokumentyFormularzDialog.saveForm_btn.clicked.connect(self.showPopupSaveForm)
 
         self.generowanieGMLDialog.prev_btn.clicked.connect(self.generowanieGMLDialog_prev_btn_clicked)
@@ -79,7 +80,7 @@ class AppModule(BaseModule):
         header_gml.setSectionResizeMode(2, QtWidgets.QHeaderView.ResizeToContents)
 
         self.zbiorPrzygotowanieDialog.prev_btn.clicked.connect(self.zbiorPrzygotowanieDialog_prev_btn_clicked)
-        self.zbiorPrzygotowanieDialog.next_btn.clicked.connect(self.zbiorPrzygotowanieDialog_next_btn_clicked)
+        self.zbiorPrzygotowanieDialog.next_btn.clicked.connect(self.checkSaveSet)
         self.zbiorPrzygotowanieDialog.validateAndGenerate_btn.clicked.connect(self.showPopupGenerate2)
         self.zbiorPrzygotowanieDialog.addElement_btn.clicked.connect(self.addTableContentSet)
         self.zbiorPrzygotowanieDialog.deleteElement_btn.clicked.connect(self.deleteTableContentSet)
@@ -230,17 +231,20 @@ class AppModule(BaseModule):
                         self.showPopupSameRecord()
                         break
                 if param:
-                    self.generowanieGMLDialog.filesTable_widget.setRowCount(rows + 1)
-                    self.generowanieGMLDialog.filesTable_widget.setItem(rows, 0, QTableWidgetItem(plik))
-                    t = os.path.getmtime(plik)
-                    mtime = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(t))
-                    self.generowanieGMLDialog.filesTable_widget.setItem(rows, 2, QTableWidgetItem(mtime))
+                    self.tableContentGML(plik, rows)
             else:
-                self.generowanieGMLDialog.filesTable_widget.setRowCount(rows + 1)
-                self.generowanieGMLDialog.filesTable_widget.setItem(rows, 0, QTableWidgetItem(plik))
-                t = os.path.getmtime(plik)
-                mtime = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(t))
-                self.generowanieGMLDialog.filesTable_widget.setItem(rows, 2, QTableWidgetItem(mtime))
+                self.tableContentGML(plik, rows)
+
+    def tableContentGML(self, file, rows):
+        flags = Qt.ItemFlags(32)
+        self.generowanieGMLDialog.filesTable_widget.setRowCount(rows + 1)
+        self.generowanieGMLDialog.filesTable_widget.setItem(rows, 0, QTableWidgetItem(file))
+
+        t = os.path.getmtime(file)
+        mtime = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(t))
+        item = QTableWidgetItem(mtime)
+        item.setFlags(flags)
+        self.generowanieGMLDialog.filesTable_widget.setItem(rows, 2, item)
 
     def deleteTableContentGML(self):
         row_num = self.generowanieGMLDialog.filesTable_widget.rowCount()
@@ -264,17 +268,20 @@ class AppModule(BaseModule):
                         self.showPopupSameRecord()
                         break
                 if param:
-                    self.zbiorPrzygotowanieDialog.appTable_widget.setRowCount(rows + 1)
-                    self.zbiorPrzygotowanieDialog.appTable_widget.setItem(rows, 0, QTableWidgetItem(plik))
-                    t = os.path.getmtime(plik)
-                    mtime = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(t))
-                    self.zbiorPrzygotowanieDialog.appTable_widget.setItem(rows, 1, QTableWidgetItem(mtime))
+                    self.tableContentSet(plik, rows)
             else:
-                self.zbiorPrzygotowanieDialog.appTable_widget.setRowCount(rows + 1)
-                self.zbiorPrzygotowanieDialog.appTable_widget.setItem(rows, 0, QTableWidgetItem(plik))
-                t = os.path.getmtime(plik)
-                mtime = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(t))
-                self.zbiorPrzygotowanieDialog.appTable_widget.setItem(rows, 1, QTableWidgetItem(mtime))
+                self.tableContentSet(plik, rows)
+
+    def tableContentSet(self, file, rows):
+        flags = Qt.ItemFlags(32)
+        self.zbiorPrzygotowanieDialog.appTable_widget.setRowCount(rows + 1)
+        self.zbiorPrzygotowanieDialog.appTable_widget.setItem(rows, 0, QTableWidgetItem(file))
+
+        t = os.path.getmtime(file)
+        mtime = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(t))
+        item = QTableWidgetItem(mtime)
+        item.setFlags(flags)
+        self.zbiorPrzygotowanieDialog.appTable_widget.setItem(rows, 1, item)
 
     def deleteTableContentSet(self):
         row_num = self.zbiorPrzygotowanieDialog.appTable_widget.rowCount()
@@ -315,6 +322,8 @@ class AppModule(BaseModule):
 
     def showPopupGenerate2(self):
         showPopup("Wygeneruj plik GML dla zbioru APP", "Poprawnie wygenerowano plik GML.")
+        self.generated = True
+        return self.generated
 
     def showPopupApp(self):
         msg = QMessageBox()
@@ -357,7 +366,7 @@ class AppModule(BaseModule):
         elif msg.clickedButton() is quit:
             self.generowanieGMLDialog.close()
 
-    def showPopupCheckSave(self):
+    def checkSaveForms(self):
         if self.saved:
             if self.activeDlg == self.rasterFormularzDialog:
                 self.openNewDialog(self.wektorInstrukcjaDialog)
@@ -372,10 +381,10 @@ class AppModule(BaseModule):
                 self.listaOkienek.append(self.dokumentyFormularzDialog)
                 self.saved = False
         elif not self.saved:
-            self.showSaveForm()
+            self.showPopupSaveForms()
         return self.saved
 
-    def showSaveForm(self):
+    def showPopupSaveForms(self):
         msg = QMessageBox()
         msg.setIcon(QtWidgets.QMessageBox.Question)
         msg.setWindowTitle('Niezapisany formularz')
@@ -397,3 +406,28 @@ class AppModule(BaseModule):
             elif self.activeDlg == self.dokumentyFormularzDialog:
                 self.openNewDialog(self.generowanieGMLDialog)
                 self.listaOkienek.append(self.dokumentyFormularzDialog)
+
+    def checkSaveSet(self):
+        if self.generated:
+            self.openNewDialog(self.metadaneDialog)
+            self.listaOkienek.append(self.zbiorPrzygotowanieDialog)
+            self.generated = False
+        elif not self.generated:
+            self.showPopupSaveSet()
+        return self.generated
+
+    def showPopupSaveSet(self):
+        msg = QMessageBox()
+        msg.setIcon(QtWidgets.QMessageBox.Question)
+        msg.setWindowTitle('Niewygenerowany GML dla zbioru')
+        msg.setText('GML nie został jeszcze wygenerowany. Czy na pewno chcesz przejść do tworzenia metadanych?')
+        yes = msg.addButton(
+            'Tak', QtWidgets.QMessageBox.AcceptRole)
+        no = msg.addButton(
+            'Nie', QtWidgets.QMessageBox.RejectRole)
+        msg.setDefaultButton(no)
+        msg.exec_()
+        msg.deleteLater()
+        if msg.clickedButton() is yes:
+            self.openNewDialog(self.metadaneDialog)
+            self.listaOkienek.append(self.zbiorPrzygotowanieDialog)

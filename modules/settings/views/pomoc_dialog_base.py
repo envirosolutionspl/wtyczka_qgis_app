@@ -34,7 +34,7 @@ class Ui_Dialog(object):
         self.instruction_scrollArea.setWidgetResizable(True)
         self.instruction_scrollArea.setObjectName("instruction_scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 478, 454))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 484, 502))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.gridLayout = QtWidgets.QGridLayout(self.scrollAreaWidgetContents)
         self.gridLayout.setObjectName("gridLayout")
@@ -77,7 +77,7 @@ class Ui_Dialog(object):
         Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
         self.title_lbl.setText(_translate("Dialog", "Instrukcja użytkowania wtyczki APP"))
         self.instruction_lbl.setText(_translate("Dialog", "Instrukcja dotycząca obsługi całej wtyczki. Ogólne wskazówki oraz opis poszczególnych okienek. Wytłumaczenie sekwencji kroków jaką należy przejść, aby uzyskać finalny produkt."))
-        self.help_btn.setText(_translate("Dialog", "Pomoc"))
+        self.help_btn.setText(_translate("Dialog", "Info"))
         self.ok_btn.setText(_translate("Dialog", "Ok"))
         self.cancel_btn.setText(_translate("Dialog", "Anuluj"))
 

@@ -63,7 +63,7 @@ class WtyczkaAPP(AppModule, MetadataModule, ValidatorModule, SettingsModule):
 
         self.listaPlikow = []
 
-        # xsd.validateXml()
+        xsd.validateXml()
 
 
     def addAction(self, icon_path, text, callback):

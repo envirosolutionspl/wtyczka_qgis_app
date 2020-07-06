@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'modules/app/views/ui/formularz_raster_dialog_base.ui'
+# Form implementation generated from reading ui file 'formularz_raster_dialog_base.ui'
 #
-# Created by: PyQt5 UI code generator 5.11.3
+# Created by: PyQt5 UI code generator 5.13.2
 #
 # WARNING! All changes made in this file will be lost!
 
+
 from PyQt5 import QtCore, QtGui, QtWidgets
+
 
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
@@ -28,7 +30,7 @@ class Ui_Dialog(object):
         self.instruction_scrollArea.setWidgetResizable(True)
         self.instruction_scrollArea.setObjectName("instruction_scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 478, 193))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 484, 230))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.gridLayout = QtWidgets.QGridLayout(self.scrollAreaWidgetContents)
         self.gridLayout.setObjectName("gridLayout")
@@ -62,7 +64,7 @@ class Ui_Dialog(object):
         self.form_scrollArea.setWidgetResizable(True)
         self.form_scrollArea.setObjectName("form_scrollArea")
         self.scrollAreaWidgetContents_2 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 478, 193))
+        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 484, 229))
         self.scrollAreaWidgetContents_2.setObjectName("scrollAreaWidgetContents_2")
         self.gridLayout_2 = QtWidgets.QGridLayout(self.scrollAreaWidgetContents_2)
         self.gridLayout_2.setObjectName("gridLayout_2")
@@ -160,7 +162,7 @@ class Ui_Dialog(object):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
         self.title_lbl.setText(_translate("Dialog", "Formularz atrybutów dla rysunku APP"))
-        self.instruction_lbl.setText(_translate("Dialog", "Instrukcja jak poprawnie wypełnić formularz atrybutów. Możliwość wielokrotnego wypełnienia formularza. Co najmniej jeden formularz musi być wygenerowany."))
+        self.instruction_lbl.setText(_translate("Dialog", "<html><head/><body><p>Poniższy formularz dla rysunku APP należy wypełnić zgodnie z informacjami zawartymi w podpowiedzi do każdego atrybutu (ikona znaku zapytania po prawej stronie każdego atrybutu). Uzupełnienie pól oznaczonych gwiazdką jest obligatoryjne. </p><p>Po wypełnieniu formularza należy wybrać opcję <span style=\" font-style:italic;\">Zapisz aktualny formularz</span>, która spowoduje wygenerowanie pliku XML. </p><p>Jeżeli posiadasz kilka rysunków dla jednego APP niezbędne będzie wypełnienie poniższego formularza tyle razy, ile rysunków APP posiadasz. Aby wypełnić formularz dla kolejnego rysunku APP możesz: <br/>- zmodyfikować wpisane w formularzu dane, tak aby odnosiły się one do kolejnego rysunku APP, a następnie ponownie zapisać aktualny formularz, <br/>- rozpocząć uzupełnianie formularza na nowo, wybierając opcję <span style=\" font-style:italic;\">Wyczyść formularz</span> (wszystkie obecne dane zostaną usunięte), <br/>- skorzystać z wcześniej wypełnionego i zapisanego formularza, wybierając opcję <span style=\" font-style:italic;\">Pobierz wartości z istniejącego formularza</span>, który odczyta plik XML i przypisze atrybutom analogiczne wartości. Następnie należy sprawdzić lub zmodyfikować wpisane w formularzu dane, tak aby odnosiły się one do kolejnego rysunku APP oraz ponownie zapisać aktualny formularz. </p><p>Należy pamiętać, że w końcowym kroku tego narzędzia, czyli w okienku „Generowanie GML”, należy wgrać wszystkie (co najmniej jeden) formularze dla rysunków APP. </p></body></html>"))
         self.getValues_btn.setText(_translate("Dialog", "Pobierz wartości z istniejącego formularza"))
         self.clear_btn.setText(_translate("Dialog", "Wyczyść formularz"))
         self.titleForm_lbl.setText(_translate("Dialog", "Formularz atrybutów:"))
@@ -177,3 +179,12 @@ class Ui_Dialog(object):
         self.saveForm_btn.setText(_translate("Dialog", "Zapisz aktualny formularz"))
         self.next_btn.setText(_translate("Dialog", "Dalej"))
 
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    Dialog = QtWidgets.QDialog()
+    ui = Ui_Dialog()
+    ui.setupUi(Dialog)
+    Dialog.show()
+    sys.exit(app.exec_())

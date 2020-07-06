@@ -45,8 +45,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>474</width>
-          <height>193</height>
+          <width>484</width>
+          <height>230</height>
          </rect>
         </property>
         <layout class="QGridLayout" name="gridLayout">
@@ -58,7 +58,7 @@
             </font>
            </property>
            <property name="text">
-            <string>Instrukcja jak poprawnie wypełnić formularz atrybutów. Dla APP musi zostać wygenerowany dokładnie jeden formularz atrybutów.</string>
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Poniższy formularz dla APP należy wypełnić zgodnie z informacjami zawartymi w podpowiedzi do każdego atrybutu (ikona znaku zapytania po prawej stronie każdego atrybutu). Część pól zostanie uzupełniona automatycznie na podstawie danych z wczytanego pliku z granicami APP. Uzupełnienie pól oznaczonych gwiazdką jest obligatoryjne. &lt;/p&gt;&lt;p&gt;Jeżeli chcesz rozpocząć uzupełnianie formularza na nowo, należy wybrać przycisk &lt;span style=&quot; font-style:italic;&quot;&gt;Wyczyść formularz&lt;/span&gt;. Wszystkie obecne dane zostaną usunięte. &lt;/p&gt;&lt;p&gt;Kiedy formularz zostanie wypełniony, należy wybrać opcję &lt;span style=&quot; font-style:italic;&quot;&gt;Zapisz aktualny formularz&lt;/span&gt;, spowoduje ona wygenerowanie pliku XML. &lt;/p&gt;&lt;p&gt;Należy pamiętać, że w końcowym kroku tego narzędzia, czyli w okienku &lt;span style=&quot; font-style:italic;&quot;&gt;Generowanie GML&lt;/span&gt;, trzeba będzie wgrać &lt;span style=&quot; font-weight:600;&quot;&gt;dokładnie jeden&lt;/span&gt; formularz aktu planowania przestrzennego. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignJustify|Qt::AlignVCenter</set>
@@ -119,8 +119,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>474</width>
-          <height>192</height>
+          <width>484</width>
+          <height>229</height>
          </rect>
         </property>
         <layout class="QGridLayout" name="gridLayout_2">

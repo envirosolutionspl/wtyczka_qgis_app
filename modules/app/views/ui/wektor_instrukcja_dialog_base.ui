@@ -48,8 +48,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>554</width>
-          <height>180</height>
+          <width>564</width>
+          <height>245</height>
          </rect>
         </property>
         <layout class="QGridLayout" name="gridLayout">
@@ -61,7 +61,7 @@
             </font>
            </property>
            <property name="text">
-            <string>Instrukcja tworzenia pliku wektorowego (wektoryzacja, odniesienia do narzędzi QGIS, link do filmiku instruktażowego, przypomnienie o zapisie edytowanej warstwy oraz o sposobie jej odtworzenia we wtyczce w przypadku wyjścia z QGIS). &lt;br&gt; WAŻNE: dane przestrzenne muszą być w układzie 2000 lub 1992 oraz w warstwie znajdować się może tylko jeden obiekt przestrzenny (może to być multipoligon).</string>
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;W kolejnym kroku tworzenia danych przestrzennych APP niezbędne jest posiadanie granic obszaru objętego danym aktem. &lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;WAŻNE&lt;/span&gt;: Dane przestrzenne muszą być zapisane w układzie PL-1992 lub PL-2000 i być reprezentowane geometrycznie przez jeden poligon lub multipoligon (w przypadku obiektów wieloczęściowych). &lt;/p&gt;&lt;p&gt;Jeżeli posiadasz w ten sposób przygotowane dane skorzystaj z opcji &lt;span style=&quot; font-style:italic;&quot;&gt;Wybierz plik z granicami APP.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Jeżeli &lt;span style=&quot; font-weight:600;&quot;&gt;nie posiadasz&lt;/span&gt; danych przestrzennych dla APP musisz je przygotować. Zapoznaj się z instrukcją tworzenia danych przestrzennych dla APP: http…. &lt;br/&gt;oraz obejrzyj film: http… &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignJustify|Qt::AlignVCenter</set>

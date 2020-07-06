@@ -48,8 +48,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>558</width>
-          <height>298</height>
+          <width>564</width>
+          <height>324</height>
          </rect>
         </property>
         <layout class="QGridLayout" name="gridLayout_2">
@@ -61,7 +61,7 @@
             </font>
            </property>
            <property name="text">
-            <string>Instrukcja tworzenia plików rastrowych (informacja o georeferencji, formacie i układzie współrzędnych, odniesienia do narzędzi QGIS, link do filmiku instruktażowego). Informacja do czego zostanie wykorzystany plik rastrowy. Jeśli użytkownik posiada gotowy rysunek to otrzymuje informację, że może przejść dalej.</string>
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Dane przestrzenne APP obejmują m.in. informacje nt. adresu internetowego, pod którym dostępny jest rysunek/rysunki APP z nadaną georeferencją. &lt;/p&gt;&lt;p&gt;Jeżeli &lt;span style=&quot; font-weight:600;&quot;&gt;nie posiadasz&lt;/span&gt; opublikowanych w internecie plików w formacie GeoTIFF dla wybranego APP musisz: &lt;/p&gt;&lt;p&gt;1. Przygotować pliki w formacie GeoTIFF. Zapoznaj się z instrukcją nadawania georeferencji plikom rastrowym: http…. &lt;br/&gt;oraz obejrzyj film: http… &lt;/p&gt;&lt;p&gt;2. Zamieścić przygotowane pliki GeoTIFF na stronie internetowej np. na stronie BIP gminy.  &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignJustify|Qt::AlignVCenter</set>

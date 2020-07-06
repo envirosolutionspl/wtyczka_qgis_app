@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'modules/app/views/ui/raster_instrukcja_dialog_base.ui'
+# Form implementation generated from reading ui file 'raster_instrukcja_dialog_base.ui'
 #
-# Created by: PyQt5 UI code generator 5.11.3
+# Created by: PyQt5 UI code generator 5.13.2
 #
 # WARNING! All changes made in this file will be lost!
 
+
 from PyQt5 import QtCore, QtGui, QtWidgets
+
 
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
@@ -29,7 +31,7 @@ class Ui_Dialog(object):
         self.instruction_scrollArea.setWidgetResizable(True)
         self.instruction_scrollArea.setObjectName("instruction_scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 558, 298))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 564, 324))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.gridLayout_2 = QtWidgets.QGridLayout(self.scrollAreaWidgetContents)
         self.gridLayout_2.setObjectName("gridLayout_2")
@@ -64,7 +66,16 @@ class Ui_Dialog(object):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
         self.title_lbl.setText(_translate("Dialog", "Przygotowanie rysunku APP"))
-        self.instruction_lbl.setText(_translate("Dialog", "Instrukcja tworzenia plików rastrowych (informacja o georeferencji, formacie i układzie współrzędnych, odniesienia do narzędzi QGIS, link do filmiku instruktażowego). Informacja do czego zostanie wykorzystany plik rastrowy. Jeśli użytkownik posiada gotowy rysunek to otrzymuje informację, że może przejść dalej."))
+        self.instruction_lbl.setText(_translate("Dialog", "<html><head/><body><p>Dane przestrzenne APP obejmują m.in. informacje nt. adresu internetowego, pod którym dostępny jest rysunek/rysunki APP z nadaną georeferencją. </p><p>Jeżeli <span style=\" font-weight:600;\">nie posiadasz</span> opublikowanych w internecie plików w formacie GeoTIFF dla wybranego APP musisz: </p><p>1. Przygotować pliki w formacie GeoTIFF. Zapoznaj się z instrukcją nadawania georeferencji plikom rastrowym: http…. <br/>oraz obejrzyj film: http… </p><p>2. Zamieścić przygotowane pliki GeoTIFF na stronie internetowej np. na stronie BIP gminy.  </p></body></html>"))
         self.prev_btn.setText(_translate("Dialog", "Wstecz"))
         self.next_btn.setText(_translate("Dialog", "Dalej"))
 
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    Dialog = QtWidgets.QDialog()
+    ui = Ui_Dialog()
+    ui.setupUi(Dialog)
+    Dialog.show()
+    sys.exit(app.exec_())

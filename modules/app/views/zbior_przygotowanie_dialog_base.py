@@ -31,7 +31,7 @@ class Ui_Dialog(object):
         self.instruction_scrollArea.setWidgetResizable(True)
         self.instruction_scrollArea.setObjectName("instruction_scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 656, 72))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 643, 118))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.gridLayout = QtWidgets.QGridLayout(self.scrollAreaWidgetContents)
         self.gridLayout.setObjectName("gridLayout")
@@ -128,7 +128,7 @@ class Ui_Dialog(object):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
         self.title_lbl.setText(_translate("Dialog", "Przygotowanie zbioru APP"))
-        self.instruction_lbl.setText(_translate("Dialog", "<html><head/><body><p>Informacja o tworzeniu zbioru APP. <br/>Użytkownik ma dwie możliwości:<br/>-wgranie zbioru APP wraz z pojedynczymi APP i utworzenie z nich nowego zbioru APP<br/>-wgranie pojedynczych APP i stworzenie z nich nowego zbioru APP</p></body></html>"))
+        self.instruction_lbl.setText(_translate("Dialog", "<html><head/><body><p><a name=\"_Hlk44677223\"/>Zbiór APP obejmuje zestaw danych przestrzennych dla wielu (co najmniej jednego) aktów planowania przestrzennego tego samego rodzaju, występujących w danej jednostce podziału terytorialnego np. miejscowe plany zagospodarowania przestrzennego gminy XXX. </p><p>Zbiór można stworzyć na dwa sposoby: <br/><span style=\" font-style:italic;\">1.</span><span style=\" font-family:\'Times New Roman\'; font-size:7pt;\"/><span style=\" font-style:italic;\">Stworzenie nowego zbioru</span><br/>Należy wgrać wszystkie utworzone pliki GML dla APP i wygenerować z nich zbiór. Zbiór może się składać z jednego APP, może się również składać z kilkuset APP. </p><p><span style=\" font-style:italic;\">2.</span><span style=\" font-family:\'Times New Roman\'; font-size:7pt;\"/><span style=\" font-style:italic;\">Aktualizacja istniejącego zbioru o nowe APP</span><br/>W polu <span style=\" font-style:italic;\">Dodaj istniejący zbiór APP (opcjonalne) </span>należy wgrać istniejący zbiór, który zostanie zaktualizowany. Następnie w polu <span style=\" font-style:italic;\">Dodaj wszystkie APP składające się na zbiór (co najmniej jeden APP)</span> należy wgrać wszystkie APP, które będą dołączone do już istniejącego zbioru. </p><p>Należy pamiętać, że granice APP nie mogą się pokrywać (na jednym obszarze nie mogą obowiązywać dwa akty tego samego typu). W sytuacji, kiedy granice APP będą na siebie nachodzić, niezbędna będzie poprawa geometrii obiektów znajdujących się w zbiorze. </p></body></html>"))
         self.addSet_lbl.setText(_translate("Dialog", "Dodaj dotychczasowy zbiór APP (opcjonalne)"))
         self.addApp_lbl.setText(_translate("Dialog", "Dodaj wszystkie APP składające się na zbiór (co najmniej jeden APP)"))
         self.addElement_btn.setText(_translate("Dialog", "+"))

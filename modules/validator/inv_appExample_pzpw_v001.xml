@@ -67,7 +67,7 @@
 					<app:wersjaId>20200525</app:wersjaId>
 				</app:Identyfikator>
 			</app:idIIP>
-			<app:poczatekWersjiObiektu>2020-05-25T22:56:00</app:poczatekWersjiObiektu>
+			<app:poczatekWersjiObiektu>2020-05-25T22:56:00tttrrrr</app:poczatekWersjiObiektu>
 			<app:tytul>Plan zagospodarowania przestrzennego województwa mazowieckiego Stan zagospodarowania</app:tytul>
 			<app:lacze>https://www.mazovia.pl/downloadStat/gfx/mazovia/pl/defaultopisy/1460/1/1/zal_nr_2_stan_zagospodarowaniay.tif</app:lacze>
 			<app:legenda>https://www.mazovia.pl/downloadStat/gfx/mazovia/pl/defaultopisy/1460/1/1/zal_nr_2_stan_zagospodarowaniay_legenda.png</app:legenda>

@@ -24,6 +24,8 @@
 """
 
 
+
+
 # noinspection PyPep8Naming
 def classFactory(iface):  # pylint: disable=invalid-name
     """Load WtyczkaAPP class from file WtyczkaAPP.

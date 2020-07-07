@@ -11,6 +11,7 @@ from ..xmlschema.validators.exceptions import XMLSchemaDecodeError
 import lxml
 
 class ValidatorXmlSchema:
+    """Walidator oparty o bibliotekę zewnętrzną xmlschema - długo wczytuje XSD z internetu - okolo 2 minut """
     def __init__(self):
         start = datetime.datetime.now()
         self.schema = xmlschema.XMLSchema(xsdPath)
@@ -23,17 +24,11 @@ class ValidatorXmlSchema:
             self.schema.validate(xmlPath)
             return [True]
         except XMLSchemaDecodeError as error:
-            errors = []
-            errors.append(error.validator)
-            errors.append(error.obj)
-            errors.append(error.decoder)
-            errors.append(error.reason)
-            errors.append(error.source)
-            errors.append(error.namespaces)
-            return [False, errors]
+            errors = [error.validator, error.obj, error.decoder, error.reason, error.source, error.namespaces]
+            return [False, str(errors)]
 
 class ValidatorQXmlSchema:
-
+    """Walidator oparty o bibliotekę Qt5. Ma problemy z wczytaniem XSD - zwraca błąd schematu """
     def __init__(self):
         start = datetime.datetime.now()
         schemaUrl = QUrl.fromLocalFile(xsdPath)
@@ -58,11 +53,8 @@ class ValidatorQXmlSchema:
             if result:
                 return [True]
             else:
-                errors = []
-                errors.append(mh.getMessageType())
-                errors.append(mh.getDescription())
-                errors.append(mh.getSourceLocation())
-                return [False, errors]
+                errors = [mh.getMessageType(), mh.getDescription(), mh.getSourceLocation()]
+                return [False, str(errors)]
         else:
             print('schema invalid')
             return [False, "blad schematu"]
@@ -83,6 +75,7 @@ class ValidatorQXmlSchema:
             return self._description
 
 class ValidatorLxml:
+    """Walidator oparty o bibliotekę lxml - wczytuje XSD z internetu 30-40 sekund """
     def __init__(self):
         start = datetime.datetime.now()
         xsd_root = lxml.etree.parse(xsdPath)
@@ -98,4 +91,4 @@ class ValidatorLxml:
         if self.schema.validate(xml_root):
             return [True]
         else:
-            return [False,self.schema.error_log.filter_from_errors()]
+            return [False, str(self.schema.error_log.filter_from_errors())]

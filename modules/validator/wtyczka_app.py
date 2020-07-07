@@ -37,8 +37,18 @@ class ValidatorModule(BaseModule):
         self.openNewDialog(self.listaOkienek.pop())
 
     def walidacjaDialog_validate_btn_clicked(self):
-        self.showPopupValidate()
-        self.walidacjaDialog.close_btn.setEnabled(True)
+        if self.dataValidator:  # walidator gotowy do dzialania
+            validationResult = self.dataValidator.validateXml()
+            if validationResult[0]:  # poprawnie zwalidowano
+                print('OK')
+                self.showPopupValid()
+                self.walidacjaDialog.close_btn.setEnabled(True)
+            else:
+                print(validationResult[1])
+                self.showPopupInvalid(validationResult[1])
+        else: # walidator niegotowy do dzialania - nadal wczytuje XSD
+            self.iface.messageBar().pushWarning("Ostrzeżenie:", "Schemat danych nie został jeszcze zaimportowany, spróbuj ponownie za chwilę.")
+
 
     def xml_checkBoxChangedAction(self, state):
         if Qt.Checked == state:
@@ -63,5 +73,8 @@ class ValidatorModule(BaseModule):
     def showPopupExport(self):
         showPopup("Wyeksportuj plik z błędami", "Poprawnie wyeksportowano plik z błędami.")
 
-    def showPopupValidate(self):
+    def showPopupValid(self):
         showPopup("Waliduj pliki", "Poprawnie zwalidowano wszystkie wgrane pliki.")
+
+    def showPopupInvalid(self, bledy):
+        showPopup("Błąd walidacji", "Wystąpiły błędy walidacji pliku:\n\n" + bledy)

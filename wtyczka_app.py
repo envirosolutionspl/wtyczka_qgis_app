@@ -22,10 +22,10 @@
  ***************************************************************************/
 """
 from PyQt5.QtWidgets import QDialog, QFileDialog
-from .modules.validator import validator
+
 from qgis.PyQt.QtGui import QIcon
 from qgis.PyQt.QtWidgets import QAction, QToolButton, QMenu
-
+from qgis.core import QgsTask, QgsApplication, QgsMessageLog
 # Initialize Qt resources from file resources.py
 from .resources import *
 # Import the code for the dialog
@@ -34,6 +34,8 @@ from .modules.metadata.wtyczka_app import MetadataModule
 from .modules.validator.wtyczka_app import ValidatorModule
 from .modules.settings.wtyczka_app import SettingsModule
 from .modules.utils import showPopup
+from .modules.validator import validator
+
 
 import os
 PLUGIN_NAME = 'Wtyczka APP'
@@ -62,22 +64,29 @@ class WtyczkaAPP(AppModule, MetadataModule, ValidatorModule, SettingsModule):
 
         self.listaPlikow = []
 
+        # definicja walidatora
+        # self.dataValidator = validator.ValidatorXmlSchema()
+        # self.dataValidator = validator.ValidatorLxml()
+        self.dataValidator = None
+
+        # print(0)
+        # print(QgsApplication.taskManager().activeTasks())
+        # QgsMessageLog.logMessage('Sr d')
+        task = QgsTask.fromFunction('Wczytywanie schematu XSD', self.createValidator)
+        QgsApplication.taskManager().addTask(task)
+        QgsMessageLog.logMessage('test')
+        # print(1)
+        # QgsApplication.taskManager().activeTasks()
+
+        # print(QgsApplication.taskManager().activeTasks())
 
 
-        # val = validator.ValidatorXmlSchema()
-        # result = val.validateXml()
-        # if result[0]:
-        #     print('OK')
-        # else:
-        #     print(result[1])
-        #
-        #
-        # val = validator.ValidatorLxml()
-        # result = val.validateXml()
-        # if result[0]:
-        #     print('OK')
-        # else:
-        #     print(result[1])
+    def createValidator(self, task):
+        QgsMessageLog.logMessage('walidator start')
+        self.dataValidator = validator.ValidatorLxml()
+        QgsMessageLog.logMessage('walidator gotowy')
+
+
 
 
 
@@ -125,6 +134,7 @@ class WtyczkaAPP(AppModule, MetadataModule, ValidatorModule, SettingsModule):
         self.addAction(icon_path=':/plugins/wtyczka_app/img/ustawienia.png',
                        text=u'Ustawienia',
                        callback=self.run_settings)
+
 
 
     def unload(self):

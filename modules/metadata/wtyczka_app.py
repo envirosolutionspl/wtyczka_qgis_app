@@ -25,10 +25,10 @@ class MetadataModule(BaseModule):
         self.metadaneDialog.validateAndSave_btn.clicked.connect(self.showPopupValidateAndSave)
         self.metadaneDialog.close_btn.clicked.connect(self.metadaneDialog.close)
 
-        self.metadaneDialog.newMetadata_radioButton.toggled.connect(self.newMetadataRadioButton_toggled)
-        self.metadaneDialog.existingMetadata_radioButton.toggled.connect(self.existingMetadataRadioButton_toggled)
+        #self.metadaneDialog.newMetadata_radioButton.toggled.connect(self.newMetadataRadioButton_toggled)
+        #self.metadaneDialog.existingMetadata_radioButton.toggled.connect(self.existingMetadataRadioButton_toggled)
 
-        self.metadaneDialog.newFile_widget.clicked.connect(self.saveMetaFile)
+        # self.metadaneDialog.newFile_widget.clicked.connect(self.saveMetaFile)
         self.metadaneDialog.chooseFile_widget.clicked.connect(self.openMetaFile)
         self.metadaneDialog.chooseSet_widget.setFilter("*.gml")
         # endregion
@@ -45,17 +45,17 @@ class MetadataModule(BaseModule):
         self.listaOkienek.append(self.metadaneDialog)
         self.walidacjaDialog.prev_btn.setEnabled(True)
 
-    def newMetadataRadioButton_toggled(self, enabled):
-        if enabled:
-            self.metadaneDialog.newFile_widget.setEnabled(True)
-            self.metadaneDialog.chooseFile_widget.setEnabled(False)
-            self.metadaneDialog.file_lbl.setText("...")
-
-    def existingMetadataRadioButton_toggled(self, enabled):
-        if enabled:
-            self.metadaneDialog.newFile_widget.setEnabled(False)
-            self.metadaneDialog.chooseFile_widget.setEnabled(True)
-            self.metadaneDialog.file_lbl.setText("...")
+    # def newMetadataRadioButton_toggled(self, enabled):
+    #     if enabled:
+    #         self.metadaneDialog.newFile_widget.setEnabled(True)
+    #         self.metadaneDialog.chooseFile_widget.setEnabled(False)
+    #         self.metadaneDialog.file_lbl.setText("...")
+    #
+    # def existingMetadataRadioButton_toggled(self, enabled):
+    #     if enabled:
+    #         self.metadaneDialog.newFile_widget.setEnabled(False)
+    #         self.metadaneDialog.chooseFile_widget.setEnabled(True)
+    #         self.metadaneDialog.file_lbl.setText("...")
 
     def server_checkBoxChangedAction(self, state):
         if Qt.Checked == state:
@@ -77,10 +77,10 @@ class MetadataModule(BaseModule):
     # endregion
 
     """Helper methods"""
-    def saveMetaFile(self):
-        self.outputPlik = QFileDialog.getSaveFileName(filter="*.xml")[0]
-        if self.outputPlik != '':
-            self.metadaneDialog.file_lbl.setText(self.outputPlik)
+    # def saveMetaFile(self):
+    #     self.outputPlik = QFileDialog.getSaveFileName(filter="*.xml")[0]
+    #     if self.outputPlik != '':
+    #         self.metadaneDialog.file_lbl.setText(self.outputPlik)
 
     def openMetaFile(self):
         self.plik = QFileDialog.getOpenFileName(filter="*.xml")[0]

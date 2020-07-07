@@ -18,7 +18,7 @@ def getNamespace(element):
 def createFormElementsRysunekAPP():
     """Tworzy listę obiektów klasy 'FormElement'
     na podstawie pliku xsd"""
-    xsd = os.path.join(os.path.dirname(__file__), 'planowaniePrzestrzenne.xsd')
+    xsd = os.path.join(os.path.dirname(__file__),'validator', 'planowaniePrzestrzenne.xsd')
     formElements = []
     ns = {'glowny': "http://www.w3.org/2001/XMLSchema",
           'app': "http://zagospodarowanieprzestrzenne.gov.pl/schemas/app/1.0",
@@ -54,7 +54,7 @@ def createFormElementsDokumentFormalny():
     #TODO lista rozwijalna dla atrybutu poziomHierarchii
     """Tworzy listę obiektów klasy 'FormElement'
     na podstawie pliku xsd"""
-    xsd = os.path.join(os.path.dirname(__file__), 'planowaniePrzestrzenne.xsd')
+    xsd = os.path.join(os.path.dirname(__file__),'validator', 'planowaniePrzestrzenne.xsd')
     formElements = []
     ns = {'glowny': "http://www.w3.org/2001/XMLSchema",
           'app': "http://zagospodarowanieprzestrzenne.gov.pl/schemas/app/1.0",
@@ -98,7 +98,7 @@ def createFormElementsDokumentFormalny():
 def createFormElementsAktPlanowaniaPrzestrzennego():
     """Tworzy listę obiektów klasy 'FormElement'
     na podstawie pliku xsd"""
-    xsd = os.path.join(os.path.dirname(__file__), 'planowaniePrzestrzenne.xsd')
+    xsd = os.path.join(os.path.dirname(__file__),'validator', 'planowaniePrzestrzenne.xsd')
     formElements = []
     ns = {'glowny': "http://www.w3.org/2001/XMLSchema",
           'app': "http://zagospodarowanieprzestrzenne.gov.pl/schemas/app/1.0",

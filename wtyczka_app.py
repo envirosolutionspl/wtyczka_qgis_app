@@ -22,7 +22,7 @@
  ***************************************************************************/
 """
 from PyQt5.QtWidgets import QDialog, QFileDialog
-from .modules import xsd
+from .modules.validator import validator
 from qgis.PyQt.QtGui import QIcon
 from qgis.PyQt.QtWidgets import QAction, QToolButton, QMenu
 
@@ -36,7 +36,6 @@ from .modules.settings.wtyczka_app import SettingsModule
 from .modules.utils import showPopup
 
 import os
-
 PLUGIN_NAME = 'Wtyczka APP'
 PLUGIN_VERSION = '0.1'
 
@@ -63,7 +62,23 @@ class WtyczkaAPP(AppModule, MetadataModule, ValidatorModule, SettingsModule):
 
         self.listaPlikow = []
 
-        xsd.validateXml()
+
+
+        # val = validator.ValidatorXmlSchema()
+        # result = val.validateXml()
+        # if result[0]:
+        #     print('OK')
+        # else:
+        #     print(result[1])
+        #
+        #
+        # val = validator.ValidatorLxml()
+        # result = val.validateXml()
+        # if result[0]:
+        #     print('OK')
+        # else:
+        #     print(result[1])
+
 
 
     def addAction(self, icon_path, text, callback):

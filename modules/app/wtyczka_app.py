@@ -309,7 +309,7 @@ class AppModule(BaseModule):
     """Popup windows"""
 
     def showPopupSaveForm(self):
-        showPopup("Zapisz aktualny formularz", "Poprawnie zapisano formularz.")
+        showPopup("Zapisz aktualny formularz", "Poprawnie zapisano formularz. W razie potrzeby wygenerowania kolejnego formularzu, należy zmodyfikować dane oraz zapisać formularz ponownie.")
         self.saved = True
         return self.saved
 

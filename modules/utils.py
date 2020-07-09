@@ -33,6 +33,7 @@ def createFormElementsRysunekAPP():
     sequence = complexType[0][0][0]  # sekwencja z listą pól
     for element in sequence:
         attrib = element.attrib
+
         formElement = FormElement(
             name=attrib['name'],
             type=attrib['type']
@@ -45,6 +46,22 @@ def createFormElementsRysunekAPP():
         # documentation
         documentation = element.find("glowny:annotation", ns).find("glowny:documentation", ns)
         formElement.setDocumentation(documentation.text)
+
+        # zdefiniowany w app complextype
+        if attrib['type'][:4] == 'app:':
+            formElement.markAsComplex()  # ustawia .isComplex = True
+            name = str(attrib['type']).replace('Property', '').split(':')[-1]
+
+            complexSequence = root.find("glowny:complexType[@name='%s']" % name, ns)[0]
+            for complexElement in complexSequence:
+                innerFormElement = FormElement(
+                    name=complexElement.attrib['name'],
+                    type=complexElement.attrib['type']
+                )
+                # complex documentation
+                complexDocumentation = complexElement.find("glowny:annotation", ns).find("glowny:documentation", ns)
+                innerFormElement.setDocumentation(complexDocumentation.text)
+                formElement.setInnerFormElement(innerFormElement)
 
         formElements.append(formElement)
 

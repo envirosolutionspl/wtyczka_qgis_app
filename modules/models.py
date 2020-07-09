@@ -4,6 +4,8 @@ class FormElement:
         self.setType(type)
         self.setMinOccurs(minOccurs)
         self.setDocumentation(documentation)
+        self.isComplex = False
+        self.innerFormElements = []
 
     def setName(self, name):
         self.name = name
@@ -16,3 +18,12 @@ class FormElement:
 
     def setDocumentation(self, documentation):
         self.documentation = documentation
+
+    def markAsComplex(self):
+        self.isComplex = True
+
+    def setInnerFormElement(self, form):
+        if self.isComplex:
+            self.innerFormElements.append(form)
+        else:
+            raise NotImplementedError

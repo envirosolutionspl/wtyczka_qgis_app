@@ -44,7 +44,6 @@ class AppModule(BaseModule):
         self.generowanieGMLDialog = GenerowanieGMLDialog()
     # endregion
 
-    # region eventy moduł app
         self.pytanieAppDialog.zbior_btn.clicked.connect(self.pytanieAppDialog_zbior_btn_clicked)
         self.pytanieAppDialog.app_btn.clicked.connect(self.pytanieAppDialog_app_btn_clicked)
         self.pytanieAppDialog.settings_btn.clicked.connect(self.pytanieAppDialog_settings_btn_clicked)
@@ -77,6 +76,7 @@ class AppModule(BaseModule):
             seachObjectType=QgsFilterLineEdit,
             name="wersjaId_lineEdit")
 
+        self.idIIP_lineEdit.setEnabled(False)
         # definicja Eventów dynamicznych obiektów UI
         self.lokalnyId_lineEdit.textChanged.connect(lambda: self.updateIdIPP())
         self.przestrzenNazw_lineEdit.textChanged.connect(lambda: self.updateIdIPP())
@@ -121,9 +121,6 @@ class AppModule(BaseModule):
         # res = utils.getWidgetsByType(layout=self.rasterFormularzDialog, seachObjectType=QLabel)
         # print(res)
 
-
-
-    # endregion
 
     """Event handlers"""
 

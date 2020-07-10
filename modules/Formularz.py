@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from PyQt5.QtWidgets import *
-from qgis.gui import QgsDateTimeEdit, QgsFilterLineEdit
+from qgis.core import QgsMapLayerProxyModel
+from qgis.gui import QgsDateTimeEdit, QgsFilterLineEdit, QgsMapLayerComboBox
 from qgis.PyQt.QtCore import Qt, QRegExp
 from qgis.PyQt.QtGui import QRegExpValidator, QPixmap
 import time
@@ -38,7 +39,7 @@ class Formularz:
 
             if formElement.isComplex:  # podrzędne elementy typu complex
 
-                input.setEnabled(False)
+                # input.setEnabled(False)
                 for formEl in formElement.innerFormElements:
                     subHbox = QHBoxLayout()  # podrzedny wiersz formularza
                     subHbox.setObjectName(formEl.name + '_hbox')
@@ -56,6 +57,7 @@ class Formularz:
                     subHbox.addWidget(subTooltipImg)
                     vbox.addLayout(subHbox)
                     subHboxList.append(subHbox)
+
 
 
         container.setWidget(wgtMain)
@@ -80,6 +82,11 @@ class Formularz:
             input = QgsFilterLineEdit()
             input.setValidator(QRegExpValidator(QRegExp(r"\S*")))  # tylko liczby calkowite
             input.setObjectName(formElement.name + '_lineEdit')
+        elif formElement.type == 'gml:ReferenceType' and formElement.name == 'plan':
+            input = QgsMapLayerComboBox()
+            input.setShowCrs(True)
+            input.setFilters(QgsMapLayerProxyModel.RasterLayer)
+            input.setObjectName(formElement.name + '_comboBox')
         else:
             input = QgsFilterLineEdit()
             input.setObjectName(formElement.name + '_lineEdit')

@@ -5,17 +5,18 @@ Okna dialogowe modułu APP
  ***************************************************************************/
 """
 
-import os, sys
+import os, sys, time
 
 import PyQt5
 from PyQt5.QtWidgets import *
 
-from qgis.PyQt.QtCore import Qt
+from qgis.PyQt.QtCore import Qt, QRegExp
 from qgis.PyQt import uic, QtGui
 from PyQt5.QtXmlPatterns import *
-
+from qgis.gui import QgsDateTimeEdit, QgsFilterLineEdit
 from .. import QDialogOverride, utils, Formularz
 from ..models import FormElement
+
 
 
 title_question ='Praca z APP / zbiorem APP'
@@ -45,11 +46,6 @@ class PytanieAppDialog(QDialogOverride, FORM_CLASS):
     def __init__(self, parent=None):
         """Constructor."""
         super(PytanieAppDialog, self).__init__(parent)
-        # Set up the user interface from Designer through FORM_CLASS.
-        # After self.setupUi() you can access any designer object by doing
-        # self.<objectname>, and you can use autoconnect slots - see
-        # http://qt-project.org/doc/qt-4.8/designer-using-a-ui-file.html
-        # #widgets-and-views-with-auto-connect
         self.setupUi(self)
         self.setWindowTitle(title_question)
         self.setWindowIcon(QtGui.QIcon(':/plugins/wtyczka_app/img/logo.png'))
@@ -90,7 +86,6 @@ class RasterFormularzDialog(QDialogOverride, FORM_CLASS3, Formularz):
         self.createForm(container=self.form_scrollArea, formElements=utils.createFormElementsRysunekAPP())
 
 
-
 class WektorInstrukcjaDialog(QDialogOverride, FORM_CLASS7):
     def __init__(self, parent=None):
         """Constructor."""
@@ -101,8 +96,10 @@ class WektorInstrukcjaDialog(QDialogOverride, FORM_CLASS7):
         self.setWindowFlag(Qt.WindowMinMaxButtonsHint, True)
         self.layers_comboBox.setAllowEmptyLayer(True)
 
+
 class WektorFormularzDialog(QDialogOverride, FORM_CLASS5, Formularz):
     def __init__(self, parent=None):
+
         """Constructor."""
         super(WektorFormularzDialog, self).__init__(parent)
         self.setupUi(self)

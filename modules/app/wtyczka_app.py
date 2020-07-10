@@ -1,10 +1,10 @@
 from qgis.utils import iface
 from . import (PytanieAppDialog, ZbiorPrzygotowanieDialog, RasterInstrukcjaDialog, RasterFormularzDialog,
                WektorFormularzDialog, DokumentyFormularzDialog, WektorInstrukcjaDialog, GenerowanieGMLDialog)
-from .. import BaseModule
+from .. import BaseModule, utils
 from ..utils import showPopup
 from qgis.PyQt import QtWidgets
-from PyQt5.QtWidgets import QFileDialog, QTableWidgetItem, QMessageBox
+from PyQt5.QtWidgets import *
 from qgis.PyQt.QtCore import QVariant, Qt
 from qgis.core import (
   QgsCoordinateReferenceSystem,
@@ -18,6 +18,7 @@ from qgis.core import (
   QgsWkbTypes,
   QgsMapLayerProxyModel
 )
+from qgis.gui import QgsDateTimeEdit, QgsFilterLineEdit
 import os, os.path, time, datetime
 
 
@@ -32,7 +33,7 @@ class AppModule(BaseModule):
         self.saved = False
         self.generated = False
 
-        # region okna moduł app
+    # region okna moduł app
         self.pytanieAppDialog = PytanieAppDialog()
         self.zbiorPrzygotowanieDialog = ZbiorPrzygotowanieDialog()
         self.rasterInstrukcjaDialog = RasterInstrukcjaDialog()
@@ -41,9 +42,9 @@ class AppModule(BaseModule):
         self.wektorFormularzDialog = WektorFormularzDialog()
         self.dokumentyFormularzDialog = DokumentyFormularzDialog()
         self.generowanieGMLDialog = GenerowanieGMLDialog()
-        # endregion
+    # endregion
 
-        # region eventy moduł app
+    # region eventy moduł app
         self.pytanieAppDialog.zbior_btn.clicked.connect(self.pytanieAppDialog_zbior_btn_clicked)
         self.pytanieAppDialog.app_btn.clicked.connect(self.pytanieAppDialog_app_btn_clicked)
         self.pytanieAppDialog.settings_btn.clicked.connect(self.pytanieAppDialog_settings_btn_clicked)
@@ -52,9 +53,36 @@ class AppModule(BaseModule):
         self.rasterInstrukcjaDialog.next_btn.clicked.connect(self.rasterInstrukcjaDialog_next_btn_clicked)
         self.rasterInstrukcjaDialog.prev_btn.clicked.connect(self.rasterInstrukcjaDialog_prev_btn_clicked)
 
+    # region rasterFormularzDialog
+
         self.rasterFormularzDialog.prev_btn.clicked.connect(self.rasterFormularzDialog_prev_btn_clicked)
         self.rasterFormularzDialog.next_btn.clicked.connect(self.checkSaveForms)
         self.rasterFormularzDialog.saveForm_btn.clicked.connect(self.showPopupSaveForm)
+
+        # pobranie dynamicznie utworzonych obiektów UI
+        self.idIIP_lineEdit = utils.getWidgetByName(
+            layout=self.rasterFormularzDialog,
+            seachObjectType=QgsFilterLineEdit,
+            name="idIIP_lineEdit")
+        self.lokalnyId_lineEdit = utils.getWidgetByName(
+            layout=self.rasterFormularzDialog,
+            seachObjectType=QgsFilterLineEdit,
+            name="lokalnyId_lineEdit")
+        self.przestrzenNazw_lineEdit = utils.getWidgetByName(
+            layout=self.rasterFormularzDialog,
+            seachObjectType=QgsFilterLineEdit,
+            name="przestrzenNazw_lineEdit")
+        self.wersjaId_lineEdit = utils.getWidgetByName(
+            layout=self.rasterFormularzDialog,
+            seachObjectType=QgsFilterLineEdit,
+            name="wersjaId_lineEdit")
+
+        # definicja Eventów dynamicznych obiektów UI
+        self.lokalnyId_lineEdit.textChanged.connect(lambda: self.updateIdIPP())
+        self.przestrzenNazw_lineEdit.textChanged.connect(lambda: self.updateIdIPP())
+        self.wersjaId_lineEdit.textChanged.connect(lambda: self.updateIdIPP())
+
+    # endregion
 
         self.wektorInstrukcjaDialog.next_btn.clicked.connect(self.wektorInstrukcjaDialog_next_btn_clicked)
         self.wektorInstrukcjaDialog.prev_btn.clicked.connect(self.wektorInstrukcjaDialog_prev_btn_clicked)
@@ -88,7 +116,14 @@ class AppModule(BaseModule):
         header_zbior.setSectionResizeMode(0, QtWidgets.QHeaderView.ResizeToContents)
         header_zbior.setSectionResizeMode(1, QtWidgets.QHeaderView.ResizeToContents)
         self.zbiorPrzygotowanieDialog.addFile_widget.setFilter("*.gml")
-        # endregion
+
+        # # pobranie widgetów danego typu
+        # res = utils.getWidgetsByType(layout=self.rasterFormularzDialog, seachObjectType=QLabel)
+        # print(res)
+
+
+
+    # endregion
 
     """Event handlers"""
 
@@ -128,6 +163,8 @@ class AppModule(BaseModule):
         self.openNewDialog(self.wektorInstrukcjaDialog)
         self.listaOkienek.append(self.rasterFormularzDialog)
 
+    def updateIdIPP(self):
+        self.idIIP_lineEdit.setText("%s - %s - %s" % (self.lokalnyId_lineEdit.text(), self.przestrzenNazw_lineEdit.text(), self.wersjaId_lineEdit.text()))
     # endregion
 
     # region wektorInstrukcjaDialog

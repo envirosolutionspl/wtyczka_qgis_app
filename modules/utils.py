@@ -64,17 +64,28 @@ def createFormElements(attribute):
         formElement.setDocumentation(documentation.text)
 
         # zdefiniowany w app complextype
-        if elementType == 'app:IdentyfikatorPropertyType':
-        # if elementType[:4] == 'app:':
+        # if elementType == 'app:IdentyfikatorPropertyType':
+        if elementType[:4] == 'app:':
             formElement.markAsComplex()  # ustawia .isComplex = True
             name = str(elementType).replace('Property', '').split(':')[-1]
 
             complexSequence = root.find("glowny:complexType[@name='%s']" % name, ns)[0]
             for complexElement in complexSequence:
-                innerFormElement = FormElement(
-                    name=complexElement.attrib['name'],
-                    type=complexElement.attrib['type']
-                )
+                try:    # jeżeli jest atrybut 'type'
+                    innerFormElement = FormElement(
+                        name=complexElement.attrib['name'],
+                        type=complexElement.attrib['type']
+                    )
+                except KeyError:    # jeżeli nie ma atrybutu 'type'
+                    innerFormElement = FormElement(
+                        name=complexElement.attrib['name'],
+                        type="anyURI"
+                    )
+                    try:  # gdy jest nillable
+                        if complexElement.attrib['nillable'] == 'true':
+                            innerFormElement.setNillable()
+                    except KeyError:  # gdyby nie bylo rowniez nillable
+                        pass
                 # complex documentation
                 complexDocumentation = complexElement.find("glowny:annotation", ns).find("glowny:documentation", ns)
                 innerFormElement.setDocumentation(complexDocumentation.text)

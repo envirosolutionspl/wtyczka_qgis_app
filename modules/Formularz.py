@@ -4,10 +4,15 @@ from qgis.core import QgsMapLayerProxyModel
 from qgis.gui import QgsDateTimeEdit, QgsFilterLineEdit, QgsMapLayerComboBox
 from qgis.PyQt.QtCore import Qt, QRegExp
 from qgis.PyQt.QtGui import QRegExpValidator, QPixmap
-import time
 
 class Formularz:
     """Klasa reprezentująca formularz"""
+    nilReasons = {
+        "inapplicable": "nie dotyczy",
+        "missing": "brakujący",
+        "template": "szablon",
+        "unknown": "nieznany",
+        "withheld": "wstrzymany"}
 
     def removeForm(self, container):
         """usuwa zawartość kontenera(container), żeby zrobić miejsce na formularz"""
@@ -25,7 +30,7 @@ class Formularz:
         for formElement in formElements:
             hbox = QHBoxLayout()  # wiersz formularza
             hbox.setObjectName(formElement.name + '_hbox')
-            subHboxList =[]
+
             # label
             lbl = QLabel(text=formElement.name + ('*' if formElement.minOccurs else ''))
             lbl.setObjectName(formElement.name + '_lbl')
@@ -56,12 +61,46 @@ class Formularz:
                     subHbox.addWidget(subInput)
                     subHbox.addWidget(subTooltipImg)
                     vbox.addLayout(subHbox)
-                    subHboxList.append(subHbox)
 
-
-
+                    if formEl.isNillable:   # dodaj dodatkowo checkbox i powód
+                        nilHbox = self.__makeNilHbox(subInput)
+                        vbox.addLayout(nilHbox)
         container.setWidget(wgtMain)
 
+    def __makeNilHbox(self, nillableWidget):
+        """tworzy zestaw widgetów do obługi typu "nillable"""
+        def changeState():
+            currentState = chckBox.isChecked()
+            if currentState:
+                nilLbl2.setEnabled(True)
+                nillableWidget.setEnabled(False)
+                comboBox.setEnabled(True)
+            else:
+                nilLbl2.setEnabled(False)
+                nillableWidget.setEnabled(True)
+                comboBox.setEnabled(False)
+
+        nilHbox = QHBoxLayout()
+        nilLbl1 = QLabel(text='    ')
+        nilLbl2 = QLabel(text='wskaż powód: ')
+        nilLbl2.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+        nilLbl2.setObjectName('nilReason' + '_lbl')
+        nilLbl2.setEnabled(False)
+        chckBox = QCheckBox(text='brak wartości')
+        chckBox.setObjectName('nilReason' + '_chkbx')
+        chckBox.stateChanged.connect(lambda: changeState())
+        comboBox = QComboBox()
+        comboBox.addItems(Formularz.nilReasons.keys())
+        comboBox.setEnabled(False)
+        tooltipImg = QLabel()
+        tooltipImg.setMaximumWidth(16)
+
+        nilHbox.addWidget(nilLbl1)
+        nilHbox.addWidget(chckBox)
+        nilHbox.addWidget(nilLbl2)
+        nilHbox.addWidget(comboBox)
+        nilHbox.addWidget(tooltipImg)
+        return nilHbox
 
     def __makeInput(self, formElement):
         # pole wprowadzania
@@ -90,7 +129,8 @@ class Formularz:
         else:
             input = QgsFilterLineEdit()
             input.setObjectName(formElement.name + '_lineEdit')
-        input.setToolTip(formElement.type)
+
+        input.setToolTip((formElement.type + ' - nillable') if formElement.isNillable else formElement.type)
         return input
 
     def __makeTooltip(self, formElement):

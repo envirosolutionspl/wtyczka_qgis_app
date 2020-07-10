@@ -7,12 +7,16 @@ class FormElement:
         self.setDocumentation(documentation)
         self.__isComplex = False
         self.innerFormElements = []
+        self.isNillable = False
 
     def setName(self, name):
         self.name = name
 
     def setType(self, type):
         self.type = type
+
+    def setNillable(self):
+        self.isNillable = True
 
     def setMinOccurs(self, minOccurs):
         self.minOccurs = int(minOccurs)

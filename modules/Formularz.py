@@ -26,8 +26,21 @@ class Formularz:
         """tworzy formularz w miejscu kontenera (container), na podstawie listy obiektów klasy <FormElement>"""
         wgtMain = QWidget()
         vbox = QVBoxLayout(wgtMain)
-
+        pomijane = ["aktNormatywnyPrzystapienie",
+                    "aktNormatywnyUchwalajacy",
+                    "aktNormatywnyZmieniajacy",
+                    "aktNormatywnyUchylajacy",
+                    "aktNormatywnyUniewazniajacy",
+                    "przystapienie",
+                    "uchwala",
+                    "zmienia",
+                    "uchyla",
+                    "uniewaznia"]
         for formElement in formElements:
+
+            if formElement.type == 'gml:ReferenceType' and formElement.name in pomijane:
+                continue    # pomiń element
+
             hbox = QHBoxLayout()  # wiersz formularza
             hbox.setObjectName(formElement.name + '_hbox')
 
@@ -42,9 +55,8 @@ class Formularz:
             hbox.addWidget(tooltipImg)
             vbox.addLayout(hbox)
 
-            if formElement.isComplex:  # podrzędne elementy typu complex
-
-                # input.setEnabled(False)
+            if formElement.isComplex():  # podrzędne elementy typu complex
+                input.setEnabled(False)
                 for formEl in formElement.innerFormElements:
                     subHbox = QHBoxLayout()  # podrzedny wiersz formularza
                     subHbox.setObjectName(formEl.name + '_hbox')
@@ -65,6 +77,7 @@ class Formularz:
                     if formEl.isNillable:   # dodaj dodatkowo checkbox i powód
                         nilHbox = self.__makeNilHbox(subInput)
                         vbox.addLayout(nilHbox)
+
         container.setWidget(wgtMain)
 
     def __makeNilHbox(self, nillableWidget):
@@ -126,6 +139,11 @@ class Formularz:
             input.setShowCrs(True)
             input.setFilters(QgsMapLayerProxyModel.RasterLayer)
             input.setObjectName(formElement.name + '_comboBox')
+        elif formElement.type == 'gml:MultiSurfacePropertyType':
+            input = QgsFilterLineEdit()
+            input.setEnabled(False)
+            input.setText('< zasięg przestrzenny z warstwy >')
+            input.setObjectName(formElement.name + '_lineEdit')
         else:
             input = QgsFilterLineEdit()
             input.setObjectName(formElement.name + '_lineEdit')

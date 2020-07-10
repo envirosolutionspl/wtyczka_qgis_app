@@ -76,7 +76,7 @@ class AppModule(BaseModule):
             seachObjectType=QgsFilterLineEdit,
             name="wersjaId_lineEdit")
 
-        self.idIIP_lineEdit.setEnabled(False)
+        # self.idIIP_lineEdit.setEnabled(False)
         # definicja Eventów dynamicznych obiektów UI
         self.lokalnyId_lineEdit.textChanged.connect(lambda: self.updateIdIPP())
         self.przestrzenNazw_lineEdit.textChanged.connect(lambda: self.updateIdIPP())

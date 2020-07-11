@@ -53,6 +53,11 @@ def createFormElements(attribute):
                 name=attrib['name'],
                 type=elementType
             )
+            try:  # gdy jest nillable
+                if element.attrib['nillable'] == 'true':
+                    formElement.setNillable()
+            except KeyError:  # gdyby nie bylo rowniez nillable
+                pass
 
         # na wypadek braku 'minOccurs'
         try:

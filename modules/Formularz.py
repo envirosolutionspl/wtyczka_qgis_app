@@ -56,6 +56,10 @@ class Formularz:
             hbox.addWidget(tooltipImg)
             vbox.addLayout(hbox)
 
+            if formElement.isNillable:  # dodaj dodatkowo checkbox i powód
+                nilHbox = self.__makeNilHbox(input)
+                vbox.addLayout(nilHbox)
+
             if formElement.isComplex():  # podrzędne elementy typu complex
                 input.setEnabled(False)
                 for formEl in formElement.innerFormElements:
@@ -81,6 +85,8 @@ class Formularz:
 
         container.setWidget(wgtMain)
 
+    def __loopFormElements(self,formElements):
+        pass
     def __makeNilHbox(self, nillableWidget):
         """tworzy zestaw widgetów do obługi typu "nillable"""
         def changeState():
@@ -101,9 +107,10 @@ class Formularz:
         nilLbl2.setObjectName('nilReason' + '_lbl')
         nilLbl2.setEnabled(False)
         chckBox = QCheckBox(text='brak wartości')
-        chckBox.setObjectName('nilReason' + '_chkbx')
+        chckBox.setObjectName(nillableWidget.objectName() + '_nilReason' + '_chkbx')
         chckBox.stateChanged.connect(lambda: changeState())
         comboBox = QComboBox()
+        comboBox.setObjectName(nillableWidget.objectName() + '_nilReason' + '_cmbbx')
         comboBox.addItems(Formularz.nilReasons.keys())
         comboBox.setEnabled(False)
         tooltipImg = QLabel()

@@ -57,30 +57,10 @@ class AppModule(BaseModule):
         self.rasterFormularzDialog.prev_btn.clicked.connect(self.rasterFormularzDialog_prev_btn_clicked)
         self.rasterFormularzDialog.next_btn.clicked.connect(self.checkSaveForms)
         self.rasterFormularzDialog.saveForm_btn.clicked.connect(self.showPopupSaveForm)
+        # zdarenia dynamicznie utworzonych obiektów UI związanych z IdIPP
+        self.prepareIdIPP(formularz=self.rasterFormularzDialog)
 
-        # pobranie dynamicznie utworzonych obiektów UI
-        self.idIIP_lineEdit = utils.getWidgetByName(
-            layout=self.rasterFormularzDialog,
-            seachObjectType=QgsFilterLineEdit,
-            name="idIIP_lineEdit")
-        self.lokalnyId_lineEdit = utils.getWidgetByName(
-            layout=self.rasterFormularzDialog,
-            seachObjectType=QgsFilterLineEdit,
-            name="lokalnyId_lineEdit")
-        self.przestrzenNazw_lineEdit = utils.getWidgetByName(
-            layout=self.rasterFormularzDialog,
-            seachObjectType=QgsFilterLineEdit,
-            name="przestrzenNazw_lineEdit")
-        self.wersjaId_lineEdit = utils.getWidgetByName(
-            layout=self.rasterFormularzDialog,
-            seachObjectType=QgsFilterLineEdit,
-            name="wersjaId_lineEdit")
 
-        # self.idIIP_lineEdit.setEnabled(False)
-        # definicja Eventów dynamicznych obiektów UI
-        self.lokalnyId_lineEdit.textChanged.connect(lambda: self.updateIdIPP())
-        self.przestrzenNazw_lineEdit.textChanged.connect(lambda: self.updateIdIPP())
-        self.wersjaId_lineEdit.textChanged.connect(lambda: self.updateIdIPP())
 
     # endregion
 
@@ -93,10 +73,14 @@ class AppModule(BaseModule):
         self.wektorFormularzDialog.prev_btn.clicked.connect(self.wektorFormularzDialog_prev_btn_clicked)
         self.wektorFormularzDialog.next_btn.clicked.connect(self.checkSaveForms)
         self.wektorFormularzDialog.saveForm_btn.clicked.connect(self.showPopupSaveForm)
+        # zdarenia dynamicznie utworzonych obiektów UI związanych z IdIPP
+        self.prepareIdIPP(formularz=self.wektorFormularzDialog)
 
         self.dokumentyFormularzDialog.prev_btn.clicked.connect(self.dokumentyFormularzDialog_prev_btn_clicked)
         self.dokumentyFormularzDialog.next_btn.clicked.connect(self.checkSaveForms)
         self.dokumentyFormularzDialog.saveForm_btn.clicked.connect(self.showPopupSaveForm)
+        # zdarenia dynamicznie utworzonych obiektów UI związanych z IdIPP
+        self.prepareIdIPP(formularz=self.dokumentyFormularzDialog)
 
         self.generowanieGMLDialog.prev_btn.clicked.connect(self.generowanieGMLDialog_prev_btn_clicked)
         self.generowanieGMLDialog.generate_btn.clicked.connect(self.showPopupApp)
@@ -117,9 +101,8 @@ class AppModule(BaseModule):
         header_zbior.setSectionResizeMode(1, QtWidgets.QHeaderView.ResizeToContents)
         self.zbiorPrzygotowanieDialog.addFile_widget.setFilter("*.gml")
 
-        # # pobranie widgetów danego typu
-        # res = utils.getWidgetsByType(layout=self.rasterFormularzDialog, seachObjectType=QLabel)
-        # print(res)
+
+
 
 
     """Event handlers"""
@@ -160,8 +143,7 @@ class AppModule(BaseModule):
         self.openNewDialog(self.wektorInstrukcjaDialog)
         self.listaOkienek.append(self.rasterFormularzDialog)
 
-    def updateIdIPP(self):
-        self.idIIP_lineEdit.setText("%s - %s - %s" % (self.lokalnyId_lineEdit.text(), self.przestrzenNazw_lineEdit.text(), self.wersjaId_lineEdit.text()))
+
     # endregion
 
     # region wektorInstrukcjaDialog
@@ -467,3 +449,31 @@ class AppModule(BaseModule):
         if msg.clickedButton() is yes:
             self.openNewDialog(self.metadaneDialog)
             self.listaOkienek.append(self.zbiorPrzygotowanieDialog)
+
+    def prepareIdIPP(self, formularz):
+        def updateIdIPP():
+            idIIP_lineEdit.setText("%s - %s - %s" % (
+            lokalnyId_lineEdit.text(), przestrzenNazw_lineEdit.text(), wersjaId_lineEdit.text()))
+
+        # pobranie dynamicznie utworzonych obiektów UI
+        idIIP_lineEdit = utils.getWidgetByName(
+            layout=formularz,
+            seachObjectType=QgsFilterLineEdit,
+            name="idIIP_lineEdit")
+        lokalnyId_lineEdit = utils.getWidgetByName(
+            layout=formularz,
+            seachObjectType=QgsFilterLineEdit,
+            name="lokalnyId_lineEdit")
+        przestrzenNazw_lineEdit = utils.getWidgetByName(
+            layout=formularz,
+            seachObjectType=QgsFilterLineEdit,
+            name="przestrzenNazw_lineEdit")
+        wersjaId_lineEdit = utils.getWidgetByName(
+            layout=formularz,
+            seachObjectType=QgsFilterLineEdit,
+            name="wersjaId_lineEdit")
+
+        # definicja Eventów dynamicznych obiektów UI
+        lokalnyId_lineEdit.textChanged.connect(lambda: updateIdIPP())
+        przestrzenNazw_lineEdit.textChanged.connect(lambda: updateIdIPP())
+        wersjaId_lineEdit.textChanged.connect(lambda: updateIdIPP())

@@ -1,4 +1,8 @@
+
+from . import utils
+
 class BaseModule:
+    """Klasa bazowa dla wszystkich modułów wtyczka_app.py"""
     listaOkienek = []
     activeDlg = None
 
@@ -7,3 +11,4 @@ class BaseModule:
             self.activeDlg.close()
         self.activeDlg = dlg
         self.activeDlg.show()
+

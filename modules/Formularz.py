@@ -4,6 +4,7 @@ from qgis.core import QgsMapLayerProxyModel
 from qgis.gui import QgsDateTimeEdit, QgsFilterLineEdit, QgsMapLayerComboBox
 from qgis.PyQt.QtCore import Qt, QRegExp
 from qgis.PyQt.QtGui import QRegExpValidator, QPixmap
+from .dictionaries import initialValues
 
 class Formularz:
     """Klasa reprezentująca formularz"""
@@ -148,7 +149,13 @@ class Formularz:
             input = QgsFilterLineEdit()
             input.setObjectName(formElement.name + '_lineEdit')
 
+        # ustawienie podpowiedzi inputa (typ)
         input.setToolTip((formElement.type + ' - nillable') if formElement.isNillable else formElement.type)
+
+        # ustawienie domyślnych wartości
+        if formElement.name in initialValues.keys():
+            input.setText(initialValues[formElement.name])  # dla pól tekstowych
+
         return input
 
     def __makeTooltip(self, formElement):
@@ -160,4 +167,3 @@ class Formularz:
             "<FONT COLOR=black>%s</FONT>" % formElement.documentation)  # dodanie tooltip z documentation 'rich text' dla zawijania
         tooltipImg.setObjectName(formElement.name + '_tooltip')
         return tooltipImg
-

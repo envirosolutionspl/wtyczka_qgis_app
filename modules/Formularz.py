@@ -6,14 +6,27 @@ from qgis.PyQt.QtCore import Qt, QRegExp
 from qgis.PyQt.QtGui import QRegExpValidator, QPixmap
 from .dictionaries import initialValues
 
+
 class Formularz:
     """Klasa reprezentująca formularz"""
+
     nilReasons = {
         "inapplicable": "nie dotyczy",
         "missing": "brakujący",
         "template": "szablon",
         "unknown": "nieznany",
         "withheld": "wstrzymany"}
+
+    pomijane = ["aktNormatywnyPrzystapienie",
+                "aktNormatywnyUchwalajacy",
+                "aktNormatywnyZmieniajacy",
+                "aktNormatywnyUchylajacy",
+                "aktNormatywnyUniewazniajacy",
+                "przystapienie",
+                "uchwala",
+                "zmienia",
+                "uchyla",
+                "uniewaznia"]
 
     def removeForm(self, container):
         """usuwa zawartość kontenera(container), żeby zrobić miejsce na formularz"""
@@ -27,20 +40,16 @@ class Formularz:
         """tworzy formularz w miejscu kontenera (container), na podstawie listy obiektów klasy <FormElement>"""
         wgtMain = QWidget()
         vbox = QVBoxLayout(wgtMain)
-        pomijane = ["aktNormatywnyPrzystapienie",
-                    "aktNormatywnyUchwalajacy",
-                    "aktNormatywnyZmieniajacy",
-                    "aktNormatywnyUchylajacy",
-                    "aktNormatywnyUniewazniajacy",
-                    "przystapienie",
-                    "uchwala",
-                    "zmienia",
-                    "uchyla",
-                    "uniewaznia"]
-        for formElement in formElements:
+        self.__loopFormElements(formElements, vbox)
 
-            if formElement.type == 'gml:ReferenceType' and formElement.name in pomijane:
-                continue    # pomiń element
+        container.setWidget(wgtMain)
+
+    def __loopFormElements(self,formElements, vbox):
+        """Przerabia listę obiektów FormElements na GUI"""
+
+        for formElement in formElements:
+            if formElement.type == 'gml:ReferenceType' and formElement.name in self.pomijane:
+                continue  # pomiń element
 
             hbox = QHBoxLayout()  # wiersz formularza
             hbox.setObjectName(formElement.name + '_hbox')
@@ -60,33 +69,11 @@ class Formularz:
                 nilHbox = self.__makeNilHbox(input)
                 vbox.addLayout(nilHbox)
 
-            if formElement.isComplex():  # podrzędne elementy typu complex
+            if formElement.isComplex():  # zawiera podrzędne elementy typu complex
                 input.setEnabled(False)
-                for formEl in formElement.innerFormElements:
-                    subHbox = QHBoxLayout()  # podrzedny wiersz formularza
-                    subHbox.setObjectName(formEl.name + '_hbox')
-                    # label
-                    subLbl = QLabel(text='       -   ' + formEl.name + ('*' if formElement.minOccurs else ''))
-                    subLbl.setObjectName(formEl.name + '_lbl')
-                    subHbox.addWidget(subLbl)
+                self.__loopFormElements(formElement.innerFormElements, vbox)    # rekurencja dla obiektów wewntrznych
 
-                    #input
-                    subInput = self.__makeInput(formEl)
 
-                    #tooltip
-                    subTooltipImg = self.__makeTooltip(formEl)
-                    subHbox.addWidget(subInput)
-                    subHbox.addWidget(subTooltipImg)
-                    vbox.addLayout(subHbox)
-
-                    if formEl.isNillable:   # dodaj dodatkowo checkbox i powód
-                        nilHbox = self.__makeNilHbox(subInput)
-                        vbox.addLayout(nilHbox)
-
-        container.setWidget(wgtMain)
-
-    def __loopFormElements(self,formElements):
-        pass
     def __makeNilHbox(self, nillableWidget):
         """tworzy zestaw widgetów do obługi typu "nillable"""
         def changeState():
@@ -104,7 +91,7 @@ class Formularz:
         nilLbl1 = QLabel(text='    ')
         nilLbl2 = QLabel(text='wskaż powód: ')
         nilLbl2.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
-        nilLbl2.setObjectName('nilReason' + '_lbl')
+        nilLbl2.setObjectName(nillableWidget.objectName() + 'nilReason' + '_lbl')
         nilLbl2.setEnabled(False)
         chckBox = QCheckBox(text='brak wartości')
         chckBox.setObjectName(nillableWidget.objectName() + '_nilReason' + '_chkbx')

@@ -149,11 +149,6 @@ class Formularz:
             input = QgsFilterLineEdit()
             input.setValidator(QRegExpValidator(QRegExp(r"\S*")))  # tylko liczby calkowite
             input.setObjectName(formElement.name + '_lineEdit')
-        # elif formElement.type == 'gml:ReferenceType' and formElement.name == 'plan':
-        #     input = QgsMapLayerComboBox()
-        #     input.setShowCrs(True)
-        #     input.setFilters(QgsMapLayerProxyModel.RasterLayer)
-        #     input.setObjectName(formElement.name + '_comboBox')
         elif formElement.type == 'gml:MultiSurfacePropertyType':
             input = QgsFilterLineEdit()
             input.setEnabled(False)
@@ -167,12 +162,13 @@ class Formularz:
         input.setToolTip((formElement.type + ' - nillable') if formElement.isNillable else formElement.type)
 
         # ustawienie domyślnych wartości
-        if formElement.name in dictionaries.initialValues.keys():
-            input.setText(dictionaries.initialValues[formElement.name])  # dla pól tekstowych
+        fullFormElementName = formElement.form + ":" + formElement.name
+        if fullFormElementName in dictionaries.initialValues.keys():
+            input.setText(dictionaries.initialValues[fullFormElementName])  # dla pól tekstowych
 
         # ustawienie podpowiedzi
-        if formElement.name in dictionaries.placeholders.keys():
-            input.setPlaceholderText('np.: ' + dictionaries.placeholders[formElement.name])  # dla pól tekstowych
+        if fullFormElementName in dictionaries.placeholders.keys():
+            input.setPlaceholderText('np.: ' + dictionaries.placeholders[fullFormElementName])  # dla pól tekstowych
 
         return input
 

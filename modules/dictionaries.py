@@ -1,9 +1,31 @@
 initialValues = {
-# "ukladOdniesieniaPrzestrzennego" : "http://www.opengis.net/def/crs/EPSG/0/2180"
+    # "lokalnyId" : "RYS1",
+    # "przestrzenNazw" : "PL.ZIPPZP.9999/14-PZPW"
 }
 placeholders = {
-    "lacze" : "http://www.przykladowa.domena/1/stan_zagospodarowania.tif",
-    "legenda" : "http://www.przykladowa.domena/1/legenda.png"
+    "RysunekAktuPlanowniaPrzestrzenegoType:lokalnyId" : "RYS1",
+    "RysunekAktuPlanowniaPrzestrzenegoType:przestrzenNazw" : "PL.ZIPPZP.9999/14-PZPW",
+    "RysunekAktuPlanowniaPrzestrzenegoType:wersjaId" : "20200525",
+    "RysunekAktuPlanowniaPrzestrzenegoType:tytul" : "Plan zagospodarowania przestrzennego województwa mazowieckiego Stan zagospodarowania",
+    "RysunekAktuPlanowniaPrzestrzenegoType:lacze" : "http://www.przykladowa.domena/zagospodarowanie.tif",
+    "RysunekAktuPlanowniaPrzestrzenegoType:legenda" : "http://www.przykladowa.domena/legenda.png",
+    "RysunekAktuPlanowniaPrzestrzenegoType:rozdzielczoscPrzestrzenna" : "250000",
+    "RysunekAktuPlanowniaPrzestrzenegoType:opis" : "Zał. 2 stan zagospodarowania",
+    "AktPlanowaniaPrzestrzennegoType:lokalnyId" : "P1",
+    "AktPlanowaniaPrzestrzennegoType:przestrzenNazw" : "PL.ZIPPZP.9999/14-PZPW",
+    "AktPlanowaniaPrzestrzennegoType:wersjaId" : "20200525",
+    "AktPlanowaniaPrzestrzennegoType:tytul" : "Plan zagospodarowania przestrzennego województwa mazowieckiego",
+    "AktPlanowaniaPrzestrzennegoType:zmiana" : "0",
+    "AktPlanowaniaPrzestrzennegoType:referencja" : "Plan zagospodarowania przestrzennego województwa mazowieckiego został sporządzony na podkładzie Bazy Danych Obiektów Ogólnogeograficznych (BDOO).",
+    "AktPlanowaniaPrzestrzennegoType:lacze" : "http://mapy.geoportal.gov.pl/wss/service/ATOM/httpauth/atom/CODGIK_BDOO",
+    "DokumentFormalnyType:lokalnyId" : "DOC1",
+    "DokumentFormalnyType:przestrzenNazw" : "PL.ZIPPZP.9999/14-PZPW",
+    "DokumentFormalnyType:wersjaId" : "20200525",
+    "DokumentFormalnyType:tytul" : "Uchwała nr 22/18 Sejmiku Wojewodztwa Mazowieckiego z dnia 19 grudnia 2018r. w sprawie Planu zagospodarowania przestrzennego województwa mazowieckiego",
+    "DokumentFormalnyType:nazwaSkrocona" : "Plan zagospodarowania przestrzennego województwa mazowieckiego",
+    "DokumentFormalnyType:numerIdentyfikacyjny" : "DZ. URZ. WOJ. 2018.13180",
+    "DokumentFormalnyType:organUstanawiajacy" : "Sejmik Wojewodztwa Mazowieckiego",
+    "DokumentFormalnyType:lacze" : "http://www.przykladowa.domena/akt.pdf"
 }
 
 # listy rozwijalne combobox

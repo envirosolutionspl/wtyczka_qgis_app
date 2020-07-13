@@ -44,7 +44,7 @@ class Formularz:
 
         container.setWidget(wgtMain)
 
-    def __loopFormElements(self,formElements, vbox):
+    def __loopFormElements(self,formElements, vbox, prefix=''):
         """Przerabia listę obiektów FormElements na GUI"""
 
         for formElement in formElements:
@@ -55,7 +55,7 @@ class Formularz:
             hbox.setObjectName(formElement.name + '_hbox')
 
             # label
-            lbl = QLabel(text=formElement.name + ('*' if formElement.minOccurs else ''))
+            lbl = QLabel(text=prefix + formElement.name + ('*' if formElement.minOccurs else ''))
             lbl.setObjectName(formElement.name + '_lbl')
             hbox.addWidget(lbl)
 
@@ -71,7 +71,7 @@ class Formularz:
 
             if formElement.isComplex():  # zawiera podrzędne elementy typu complex
                 input.setEnabled(False)
-                self.__loopFormElements(formElement.innerFormElements, vbox)    # rekurencja dla obiektów wewntrznych
+                self.__loopFormElements(formElement.innerFormElements, vbox, '  - ')    # rekurencja dla obiektów wewntrznych
 
 
     def __makeNilHbox(self, nillableWidget):

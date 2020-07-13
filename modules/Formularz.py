@@ -4,18 +4,12 @@ from qgis.core import QgsMapLayerProxyModel
 from qgis.gui import QgsDateTimeEdit, QgsFilterLineEdit, QgsMapLayerComboBox
 from qgis.PyQt.QtCore import Qt, QRegExp
 from qgis.PyQt.QtGui import QRegExpValidator, QPixmap
-from .dictionaries import initialValues
+from . import dictionaries
+
 
 
 class Formularz:
     """Klasa reprezentująca formularz"""
-
-    nilReasons = {
-        "inapplicable": "nie dotyczy",
-        "missing": "brakujący",
-        "template": "szablon",
-        "unknown": "nieznany",
-        "withheld": "wstrzymany"}
 
     pomijane = ["aktNormatywnyPrzystapienie",
                 "aktNormatywnyUchwalajacy",
@@ -26,7 +20,10 @@ class Formularz:
                 "uchwala",
                 "zmienia",
                 "uchyla",
-                "uniewaznia"]
+                "uniewaznia",
+                "plan",
+                "dokument",
+                "rysunek"]
 
     def removeForm(self, container):
         """usuwa zawartość kontenera(container), żeby zrobić miejsce na formularz"""
@@ -48,7 +45,10 @@ class Formularz:
         """Przerabia listę obiektów FormElements na GUI"""
 
         for formElement in formElements:
-            if formElement.type == 'gml:ReferenceType' and formElement.name in self.pomijane:
+            if (
+                    formElement.type == 'gml:ReferenceType' or
+                    formElement.type == "gml:AbstractFeatureMemberType"
+            ) and formElement.name in self.pomijane:
                 continue  # pomiń element
 
             hbox = QHBoxLayout()  # wiersz formularza
@@ -98,7 +98,7 @@ class Formularz:
         chckBox.stateChanged.connect(lambda: changeState())
         comboBox = QComboBox()
         comboBox.setObjectName(nillableWidget.objectName() + '_nilReason' + '_cmbbx')
-        comboBox.addItems(Formularz.nilReasons.keys())
+        comboBox.addItems(dictionaries.nilReasons.keys())
         comboBox.setEnabled(False)
         tooltipImg = QLabel()
         tooltipImg.setMaximumWidth(16)
@@ -112,11 +112,31 @@ class Formularz:
 
     def __makeInput(self, formElement):
         # pole wprowadzania
-        if formElement.type == 'dateTime':
+        if formElement.name == "ukladOdniesieniaPrzestrzennego":
+            input = QComboBox()
+            input.setObjectName(formElement.name + '_cmbbx')
+            input.addItems(dictionaries.ukladyOdniesieniaPrzestrzennego.keys())
+        elif formElement.name == "typPlanu":
+            input = QComboBox()
+            input.setObjectName(formElement.name + '_cmbbx')
+            input.addItems(dictionaries.typyPlanu.keys())
+        elif formElement.name == "poziomHierarchii":
+            input = QComboBox()
+            input.setObjectName(formElement.name + '_cmbbx')
+            input.addItems(dictionaries.poziomyHierarchii.keys())
+        elif formElement.name == "status":
+            input = QComboBox()
+            input.setObjectName(formElement.name + '_cmbbx')
+            input.addItems(dictionaries.statusListaKodowa.keys())
+        elif formElement.name == "dziennikUrzedowy":
+            input = QComboBox()
+            input.setObjectName(formElement.name + '_cmbbx')
+            input.addItems(dictionaries.dziennikUrzedowyKod.keys())
+        elif formElement.type == 'dateTime':
             input = QgsDateTimeEdit()
             input.setObjectName(formElement.name + '_dateTimeEdit')
             input.clear()
-        elif formElement.type == 'date':
+        elif formElement.type == 'date' or formElement.type == 'gmd:CI_Date_PropertyType':
             input = QgsDateTimeEdit()
             input.setDisplayFormat('dd.MM.yyyy')
             input.setObjectName(formElement.name + '_dateEdit')
@@ -129,11 +149,11 @@ class Formularz:
             input = QgsFilterLineEdit()
             input.setValidator(QRegExpValidator(QRegExp(r"\S*")))  # tylko liczby calkowite
             input.setObjectName(formElement.name + '_lineEdit')
-        elif formElement.type == 'gml:ReferenceType' and formElement.name == 'plan':
-            input = QgsMapLayerComboBox()
-            input.setShowCrs(True)
-            input.setFilters(QgsMapLayerProxyModel.RasterLayer)
-            input.setObjectName(formElement.name + '_comboBox')
+        # elif formElement.type == 'gml:ReferenceType' and formElement.name == 'plan':
+        #     input = QgsMapLayerComboBox()
+        #     input.setShowCrs(True)
+        #     input.setFilters(QgsMapLayerProxyModel.RasterLayer)
+        #     input.setObjectName(formElement.name + '_comboBox')
         elif formElement.type == 'gml:MultiSurfacePropertyType':
             input = QgsFilterLineEdit()
             input.setEnabled(False)
@@ -147,8 +167,12 @@ class Formularz:
         input.setToolTip((formElement.type + ' - nillable') if formElement.isNillable else formElement.type)
 
         # ustawienie domyślnych wartości
-        if formElement.name in initialValues.keys():
-            input.setText(initialValues[formElement.name])  # dla pól tekstowych
+        if formElement.name in dictionaries.initialValues.keys():
+            input.setText(dictionaries.initialValues[formElement.name])  # dla pól tekstowych
+
+        # ustawienie podpowiedzi
+        if formElement.name in dictionaries.placeholders.keys():
+            input.setPlaceholderText('np.: ' + dictionaries.placeholders[formElement.name])  # dla pól tekstowych
 
         return input
 

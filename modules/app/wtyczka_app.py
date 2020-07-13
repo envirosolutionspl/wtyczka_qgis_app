@@ -23,6 +23,7 @@ import os
 import os.path
 import time
 import datetime
+import xml.etree.ElementTree as ET
 
 
 class AppModule(BaseModule):
@@ -35,6 +36,7 @@ class AppModule(BaseModule):
 
         self.saved = False
         self.generated = False
+        self.savedxml = False
 
     # region okna moduł app
         self.pytanieAppDialog = PytanieAppDialog()
@@ -387,9 +389,28 @@ class AppModule(BaseModule):
     """Popup windows"""
 
     def showPopupSaveForm(self):
-        showPopup("Zapisz aktualny formularz",
-                  "Poprawnie zapisano formularz. W razie potrzeby wygenerowania kolejnego formularzu, należy zmodyfikować dane oraz zapisać formularz ponownie.")
-        self.saved = True
+
+        self.fn = QFileDialog.getSaveFileName(filter="XML Files (*.xml)")[0]
+        if self.fn:
+            self.saved = True
+            # TODO wypełnienie xml wartościami z xml
+
+            # create the file structure
+            data = ET.Element('data')
+            items = ET.SubElement(data, 'items')
+            item1 = ET.SubElement(items, 'item')
+            item2 = ET.SubElement(items, 'item')
+            item1.set('name', 'item1')
+            item2.set('name', 'item2')
+            item1.text = 'item1abc'
+            item2.text = 'item2abc'
+
+            # create a new XML file with the results
+            tree = ET.ElementTree(data)
+            tree.write(self.fn)
+
+            showPopup("Zapisz aktualny formularz",
+                      "Poprawnie zapisano formularz. W razie potrzeby wygenerowania kolejnego formularzu, należy zmodyfikować dane oraz zapisać formularz ponownie.")
         return self.saved
 
     def showPopupSameRecord(self):

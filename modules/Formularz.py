@@ -4,6 +4,8 @@ from qgis.core import QgsMapLayerProxyModel
 from qgis.gui import QgsDateTimeEdit, QgsFilterLineEdit, QgsMapLayerComboBox
 from qgis.PyQt.QtCore import Qt, QRegExp
 from qgis.PyQt.QtGui import QRegExpValidator, QPixmap
+from . import utils
+
 
 class Formularz:
     """Klasa reprezentująca formularz"""
@@ -20,7 +22,22 @@ class Formularz:
 
     def clearForm(self, container):
         """czyści pola formularza"""
-        pass
+        widgets = utils.getWidgets(
+            layout=container,
+            types=[QgsDateTimeEdit, QgsFilterLineEdit, QgsMapLayerComboBox])
+        for widget in widgets[QgsDateTimeEdit]:
+            widget.clear()
+        for widget in widgets[QgsFilterLineEdit]:
+            widget.clear()
+        for widget in widgets[QgsMapLayerComboBox]:
+            widget.clear()
+        # widgets = utils.getWidgets(layout=container,  types=[
+        #                            QLineEdit, QDateEdit])
+        # for widget in widgets[QLineEdit]:
+        #     widget.clear()
+
+        # for w in widget[QLineEdit]:
+        #     print(w)
 
     def createForm(self, container, formElements):
         """tworzy formularz w miejscu kontenera (container), na podstawie listy obiektów klasy <FormElement>"""
@@ -45,7 +62,8 @@ class Formularz:
             hbox.setObjectName(formElement.name + '_hbox')
 
             # label
-            lbl = QLabel(text=formElement.name + ('*' if formElement.minOccurs else ''))
+            lbl = QLabel(text=formElement.name +
+                         ('*' if formElement.minOccurs else ''))
             lbl.setObjectName(formElement.name + '_lbl')
             hbox.addWidget(lbl)
 
@@ -61,14 +79,15 @@ class Formularz:
                     subHbox = QHBoxLayout()  # podrzedny wiersz formularza
                     subHbox.setObjectName(formEl.name + '_hbox')
                     # label
-                    subLbl = QLabel(text='       -   ' + formEl.name + ('*' if formElement.minOccurs else ''))
+                    subLbl = QLabel(text='       -   ' + formEl.name +
+                                    ('*' if formElement.minOccurs else ''))
                     subLbl.setObjectName(formEl.name + '_lbl')
                     subHbox.addWidget(subLbl)
 
-                    #input
+                    # input
                     subInput = self.__makeInput(formEl)
 
-                    #tooltip
+                    # tooltip
                     subTooltipImg = self.__makeTooltip(formEl)
                     subHbox.addWidget(subInput)
                     subHbox.addWidget(subTooltipImg)
@@ -128,11 +147,13 @@ class Formularz:
             input.clear()
         elif formElement.type == 'integer':
             input = QgsFilterLineEdit()
-            input.setValidator(QRegExpValidator(QRegExp("[0-9]*")))  # tylko liczby calkowite
+            # tylko liczby calkowite
+            input.setValidator(QRegExpValidator(QRegExp("[0-9]*")))
             input.setObjectName(formElement.name + '_lineEdit')
         elif formElement.type == 'anyURI':
             input = QgsFilterLineEdit()
-            input.setValidator(QRegExpValidator(QRegExp(r"\S*")))  # tylko liczby calkowite
+            # tylko liczby calkowite
+            input.setValidator(QRegExpValidator(QRegExp(r"\S*")))
             input.setObjectName(formElement.name + '_lineEdit')
         elif formElement.type == 'gml:ReferenceType' and formElement.name == 'plan':
             input = QgsMapLayerComboBox()
@@ -148,7 +169,8 @@ class Formularz:
             input = QgsFilterLineEdit()
             input.setObjectName(formElement.name + '_lineEdit')
 
-        input.setToolTip((formElement.type + ' - nillable') if formElement.isNillable else formElement.type)
+        input.setToolTip((formElement.type + ' - nillable')
+                         if formElement.isNillable else formElement.type)
         return input
 
     def __makeTooltip(self, formElement):
@@ -160,4 +182,3 @@ class Formularz:
             "<FONT COLOR=black>%s</FONT>" % formElement.documentation)  # dodanie tooltip z documentation 'rich text' dla zawijania
         tooltipImg.setObjectName(formElement.name + '_tooltip')
         return tooltipImg
-

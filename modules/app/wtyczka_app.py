@@ -1,25 +1,28 @@
 from qgis.utils import iface
 from . import (PytanieAppDialog, ZbiorPrzygotowanieDialog, RasterInstrukcjaDialog, RasterFormularzDialog,
                WektorFormularzDialog, DokumentyFormularzDialog, WektorInstrukcjaDialog, GenerowanieGMLDialog)
-from .. import BaseModule, utils
+from .. import BaseModule, utils, Formularz
 from ..utils import showPopup
 from qgis.PyQt import QtWidgets
 from PyQt5.QtWidgets import *
 from qgis.PyQt.QtCore import QVariant, Qt
 from qgis.core import (
-  QgsCoordinateReferenceSystem,
-  QgsPointXY,
-  QgsField,
-  QgsFields,
-  QgsFeature,
-  QgsGeometry,
-  QgsVectorLayer,
-  QgsVectorFileWriter,
-  QgsWkbTypes,
-  QgsMapLayerProxyModel
+    QgsCoordinateReferenceSystem,
+    QgsPointXY,
+    QgsField,
+    QgsFields,
+    QgsFeature,
+    QgsGeometry,
+    QgsVectorLayer,
+    QgsVectorFileWriter,
+    QgsWkbTypes,
+    QgsMapLayerProxyModel
 )
 from qgis.gui import QgsDateTimeEdit, QgsFilterLineEdit
-import os, os.path, time, datetime
+import os
+import os.path
+import time
+import datetime
 
 
 class AppModule(BaseModule):
@@ -44,66 +47,98 @@ class AppModule(BaseModule):
         self.generowanieGMLDialog = GenerowanieGMLDialog()
     # endregion
 
-        self.pytanieAppDialog.zbior_btn.clicked.connect(self.pytanieAppDialog_zbior_btn_clicked)
-        self.pytanieAppDialog.app_btn.clicked.connect(self.pytanieAppDialog_app_btn_clicked)
-        self.pytanieAppDialog.settings_btn.clicked.connect(self.pytanieAppDialog_settings_btn_clicked)
-        self.pytanieAppDialog.help_btn.clicked.connect(self.pytanieAppDialog_help_btn_clicked)
+        self.pytanieAppDialog.zbior_btn.clicked.connect(
+            self.pytanieAppDialog_zbior_btn_clicked)
+        self.pytanieAppDialog.app_btn.clicked.connect(
+            self.pytanieAppDialog_app_btn_clicked)
+        self.pytanieAppDialog.settings_btn.clicked.connect(
+            self.pytanieAppDialog_settings_btn_clicked)
+        self.pytanieAppDialog.help_btn.clicked.connect(
+            self.pytanieAppDialog_help_btn_clicked)
 
-        self.rasterInstrukcjaDialog.next_btn.clicked.connect(self.rasterInstrukcjaDialog_next_btn_clicked)
-        self.rasterInstrukcjaDialog.prev_btn.clicked.connect(self.rasterInstrukcjaDialog_prev_btn_clicked)
+        self.rasterInstrukcjaDialog.next_btn.clicked.connect(
+            self.rasterInstrukcjaDialog_next_btn_clicked)
+        self.rasterInstrukcjaDialog.prev_btn.clicked.connect(
+            self.rasterInstrukcjaDialog_prev_btn_clicked)
 
     # region rasterFormularzDialog
 
-        self.rasterFormularzDialog.prev_btn.clicked.connect(self.rasterFormularzDialog_prev_btn_clicked)
-        self.rasterFormularzDialog.next_btn.clicked.connect(self.checkSaveForms)
-        self.rasterFormularzDialog.saveForm_btn.clicked.connect(self.showPopupSaveForm)
+        self.rasterFormularzDialog.prev_btn.clicked.connect(
+            self.rasterFormularzDialog_prev_btn_clicked)
+        self.rasterFormularzDialog.next_btn.clicked.connect(
+            self.checkSaveForms)
+        self.rasterFormularzDialog.saveForm_btn.clicked.connect(
+            self.showPopupSaveForm)
         # zdarenia dynamicznie utworzonych obiektów UI związanych z IdIPP
         self.prepareIdIPP(formularz=self.rasterFormularzDialog)
-
-
+        # self.getWidgets(formularz=self.rasterFormularzDialog)
+        self.rasterFormularzDialog.clear_btn.clicked.connect(
+            self.rasterFormularzDialog_clear_btn_clicked)
 
     # endregion
 
-        self.wektorInstrukcjaDialog.next_btn.clicked.connect(self.wektorInstrukcjaDialog_next_btn_clicked)
-        self.wektorInstrukcjaDialog.prev_btn.clicked.connect(self.wektorInstrukcjaDialog_prev_btn_clicked)
-        self.wektorInstrukcjaDialog.generateTemporaryLayer_btn.clicked.connect(self.newEmptyLayer)
-        self.wektorInstrukcjaDialog.chooseFile_btn.clicked.connect(self.openFile)
-        self.wektorInstrukcjaDialog.layers_comboBox.setFilters(QgsMapLayerProxyModel.PolygonLayer)
+        self.wektorInstrukcjaDialog.next_btn.clicked.connect(
+            self.wektorInstrukcjaDialog_next_btn_clicked)
+        self.wektorInstrukcjaDialog.prev_btn.clicked.connect(
+            self.wektorInstrukcjaDialog_prev_btn_clicked)
+        self.wektorInstrukcjaDialog.generateTemporaryLayer_btn.clicked.connect(
+            self.newEmptyLayer)
+        self.wektorInstrukcjaDialog.chooseFile_btn.clicked.connect(
+            self.openFile)
+        self.wektorInstrukcjaDialog.layers_comboBox.setFilters(
+            QgsMapLayerProxyModel.PolygonLayer)
 
-        self.wektorFormularzDialog.prev_btn.clicked.connect(self.wektorFormularzDialog_prev_btn_clicked)
-        self.wektorFormularzDialog.next_btn.clicked.connect(self.checkSaveForms)
-        self.wektorFormularzDialog.saveForm_btn.clicked.connect(self.showPopupSaveForm)
+        self.wektorFormularzDialog.prev_btn.clicked.connect(
+            self.wektorFormularzDialog_prev_btn_clicked)
+        self.wektorFormularzDialog.next_btn.clicked.connect(
+            self.checkSaveForms)
+        self.wektorFormularzDialog.saveForm_btn.clicked.connect(
+            self.showPopupSaveForm)
         # zdarenia dynamicznie utworzonych obiektów UI związanych z IdIPP
         self.prepareIdIPP(formularz=self.wektorFormularzDialog)
 
-        self.dokumentyFormularzDialog.prev_btn.clicked.connect(self.dokumentyFormularzDialog_prev_btn_clicked)
-        self.dokumentyFormularzDialog.next_btn.clicked.connect(self.checkSaveForms)
-        self.dokumentyFormularzDialog.saveForm_btn.clicked.connect(self.showPopupSaveForm)
+        self.dokumentyFormularzDialog.prev_btn.clicked.connect(
+            self.dokumentyFormularzDialog_prev_btn_clicked)
+        self.dokumentyFormularzDialog.next_btn.clicked.connect(
+            self.checkSaveForms)
+        self.dokumentyFormularzDialog.saveForm_btn.clicked.connect(
+            self.showPopupSaveForm)
         # zdarenia dynamicznie utworzonych obiektów UI związanych z IdIPP
         self.prepareIdIPP(formularz=self.dokumentyFormularzDialog)
 
-        self.generowanieGMLDialog.prev_btn.clicked.connect(self.generowanieGMLDialog_prev_btn_clicked)
-        self.generowanieGMLDialog.generate_btn.clicked.connect(self.showPopupApp)
-        self.generowanieGMLDialog.addElement_btn.clicked.connect(self.addTableContentGML)
-        self.generowanieGMLDialog.deleteElement_btn.clicked.connect(self.deleteTableContentGML)
+        self.generowanieGMLDialog.prev_btn.clicked.connect(
+            self.generowanieGMLDialog_prev_btn_clicked)
+        self.generowanieGMLDialog.generate_btn.clicked.connect(
+            self.showPopupApp)
+        self.generowanieGMLDialog.addElement_btn.clicked.connect(
+            self.addTableContentGML)
+        self.generowanieGMLDialog.deleteElement_btn.clicked.connect(
+            self.deleteTableContentGML)
         header_gml = self.generowanieGMLDialog.filesTable_widget.horizontalHeader()
-        header_gml.setSectionResizeMode(0, QtWidgets.QHeaderView.ResizeToContents)
-        header_gml.setSectionResizeMode(1, QtWidgets.QHeaderView.ResizeToContents)
-        header_gml.setSectionResizeMode(2, QtWidgets.QHeaderView.ResizeToContents)
+        header_gml.setSectionResizeMode(
+            0, QtWidgets.QHeaderView.ResizeToContents)
+        header_gml.setSectionResizeMode(
+            1, QtWidgets.QHeaderView.ResizeToContents)
+        header_gml.setSectionResizeMode(
+            2, QtWidgets.QHeaderView.ResizeToContents)
 
-        self.zbiorPrzygotowanieDialog.prev_btn.clicked.connect(self.zbiorPrzygotowanieDialog_prev_btn_clicked)
-        self.zbiorPrzygotowanieDialog.next_btn.clicked.connect(self.checkSaveSet)
-        self.zbiorPrzygotowanieDialog.validateAndGenerate_btn.clicked.connect(self.showPopupGenerate2)
-        self.zbiorPrzygotowanieDialog.addElement_btn.clicked.connect(self.addTableContentSet)
-        self.zbiorPrzygotowanieDialog.deleteElement_btn.clicked.connect(self.deleteTableContentSet)
-        header_zbior = self.zbiorPrzygotowanieDialog.appTable_widget.horizontalHeader()  # auto resize kolumn
-        header_zbior.setSectionResizeMode(0, QtWidgets.QHeaderView.ResizeToContents)
-        header_zbior.setSectionResizeMode(1, QtWidgets.QHeaderView.ResizeToContents)
+        self.zbiorPrzygotowanieDialog.prev_btn.clicked.connect(
+            self.zbiorPrzygotowanieDialog_prev_btn_clicked)
+        self.zbiorPrzygotowanieDialog.next_btn.clicked.connect(
+            self.checkSaveSet)
+        self.zbiorPrzygotowanieDialog.validateAndGenerate_btn.clicked.connect(
+            self.showPopupGenerate2)
+        self.zbiorPrzygotowanieDialog.addElement_btn.clicked.connect(
+            self.addTableContentSet)
+        self.zbiorPrzygotowanieDialog.deleteElement_btn.clicked.connect(
+            self.deleteTableContentSet)
+        # auto resize kolumn
+        header_zbior = self.zbiorPrzygotowanieDialog.appTable_widget.horizontalHeader()
+        header_zbior.setSectionResizeMode(
+            0, QtWidgets.QHeaderView.ResizeToContents)
+        header_zbior.setSectionResizeMode(
+            1, QtWidgets.QHeaderView.ResizeToContents)
         self.zbiorPrzygotowanieDialog.addFile_widget.setFilter("*.gml")
-
-
-
-
 
     """Event handlers"""
 
@@ -128,6 +163,7 @@ class AppModule(BaseModule):
     # region rasterInstrukcjaDialog
     def rasterInstrukcjaDialog_next_btn_clicked(self):
         self.openNewDialog(self.rasterFormularzDialog)
+
         self.listaOkienek.append(self.rasterInstrukcjaDialog)
 
     def rasterInstrukcjaDialog_prev_btn_clicked(self):
@@ -143,10 +179,14 @@ class AppModule(BaseModule):
         self.openNewDialog(self.wektorInstrukcjaDialog)
         self.listaOkienek.append(self.rasterFormularzDialog)
 
+    def rasterFormularzDialog_clear_btn_clicked(self):
+        self.rasterFormularzDialog.clearForm(
+            self.rasterFormularzDialog.form_scrollArea)
 
     # endregion
 
     # region wektorInstrukcjaDialog
+
     def wektorInstrukcjaDialog_next_btn_clicked(self):
         self.openNewDialog(self.wektorFormularzDialog)
         self.listaOkienek.append(self.wektorInstrukcjaDialog)
@@ -229,19 +269,24 @@ class AppModule(BaseModule):
 
     """Helper methods"""
     # TODO dodać inne rozszerzenia plików wektorowych - najlepiej qgisowym narzędziem
+
     def openFile(self):
-        shpFile = str(QFileDialog.getOpenFileName(filter=("Shapefiles (*.shp)"))[0])
+        shpFile = str(QFileDialog.getOpenFileName(
+            filter=("Shapefiles (*.shp)"))[0])
         if shpFile:
-            self.iface.addVectorLayer(shpFile, str.split(os.path.basename(shpFile), ".")[0], "ogr")
+            self.iface.addVectorLayer(shpFile, str.split(
+                os.path.basename(shpFile), ".")[0], "ogr")
 
     def addTableContentGML(self):
-        plik = str(QFileDialog.getOpenFileName(filter=("XML/GML files (*.xml *.gml)"))[0])
+        plik = str(QFileDialog.getOpenFileName(
+            filter=("XML/GML files (*.xml *.gml)"))[0])
         param = True
         if plik:
             rows = self.generowanieGMLDialog.filesTable_widget.rowCount()
             if rows > 0:
                 for i in range(rows):
-                    item = self.generowanieGMLDialog.filesTable_widget.item(i, 0).text()
+                    item = self.generowanieGMLDialog.filesTable_widget.item(
+                        i, 0).text()
                     if plik == item:
                         param = False
                         self.showPopupSameRecord()
@@ -254,7 +299,8 @@ class AppModule(BaseModule):
     def tableContentGML(self, file, rows):
         flags = Qt.ItemFlags(32)
         self.generowanieGMLDialog.filesTable_widget.setRowCount(rows + 1)
-        self.generowanieGMLDialog.filesTable_widget.setItem(rows, 0, QTableWidgetItem(file))
+        self.generowanieGMLDialog.filesTable_widget.setItem(
+            rows, 0, QTableWidgetItem(file))
 
         t = os.path.getmtime(file)
         mtime = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(t))
@@ -278,7 +324,8 @@ class AppModule(BaseModule):
             rows = self.zbiorPrzygotowanieDialog.appTable_widget.rowCount()
             if rows > 0:
                 for i in range(rows):
-                    item = self.zbiorPrzygotowanieDialog.appTable_widget.item(i, 0).text()
+                    item = self.zbiorPrzygotowanieDialog.appTable_widget.item(
+                        i, 0).text()
                     if plik == item:
                         param = False
                         self.showPopupSameRecord()
@@ -291,7 +338,8 @@ class AppModule(BaseModule):
     def tableContentSet(self, file, rows):
         flags = Qt.ItemFlags(32)
         self.zbiorPrzygotowanieDialog.appTable_widget.setRowCount(rows + 1)
-        self.zbiorPrzygotowanieDialog.appTable_widget.setItem(rows, 0, QTableWidgetItem(file))
+        self.zbiorPrzygotowanieDialog.appTable_widget.setItem(
+            rows, 0, QTableWidgetItem(file))
 
         t = os.path.getmtime(file)
         mtime = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(t))
@@ -303,8 +351,10 @@ class AppModule(BaseModule):
         row_num = self.zbiorPrzygotowanieDialog.appTable_widget.rowCount()
         if row_num > 0:
             do_usuniecia = self.zbiorPrzygotowanieDialog.appTable_widget.currentRow()
-            self.zbiorPrzygotowanieDialog.appTable_widget.removeRow(do_usuniecia)
-            self.zbiorPrzygotowanieDialog.appTable_widget.setCurrentCell(-1, -1)
+            self.zbiorPrzygotowanieDialog.appTable_widget.removeRow(
+                do_usuniecia)
+            self.zbiorPrzygotowanieDialog.appTable_widget.setCurrentCell(
+                -1, -1)
         else:
             pass
 
@@ -317,7 +367,8 @@ class AppModule(BaseModule):
             fields = QgsFields()
             fields.append(QgsField('idIIP', QVariant.String))
             fields.append(QgsField('nazwa', QVariant.String))
-            writer = QgsVectorFileWriter(self.fn, 'UTF-8', fields, QgsWkbTypes.Polygon, QgsCoordinateReferenceSystem('EPSG:2180'), 'ESRI Shapefile')
+            writer = QgsVectorFileWriter(self.fn, 'UTF-8', fields, QgsWkbTypes.Polygon,
+                                         QgsCoordinateReferenceSystem('EPSG:2180'), 'ESRI Shapefile')
             feat = QgsFeature()
             writer.addFeature(feat)
             iface.addVectorLayer(self.fn, '', 'ogr')
@@ -325,7 +376,8 @@ class AppModule(BaseModule):
     """Popup windows"""
 
     def showPopupSaveForm(self):
-        showPopup("Zapisz aktualny formularz", "Poprawnie zapisano formularz. W razie potrzeby wygenerowania kolejnego formularzu, należy zmodyfikować dane oraz zapisać formularz ponownie.")
+        showPopup("Zapisz aktualny formularz",
+                  "Poprawnie zapisano formularz. W razie potrzeby wygenerowania kolejnego formularzu, należy zmodyfikować dane oraz zapisać formularz ponownie.")
         self.saved = True
         return self.saved
 
@@ -333,13 +385,16 @@ class AppModule(BaseModule):
         showPopup("Błąd tabeli", "Wybrany plik znajduje się już w tabeli")
 
     def showPopupGenerateLayer(self):
-        showPopup("Wygeneruj warstwę", "Poprawnie utworzono pustą warstwę. Uzupełnij ją danymi wektorowymi oraz wypełnij atrybuty.")
+        showPopup("Wygeneruj warstwę",
+                  "Poprawnie utworzono pustą warstwę. Uzupełnij ją danymi wektorowymi oraz wypełnij atrybuty.")
 
     def showPopupGenerate(self):
-        showPopup("Wygeneruj plik GML dla APP", "Poprawnie wygenerowano plik GML.")
+        showPopup("Wygeneruj plik GML dla APP",
+                  "Poprawnie wygenerowano plik GML.")
 
     def showPopupGenerate2(self):
-        showPopup("Wygeneruj plik GML dla zbioru APP", "Poprawnie wygenerowano plik GML.")
+        showPopup("Wygeneruj plik GML dla zbioru APP",
+                  "Poprawnie wygenerowano plik GML.")
         self.generated = True
         return self.generated
 
@@ -347,7 +402,8 @@ class AppModule(BaseModule):
         msg = QMessageBox()
         msg.setIcon(QtWidgets.QMessageBox.Question)
         msg.setWindowTitle('Czy chcesz utworzyć kolejny APP?')
-        msg.setText('Wygenerowano plik GML dla APP. Czy chcesz stworzyć kolejny APP?')
+        msg.setText(
+            'Wygenerowano plik GML dla APP. Czy chcesz stworzyć kolejny APP?')
         yes = msg.addButton(
             'Tak', QtWidgets.QMessageBox.AcceptRole)
         no = msg.addButton(
@@ -367,7 +423,8 @@ class AppModule(BaseModule):
         msg = QMessageBox()
         msg.setIcon(QtWidgets.QMessageBox.Question)
         msg.setWindowTitle('Czy chcesz utworzyć zbiór APP?')
-        msg.setText('Czy chcesz przejść do tworzenia zbioru czy zakończyć pracę?')
+        msg.setText(
+            'Czy chcesz przejść do tworzenia zbioru czy zakończyć pracę?')
         set = msg.addButton(
             'Tworzenie zbioru', QtWidgets.QMessageBox.AcceptRole)
         cancel = msg.addButton(
@@ -406,7 +463,8 @@ class AppModule(BaseModule):
         msg = QMessageBox()
         msg.setIcon(QtWidgets.QMessageBox.Question)
         msg.setWindowTitle('Niezapisany formularz')
-        msg.setText('Formularz nie został zapisany. Czy na pewno chcesz przejść dalej?')
+        msg.setText(
+            'Formularz nie został zapisany. Czy na pewno chcesz przejść dalej?')
         yes = msg.addButton(
             'Tak', QtWidgets.QMessageBox.AcceptRole)
         no = msg.addButton(
@@ -438,7 +496,8 @@ class AppModule(BaseModule):
         msg = QMessageBox()
         msg.setIcon(QtWidgets.QMessageBox.Question)
         msg.setWindowTitle('Niewygenerowany GML dla zbioru')
-        msg.setText('GML nie został jeszcze wygenerowany. Czy na pewno chcesz przejść do tworzenia metadanych?')
+        msg.setText(
+            'GML nie został jeszcze wygenerowany. Czy na pewno chcesz przejść do tworzenia metadanych?')
         yes = msg.addButton(
             'Tak', QtWidgets.QMessageBox.AcceptRole)
         no = msg.addButton(
@@ -450,10 +509,13 @@ class AppModule(BaseModule):
             self.openNewDialog(self.metadaneDialog)
             self.listaOkienek.append(self.zbiorPrzygotowanieDialog)
 
+    def getWidgets(self, formularz, types):
+        widgets = utils.getWidgets(formularz, types)
+
     def prepareIdIPP(self, formularz):
         def updateIdIPP():
             idIIP_lineEdit.setText("%s - %s - %s" % (
-            lokalnyId_lineEdit.text(), przestrzenNazw_lineEdit.text(), wersjaId_lineEdit.text()))
+                lokalnyId_lineEdit.text(), przestrzenNazw_lineEdit.text(), wersjaId_lineEdit.text()))
 
         # pobranie dynamicznie utworzonych obiektów UI
         idIIP_lineEdit = utils.getWidgetByName(

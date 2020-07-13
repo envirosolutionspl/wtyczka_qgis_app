@@ -1,9 +1,9 @@
 from PyQt5.QtWidgets import *
 from qgis.PyQt.QtCore import Qt, QRegExp
-import re, os
+import re
+import os
 import xml.etree.ElementTree as ET
 from .models import FormElement
-
 
 
 def showPopup(title, text, icon=QMessageBox.Information):
@@ -14,15 +14,18 @@ def showPopup(title, text, icon=QMessageBox.Information):
     msg.setStandardButtons(QMessageBox.Ok)
     return msg.exec_()
 
+
 def getNamespace(element):
     m = re.match(r'\{.*\}', element.tag)
     return m.group(0) if m else ''
+
 
 def createFormElements(attribute):
     """Tworzy listę obiektów klasy 'FormElement'
     na podstawie pliku xsd"""
 
-    xsd = os.path.join(os.path.dirname(__file__), 'validator', 'planowaniePrzestrzenne.xsd')
+    xsd = os.path.join(os.path.dirname(__file__),
+                       'validator', 'planowaniePrzestrzenne.xsd')
 
     ns = {'glowny': "http://www.w3.org/2001/XMLSchema",
           'app': "http://zagospodarowanieprzestrzenne.gov.pl/schemas/app/1.0",
@@ -34,7 +37,8 @@ def createFormElements(attribute):
     tree = ET.parse(xsd)
     root = tree.getroot()
 
-    complexType = root.find("glowny:complexType[@name='" + attribute + "']", ns)
+    complexType = root.find(
+        "glowny:complexType[@name='" + attribute + "']", ns)
     sequence = complexType[0][0][0]  # sekwencja z listą pól
     for element in sequence:
         attrib = element.attrib
@@ -60,7 +64,8 @@ def createFormElements(attribute):
         except KeyError:
             pass
         # documentation
-        documentation = element.find("glowny:annotation", ns).find("glowny:documentation", ns)
+        documentation = element.find("glowny:annotation", ns).find(
+            "glowny:documentation", ns)
         formElement.setDocumentation(documentation.text)
 
         # zdefiniowany w app complextype
@@ -69,7 +74,8 @@ def createFormElements(attribute):
             formElement.markAsComplex()  # ustawia .isComplex = True
             name = str(elementType).replace('Property', '').split(':')[-1]
 
-            complexSequence = root.find("glowny:complexType[@name='%s']" % name, ns)[0]
+            complexSequence = root.find(
+                "glowny:complexType[@name='%s']" % name, ns)[0]
             for complexElement in complexSequence:
                 try:    # jeżeli jest atrybut 'type'
                     innerFormElement = FormElement(
@@ -87,13 +93,15 @@ def createFormElements(attribute):
                     except KeyError:  # gdyby nie bylo rowniez nillable
                         pass
                 # complex documentation
-                complexDocumentation = complexElement.find("glowny:annotation", ns).find("glowny:documentation", ns)
+                complexDocumentation = complexElement.find(
+                    "glowny:annotation", ns).find("glowny:documentation", ns)
                 innerFormElement.setDocumentation(complexDocumentation.text)
                 formElement.setInnerFormElement(innerFormElement)
 
         formElements.append(formElement)
 
     return formElements
+
 
 def createFormElementsRysunekAPP():
     """Tworzy listę obiektów klasy 'FormElement'
@@ -103,11 +111,12 @@ def createFormElementsRysunekAPP():
 
 
 def createFormElementsDokumentFormalny():
-    #TODO lista rozwijalna dla atrybutu poziomHierarchii
+    # TODO lista rozwijalna dla atrybutu poziomHierarchii
     """Tworzy listę obiektów klasy 'FormElement'
     na podstawie pliku xsd dla Rysunku APP"""
 
     return createFormElements('DokumentFormalnyType')
+
 
 def createFormElementsAktPlanowaniaPrzestrzennego():
     """Tworzy listę obiektów klasy 'FormElement'
@@ -116,30 +125,35 @@ def createFormElementsAktPlanowaniaPrzestrzennego():
     return createFormElements('AktPlanowaniaPrzestrzennegoType')
 
 
-
 def layout_widgets(layout):
     """iteracja widgetow wewnątrz layoutu"""
     return (layout.itemAt(i) for i in range(layout.count()))
 
-def getWidgets(layout):
-    wtypes = [QPushButton, QLabel, QTextEdit]
+
+def getWidgets(layout, types=[QPushButton, QLabel, QTextEdit, QLineEdit, QDateEdit]):
+    wtypes = types
     qreg = QRegExp(r'.*')
     mywidgets = {}
 
     for t in wtypes:
         mywidgets[t] = layout.findChildren(t, qreg)
+    # for a in mywidgets[QLineEdit]:
+    #     print(a)
+    # for button in mywidgets[QPushButton]:
+    #     print("button:", button.objectName())
+    # for label in mywidgets[QLabel]:
+    #     print("label:", label.objectName())
+    # for textEdit in mywidgets[QTextEdit]:
+    #     print("textEdit:", textEdit.objectName())
+    return(mywidgets)
 
-    for button in mywidgets[QPushButton]:
-        print("button:", button.objectName())
-
-    for label in mywidgets[QLabel]:
-        print("label:", label.objectName())
 
 def getWidgetsByType(layout, seachObjectType):
     """zwraca listę widgeów danego typu wewnątrz layoutu"""
     qreg = QRegExp(r'.*')
     widgets = layout.findChildren(seachObjectType, qreg)
     return widgets
+
 
 def getWidgetByName(layout, seachObjectType, name):
     """zwraca widget o zadanym typie i nazwie wewnątrz layoutu"""

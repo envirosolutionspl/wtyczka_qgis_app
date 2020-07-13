@@ -32,20 +32,18 @@ class Formularz:
         """czyści pola formularza"""
         widgets = utils.getWidgets(
             layout=container,
-            types=[QgsDateTimeEdit, QgsFilterLineEdit, QgsMapLayerComboBox])
+            types=[QgsDateTimeEdit, QgsFilterLineEdit, QgsMapLayerComboBox, QComboBox])
         for widget in widgets[QgsDateTimeEdit]:
             widget.clear()
         for widget in widgets[QgsFilterLineEdit]:
             widget.clear()
-        for widget in widgets[QgsMapLayerComboBox]:
-            widget.clear()
-        # widgets = utils.getWidgets(layout=container,  types=[
-        #                            QLineEdit, QDateEdit])
-        # for widget in widgets[QLineEdit]:
-        #     widget.clear()
+        # TODO Zachowanie comboboxa - na czym ma polegać czyszczenie
+        # Jaki typ Comboboxa w formularzu
 
-        # for w in widget[QLineEdit]:
-        #     print(w)
+        # for widget in widgets[QgsMapLayerComboBox]:
+        #     widget.clear()
+        # for widget in widgets[QComboBox]:
+        #     widget.clear()
 
     def createForm(self, container, formElements):
         """tworzy formularz w miejscu kontenera (container), na podstawie listy obiektów klasy <FormElement>"""

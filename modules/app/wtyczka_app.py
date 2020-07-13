@@ -71,7 +71,6 @@ class AppModule(BaseModule):
             self.showPopupSaveForm)
         # zdarenia dynamicznie utworzonych obiektów UI związanych z IdIPP
         self.prepareIdIPP(formularz=self.rasterFormularzDialog)
-        # self.getWidgets(formularz=self.rasterFormularzDialog)
         self.rasterFormularzDialog.clear_btn.clicked.connect(
             self.rasterFormularzDialog_clear_btn_clicked)
 
@@ -94,6 +93,8 @@ class AppModule(BaseModule):
             self.checkSaveForms)
         self.wektorFormularzDialog.saveForm_btn.clicked.connect(
             self.showPopupSaveForm)
+        self.wektorFormularzDialog.clear_btn.clicked.connect(
+            self.wektorFormularzDialog_clear_btn_clicked)
         # zdarenia dynamicznie utworzonych obiektów UI związanych z IdIPP
         self.prepareIdIPP(formularz=self.wektorFormularzDialog)
 
@@ -103,6 +104,8 @@ class AppModule(BaseModule):
             self.checkSaveForms)
         self.dokumentyFormularzDialog.saveForm_btn.clicked.connect(
             self.showPopupSaveForm)
+        self.dokumentyFormularzDialog.clear_btn.clicked.connect(
+            self.dokumentyFormularzDialog_clear_btn_clicked)
         # zdarenia dynamicznie utworzonych obiektów UI związanych z IdIPP
         self.prepareIdIPP(formularz=self.dokumentyFormularzDialog)
 
@@ -204,6 +207,10 @@ class AppModule(BaseModule):
         self.openNewDialog(self.dokumentyFormularzDialog)
         self.listaOkienek.append(self.wektorFormularzDialog)
 
+    def wektorFormularzDialog_clear_btn_clicked(self):
+        self.wektorFormularzDialog.clearForm(
+            self.wektorFormularzDialog.form_scrollArea)
+
     # endregion
 
     # region dokumentyFormularzDialog
@@ -213,6 +220,10 @@ class AppModule(BaseModule):
     def dokumentyFormularzDialog_next_btn_clicked(self):
         self.openNewDialog(self.generowanieGMLDialog)
         self.listaOkienek.append(self.dokumentyFormularzDialog)
+
+    def dokumentyFormularzDialog_clear_btn_clicked(self):
+        self.dokumentyFormularzDialog.clearForm(
+            self.dokumentyFormularzDialog.form_scrollArea)
 
     # endregion
 
@@ -508,9 +519,6 @@ class AppModule(BaseModule):
         if msg.clickedButton() is yes:
             self.openNewDialog(self.metadaneDialog)
             self.listaOkienek.append(self.zbiorPrzygotowanieDialog)
-
-    def getWidgets(self, formularz, types):
-        widgets = utils.getWidgets(formularz, types)
 
     def prepareIdIPP(self, formularz):
         def updateIdIPP():

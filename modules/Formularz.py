@@ -4,17 +4,25 @@ from qgis.core import QgsMapLayerProxyModel
 from qgis.gui import QgsDateTimeEdit, QgsFilterLineEdit, QgsMapLayerComboBox
 from qgis.PyQt.QtCore import Qt, QRegExp
 from qgis.PyQt.QtGui import QRegExpValidator, QPixmap
-from . import utils
+from . import dictionaries, utils
 
 
 class Formularz:
     """Klasa reprezentująca formularz"""
-    nilReasons = {
-        "inapplicable": "nie dotyczy",
-        "missing": "brakujący",
-        "template": "szablon",
-        "unknown": "nieznany",
-        "withheld": "wstrzymany"}
+
+    pomijane = ["aktNormatywnyPrzystapienie",
+                "aktNormatywnyUchwalajacy",
+                "aktNormatywnyZmieniajacy",
+                "aktNormatywnyUchylajacy",
+                "aktNormatywnyUniewazniajacy",
+                "przystapienie",
+                "uchwala",
+                "zmienia",
+                "uchyla",
+                "uniewaznia",
+                "plan",
+                "dokument",
+                "rysunek"]
 
     def removeForm(self, container):
         """usuwa zawartość kontenera(container), żeby zrobić miejsce na formularz"""
@@ -43,26 +51,25 @@ class Formularz:
         """tworzy formularz w miejscu kontenera (container), na podstawie listy obiektów klasy <FormElement>"""
         wgtMain = QWidget()
         vbox = QVBoxLayout(wgtMain)
-        pomijane = ["aktNormatywnyPrzystapienie",
-                    "aktNormatywnyUchwalajacy",
-                    "aktNormatywnyZmieniajacy",
-                    "aktNormatywnyUchylajacy",
-                    "aktNormatywnyUniewazniajacy",
-                    "przystapienie",
-                    "uchwala",
-                    "zmienia",
-                    "uchyla",
-                    "uniewaznia"]
-        for formElement in formElements:
+        self.__loopFormElements(formElements, vbox)
 
-            if formElement.type == 'gml:ReferenceType' and formElement.name in pomijane:
-                continue    # pomiń element
+        container.setWidget(wgtMain)
+
+    def __loopFormElements(self, formElements, vbox, prefix=''):
+        """Przerabia listę obiektów FormElements na GUI"""
+
+        for formElement in formElements:
+            if (
+                    formElement.type == 'gml:ReferenceType' or
+                    formElement.type == "gml:AbstractFeatureMemberType"
+            ) and formElement.name in self.pomijane:
+                continue  # pomiń element
 
             hbox = QHBoxLayout()  # wiersz formularza
             hbox.setObjectName(formElement.name + '_hbox')
 
             # label
-            lbl = QLabel(text=formElement.name +
+            lbl = QLabel(text=prefix + formElement.name +
                          ('*' if formElement.minOccurs else ''))
             lbl.setObjectName(formElement.name + '_lbl')
             hbox.addWidget(lbl)
@@ -73,31 +80,15 @@ class Formularz:
             hbox.addWidget(tooltipImg)
             vbox.addLayout(hbox)
 
-            if formElement.isComplex():  # podrzędne elementy typu complex
+            if formElement.isNillable:  # dodaj dodatkowo checkbox i powód
+                nilHbox = self.__makeNilHbox(input)
+                vbox.addLayout(nilHbox)
+
+            if formElement.isComplex():  # zawiera podrzędne elementy typu complex
                 input.setEnabled(False)
-                for formEl in formElement.innerFormElements:
-                    subHbox = QHBoxLayout()  # podrzedny wiersz formularza
-                    subHbox.setObjectName(formEl.name + '_hbox')
-                    # label
-                    subLbl = QLabel(text='       -   ' + formEl.name +
-                                    ('*' if formElement.minOccurs else ''))
-                    subLbl.setObjectName(formEl.name + '_lbl')
-                    subHbox.addWidget(subLbl)
-
-                    # input
-                    subInput = self.__makeInput(formEl)
-
-                    # tooltip
-                    subTooltipImg = self.__makeTooltip(formEl)
-                    subHbox.addWidget(subInput)
-                    subHbox.addWidget(subTooltipImg)
-                    vbox.addLayout(subHbox)
-
-                    if formEl.isNillable:   # dodaj dodatkowo checkbox i powód
-                        nilHbox = self.__makeNilHbox(subInput)
-                        vbox.addLayout(nilHbox)
-
-        container.setWidget(wgtMain)
+                # rekurencja dla obiektów wewntrznych
+                self.__loopFormElements(
+                    formElement.innerFormElements, vbox, '  - ')
 
     def __makeNilHbox(self, nillableWidget):
         """tworzy zestaw widgetów do obługi typu "nillable"""
@@ -116,13 +107,17 @@ class Formularz:
         nilLbl1 = QLabel(text='    ')
         nilLbl2 = QLabel(text='wskaż powód: ')
         nilLbl2.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
-        nilLbl2.setObjectName('nilReason' + '_lbl')
+        nilLbl2.setObjectName(
+            nillableWidget.objectName() + 'nilReason' + '_lbl')
         nilLbl2.setEnabled(False)
         chckBox = QCheckBox(text='brak wartości')
-        chckBox.setObjectName('nilReason' + '_chkbx')
+        chckBox.setObjectName(
+            nillableWidget.objectName() + '_nilReason' + '_chkbx')
         chckBox.stateChanged.connect(lambda: changeState())
         comboBox = QComboBox()
-        comboBox.addItems(Formularz.nilReasons.keys())
+        comboBox.setObjectName(
+            nillableWidget.objectName() + '_nilReason' + '_cmbbx')
+        comboBox.addItems(dictionaries.nilReasons.keys())
         comboBox.setEnabled(False)
         tooltipImg = QLabel()
         tooltipImg.setMaximumWidth(16)
@@ -136,11 +131,31 @@ class Formularz:
 
     def __makeInput(self, formElement):
         # pole wprowadzania
-        if formElement.type == 'dateTime':
+        if formElement.name == "ukladOdniesieniaPrzestrzennego":
+            input = QComboBox()
+            input.setObjectName(formElement.name + '_cmbbx')
+            input.addItems(dictionaries.ukladyOdniesieniaPrzestrzennego.keys())
+        elif formElement.name == "typPlanu":
+            input = QComboBox()
+            input.setObjectName(formElement.name + '_cmbbx')
+            input.addItems(dictionaries.typyPlanu.keys())
+        elif formElement.name == "poziomHierarchii":
+            input = QComboBox()
+            input.setObjectName(formElement.name + '_cmbbx')
+            input.addItems(dictionaries.poziomyHierarchii.keys())
+        elif formElement.name == "status":
+            input = QComboBox()
+            input.setObjectName(formElement.name + '_cmbbx')
+            input.addItems(dictionaries.statusListaKodowa.keys())
+        elif formElement.name == "dziennikUrzedowy":
+            input = QComboBox()
+            input.setObjectName(formElement.name + '_cmbbx')
+            input.addItems(dictionaries.dziennikUrzedowyKod.keys())
+        elif formElement.type == 'dateTime':
             input = QgsDateTimeEdit()
             input.setObjectName(formElement.name + '_dateTimeEdit')
             input.clear()
-        elif formElement.type == 'date':
+        elif formElement.type == 'date' or formElement.type == 'gmd:CI_Date_PropertyType':
             input = QgsDateTimeEdit()
             input.setDisplayFormat('dd.MM.yyyy')
             input.setObjectName(formElement.name + '_dateEdit')
@@ -155,11 +170,6 @@ class Formularz:
             # tylko liczby calkowite
             input.setValidator(QRegExpValidator(QRegExp(r"\S*")))
             input.setObjectName(formElement.name + '_lineEdit')
-        elif formElement.type == 'gml:ReferenceType' and formElement.name == 'plan':
-            input = QgsMapLayerComboBox()
-            input.setShowCrs(True)
-            input.setFilters(QgsMapLayerProxyModel.RasterLayer)
-            input.setObjectName(formElement.name + '_comboBox')
         elif formElement.type == 'gml:MultiSurfacePropertyType':
             input = QgsFilterLineEdit()
             input.setEnabled(False)
@@ -169,8 +179,21 @@ class Formularz:
             input = QgsFilterLineEdit()
             input.setObjectName(formElement.name + '_lineEdit')
 
+        # ustawienie podpowiedzi inputa (typ)
         input.setToolTip((formElement.type + ' - nillable')
                          if formElement.isNillable else formElement.type)
+
+        # ustawienie domyślnych wartości
+        fullFormElementName = formElement.form + ":" + formElement.name
+        if fullFormElementName in dictionaries.initialValues.keys():
+            # dla pól tekstowych
+            input.setText(dictionaries.initialValues[fullFormElementName])
+
+        # ustawienie podpowiedzi
+        if fullFormElementName in dictionaries.placeholders.keys():
+            input.setPlaceholderText(
+                'np.: ' + dictionaries.placeholders[fullFormElementName])  # dla pól tekstowych
+
         return input
 
     def __makeTooltip(self, formElement):

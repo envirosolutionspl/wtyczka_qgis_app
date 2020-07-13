@@ -1,6 +1,6 @@
 class FormElement:
 
-    def __init__(self, name, type='', minOccurs=1, documentation=''):
+    def __init__(self, name, form, type='', minOccurs=1, documentation=''):
         self.setName(name)
         self.setType(type)
         self.setMinOccurs(minOccurs)
@@ -8,6 +8,7 @@ class FormElement:
         self.__isComplex = False
         self.innerFormElements = []
         self.isNillable = False
+        self.form = form    # wskazanie formularza do ktorego obiekt nalezy
 
     def setName(self, name):
         self.name = name

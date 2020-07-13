@@ -47,7 +47,8 @@ def createFormElements(attribute):
             elementType = attrib['type']
             formElement = FormElement(
                 name=attrib['name'],
-                type=elementType
+                type=elementType,
+                form=attribute
             )
         except KeyError:
             elementComplexType = element.find("glowny:complexType", ns)
@@ -55,8 +56,14 @@ def createFormElements(attribute):
             elementType = elementAttrib['base']
             formElement = FormElement(
                 name=attrib['name'],
-                type=elementType
+                type=elementType,
+                form=attribute
             )
+            try:  # gdy jest nillable
+                if element.attrib['nillable'] == 'true':
+                    formElement.setNillable()
+            except KeyError:  # gdyby nie bylo rowniez nillable
+                pass
 
         # na wypadek braku 'minOccurs'
         try:
@@ -80,12 +87,14 @@ def createFormElements(attribute):
                 try:    # jeżeli jest atrybut 'type'
                     innerFormElement = FormElement(
                         name=complexElement.attrib['name'],
-                        type=complexElement.attrib['type']
+                        type=complexElement.attrib['type'],
+                        form=attribute
                     )
                 except KeyError:    # jeżeli nie ma atrybutu 'type'
                     innerFormElement = FormElement(
                         name=complexElement.attrib['name'],
-                        type="anyURI"
+                        type="anyURI",
+                        form=attribute
                     )
                     try:  # gdy jest nillable
                         if complexElement.attrib['nillable'] == 'true':

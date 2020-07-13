@@ -514,8 +514,9 @@ class AppModule(BaseModule):
 
     def prepareIdIPP(self, formularz):
         def updateIdIPP():
-            idIIP_lineEdit.setText("%s - %s - %s" % (
-                lokalnyId_lineEdit.text(), przestrzenNazw_lineEdit.text(), wersjaId_lineEdit.text()))
+            idIIP_lineEdit.setText("%s_%s_%s" % (
+                przestrzenNazw_lineEdit.text().replace("/", "_"),
+                lokalnyId_lineEdit.text(), wersjaId_lineEdit.text()))
 
         # pobranie dynamicznie utworzonych obiektów UI
         idIIP_lineEdit = utils.getWidgetByName(

@@ -410,7 +410,7 @@ class AppModule(BaseModule):
             tree.write(self.fn)
 
             showPopup("Zapisz aktualny formularz",
-                      "Poprawnie zapisano formularz. W razie potrzeby wygenerowania kolejnego formularzu, należy zmodyfikować dane oraz zapisać formularz ponownie.")
+                      "Poprawnie zapisano formularz. W razie potrzeby wygenerowania kolejnego formularza, należy zmodyfikować dane oraz zapisać formularz ponownie.")
         return self.saved
 
     def showPopupSameRecord(self):
@@ -550,19 +550,19 @@ class AppModule(BaseModule):
         # pobranie dynamicznie utworzonych obiektów UI
         idIIP_lineEdit = utils.getWidgetByName(
             layout=formularz,
-            seachObjectType=QgsFilterLineEdit,
+            searchObjectType=QgsFilterLineEdit,
             name="idIIP_lineEdit")
         lokalnyId_lineEdit = utils.getWidgetByName(
             layout=formularz,
-            seachObjectType=QgsFilterLineEdit,
+            searchObjectType=QgsFilterLineEdit,
             name="lokalnyId_lineEdit")
         przestrzenNazw_lineEdit = utils.getWidgetByName(
             layout=formularz,
-            seachObjectType=QgsFilterLineEdit,
+            searchObjectType=QgsFilterLineEdit,
             name="przestrzenNazw_lineEdit")
         wersjaId_lineEdit = utils.getWidgetByName(
             layout=formularz,
-            seachObjectType=QgsFilterLineEdit,
+            searchObjectType=QgsFilterLineEdit,
             name="wersjaId_lineEdit")
 
         # definicja Eventów dynamicznych obiektów UI

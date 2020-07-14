@@ -157,15 +157,15 @@ def getWidgets(layout, types=[QPushButton, QLabel, QTextEdit, QLineEdit, QDateEd
     return(mywidgets)
 
 
-def getWidgetsByType(layout, seachObjectType):
+def getWidgetsByType(layout, searchObjectType):
     """zwraca listę widgeów danego typu wewnątrz layoutu"""
     qreg = QRegExp(r'.*')
-    widgets = layout.findChildren(seachObjectType, qreg)
+    widgets = layout.findChildren(searchObjectType, qreg)
     return widgets
 
 
-def getWidgetByName(layout, seachObjectType, name):
+def getWidgetByName(layout, searchObjectType, name):
     """zwraca widget o zadanym typie i nazwie wewnątrz layoutu"""
     qreg = QRegExp(r'.*')
-    widget = layout.findChild(seachObjectType, name)
+    widget = layout.findChild(searchObjectType, name)
     return widget

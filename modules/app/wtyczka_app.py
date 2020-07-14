@@ -6,18 +6,7 @@ from ..utils import showPopup
 from qgis.PyQt import QtWidgets
 from PyQt5.QtWidgets import *
 from qgis.PyQt.QtCore import QVariant, Qt
-from qgis.core import (
-    QgsCoordinateReferenceSystem,
-    QgsPointXY,
-    QgsField,
-    QgsFields,
-    QgsFeature,
-    QgsGeometry,
-    QgsVectorLayer,
-    QgsVectorFileWriter,
-    QgsWkbTypes,
-    QgsMapLayerProxyModel
-)
+from qgis.core import *
 from qgis.gui import QgsDateTimeEdit, QgsFilterLineEdit
 import os
 import os.path
@@ -86,8 +75,8 @@ class AppModule(BaseModule):
             self.newEmptyLayer)
         self.wektorInstrukcjaDialog.chooseFile_btn.clicked.connect(
             self.openFile)
-        self.wektorInstrukcjaDialog.layers_comboBox.setFilters(
-            QgsMapLayerProxyModel.PolygonLayer)
+        self.wektorInstrukcjaDialog.layers_comboBox.setFilters(QgsMapLayerProxyModel.PolygonLayer)
+        self.wektorInstrukcjaDialog.layers_comboBox.setShowCrs(True)
 
         self.wektorFormularzDialog.prev_btn.clicked.connect(
             self.wektorFormularzDialog_prev_btn_clicked)
@@ -193,8 +182,27 @@ class AppModule(BaseModule):
     # region wektorInstrukcjaDialog
 
     def wektorInstrukcjaDialog_next_btn_clicked(self):
-        self.openNewDialog(self.wektorFormularzDialog)
-        self.listaOkienek.append(self.wektorInstrukcjaDialog)
+        def isGeomValid():
+            """sprawdza czy geometria obrysu jest poprawna"""
+            crs4326 = QgsCoordinateReferenceSystem(4326)  # WGS84
+            layerCrs = self.obrysLayer.sourceCrs()  # z warstwy
+            transform = QgsCoordinateTransform(layerCrs, crs4326, QgsProject.instance())
+
+            layerExtent = self.obrysLayer.sourceExtent()
+            layerExtent4326 = transform.transform(layerExtent)
+            polandExtent4326 = QgsRectangle(14.0745211117, 49.0273953314, 24.0299857927, 54.8515359564)
+            return polandExtent4326.intersects(layerExtent4326)
+
+        self.obrysLayer = self.wektorInstrukcjaDialog.layers_comboBox.currentLayer()
+        if not self.obrysLayer:   # brak wybranej warstwy
+            showPopup("Błąd warstwy obrysu", "Nie wskazano warstwy z obrysem")
+        elif self.obrysLayer.featureCount() != 1:     # niepoprawna ilość obiektów w warstwie
+            showPopup("Błąd warstwy obrysu", "warstwa obrysu musi posiadać dokładnie JEDEN obiekt typu MultiPoligon, a posiada %d obiektów" % self.obrysLayer.featureCount())
+        elif not isGeomValid():     # niepoprawna geometria
+            showPopup("Błąd warstwy obrysu", "Niepoprawna geometria - obiekt musi leżeć w Polsce, sprawdź układ współrzędnych warstwy")
+        else:   # wszystko OK z warstwą
+            self.openNewDialog(self.wektorFormularzDialog)
+            self.listaOkienek.append(self.wektorInstrukcjaDialog)
 
     def wektorInstrukcjaDialog_prev_btn_clicked(self):
         self.openNewDialog(self.listaOkienek.pop())

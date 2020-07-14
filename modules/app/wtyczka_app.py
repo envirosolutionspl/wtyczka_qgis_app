@@ -201,6 +201,12 @@ class AppModule(BaseModule):
         elif not isGeomValid():     # niepoprawna geometria
             showPopup("Błąd warstwy obrysu", "Niepoprawna geometria - obiekt musi leżeć w Polsce, sprawdź układ współrzędnych warstwy")
         else:   # wszystko OK z warstwą
+            # zasiegPrzestrzenny = utils.getWidgetByName(
+            #     layout=self.wektorFormularzDialog,
+            #     searchObjectType=QgsFilterLineEdit,
+            #     name="zasiegPrzestrzenny_lineEdit")
+            # zasiegPrzestrzenny.setText(str(self.obrysLayer.sourceExtent()))
+            # print(zasiegPrzestrzenny)
             self.openNewDialog(self.wektorFormularzDialog)
             self.listaOkienek.append(self.wektorInstrukcjaDialog)
 

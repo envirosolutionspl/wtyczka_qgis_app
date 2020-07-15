@@ -75,7 +75,8 @@ class AppModule(BaseModule):
             self.newEmptyLayer)
         self.wektorInstrukcjaDialog.chooseFile_btn.clicked.connect(
             self.openFile)
-        self.wektorInstrukcjaDialog.layers_comboBox.setFilters(QgsMapLayerProxyModel.PolygonLayer)
+        self.wektorInstrukcjaDialog.layers_comboBox.setFilters(
+            QgsMapLayerProxyModel.PolygonLayer)
         self.wektorInstrukcjaDialog.layers_comboBox.setShowCrs(True)
 
         self.wektorFormularzDialog.prev_btn.clicked.connect(
@@ -186,20 +187,36 @@ class AppModule(BaseModule):
             """sprawdza czy geometria obrysu jest poprawna"""
             crs4326 = QgsCoordinateReferenceSystem(4326)  # WGS84
             layerCrs = self.obrysLayer.sourceCrs()  # z warstwy
-            transform = QgsCoordinateTransform(layerCrs, crs4326, QgsProject.instance())
+            transform = QgsCoordinateTransform(
+                layerCrs, crs4326, QgsProject.instance())
 
             layerExtent = self.obrysLayer.sourceExtent()
             layerExtent4326 = transform.transform(layerExtent)
-            polandExtent4326 = QgsRectangle(14.0745211117, 49.0273953314, 24.0299857927, 54.8515359564)
+            polandExtent4326 = QgsRectangle(
+                14.0745211117, 49.0273953314, 24.0299857927, 54.8515359564)
             return polandExtent4326.intersects(layerExtent4326)
 
         self.obrysLayer = self.wektorInstrukcjaDialog.layers_comboBox.currentLayer()
+
+        # Aggregate
+        alg_params = {
+            'AGGREGATES': [],
+            'GROUP_BY': 'NULL',
+            'INPUT': self.obrysLayer,
+            'OUTPUT': QgsProcessing.TEMPORARY_OUTPUT
+        }
+
         if not self.obrysLayer:   # brak wybranej warstwy
             showPopup("Błąd warstwy obrysu", "Nie wskazano warstwy z obrysem")
         elif self.obrysLayer.featureCount() != 1:     # niepoprawna ilość obiektów w warstwie
-            showPopup("Błąd warstwy obrysu", "warstwa obrysu musi posiadać dokładnie JEDEN obiekt typu MultiPoligon, a posiada %d obiektów" % self.obrysLayer.featureCount())
+            import processing
+            aggregated = processing.run('native:aggregate', alg_params)
+            QgsProject.instance().addMapLayer(aggregated['OUTPUT'])
+            showPopup("Błąd warstwy obrysu", "Wybrana warstwa posiada obiekty w liczbie %d.\nObrys może składać się wyłącznie z 1 jednego obiektu.\nW projekcie utworzono zagregowaną warstwę o nazwie %s, którą można wybrać w oknie wyboru." % (
+                self.obrysLayer.featureCount(), aggregated['OUTPUT'].name()))
         elif not isGeomValid():     # niepoprawna geometria
-            showPopup("Błąd warstwy obrysu", "Niepoprawna geometria - obiekt musi leżeć w Polsce, sprawdź układ współrzędnych warstwy")
+            showPopup("Błąd warstwy obrysu",
+                      "Niepoprawna geometria - obiekt musi leżeć w Polsce, sprawdź układ współrzędnych warstwy")
         else:   # wszystko OK z warstwą
             # zasiegPrzestrzenny = utils.getWidgetByName(
             #     layout=self.wektorFormularzDialog,
@@ -389,16 +406,20 @@ class AppModule(BaseModule):
         # TODO shp --> geopackage???,
         #  nadać poprawne atrybuty (czy są w ogóle potrzebne???),
         #  ograniczenie liczby obiektów do 1
-        self.fn = QFileDialog.getSaveFileName(filter="Shapefile (*.shp)")[0]
-        if self.fn:
-            fields = QgsFields()
-            fields.append(QgsField('idIIP', QVariant.String))
-            fields.append(QgsField('nazwa', QVariant.String))
-            writer = QgsVectorFileWriter(self.fn, 'UTF-8', fields, QgsWkbTypes.Polygon,
-                                         QgsCoordinateReferenceSystem('EPSG:2180'), 'ESRI Shapefile')
-            feat = QgsFeature()
-            writer.addFeature(feat)
-            iface.addVectorLayer(self.fn, '', 'ogr')
+        layer = QgsVectorLayer('Polygon?crs=epsg:2180', 'polygon', 'memory')
+        QgsProject.instance().addMapLayer(layer)
+
+        # STARE
+        # self.fn = QFileDialog.getSaveFileName(filter="Shapefile (*.shp)")[0]
+        # if self.fn:
+        #     fields = QgsFields()
+        #     fields.append(QgsField('idIIP', QVariant.String))
+        #     fields.append(QgsField('nazwa', QVariant.String))
+        #     writer = QgsVectorFileWriter(self.fn, 'UTF-8', fields, QgsWkbTypes.Polygon,
+        #                                  QgsCoordinateReferenceSystem('EPSG:2180'), 'ESRI Shapefile')
+        #     feat = QgsFeature()
+        #     writer.addFeature(feat)
+        #     iface.addVectorLayer(self.fn, '', 'ogr')
 
     """Popup windows"""
 

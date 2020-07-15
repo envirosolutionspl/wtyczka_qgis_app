@@ -37,13 +37,10 @@ class Formularz:
             widget.clear()
         for widget in widgets[QgsFilterLineEdit]:
             widget.clear()
-        # TODO Zachowanie comboboxa - na czym ma polegać czyszczenie
-        # Jaki typ Comboboxa w formularzu
-
-        # for widget in widgets[QgsMapLayerComboBox]:
-        #     widget.clear()
-        # for widget in widgets[QComboBox]:
-        #     widget.clear()
+        for widget in widgets[QgsMapLayerComboBox]:
+            widget.setCurrentIndex(-1)
+        for widget in widgets[QComboBox]:
+            widget.setCurrentIndex(-1)
 
     def createForm(self, container, formElements):
         """tworzy formularz w miejscu kontenera (container), na podstawie listy obiektów klasy <FormElement>"""

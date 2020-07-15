@@ -21,10 +21,9 @@ class ValidatorModule(BaseModule):
         #self.walidacjaDialog.prev_btn.clicked.connect(self.walidacjaDialog_prev_btn_clicked)
 
         self.walidacjaDialog.close_btn.setEnabled(False)
-        self.walidacjaDialog.export_btn.clicked.connect(self.showPopupExport)
         self.walidacjaDialog.validate_btn.clicked.connect(self.walidacjaDialog_validate_btn_clicked)
-        self.walidacjaDialog.validateGML_checkBox.stateChanged.connect(self.gml_checkBoxChangedAction)
-        self.walidacjaDialog.validateXML_checkBox.stateChanged.connect(self.xml_checkBoxChangedAction)
+        self.walidacjaDialog.validateGML_radioButton.toggled.connect(self.gml_checkBoxChangedAction)
+        self.walidacjaDialog.validateXML_radioButton.toggled.connect(self.xml_checkBoxChangedAction)
         self.walidacjaDialog.close_btn.clicked.connect(self.walidacjaDialog.close)
 
         self.walidacjaDialog.chooseXML_widget.setFilter("*.xml")
@@ -51,20 +50,16 @@ class ValidatorModule(BaseModule):
 
 
     def xml_checkBoxChangedAction(self, state):
-        if Qt.Checked == state:
+        if self.walidacjaDialog.validateXML_radioButton.isChecked():
             self.walidacjaDialog.chooseXML_widget.setEnabled(True)
         else:
             self.walidacjaDialog.chooseXML_widget.setEnabled(False)
 
     def gml_checkBoxChangedAction(self, state):
-        if Qt.Checked == state:
+        if self.walidacjaDialog.validateGML_radioButton.isChecked():
             self.walidacjaDialog.chooseGML_widget.setEnabled(True)
-            self.walidacjaDialog.setGML_radioButton.setEnabled(True)
-            self.walidacjaDialog.appGML_radioButton.setEnabled(True)
         else:
             self.walidacjaDialog.chooseGML_widget.setEnabled(False)
-            self.walidacjaDialog.setGML_radioButton.setEnabled(False)
-            self.walidacjaDialog.appGML_radioButton.setEnabled(False)
             # endregion
 
     """Helper methods"""

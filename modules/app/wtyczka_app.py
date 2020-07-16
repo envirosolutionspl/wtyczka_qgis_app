@@ -13,6 +13,7 @@ import os.path
 import time
 import datetime
 import xml.etree.ElementTree as ET
+import random
 
 
 class AppModule(BaseModule):
@@ -21,6 +22,7 @@ class AppModule(BaseModule):
     pomocDialog = None
 
     def __init__(self, iface):
+        self.tableView = None
         self.iface = iface
 
         self.saved = False
@@ -116,6 +118,8 @@ class AppModule(BaseModule):
             1, QtWidgets.QHeaderView.ResizeToContents)
         header_gml.setSectionResizeMode(
             2, QtWidgets.QHeaderView.ResizeToContents)
+        header_gml.setSectionResizeMode(
+            3, QtWidgets.QHeaderView.ResizeToContents)
 
         self.zbiorPrzygotowanieDialog.prev_btn.clicked.connect(
             self.zbiorPrzygotowanieDialog_prev_btn_clicked)
@@ -344,6 +348,7 @@ class AppModule(BaseModule):
                 self.tableContentGML(plik, rows)
 
     def tableContentGML(self, file, rows):
+        # data modyfikacji
         flags = Qt.ItemFlags(32)
         self.generowanieGMLDialog.filesTable_widget.setRowCount(rows + 1)
         self.generowanieGMLDialog.filesTable_widget.setItem(
@@ -354,6 +359,21 @@ class AppModule(BaseModule):
         item = QTableWidgetItem(mtime)
         item.setFlags(flags)
         self.generowanieGMLDialog.filesTable_widget.setItem(rows, 2, item)
+
+        # TODO rodzaj dokumentu
+        rodzaj = ['Dokument Formalny', 'Akt Planowania Przestrzennego', 'Rysunek Aktu Planowania Przestrzennego']
+        item2 = QTableWidgetItem(random.choice(rodzaj))
+        item2.setFlags(flags)
+        self.generowanieGMLDialog.filesTable_widget.setItem(rows, 1, item2)
+        print(self.generowanieGMLDialog.filesTable_widget.item(rows, 1).text())
+
+        # relacja z APP
+        if self.generowanieGMLDialog.filesTable_widget.item(rows, 1).text() == 'Dokument Formalny':
+            c = QComboBox()
+            c.addItems(['przystąpienie', 'uchwala','zmienia',  'uchyla', 'unieważnia', ])
+            i = self.generowanieGMLDialog.filesTable_widget.model().index(rows, 3)
+            self.generowanieGMLDialog.filesTable_widget.setIndexWidget(i, c)
+
 
     def deleteTableContentGML(self):
         row_num = self.generowanieGMLDialog.filesTable_widget.rowCount()

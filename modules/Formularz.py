@@ -73,19 +73,39 @@ class Formularz:
 
             input = self.__makeInput(formElement)
             tooltipImg = self.__makeTooltip(formElement)
-            hbox.addWidget(input)
-            hbox.addWidget(tooltipImg)
-            vbox.addLayout(hbox)
+
+            if formElement.type == 'app:MapaPodkladowaPropertyType':
+                groupbox = QGroupBox(formElement.name)
+                vbox2 = QVBoxLayout()
+                groupbox.setLayout(vbox2)
+                qTableWidget = QTableWidget()
+                vbox2.addWidget(qTableWidget)
+                vbox2.addLayout(hbox)
+
+                vbox.addWidget(groupbox)
+                hbox.addWidget(input)
+                hbox.addWidget(tooltipImg)
+
+                if formElement.isComplex():  # zawiera podrzędne elementy typu complex
+                    input.setEnabled(False)
+                    # rekurencja dla obiektów wewntrznych
+                    self.__loopFormElements(
+                        formElement.innerFormElements, vbox2, '  - ')
+            else:
+                hbox.addWidget(input)
+                hbox.addWidget(tooltipImg)
+                vbox.addLayout(hbox)
+                if formElement.isComplex():  # zawiera podrzędne elementy typu complex
+                    input.setEnabled(False)
+                    # rekurencja dla obiektów wewntrznych
+                    self.__loopFormElements(
+                        formElement.innerFormElements, vbox, '  - ')
 
             if formElement.isNillable:  # dodaj dodatkowo checkbox i powód
                 nilHbox = self.__makeNilHbox(input)
                 vbox.addLayout(nilHbox)
 
-            if formElement.isComplex():  # zawiera podrzędne elementy typu complex
-                input.setEnabled(False)
-                # rekurencja dla obiektów wewntrznych
-                self.__loopFormElements(
-                    formElement.innerFormElements, vbox, '  - ')
+
 
     def __makeNilHbox(self, nillableWidget):
         """tworzy zestaw widgetów do obługi typu "nillable"""

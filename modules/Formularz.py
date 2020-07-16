@@ -22,7 +22,8 @@ class Formularz:
                 "uniewaznia",
                 "plan",
                 "dokument",
-                "rysunek"]
+                "rysunek",
+                "zasiegPrzestrzenny"]
 
     def removeForm(self, container):
         """usuwa zawartość kontenera(container), żeby zrobić miejsce na formularz"""
@@ -56,7 +57,8 @@ class Formularz:
         for formElement in formElements:
             if (
                     formElement.type == 'gml:ReferenceType' or
-                    formElement.type == "gml:AbstractFeatureMemberType"
+                    formElement.type == "gml:AbstractFeatureMemberType" or
+                    formElement.type == "gml:MultiSurfacePropertyType"
             ) and formElement.name in self.pomijane:
                 continue  # pomiń element
 
@@ -164,11 +166,6 @@ class Formularz:
             input = QgsFilterLineEdit()
             # tylko liczby calkowite
             input.setValidator(QRegExpValidator(QRegExp(r"\S*")))
-            input.setObjectName(formElement.name + '_lineEdit')
-        elif formElement.type == 'gml:MultiSurfacePropertyType':
-            input = QgsFilterLineEdit()
-            input.setEnabled(False)
-            input.setText('< zasięg przestrzenny z warstwy >')
             input.setObjectName(formElement.name + '_lineEdit')
         else:
             input = QgsFilterLineEdit()

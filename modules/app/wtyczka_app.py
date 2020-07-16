@@ -358,6 +358,8 @@ class AppModule(BaseModule):
         self.generowanieGMLDialog.filesTable_widget.setRowCount(rows + 1)
         self.generowanieGMLDialog.filesTable_widget.setItem(
             rows, 0, QTableWidgetItem(file2))
+        test = self.generowanieGMLDialog.filesTable_widget.item(rows, 0)
+        test.setToolTip(file)
 
         t = os.path.getmtime(file)
         mtime = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(t))
@@ -374,14 +376,13 @@ class AppModule(BaseModule):
         # relacja z APP
         if self.generowanieGMLDialog.filesTable_widget.item(rows, 1).text() == 'Dokument Formalny':
             c = QComboBox()
-            c.addItems(['przystąpienie', 'uchwala','zmienia',  'uchyla', 'unieważnia', ])
+            c.addItems(['przystąpienie', 'uchwala','zmienia',  'uchyla', 'unieważnia', 'inna'])
             i = self.generowanieGMLDialog.filesTable_widget.model().index(rows, 3)
             self.generowanieGMLDialog.filesTable_widget.setIndexWidget(i, c)
         else:
             empty = QTableWidgetItem('')
             empty.setFlags(flags)
             self.generowanieGMLDialog.filesTable_widget.setItem(rows, 3, empty)
-
 
 
     def deleteTableContentGML(self):

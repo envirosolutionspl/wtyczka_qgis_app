@@ -14,6 +14,7 @@ import time
 import datetime
 import xml.etree.ElementTree as ET
 import random
+import ntpath
 
 
 class AppModule(BaseModule):
@@ -349,10 +350,14 @@ class AppModule(BaseModule):
 
     def tableContentGML(self, file, rows):
         # data modyfikacji
+        def path_leaf(file):
+            head, tail = ntpath.split(file)
+            return tail or ntpath.basename(head)
+        file2 = path_leaf(file)
         flags = Qt.ItemFlags(32)
         self.generowanieGMLDialog.filesTable_widget.setRowCount(rows + 1)
         self.generowanieGMLDialog.filesTable_widget.setItem(
-            rows, 0, QTableWidgetItem(file))
+            rows, 0, QTableWidgetItem(file2))
 
         t = os.path.getmtime(file)
         mtime = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(t))
@@ -361,11 +366,10 @@ class AppModule(BaseModule):
         self.generowanieGMLDialog.filesTable_widget.setItem(rows, 2, item)
 
         # TODO rodzaj dokumentu
-        rodzaj = ['Dokument Formalny', 'Akt Planowania Przestrzennego', 'Rysunek Aktu Planowania Przestrzennego']
+        rodzaj = ['Dokument Formalny', 'APP', 'Rysunek APP']
         item2 = QTableWidgetItem(random.choice(rodzaj))
         item2.setFlags(flags)
         self.generowanieGMLDialog.filesTable_widget.setItem(rows, 1, item2)
-        print(self.generowanieGMLDialog.filesTable_widget.item(rows, 1).text())
 
         # relacja z APP
         if self.generowanieGMLDialog.filesTable_widget.item(rows, 1).text() == 'Dokument Formalny':
@@ -373,6 +377,11 @@ class AppModule(BaseModule):
             c.addItems(['przystąpienie', 'uchwala','zmienia',  'uchyla', 'unieważnia', ])
             i = self.generowanieGMLDialog.filesTable_widget.model().index(rows, 3)
             self.generowanieGMLDialog.filesTable_widget.setIndexWidget(i, c)
+        else:
+            empty = QTableWidgetItem('')
+            empty.setFlags(flags)
+            self.generowanieGMLDialog.filesTable_widget.setItem(rows, 3, empty)
+
 
 
     def deleteTableContentGML(self):

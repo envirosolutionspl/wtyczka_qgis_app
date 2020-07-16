@@ -52,12 +52,9 @@ typyPlanu = {
 }
 
 poziomyHierarchii = {
-    "Plan zagospodarowania przestrzennego województwa - regionalny": "http://inspire.ec.europa.eu/codelist/LevelOfSpatialPlanValue/regional",
-    "Studium uwarunkowań i kierunków zagospodarowania przestrzennego - lokalny": "http://inspire.ec.europa.eu/codelist/LevelOfSpatialPlanValue/local",
-    "Miejscowy plan zagospodarowania przestrzennego obejmujący obszar całej gminy - lokalny": "http://inspire.ec.europa.eu/codelist/LevelOfSpatialPlanValue/local",
-    "Miejscowy plan zagospodarowania przestrzennego obejmujący obszar części gminy - sublokalny": "http://inspire.ec.europa.eu/codelist/LevelOfSpatialPlanValue/infraLocal",
-    "Miejscowy plan odbudowy - sublokalny": "http://inspire.ec.europa.eu/codelist/LevelOfSpatialPlanValue/infraLocal",
-    "Miejscowy plan rewitalizacji - sublokalny": "http://inspire.ec.europa.eu/codelist/LevelOfSpatialPlanValue/infraLocal"
+    "regionalny": "http://inspire.ec.europa.eu/codelist/LevelOfSpatialPlanValue/regional",
+    "lokalny": "http://inspire.ec.europa.eu/codelist/LevelOfSpatialPlanValue/local",
+    "sublokalny": "http://inspire.ec.europa.eu/codelist/LevelOfSpatialPlanValue/infraLocal"
 }
 
 statusListaKodowa = {

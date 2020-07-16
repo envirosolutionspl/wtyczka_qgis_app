@@ -208,12 +208,15 @@ class AppModule(BaseModule):
 
         if not self.obrysLayer:   # brak wybranej warstwy
             showPopup("Błąd warstwy obrysu", "Nie wskazano warstwy z obrysem")
-        elif self.obrysLayer.featureCount() != 1:     # niepoprawna ilość obiektów w warstwie
+        elif self.obrysLayer.featureCount() > 1:     # niepoprawna ilość obiektów w warstwie
             import processing
             aggregated = processing.run('native:aggregate', alg_params)
             QgsProject.instance().addMapLayer(aggregated['OUTPUT'])
-            showPopup("Błąd warstwy obrysu", "Wybrana warstwa posiada obiekty w liczbie %d.\nObrys może składać się wyłącznie z 1 jednego obiektu.\nW projekcie utworzono zagregowaną warstwę o nazwie %s, którą można wybrać w oknie wyboru." % (
+            showPopup("Błąd warstwy obrysu", "Wybrana warstwa posiada obiekty w liczbie: %d.\nObrys może składać się wyłącznie z 1 jednego obiektu.\nW projekcie utworzono zagregowaną warstwę o nazwie %s, którą można wybrać w oknie wyboru." % (
                 self.obrysLayer.featureCount(), aggregated['OUTPUT'].name()))
+        elif self.obrysLayer.featureCount() == 0:
+            showPopup("Błąd warstwy obrysu", "Wybrana warstwa posiada obiekty w liczbie: %d.\n" % (
+                self.obrysLayer.featureCount()))
         elif not isGeomValid():     # niepoprawna geometria
             showPopup("Błąd warstwy obrysu",
                       "Niepoprawna geometria - obiekt musi leżeć w Polsce, sprawdź układ współrzędnych warstwy")
@@ -406,7 +409,8 @@ class AppModule(BaseModule):
         # TODO shp --> geopackage???,
         #  nadać poprawne atrybuty (czy są w ogóle potrzebne???),
         #  ograniczenie liczby obiektów do 1
-        layer = QgsVectorLayer('Polygon?crs=epsg:2180', 'polygon', 'memory')
+        layer = QgsVectorLayer(
+            'multipolygon?crs=epsg:2180', 'Granice APP', 'memory')
         QgsProject.instance().addMapLayer(layer)
 
         # STARE

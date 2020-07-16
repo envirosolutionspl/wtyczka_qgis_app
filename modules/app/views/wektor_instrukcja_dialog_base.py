@@ -81,6 +81,9 @@ class Ui_Dialog(object):
         self.generateTemporaryLayer_btn = QtWidgets.QPushButton(Dialog)
         self.generateTemporaryLayer_btn.setObjectName("generateTemporaryLayer_btn")
         self.horizontalLayout_2.addWidget(self.generateTemporaryLayer_btn)
+        self.skip_btn = QtWidgets.QPushButton(Dialog)
+        self.skip_btn.setObjectName("skip_btn")
+        self.horizontalLayout_2.addWidget(self.skip_btn)
         self.next_btn = QtWidgets.QPushButton(Dialog)
         self.next_btn.setObjectName("next_btn")
         self.horizontalLayout_2.addWidget(self.next_btn)
@@ -99,6 +102,8 @@ class Ui_Dialog(object):
         self.chooseFile_btn.setText(_translate("Dialog", "..."))
         self.prev_btn.setText(_translate("Dialog", "Wstecz"))
         self.generateTemporaryLayer_btn.setText(_translate("Dialog", "Stwórz pustą warstwę"))
+        self.skip_btn.setToolTip(_translate("Dialog", "Pominięcie tworzenia formularza dla APP. Przeniesienie do formularza dla dokumentów formalnych."))
+        self.skip_btn.setText(_translate("Dialog", "Pomiń"))
         self.next_btn.setText(_translate("Dialog", "Dalej"))
 from qgsmaplayercombobox import QgsMapLayerComboBox
 

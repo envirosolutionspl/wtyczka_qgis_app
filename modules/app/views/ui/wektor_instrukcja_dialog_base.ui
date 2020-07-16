@@ -163,6 +163,16 @@
         </widget>
        </item>
        <item>
+        <widget class="QPushButton" name="skip_btn">
+         <property name="toolTip">
+          <string>Pominięcie tworzenia formularza dla APP. Przeniesienie do formularza dla dokumentów formalnych.</string>
+         </property>
+         <property name="text">
+          <string>Pomiń</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QPushButton" name="next_btn">
          <property name="text">
           <string>Dalej</string>

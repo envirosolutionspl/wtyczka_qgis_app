@@ -13,6 +13,8 @@ import os.path
 import time
 import datetime
 import xml.etree.ElementTree as ET
+import random
+import ntpath
 
 
 class AppModule(BaseModule):
@@ -21,6 +23,7 @@ class AppModule(BaseModule):
     pomocDialog = None
 
     def __init__(self, iface):
+        self.tableView = None
         self.iface = iface
 
         self.saved = False
@@ -116,6 +119,8 @@ class AppModule(BaseModule):
             1, QtWidgets.QHeaderView.ResizeToContents)
         header_gml.setSectionResizeMode(
             2, QtWidgets.QHeaderView.ResizeToContents)
+        header_gml.setSectionResizeMode(
+            3, QtWidgets.QHeaderView.ResizeToContents)
 
         self.zbiorPrzygotowanieDialog.prev_btn.clicked.connect(
             self.zbiorPrzygotowanieDialog_prev_btn_clicked)
@@ -335,16 +340,41 @@ class AppModule(BaseModule):
                 self.tableContentGML(plik, rows)
 
     def tableContentGML(self, file, rows):
+        # data modyfikacji
+        def path_leaf(file):
+            head, tail = ntpath.split(file)
+            return tail or ntpath.basename(head)
+        file2 = path_leaf(file)
         flags = Qt.ItemFlags(32)
         self.generowanieGMLDialog.filesTable_widget.setRowCount(rows + 1)
         self.generowanieGMLDialog.filesTable_widget.setItem(
-            rows, 0, QTableWidgetItem(file))
+            rows, 0, QTableWidgetItem(file2))
+        test = self.generowanieGMLDialog.filesTable_widget.item(rows, 0)
+        test.setToolTip(file)
 
         t = os.path.getmtime(file)
         mtime = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(t))
         item = QTableWidgetItem(mtime)
         item.setFlags(flags)
         self.generowanieGMLDialog.filesTable_widget.setItem(rows, 2, item)
+
+        # TODO rodzaj dokumentu
+        rodzaj = ['Dokument Formalny', 'APP', 'Rysunek APP']
+        item2 = QTableWidgetItem(random.choice(rodzaj))
+        item2.setFlags(flags)
+        self.generowanieGMLDialog.filesTable_widget.setItem(rows, 1, item2)
+
+        # relacja z APP
+        if self.generowanieGMLDialog.filesTable_widget.item(rows, 1).text() == 'Dokument Formalny':
+            c = QComboBox()
+            c.addItems(['przystąpienie', 'uchwala','zmienia',  'uchyla', 'unieważnia', 'inna'])
+            i = self.generowanieGMLDialog.filesTable_widget.model().index(rows, 3)
+            self.generowanieGMLDialog.filesTable_widget.setIndexWidget(i, c)
+        else:
+            empty = QTableWidgetItem('')
+            empty.setFlags(flags)
+            self.generowanieGMLDialog.filesTable_widget.setItem(rows, 3, empty)
+
 
     def deleteTableContentGML(self):
         row_num = self.generowanieGMLDialog.filesTable_widget.rowCount()

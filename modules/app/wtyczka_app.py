@@ -175,6 +175,7 @@ class AppModule(BaseModule):
         self.listaOkienek.append(self.rasterFormularzDialog)
 
     def rasterFormularzDialog_clear_btn_clicked(self):
+        print(self.rasterFormularzDialog.form_scrollArea)
         self.rasterFormularzDialog.clearForm(
             self.rasterFormularzDialog.form_scrollArea)
 
@@ -198,22 +199,12 @@ class AppModule(BaseModule):
 
         self.obrysLayer = self.wektorInstrukcjaDialog.layers_comboBox.currentLayer()
 
-        # Aggregate
-        alg_params = {
-            'AGGREGATES': [],
-            'GROUP_BY': 'NULL',
-            'INPUT': self.obrysLayer,
-            'OUTPUT': QgsProcessing.TEMPORARY_OUTPUT
-        }
-
         if not self.obrysLayer:   # brak wybranej warstwy
             showPopup("Błąd warstwy obrysu", "Nie wskazano warstwy z obrysem")
         elif self.obrysLayer.featureCount() > 1:     # niepoprawna ilość obiektów w warstwie
-            import processing
-            aggregated = processing.run('native:aggregate', alg_params)
-            QgsProject.instance().addMapLayer(aggregated['OUTPUT'])
-            showPopup("Błąd warstwy obrysu", "Wybrana warstwa posiada obiekty w liczbie: %d.\nObrys może składać się wyłącznie z 1 jednego obiektu.\nW projekcie utworzono zagregowaną warstwę o nazwie %s, którą można wybrać w oknie wyboru." % (
-                self.obrysLayer.featureCount(), aggregated['OUTPUT'].name()))
+
+            self.showPopupAggregate(title="Błąd warstwy obrysu", text="Wybrana warstwa posiada obiekty w liczbie: %d.\nObrys może składać się wyłącznie z 1 jednego obiektu.\nCzy chcesz utworzyć zagregowaną warstwę o nazwie: granice_app_aggregated?" % (
+                self.obrysLayer.featureCount()), layer=self.obrysLayer)
         elif self.obrysLayer.featureCount() == 0:
             showPopup("Błąd warstwy obrysu", "Wybrana warstwa posiada obiekty w liczbie: %d.\n" % (
                 self.obrysLayer.featureCount()))
@@ -410,7 +401,12 @@ class AppModule(BaseModule):
         #  nadać poprawne atrybuty (czy są w ogóle potrzebne???),
         #  ograniczenie liczby obiektów do 1
         layer = QgsVectorLayer(
-            'multipolygon?crs=epsg:2180', 'Granice APP', 'memory')
+            'multipolygon?crs=epsg:2180', 'granice_app', 'memory')
+
+        prov = layer.dataProvider()
+        # TODO zaciągnąć nazwy kolumn z xsd
+        prov.addAttributes([QgsField("12345678901234567890", QVariant.Double)])
+        layer.updateFields()
         QgsProject.instance().addMapLayer(layer)
 
         # STARE
@@ -419,6 +415,8 @@ class AppModule(BaseModule):
         #     fields = QgsFields()
         #     fields.append(QgsField('idIIP', QVariant.String))
         #     fields.append(QgsField('nazwa', QVariant.String))
+        #     fields.append(QgsField('obowiazujeOd', QVariant.String))
+        #     fields.append(QgsField('obowiazujeDo', QVariant.String))
         #     writer = QgsVectorFileWriter(self.fn, 'UTF-8', fields, QgsWkbTypes.Polygon,
         #                                  QgsCoordinateReferenceSystem('EPSG:2180'), 'ESRI Shapefile')
         #     feat = QgsFeature()
@@ -468,6 +466,34 @@ class AppModule(BaseModule):
                   "Poprawnie wygenerowano plik GML.")
         self.generated = True
         return self.generated
+
+    def showPopupAggregate(self, title, text, layer):
+        msg = QMessageBox()
+        msg.setIcon(QtWidgets.QMessageBox.Question)
+        msg.setWindowTitle(title)
+        msg.setText(text)
+        yes = msg.addButton(
+            'Tak', QtWidgets.QMessageBox.AcceptRole)
+        no = msg.addButton(
+            'Nie', QtWidgets.QMessageBox.RejectRole)
+        msg.setDefaultButton(yes)
+        msg.exec_()
+        msg.deleteLater()
+        if msg.clickedButton() is yes:
+            self.aggregateLayer(layer)
+
+    def aggregateLayer(self, layer):
+        # Aggregate
+        alg_params = {
+            'AGGREGATES': [],
+            'GROUP_BY': 'NULL',
+            'INPUT': layer,
+            'OUTPUT': QgsProcessing.TEMPORARY_OUTPUT
+        }
+        import processing
+        aggregated = processing.run('native:aggregate', alg_params)
+        aggregated['OUTPUT'].setName('granice_app_aggregated')
+        QgsProject.instance().addMapLayer(aggregated['OUTPUT'])
 
     def showPopupApp(self):
         msg = QMessageBox()

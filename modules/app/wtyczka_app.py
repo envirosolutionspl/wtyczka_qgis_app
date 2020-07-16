@@ -74,6 +74,7 @@ class AppModule(BaseModule):
             self.wektorInstrukcjaDialog_next_btn_clicked)
         self.wektorInstrukcjaDialog.prev_btn.clicked.connect(
             self.wektorInstrukcjaDialog_prev_btn_clicked)
+        self.wektorInstrukcjaDialog.skip_btn.clicked.connect(self.wektorInstrukcjaDialog_skip_btn_clicked)
         self.wektorInstrukcjaDialog.generateTemporaryLayer_btn.clicked.connect(
             self.newEmptyLayer)
         self.wektorInstrukcjaDialog.chooseFile_btn.clicked.connect(
@@ -228,6 +229,10 @@ class AppModule(BaseModule):
 
     def wektorInstrukcjaDialog_prev_btn_clicked(self):
         self.openNewDialog(self.listaOkienek.pop())
+
+    def wektorInstrukcjaDialog_skip_btn_clicked(self):
+        self.openNewDialog(self.dokumentyFormularzDialog)
+        self.listaOkienek.append(self.wektorInstrukcjaDialog)
 
     # endregion
 

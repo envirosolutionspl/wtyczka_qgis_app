@@ -135,9 +135,22 @@ def createFormElementsAktPlanowaniaPrzestrzennego():
 
 
 def layout_widgets(layout):
-    """iteracja widgetow wewnątrz layoutu"""
+    """lista widgetow/layoutow wewnątrz layoutu"""
     return (layout.itemAt(i) for i in range(layout.count()))
 
+def layout_widget_by_name(layout, name):
+    """wyszukuje widgeta wedlug nazwy wewnatrz layoutu"""
+    for item in layout_widgets(layout):
+        if isinstance(item, QLayout):   # zagnieżdzony layout
+            result = layout_widget_by_name(layout=item, name=name)
+            if result:
+                return result
+        elif isinstance(item, QWidgetItem):
+            widget = item.widget()
+            if name == widget.objectName():
+                return widget
+        else:
+            raise NotImplementedError
 
 def getWidgets(layout, types=[QPushButton, QLabel, QTextEdit, QLineEdit, QDateEdit]):
     wtypes = types

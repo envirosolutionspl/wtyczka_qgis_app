@@ -68,6 +68,7 @@ class AppModule(BaseModule):
         self.rasterFormularzDialog.clear_btn.clicked.connect(
             self.rasterFormularzDialog_clear_btn_clicked)
 
+
     # endregion
 
         self.wektorInstrukcjaDialog.next_btn.clicked.connect(
@@ -92,7 +93,7 @@ class AppModule(BaseModule):
             self.showPopupSaveForm)
         self.wektorFormularzDialog.clear_btn.clicked.connect(
             self.wektorFormularzDialog_clear_btn_clicked)
-        # zdarenia dynamicznie utworzonych obiektów UI związanych z IdIPP
+        # zdarenia dynamicznie utworzonych obiektów UI związanych z IdIPP i mapapodkladowa
         self.prepareIdIPP(formularz=self.wektorFormularzDialog)
 
         self.dokumentyFormularzDialog.prev_btn.clicked.connect(

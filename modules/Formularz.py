@@ -2,7 +2,7 @@
 from PyQt5.QtWidgets import *
 from qgis.core import QgsMapLayerProxyModel
 from qgis.gui import QgsDateTimeEdit, QgsFilterLineEdit, QgsMapLayerComboBox
-from qgis.PyQt.QtCore import Qt, QRegExp
+from qgis.PyQt.QtCore import Qt, QRegExp, QVariant
 from qgis.PyQt.QtGui import QRegExpValidator, QPixmap
 from . import dictionaries, utils
 
@@ -53,6 +53,74 @@ class Formularz:
 
     def __loopFormElements(self, formElements, vbox, prefix=''):
         """Przerabia listę obiektów FormElements na GUI"""
+        def createTable():
+            mapaPodkladowa_lineEdit = utils.layout_widget_by_name(vbox2, name="mapaPodkladowa_lineEdit")
+            referencja_lineEdit = utils.layout_widget_by_name(vbox2, name="referencja_lineEdit")
+            aktualnosc_dateTimeEdit = utils.layout_widget_by_name(vbox2, name="aktualnosc_dateTimeEdit")
+            lacze_lineEdit = utils.layout_widget_by_name(vbox2, name="lacze_lineEdit")
+            lacze_lineEdit_nilReason_chkbx = utils.layout_widget_by_name(vbox2, name="lacze_lineEdit_nilReason_chkbx")
+            lacze_lineEdit_nilReason_cmbbx = utils.layout_widget_by_name(vbox2, name="lacze_lineEdit_nilReason_cmbbx")
+            lacze_lineEdit_nilReason_chkbx.stateChanged.connect(lambda: lacze_lineEdit.setText(""))
+
+            def addItem():
+                newItem = QListWidgetItem()
+
+                newItem.setData(
+                    Qt.UserRole,
+                    QVariant({
+                        "mapaPodkladowa_lineEdit": mapaPodkladowa_lineEdit.text(),
+                        "referencja_lineEdit": referencja_lineEdit.text(),
+                        "aktualnosc_dateTimeEdit": aktualnosc_dateTimeEdit.date(),
+                        "lacze_lineEdit": lacze_lineEdit.text(),
+                        "lacze_lineEdit_nilReason_chkbx": lacze_lineEdit_nilReason_chkbx.checkState(),
+                        "lacze_lineEdit_nilReason_cmbbx": lacze_lineEdit_nilReason_cmbbx.currentIndex()
+                    })
+                )
+                newItem.setText(mapaPodkladowa_lineEdit.text())
+                listWidget.addItem(newItem)
+                clearDataFromListWidget()   # czyszczenie
+
+            def removeItem():
+                listWidget.takeItem(listWidget.currentRow())
+
+            def readDataFromListWidget(item):
+                v = item.data(Qt.UserRole)
+                print(v)
+
+            def clearDataFromListWidget():
+                mapaPodkladowa_lineEdit.clear()
+                referencja_lineEdit.clear()
+                aktualnosc_dateTimeEdit.clear()
+                lacze_lineEdit.clear()
+                lacze_lineEdit_nilReason_chkbx.setCheckState(False)
+                mapaPodkladowa_lineEdit.clear()
+                lacze_lineEdit_nilReason_cmbbx.setCurrentIndex(0)
+
+            def setDataToListWidget(listItem):
+                data = listItem.data(Qt.UserRole)
+                mapaPodkladowa_lineEdit.setText(data["mapaPodkladowa_lineEdit"])
+                referencja_lineEdit.setText(data["referencja_lineEdit"])
+                aktualnosc_dateTimeEdit.setDate(data["aktualnosc_dateTimeEdit"])
+                lacze_lineEdit.setText(data["lacze_lineEdit"])
+                lacze_lineEdit_nilReason_chkbx.setCheckState(data["lacze_lineEdit_nilReason_chkbx"])
+                mapaPodkladowa_lineEdit.setText(data["mapaPodkladowa_lineEdit"])
+                lacze_lineEdit_nilReason_cmbbx.setCurrentIndex(data["lacze_lineEdit_nilReason_cmbbx"])
+
+            # buttony
+            btnHBox = QHBoxLayout()
+            addBtn = QPushButton("Dodaj mapę podkładową")
+            addBtn.clicked.connect(addItem)
+            remBtn = QPushButton("Usuń mapę podkładową")
+            remBtn.clicked.connect(removeItem)
+            btnHBox.addWidget(addBtn)
+            btnHBox.addWidget(remBtn)
+            vbox2.addLayout(btnHBox)
+
+            # QListWidget
+            listWidget = QListWidget()
+            listWidget.itemDoubleClicked.connect(setDataToListWidget)
+            vbox2.addWidget(listWidget)
+
 
         for formElement in formElements:
             if (
@@ -74,23 +142,25 @@ class Formularz:
             input = self.__makeInput(formElement)
             tooltipImg = self.__makeTooltip(formElement)
 
+
             if formElement.type == 'app:MapaPodkladowaPropertyType':
                 groupbox = QGroupBox(formElement.name)
                 vbox2 = QVBoxLayout()
                 groupbox.setLayout(vbox2)
-                qTableWidget = QTableWidget()
-                vbox2.addWidget(qTableWidget)
                 vbox2.addLayout(hbox)
 
-                vbox.addWidget(groupbox)
                 hbox.addWidget(input)
                 hbox.addWidget(tooltipImg)
+                vbox.addWidget(groupbox)
 
                 if formElement.isComplex():  # zawiera podrzędne elementy typu complex
-                    input.setEnabled(False)
+                    # input.setEnabled(False)
                     # rekurencja dla obiektów wewntrznych
                     self.__loopFormElements(
                         formElement.innerFormElements, vbox2, '  - ')
+
+                createTable()
+
             else:
                 hbox.addWidget(input)
                 hbox.addWidget(tooltipImg)
@@ -104,6 +174,10 @@ class Formularz:
             if formElement.isNillable:  # dodaj dodatkowo checkbox i powód
                 nilHbox = self.__makeNilHbox(input)
                 vbox.addLayout(nilHbox)
+
+
+
+
 
 
 

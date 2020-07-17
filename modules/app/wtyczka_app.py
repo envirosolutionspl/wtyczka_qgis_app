@@ -335,7 +335,7 @@ class AppModule(BaseModule):
             if rows > 0:
                 for i in range(rows):
                     item = self.generowanieGMLDialog.filesTable_widget.item(
-                        i, 0).text()
+                        i, 0).toolTip()
                     if plik == item:
                         param = False
                         self.showPopupSameRecord()

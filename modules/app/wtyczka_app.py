@@ -74,7 +74,8 @@ class AppModule(BaseModule):
             self.wektorInstrukcjaDialog_next_btn_clicked)
         self.wektorInstrukcjaDialog.prev_btn.clicked.connect(
             self.wektorInstrukcjaDialog_prev_btn_clicked)
-        self.wektorInstrukcjaDialog.skip_btn.clicked.connect(self.wektorInstrukcjaDialog_skip_btn_clicked)
+        self.wektorInstrukcjaDialog.skip_btn.clicked.connect(
+            self.wektorInstrukcjaDialog_skip_btn_clicked)
         self.wektorInstrukcjaDialog.generateTemporaryLayer_btn.clicked.connect(
             self.newEmptyLayer)
         self.wektorInstrukcjaDialog.chooseFile_btn.clicked.connect(
@@ -372,14 +373,14 @@ class AppModule(BaseModule):
         # relacja z APP
         if self.generowanieGMLDialog.filesTable_widget.item(rows, 1).text() == 'Dokument Formalny':
             c = QComboBox()
-            c.addItems(['przystąpienie', 'uchwala','zmienia',  'uchyla', 'unieważnia', 'inna'])
+            c.addItems(['przystąpienie', 'uchwala', 'zmienia',
+                        'uchyla', 'unieważnia', 'inna'])
             i = self.generowanieGMLDialog.filesTable_widget.model().index(rows, 3)
             self.generowanieGMLDialog.filesTable_widget.setIndexWidget(i, c)
         else:
             empty = QTableWidgetItem('')
             empty.setFlags(flags)
             self.generowanieGMLDialog.filesTable_widget.setItem(rows, 3, empty)
-
 
     def deleteTableContentGML(self):
         row_num = self.generowanieGMLDialog.filesTable_widget.rowCount()
@@ -431,17 +432,26 @@ class AppModule(BaseModule):
         else:
             pass
 
-    def newEmptyLayer(self):
-        # TODO shp --> geopackage???,
-        #  nadać poprawne atrybuty (czy są w ogóle potrzebne???),
-        #  ograniczenie liczby obiektów do 1
-        layer = QgsVectorLayer(
-            'multipolygon?crs=epsg:2180', 'granice_app', 'memory')
+    def fieldsDefinition(self, fields):
+        fieldDef = ''
+        for field in fields:
+            form = Formularz()
+            # TODO Czy mamy uniemożliwiać wpisywanie wartości dla ReferenceType
+            if field.name not in form.pomijane and field.type == 'gml:ReferenceType':
+                if field.isComplex():  # zawiera podrzędne elementy typu complex
+                    for fieldElements in field.innerFormElements:
+                        fieldDef += '&field=%s:%s' % (
+                            fieldElements.name, fieldElements.type)
+                    continue
+                fieldDef += '&field=%s:%s' % (field.name, field.type)
+        return(fieldDef)
 
-        prov = layer.dataProvider()
-        # TODO zaciągnąć nazwy kolumn z xsd
-        prov.addAttributes([QgsField("12345678901234567890", QVariant.Double)])
-        layer.updateFields()
+    def newEmptyLayer(self):
+        fields = utils.createFormElements(
+            'AktPlanowaniaPrzestrzennegoType')
+        layer = QgsVectorLayer(
+            'multipolygon?crs=epsg:2180' +
+            self.fieldsDefinition(fields=fields), 'granice_app', 'memory')
         QgsProject.instance().addMapLayer(layer)
 
         # STARE

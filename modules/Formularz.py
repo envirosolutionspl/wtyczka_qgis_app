@@ -54,7 +54,6 @@ class Formularz:
     def __loopFormElements(self, formElements, vbox, prefix=''):
         """Przerabia listę obiektów FormElements na GUI"""
         def createTable():
-            mapaPodkladowa_lineEdit = utils.layout_widget_by_name(vbox2, name="mapaPodkladowa_lineEdit")
             referencja_lineEdit = utils.layout_widget_by_name(vbox2, name="referencja_lineEdit")
             aktualnosc_dateTimeEdit = utils.layout_widget_by_name(vbox2, name="aktualnosc_dateTimeEdit")
             lacze_lineEdit = utils.layout_widget_by_name(vbox2, name="lacze_lineEdit")
@@ -84,7 +83,6 @@ class Formularz:
                     newItem.setData(
                         Qt.UserRole,
                         QVariant({
-                            # "mapaPodkladowa_lineEdit": mapaPodkladowa_lineEdit.text(),
                             "referencja_lineEdit": referencja_lineEdit.text(),
                             "aktualnosc_dateTimeEdit": aktualnosc_dateTimeEdit.date(),
                             "lacze_lineEdit": lacze_lineEdit.text(),
@@ -110,22 +108,18 @@ class Formularz:
                 print(v)
 
             def clearDataFromListWidget():
-                mapaPodkladowa_lineEdit.clear()
                 referencja_lineEdit.clear()
                 aktualnosc_dateTimeEdit.clear()
                 lacze_lineEdit.clear()
                 lacze_lineEdit_nilReason_chkbx.setCheckState(False)
-                mapaPodkladowa_lineEdit.clear()
                 lacze_lineEdit_nilReason_cmbbx.setCurrentIndex(0)
 
             def setDataToListWidget(listItem):
                 data = listItem.data(Qt.UserRole)
-                # mapaPodkladowa_lineEdit.setText(data["mapaPodkladowa_lineEdit"])
                 referencja_lineEdit.setText(data["referencja_lineEdit"])
                 aktualnosc_dateTimeEdit.setDate(data["aktualnosc_dateTimeEdit"])
                 lacze_lineEdit.setText(data["lacze_lineEdit"])
                 lacze_lineEdit_nilReason_chkbx.setCheckState(data["lacze_lineEdit_nilReason_chkbx"])
-                mapaPodkladowa_lineEdit.setText(data["mapaPodkladowa_lineEdit"])
                 lacze_lineEdit_nilReason_cmbbx.setCurrentIndex(data["lacze_lineEdit_nilReason_cmbbx"])
 
             # buttony

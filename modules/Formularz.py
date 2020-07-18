@@ -60,25 +60,47 @@ class Formularz:
             lacze_lineEdit = utils.layout_widget_by_name(vbox2, name="lacze_lineEdit")
             lacze_lineEdit_nilReason_chkbx = utils.layout_widget_by_name(vbox2, name="lacze_lineEdit_nilReason_chkbx")
             lacze_lineEdit_nilReason_cmbbx = utils.layout_widget_by_name(vbox2, name="lacze_lineEdit_nilReason_cmbbx")
-            lacze_lineEdit_nilReason_chkbx.stateChanged.connect(lambda: lacze_lineEdit.setText(""))
-
+            lacze_lineEdit_nilReason_chkbx.stateChanged.connect(lambda: lacze_lineEdit.clear())
+            def checkMapaPodkladowaValidity():
+                if not referencja_lineEdit.text():
+                    return False
+                if not aktualnosc_dateTimeEdit.date():
+                    return False
+                if (
+                        not lacze_lineEdit.text() and
+                        not lacze_lineEdit_nilReason_chkbx.checkState()):
+                    return False
+                if (
+                        not lacze_lineEdit.text() and
+                        lacze_lineEdit_nilReason_chkbx.checkState() and
+                        not lacze_lineEdit_nilReason_cmbbx.currentText()
+                ):
+                    return False
+                return True
             def addItem():
-                newItem = QListWidgetItem()
+                if checkMapaPodkladowaValidity():  # jeżeli ktoś wpisał referencję
+                    newItem = QListWidgetItem()
 
-                newItem.setData(
-                    Qt.UserRole,
-                    QVariant({
-                        "mapaPodkladowa_lineEdit": mapaPodkladowa_lineEdit.text(),
-                        "referencja_lineEdit": referencja_lineEdit.text(),
-                        "aktualnosc_dateTimeEdit": aktualnosc_dateTimeEdit.date(),
-                        "lacze_lineEdit": lacze_lineEdit.text(),
-                        "lacze_lineEdit_nilReason_chkbx": lacze_lineEdit_nilReason_chkbx.checkState(),
-                        "lacze_lineEdit_nilReason_cmbbx": lacze_lineEdit_nilReason_cmbbx.currentIndex()
-                    })
-                )
-                newItem.setText(mapaPodkladowa_lineEdit.text())
-                listWidget.addItem(newItem)
-                clearDataFromListWidget()   # czyszczenie
+                    newItem.setData(
+                        Qt.UserRole,
+                        QVariant({
+                            # "mapaPodkladowa_lineEdit": mapaPodkladowa_lineEdit.text(),
+                            "referencja_lineEdit": referencja_lineEdit.text(),
+                            "aktualnosc_dateTimeEdit": aktualnosc_dateTimeEdit.date(),
+                            "lacze_lineEdit": lacze_lineEdit.text(),
+                            "lacze_lineEdit_nilReason_chkbx": lacze_lineEdit_nilReason_chkbx.checkState(),
+                            "lacze_lineEdit_nilReason_cmbbx": lacze_lineEdit_nilReason_cmbbx.currentIndex()
+                        })
+                    )
+                    newItem.setText(referencja_lineEdit.text())
+                    listWidget.addItem(newItem)
+                    clearDataFromListWidget()   # czyszczenie
+                else:
+                    utils.showPopup("Wypełnij formularz mapy podkładowej",
+                              'Musisz zdefiniować wartości dla obowiązkowych pól:\n'
+                              '- referencja,\n'
+                              '- aktualnosc (aktualność),\n'
+                              '- lacze (łącze) - lub zaznaczyć "brak wartości" i wzkazać powód.')
 
             def removeItem():
                 listWidget.takeItem(listWidget.currentRow())
@@ -98,7 +120,7 @@ class Formularz:
 
             def setDataToListWidget(listItem):
                 data = listItem.data(Qt.UserRole)
-                mapaPodkladowa_lineEdit.setText(data["mapaPodkladowa_lineEdit"])
+                # mapaPodkladowa_lineEdit.setText(data["mapaPodkladowa_lineEdit"])
                 referencja_lineEdit.setText(data["referencja_lineEdit"])
                 aktualnosc_dateTimeEdit.setDate(data["aktualnosc_dateTimeEdit"])
                 lacze_lineEdit.setText(data["lacze_lineEdit"])
@@ -155,6 +177,7 @@ class Formularz:
 
                 if formElement.isComplex():  # zawiera podrzędne elementy typu complex
                     # input.setEnabled(False)
+                    input.setVisible(False)
                     # rekurencja dla obiektów wewntrznych
                     self.__loopFormElements(
                         formElement.innerFormElements, vbox2, '  - ')
@@ -174,11 +197,6 @@ class Formularz:
             if formElement.isNillable:  # dodaj dodatkowo checkbox i powód
                 nilHbox = self.__makeNilHbox(input)
                 vbox.addLayout(nilHbox)
-
-
-
-
-
 
 
     def __makeNilHbox(self, nillableWidget):

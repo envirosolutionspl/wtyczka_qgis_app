@@ -45,7 +45,7 @@ ukladyOdniesieniaPrzestrzennego = {
 }
 typyPlanu = {
     "plan zagospodarowania przestrzennego województwa": "planZagospodarowaniaPrzestrzennegoWojewodztwa",
-    "studium uwarunkowań i kierunków zagospodarowania przestrzennego gminy": "studiumUwarunkowanIKierunkowZagospodarowaniaPrzestrzennegoGminy",
+    "studium uwarunkowań i kier. zagosp. przestrz. gminy": "studiumUwarunkowanIKierunkowZagospodarowaniaPrzestrzennegoGminy",
     "miejscowy plan zagospodarowania przestrzennego": "miejscowyPlanZagospodarowaniaPrzestrzennego",
     "miejscowy plan odbudowy": "miejscowyPlanOdbudowy",
     "miejscowy plan rewitalizacji": "miejscowyPlanRewitalizacji"

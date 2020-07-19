@@ -49,7 +49,22 @@ class Formularz:
         vbox = QVBoxLayout(wgtMain)
         self.__loopFormElements(formElements, vbox)
 
+        self.__preparePoziomHierarchii(vbox)
         container.setWidget(wgtMain)
+
+    def __preparePoziomHierarchii(self, layout):
+        """definiuje autouzupełnianie poziomHierarchii (INSPIRE)
+        na podstawie typPlanu"""
+        def typPlanu_cmbbx_currentTextChanged(currentText):
+            poziomHierarchii_cmbbx.clear()
+            wybor = dictionaries.typyPlanuPoziomyHierarchii[currentText]
+            poziomHierarchii_cmbbx.addItems(wybor)
+
+        # pobranie dynamicznie utworzonych obiektów UI
+        poziomHierarchii_cmbbx = utils.layout_widget_by_name(layout, "poziomHierarchii_cmbbx")
+        typPlanu_cmbbx = utils.layout_widget_by_name(layout, "typPlanu_cmbbx")
+        if poziomHierarchii_cmbbx and typPlanu_cmbbx:   # jeżeli formularz zawiera te pola
+            typPlanu_cmbbx.currentTextChanged.connect(typPlanu_cmbbx_currentTextChanged)
 
     def __loopFormElements(self, formElements, vbox, prefix=''):
         """Przerabia listę obiektów FormElements na GUI"""
@@ -245,7 +260,8 @@ class Formularz:
         elif formElement.name == "poziomHierarchii":
             input = QComboBox()
             input.setObjectName(formElement.name + '_cmbbx')
-            input.addItems(dictionaries.poziomyHierarchii.keys())
+            input.addItems(reversed(list(dictionaries.poziomyHierarchii.keys())[1:]))
+            # input.addItems(dictionaries.poziomyHierarchii.keys())
         elif formElement.name == "status":
             input = QComboBox()
             input.setObjectName(formElement.name + '_cmbbx')
@@ -284,8 +300,10 @@ class Formularz:
         # ustawienie domyślnych wartości
         fullFormElementName = formElement.form + ":" + formElement.name
         if fullFormElementName in dictionaries.initialValues.keys():
-            # dla pól tekstowych
-            input.setText(dictionaries.initialValues[fullFormElementName])
+            if isinstance(input,QLineEdit): # dla pól tekstowych
+                input.setText(dictionaries.initialValues[fullFormElementName])
+            elif isinstance(input, QComboBox):  # QComboBox
+                pass
 
         # ustawienie podpowiedzi
         if fullFormElementName in dictionaries.placeholders.keys():

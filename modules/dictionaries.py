@@ -31,11 +31,11 @@ placeholders = {
 # listy rozwijalne combobox
 
 nilReasons = {
-        "inapplicable": "nie dotyczy",
-        "missing": "brakujący",
-        "template": "szablon",
-        "unknown": "nieznany",
-        "withheld": "wstrzymany"}
+        "inapplicable": "inapplicable",
+        "missing": "missing",
+        "template": "template",
+        "unknown": "unknown",
+        "withheld": "withheld"}
 ukladyOdniesieniaPrzestrzennego = {
     "PL-1992": "http://www.opengis.net/def/crs/EPSG/0/2180",
     "PL-2000(5)": "http://www.opengis.net/def/crs/EPSG/0/2176",
@@ -44,9 +44,9 @@ ukladyOdniesieniaPrzestrzennego = {
     "PL-2000(8)": "http://www.opengis.net/def/crs/EPSG/0/2179"
 }
 typyPlanu = {
+    "miejscowy plan zagospodarowania przestrzennego": "miejscowyPlanZagospodarowaniaPrzestrzennego",
     "plan zagospodarowania przestrzennego województwa": "planZagospodarowaniaPrzestrzennegoWojewodztwa",
     "studium uwarunkowań i kier. zagosp. przestrz. gminy": "studiumUwarunkowanIKierunkowZagospodarowaniaPrzestrzennegoGminy",
-    "miejscowy plan zagospodarowania przestrzennego": "miejscowyPlanZagospodarowaniaPrzestrzennego",
     "miejscowy plan odbudowy": "miejscowyPlanOdbudowy",
     "miejscowy plan rewitalizacji": "miejscowyPlanRewitalizacji"
 }
@@ -56,7 +56,14 @@ poziomyHierarchii = {
     "lokalny": "http://inspire.ec.europa.eu/codelist/LevelOfSpatialPlanValue/local",
     "sublokalny": "http://inspire.ec.europa.eu/codelist/LevelOfSpatialPlanValue/infraLocal"
 }
-
+# słownik definiujący relacje między "typPlanu", a "poziomHierarchii"
+typyPlanuPoziomyHierarchii = dict(zip(typyPlanu.keys(),[
+    [list(poziomyHierarchii.keys())[2] ,list(poziomyHierarchii.keys())[1]],
+    [list(poziomyHierarchii.keys())[1]],
+    [list(poziomyHierarchii.keys())[0]],
+    [list(poziomyHierarchii.keys())[2]],
+    [list(poziomyHierarchii.keys())[2]]
+]))
 statusListaKodowa = {
     "nieaktualny" : "http://inspire.ec.europa.eu/codelist/ProcessStepGeneralValue/obsolete",
     "prawnie wiążący lub realizowany" : "http://inspire.ec.europa.eu/codelist/ProcessStepGeneralValue/legalForce",

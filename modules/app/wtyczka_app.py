@@ -653,6 +653,7 @@ class AppModule(BaseModule):
             self.listaOkienek.append(self.zbiorPrzygotowanieDialog)
 
     def prepareIdIPP(self, formularz):
+        """definuje autouzupełnianie idIPP na podstawie zagnieżdzonych pól"""
         def updateIdIPP():
             idIIP_lineEdit.setText("%s_%s_%s" % (
                 przestrzenNazw_lineEdit.text().replace("/", "_"),

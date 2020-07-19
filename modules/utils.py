@@ -120,7 +120,6 @@ def createFormElementsRysunekAPP():
 
 
 def createFormElementsDokumentFormalny():
-    # TODO lista rozwijalna dla atrybutu poziomHierarchii
     """Tworzy listę obiektów klasy 'FormElement'
     na podstawie pliku xsd dla Rysunku APP"""
 
@@ -139,7 +138,8 @@ def layout_widgets(layout):
     return (layout.itemAt(i) for i in range(layout.count()))
 
 def layout_widget_by_name(layout, name):
-    """wyszukuje widgeta wedlug nazwy wewnatrz layoutu"""
+    """wyszukuje widgeta wedlug nazwy wewnatrz layoutu
+    Do wykorystania również w trakcie tworzenia layoutu (np. QHBoxLayout)"""
     for item in layout_widgets(layout):
         if isinstance(item, QLayout):   # zagnieżdzony layout
             result = layout_widget_by_name(layout=item, name=name)
@@ -147,6 +147,7 @@ def layout_widget_by_name(layout, name):
                 return result
         elif isinstance(item, QWidgetItem):
             widget = item.widget()
+            # print(widget.objectName())
             if name == widget.objectName():
                 return widget
         else:
@@ -159,14 +160,6 @@ def getWidgets(layout, types=[QPushButton, QLabel, QTextEdit, QLineEdit, QDateEd
 
     for t in wtypes:
         mywidgets[t] = layout.findChildren(t, qreg)
-    # for a in mywidgets[QLineEdit]:
-    #     print(a)
-    # for button in mywidgets[QPushButton]:
-    #     print("button:", button.objectName())
-    # for label in mywidgets[QLabel]:
-    #     print("label:", label.objectName())
-    # for textEdit in mywidgets[QTextEdit]:
-    #     print("textEdit:", textEdit.objectName())
     return(mywidgets)
 
 
@@ -178,7 +171,8 @@ def getWidgetsByType(layout, searchObjectType):
 
 
 def getWidgetByName(layout, searchObjectType, name):
-    """zwraca widget o zadanym typie i nazwie wewnątrz layoutu"""
-    qreg = QRegExp(r'.*')
+    """zwraca widget o zadanym typie i nazwie wewnątrz layoutu statycznego
+    (np. wewnątrz całego okna formularza
+    Do wykorzystania gdy już są zbudowane formularze/widoki"""
     widget = layout.findChild(searchObjectType, name)
     return widget

@@ -7,6 +7,16 @@ from qgis.PyQt.QtGui import QRegExpValidator, QPixmap
 from . import dictionaries, utils
 
 
+class NoScrollQComboBox(QComboBox):
+    """Combobox bez scrolla"""
+    def wheelEvent(self, event):
+        event.ignore()
+
+class NoScrollQgsDateTimeEdit(QgsDateTimeEdit):
+    """QgsDateTimeEdit bez scrolla"""
+    def wheelEvent(self, event):
+        event.ignore()
+
 class Formularz:
     """Klasa reprezentująca formularz"""
 
@@ -250,32 +260,32 @@ class Formularz:
     def __makeInput(self, formElement):
         # pole wprowadzania
         if formElement.name == "ukladOdniesieniaPrzestrzennego":
-            input = QComboBox()
+            input = NoScrollQComboBox()
             input.setObjectName(formElement.name + '_cmbbx')
             input.addItems(dictionaries.ukladyOdniesieniaPrzestrzennego.keys())
         elif formElement.name == "typPlanu":
-            input = QComboBox()
+            input = NoScrollQComboBox()
             input.setObjectName(formElement.name + '_cmbbx')
             input.addItems(dictionaries.typyPlanu.keys())
         elif formElement.name == "poziomHierarchii":
-            input = QComboBox()
+            input = NoScrollQComboBox()
             input.setObjectName(formElement.name + '_cmbbx')
             input.addItems(reversed(list(dictionaries.poziomyHierarchii.keys())[1:]))
             # input.addItems(dictionaries.poziomyHierarchii.keys())
         elif formElement.name == "status":
-            input = QComboBox()
+            input = NoScrollQComboBox()
             input.setObjectName(formElement.name + '_cmbbx')
             input.addItems(dictionaries.statusListaKodowa.keys())
         elif formElement.name == "dziennikUrzedowy":
-            input = QComboBox()
+            input = NoScrollQComboBox()
             input.setObjectName(formElement.name + '_cmbbx')
             input.addItems(dictionaries.dziennikUrzedowyKod.keys())
         elif formElement.type == 'dateTime':
-            input = QgsDateTimeEdit()
+            input = NoScrollQgsDateTimeEdit()
             input.setObjectName(formElement.name + '_dateTimeEdit')
             input.clear()
         elif formElement.type == 'date' or formElement.type == 'gmd:CI_Date_PropertyType':
-            input = QgsDateTimeEdit()
+            input = NoScrollQgsDateTimeEdit()
             input.setDisplayFormat('dd.MM.yyyy')
             input.setObjectName(formElement.name + '_dateEdit')
             input.clear()

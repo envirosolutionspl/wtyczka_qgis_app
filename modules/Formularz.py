@@ -287,7 +287,7 @@ class Formularz:
         elif formElement.type == 'date' or formElement.type == 'gmd:CI_Date_PropertyType':
             input = NoScrollQgsDateTimeEdit()
             input.setDisplayFormat('dd.MM.yyyy')
-            input.setObjectName(formElement.name + '_dateEdit')
+            input.setObjectName(formElement.name + '_dateTimeEdit')
             input.clear()
         elif formElement.type == 'integer':
             input = QgsFilterLineEdit()

@@ -12,7 +12,7 @@ class ValidatorModule(BaseModule):
 
     def __init__(self, iface):
         self.iface = iface
-
+        self.dataValidator = None   # inicjacja w głównym skrypcie wtyczki
         # region okno moduł validator
         self.walidacjaDialog = WalidacjaDialog()
         # endregion
@@ -42,9 +42,14 @@ class ValidatorModule(BaseModule):
                 print('OK')
                 self.showPopupValid()
                 self.walidacjaDialog.close_btn.setEnabled(True)
+                self.iface.messageBar().pushSuccess("Sukces:",
+                                                    "Pomyślnie zwalidowano plik. Nie wykryto błędów.")
+
             else:
-                print(validationResult[1])
+                # print(validationResult[1])
                 self.showPopupInvalid(validationResult[1])
+                self.iface.messageBar().pushCritical("Błąd walidacji:",
+                                                    "Wykryto błędy walidacji.")
         else: # walidator niegotowy do dzialania - nadal wczytuje XSD
             self.iface.messageBar().pushWarning("Ostrzeżenie:", "Schemat danych nie został jeszcze zaimportowany, spróbuj ponownie za chwilę.")
 

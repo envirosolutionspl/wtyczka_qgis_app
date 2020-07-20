@@ -86,9 +86,17 @@ class ValidatorLxml:
     def validateXml(self, xmlPath=xmlPath):
         print('validateXML')
 
-        xml_root = lxml.etree.parse(xmlPath)
+        try:
+            xml_root = lxml.etree.parse(xmlPath)
+        except lxml.etree.XMLSyntaxError as e:  # błąd w składni XML
+            return [False, "Błąd w składni XML:\n" + str(e.msg)]
 
         if self.schema.validate(xml_root):
             return [True]
         else:
-            return [False, str(self.schema.error_log.filter_from_errors())]
+            errors = []
+            for error in self.schema.error_log:
+                errors.append("Błąd w linii %s: %s" % (error.line, error.message.encode("utf-8").decode("utf-8")))
+
+            return [False, '\n'.join(errors)]
+

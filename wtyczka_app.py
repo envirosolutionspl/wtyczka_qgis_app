@@ -35,6 +35,7 @@ from .modules.validator.wtyczka_app import ValidatorModule
 from .modules.settings.wtyczka_app import SettingsModule
 from .modules.utils import showPopup
 from .modules.validator import validator
+from .modules import utils
 
 
 import os
@@ -63,7 +64,10 @@ class WtyczkaAPP(AppModule, MetadataModule, ValidatorModule, SettingsModule):
         self.actions = []
 
         self.listaPlikow = []
-
+        # print(self.wektorFormularzDialog.form_scrollArea.widget().layout())
+        for el in utils.all_layout_widgets(self.wektorFormularzDialog.layout()):
+        # for el in utils.all_layout_widgets(self.wektorFormularzDialog.form_scrollArea.widget().layout()):
+            print(el.objectName())
         # definicja walidatora
         # self.dataValidator = validator.ValidatorXmlSchema()
         # self.dataValidator = validator.ValidatorLxml()

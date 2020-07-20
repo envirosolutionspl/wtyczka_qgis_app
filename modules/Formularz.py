@@ -159,6 +159,7 @@ class Formularz:
 
             # QListWidget
             listWidget = QListWidget()
+            listWidget.setObjectName("mapaPodkladowa_listWidget")
             listWidget.itemDoubleClicked.connect(setDataToListWidget)
             vbox2.addWidget(listWidget)
 
@@ -186,6 +187,7 @@ class Formularz:
 
             if formElement.type == 'app:MapaPodkladowaPropertyType':
                 groupbox = QGroupBox(formElement.name)
+                groupbox.setObjectName("groupBox")
                 vbox2 = QVBoxLayout()
                 groupbox.setLayout(vbox2)
                 vbox2.addLayout(hbox)

@@ -153,6 +153,31 @@ def layout_widget_by_name(layout, name):
         else:
             raise NotImplementedError
 
+def all_layout_widgets(layout):
+    """lista wszystkich widgetow/layoutow wewnątrz layoutu uwzględniając zagnieżdzone elementy"""
+    types = [QLineEdit, QLabel, QComboBox, QCheckBox, QDateEdit, QListWidget]
+    allWidgets = []
+    for item in layout_widgets(layout):
+        if isinstance(item, QLayout):   # zagnieżdzony layout
+            innerWidgets = all_layout_widgets(layout=item)
+            allWidgets.extend(innerWidgets)
+        elif isinstance(item, QWidgetItem):
+            widget = item.widget()
+            if isinstance(widget, QScrollArea):
+                innerWidgets = all_layout_widgets(layout=widget.widget().layout())
+                allWidgets.extend(innerWidgets)
+            elif isinstance(widget, QGroupBox):
+                innerWidgets = all_layout_widgets(layout=widget.layout())
+                allWidgets.extend(innerWidgets)
+            else:   # zwykly widget
+                allWidgets.append(widget)
+        elif isinstance(item, QSpacerItem):
+            pass
+        else:
+            print('------',item)
+            raise NotImplementedError
+    return allWidgets
+
 def getWidgets(layout, types=[QPushButton, QLabel, QTextEdit, QLineEdit, QDateEdit]):
     wtypes = types
     qreg = QRegExp(r'.*')

@@ -10,11 +10,11 @@ import os, sys, time
 import PyQt5
 from PyQt5.QtWidgets import *
 
-from qgis.PyQt.QtCore import Qt, QRegExp
+from qgis.PyQt.QtCore import Qt, QRegExp, QSize
 from qgis.PyQt import uic, QtGui
 from PyQt5.QtXmlPatterns import *
 from qgis.gui import QgsDateTimeEdit, QgsFilterLineEdit
-from .. import QDialogOverride, utils, Formularz
+from .. import QDialogOverride, ButtonsDialog, utils, Formularz
 from ..models import FormElement
 
 
@@ -42,7 +42,9 @@ FORM_CLASS7, _ = uic.loadUiType(os.path.join(
     os.path.dirname(__file__),'views', 'ui', 'wektor_instrukcja_dialog_base.ui'))
 
 
-class PytanieAppDialog(QDialogOverride, FORM_CLASS):
+
+
+class PytanieAppDialog(QDialogOverride, FORM_CLASS, ButtonsDialog):
     def __init__(self, parent=None):
         """Constructor."""
         super(PytanieAppDialog, self).__init__(parent)
@@ -50,11 +52,14 @@ class PytanieAppDialog(QDialogOverride, FORM_CLASS):
         self.setWindowTitle(title_question)
         self.setWindowIcon(QtGui.QIcon(':/plugins/wtyczka_app/img/logo.png'))
         self.setWindowFlag(Qt.WindowMinMaxButtonsHint, True)
+        ButtonsDialog.__init__(self)
+
+
         # self.zbior_btn.clicked.connect(self.close)
         # self.app_btn.clicked.connect(self.close)
 
 
-class ZbiorPrzygotowanieDialog(QDialogOverride, FORM_CLASS1):
+class ZbiorPrzygotowanieDialog(QDialogOverride, FORM_CLASS1, ButtonsDialog):
     def __init__(self, parent=None):
         """Constructor."""
         super(ZbiorPrzygotowanieDialog, self).__init__(parent)
@@ -62,9 +67,10 @@ class ZbiorPrzygotowanieDialog(QDialogOverride, FORM_CLASS1):
         self.setWindowTitle('Tworzenie zbioru APP')
         self.setWindowIcon(QtGui.QIcon(icon_path))
         self.setWindowFlag(Qt.WindowMinMaxButtonsHint, True)
+        ButtonsDialog.__init__(self)
 
 
-class RasterInstrukcjaDialog(QDialogOverride, FORM_CLASS2):
+class RasterInstrukcjaDialog(QDialogOverride, FORM_CLASS2, ButtonsDialog):
     def __init__(self, parent=None):
         """Constructor."""
         super(RasterInstrukcjaDialog, self).__init__(parent)
@@ -72,9 +78,10 @@ class RasterInstrukcjaDialog(QDialogOverride, FORM_CLASS2):
         self.setWindowTitle('%s (krok 1 z 6)' % title_app)
         self.setWindowIcon(QtGui.QIcon(icon_path))
         self.setWindowFlag(Qt.WindowMinMaxButtonsHint, True)
+        ButtonsDialog.__init__(self)
 
 
-class RasterFormularzDialog(QDialogOverride, FORM_CLASS3, Formularz):
+class RasterFormularzDialog(QDialogOverride, FORM_CLASS3, Formularz, ButtonsDialog):
     def __init__(self, parent=None):
         """Constructor."""
         super(RasterFormularzDialog, self).__init__(parent)
@@ -84,9 +91,10 @@ class RasterFormularzDialog(QDialogOverride, FORM_CLASS3, Formularz):
         self.setWindowFlag(Qt.WindowMinMaxButtonsHint, True)
         self.removeForm(container=self.form_scrollArea)
         self.createForm(container=self.form_scrollArea, formElements=utils.createFormElementsRysunekAPP())
+        ButtonsDialog.__init__(self)
 
 
-class WektorInstrukcjaDialog(QDialogOverride, FORM_CLASS7):
+class WektorInstrukcjaDialog(QDialogOverride, FORM_CLASS7, ButtonsDialog):
     def __init__(self, parent=None):
         """Constructor."""
         super(WektorInstrukcjaDialog, self).__init__(parent)
@@ -95,9 +103,10 @@ class WektorInstrukcjaDialog(QDialogOverride, FORM_CLASS7):
         self.setWindowIcon(QtGui.QIcon(icon_path))
         self.setWindowFlag(Qt.WindowMinMaxButtonsHint, True)
         self.layers_comboBox.setAllowEmptyLayer(True)
+        ButtonsDialog.__init__(self)
 
 
-class WektorFormularzDialog(QDialogOverride, FORM_CLASS5, Formularz):
+class WektorFormularzDialog(QDialogOverride, FORM_CLASS5, Formularz, ButtonsDialog):
     def __init__(self, parent=None):
 
         """Constructor."""
@@ -108,9 +117,10 @@ class WektorFormularzDialog(QDialogOverride, FORM_CLASS5, Formularz):
         self.setWindowFlag(Qt.WindowMinMaxButtonsHint, True)
         self.removeForm(container=self.form_scrollArea)
         self.createForm(container=self.form_scrollArea, formElements=utils.createFormElementsAktPlanowaniaPrzestrzennego())
+        ButtonsDialog.__init__(self)
 
 
-class DokumentyFormularzDialog(QDialogOverride, FORM_CLASS4, Formularz):
+class DokumentyFormularzDialog(QDialogOverride, FORM_CLASS4, Formularz, ButtonsDialog):
     def __init__(self, parent=None):
         """Constructor."""
         super(DokumentyFormularzDialog, self).__init__(parent)
@@ -120,9 +130,9 @@ class DokumentyFormularzDialog(QDialogOverride, FORM_CLASS4, Formularz):
         self.setWindowFlag(Qt.WindowMinMaxButtonsHint, True)
         self.removeForm(container=self.form_scrollArea)
         self.createForm(container=self.form_scrollArea, formElements=utils.createFormElementsDokumentFormalny())
+        ButtonsDialog.__init__(self)
 
-
-class GenerowanieGMLDialog(QDialogOverride, FORM_CLASS6):
+class GenerowanieGMLDialog(QDialogOverride, FORM_CLASS6, ButtonsDialog):
     def __init__(self, parent=None):
         """Constructor."""
         super(GenerowanieGMLDialog, self).__init__(parent)
@@ -130,5 +140,6 @@ class GenerowanieGMLDialog(QDialogOverride, FORM_CLASS6):
         self.setWindowTitle('%s (krok 6 z 6)' % title_app)
         self.setWindowIcon(QtGui.QIcon(icon_path))
         self.setWindowFlag(Qt.WindowMinMaxButtonsHint, True)
+        ButtonsDialog.__init__(self)
 
 

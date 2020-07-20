@@ -12,7 +12,7 @@ from PyQt5.QtWidgets import QMessageBox
 from qgis.PyQt.QtCore import Qt
 from qgis.PyQt import uic, QtGui
 from qgis.PyQt import QtWidgets
-from .. import QDialogOverride
+from .. import QDialogOverride, ButtonsDialog
 
 title_validator = 'Walidacja GML / XML'
 icon_validator = ':/plugins/wtyczka_app/img/walidacja.png'
@@ -22,7 +22,7 @@ FORM_CLASS, _ = uic.loadUiType(os.path.join(
     os.path.dirname(__file__), 'views', 'ui', 'walidacja_gmlxml_dialog_base.ui'))
 
 
-class WalidacjaDialog(QDialogOverride, FORM_CLASS):
+class WalidacjaDialog(QDialogOverride, FORM_CLASS, ButtonsDialog):
     def __init__(self, parent=None):
         """Constructor."""
         super(WalidacjaDialog, self).__init__(parent)
@@ -30,3 +30,4 @@ class WalidacjaDialog(QDialogOverride, FORM_CLASS):
         self.setWindowTitle(title_validator)
         self.setWindowIcon(QtGui.QIcon(icon_validator))
         self.setWindowFlag(Qt.WindowMinMaxButtonsHint, True)
+        ButtonsDialog.__init__(self)

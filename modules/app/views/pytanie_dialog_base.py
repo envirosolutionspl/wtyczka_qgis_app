@@ -1,14 +1,12 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'pytanie_dialog_base.ui'
+# Form implementation generated from reading ui file 'modules/app/views/ui/pytanie_dialog_base.ui'
 #
-# Created by: PyQt5 UI code generator 5.13.2
+# Created by: PyQt5 UI code generator 5.11.3
 #
 # WARNING! All changes made in this file will be lost!
 
-
 from PyQt5 import QtCore, QtGui, QtWidgets
-
 
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
@@ -21,19 +19,6 @@ class Ui_Dialog(object):
         self.gridLayout_2.setObjectName("gridLayout_2")
         self.verticalLayout = QtWidgets.QVBoxLayout()
         self.verticalLayout.setObjectName("verticalLayout")
-        self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
-        self.horizontalLayout_2.setObjectName("horizontalLayout_2")
-        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_2.addItem(spacerItem)
-        self.settings_btn = QtWidgets.QPushButton(Dialog)
-        self.settings_btn.setMaximumSize(QtCore.QSize(27, 16777215))
-        self.settings_btn.setObjectName("settings_btn")
-        self.horizontalLayout_2.addWidget(self.settings_btn)
-        self.help_btn = QtWidgets.QPushButton(Dialog)
-        self.help_btn.setMaximumSize(QtCore.QSize(27, 16777215))
-        self.help_btn.setObjectName("help_btn")
-        self.horizontalLayout_2.addWidget(self.help_btn)
-        self.verticalLayout.addLayout(self.horizontalLayout_2)
         self.empty1_lbl = QtWidgets.QLabel(Dialog)
         self.empty1_lbl.setText("")
         self.empty1_lbl.setObjectName("empty1_lbl")
@@ -54,7 +39,7 @@ class Ui_Dialog(object):
         self.instruction_scrollArea.setWidgetResizable(True)
         self.instruction_scrollArea.setObjectName("instruction_scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 564, 274))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 533, 374))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.gridLayout = QtWidgets.QGridLayout(self.scrollAreaWidgetContents)
         self.gridLayout.setObjectName("gridLayout")
@@ -67,8 +52,8 @@ class Ui_Dialog(object):
         self.verticalLayout.addWidget(self.instruction_scrollArea)
         self.horizontalLayout = QtWidgets.QHBoxLayout()
         self.horizontalLayout.setObjectName("horizontalLayout")
-        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout.addItem(spacerItem1)
+        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout.addItem(spacerItem)
         self.zbior_btn = QtWidgets.QPushButton(Dialog)
         self.zbior_btn.setObjectName("zbior_btn")
         self.horizontalLayout.addWidget(self.zbior_btn)
@@ -84,19 +69,8 @@ class Ui_Dialog(object):
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
-        self.settings_btn.setText(_translate("Dialog", "U"))
-        self.help_btn.setText(_translate("Dialog", "?"))
         self.title_lbl.setText(_translate("Dialog", "Czy będziesz pracować ze zbiorem danych przestrzennych aktów planowania przestrzennego (zbiór APP), czy z danymi przestrzennymi dla pojedynczego aktu planowania przestrzennego (APP)?"))
         self.instruction_lbl.setText(_translate("Dialog", "<html><head/><body><p>APP – obejmuje dane przestrzenne dla jednego aktu planowania przestrzennego np. dla wybranego miejscowego planu zagospodarowania przestrzennego. </p><p>Zbiór APP – obejmuje zestaw danych przestrzennych dla wielu (co najmniej jednego) aktów planowania przestrzennego tego samego rodzaju, występujących w danej jednostce podziału terytorialnego np. miejscowe plany zagospodarowania przestrzennego gminy XXX. </p><p>Szczegółowe informacje nt. zakresu danych ujętych w zbiorze znajdziesz w specyfikacji danych.  </p><p>Aby utworzyć zbiór APP, należy wcześniej przygotować pojedyncze pliki GML dla każdego APP, który zostanie włączony do tego zbioru.   </p><p>Dane przestrzenne dla jednego APP obejmują: <br/><span style=\" font-family:\'Symbol\';\">· </span>rysunek lub rysunki APP, w postaci plików rastrowych z nadaną georeferencją, w formacie GeoTIFF, wraz z informacją o adresie internetowym pod którym jest on opublikowany, <br/><span style=\" font-family:\'Symbol\';\">· </span>granicę obszaru objętego APP określoną w układzie PL-1992 lub PL-2000, posiadającą reprezentację geometryczną w postaci jednego poligonu lub multipoligonu (w przypadku obiektów wieloczęściowych), <br/><span style=\" font-family:\'Symbol\';\">· </span>informacje nt. dokumentów powiązanych z danym APP (np. uchwała o przystąpieniu do sporządzenia APP, czy uchwała uchwalająca APP). </p></body></html>"))
         self.zbior_btn.setText(_translate("Dialog", "Zbiór APP"))
         self.app_btn.setText(_translate("Dialog", "APP"))
 
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    Dialog = QtWidgets.QDialog()
-    ui = Ui_Dialog()
-    ui.setupUi(Dialog)
-    Dialog.show()
-    sys.exit(app.exec_())

@@ -11,7 +11,7 @@ from PyQt5.QtWidgets import QMessageBox
 from qgis.PyQt.QtCore import Qt
 from qgis.PyQt import uic, QtGui
 from qgis.PyQt import QtWidgets
-from .. import QDialogOverride
+from .. import QDialogOverride, ButtonsDialog
 
 
 title_metadata = 'Tworzenie / aktualizacja metadanych'
@@ -22,7 +22,7 @@ FORM_CLASS, _ = uic.loadUiType(os.path.join(
     os.path.dirname(__file__), 'views', 'ui', 'metadane_dialog_base.ui'))
 
 
-class MetadaneDialog(QDialogOverride, FORM_CLASS):
+class MetadaneDialog(QDialogOverride, FORM_CLASS, ButtonsDialog):
     def __init__(self, parent=None):
         """Constructor."""
         super(MetadaneDialog, self).__init__(parent)
@@ -30,3 +30,4 @@ class MetadaneDialog(QDialogOverride, FORM_CLASS):
         self.setWindowTitle(title_metadata)
         self.setWindowIcon(QtGui.QIcon(icon_metadata))
         self.setWindowFlag(Qt.WindowMinMaxButtonsHint, True)
+        ButtonsDialog.__init__(self)

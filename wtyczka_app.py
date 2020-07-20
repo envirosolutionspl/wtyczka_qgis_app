@@ -64,10 +64,9 @@ class WtyczkaAPP(AppModule, MetadataModule, ValidatorModule, SettingsModule):
         self.actions = []
 
         self.listaPlikow = []
-        # print(self.wektorFormularzDialog.form_scrollArea.widget().layout())
-        for el in utils.all_layout_widgets(self.wektorFormularzDialog.layout()):
-        # for el in utils.all_layout_widgets(self.wektorFormularzDialog.form_scrollArea.widget().layout()):
-            print(el.objectName())
+        # for el in utils.all_layout_widgets(self.wektorFormularzDialog.layout()):
+        #     print(el.objectName())
+
         # definicja walidatora
         # self.dataValidator = validator.ValidatorXmlSchema()
         # self.dataValidator = validator.ValidatorLxml()

@@ -27,7 +27,7 @@ class ValidatorModule(BaseModule):
         self.walidacjaDialog.close_btn.clicked.connect(self.walidacjaDialog.close)
 
         self.walidacjaDialog.chooseXML_widget.setFilter("*.xml")
-        self.walidacjaDialog.chooseGML_widget.setFilter("*.gml")
+        self.walidacjaDialog.chooseGML_widget.setFilter("*.gml; *.xml")
         # endregion
 
     """Event handlers"""
@@ -44,7 +44,6 @@ class ValidatorModule(BaseModule):
                 self.walidacjaDialog.close_btn.setEnabled(True)
                 self.iface.messageBar().pushSuccess("Sukces:",
                                                     "Pomyślnie zwalidowano plik. Nie wykryto błędów.")
-
             else:
                 # print(validationResult[1])
                 self.showPopupInvalid(validationResult[1])
@@ -55,17 +54,12 @@ class ValidatorModule(BaseModule):
 
 
     def xml_checkBoxChangedAction(self, state):
-        if self.walidacjaDialog.validateXML_radioButton.isChecked():
-            self.walidacjaDialog.chooseXML_widget.setEnabled(True)
-        else:
-            self.walidacjaDialog.chooseXML_widget.setEnabled(False)
+        self.walidacjaDialog.chooseXML_widget.setEnabled(state)
 
     def gml_checkBoxChangedAction(self, state):
-        if self.walidacjaDialog.validateGML_radioButton.isChecked():
-            self.walidacjaDialog.chooseGML_widget.setEnabled(True)
-        else:
-            self.walidacjaDialog.chooseGML_widget.setEnabled(False)
-            # endregion
+        self.walidacjaDialog.chooseGML_widget.setEnabled(state)
+
+    # endregion
 
     """Helper methods"""
 

@@ -77,8 +77,6 @@ class AppModule(BaseModule):
             self.wektorInstrukcjaDialog_skip_btn_clicked)
         self.wektorInstrukcjaDialog.generateTemporaryLayer_btn.clicked.connect(
             self.newEmptyLayer)
-        self.wektorInstrukcjaDialog.chooseFile_btn.clicked.connect(
-            self.openFile)
         self.wektorInstrukcjaDialog.layers_comboBox.setFilters(
             QgsMapLayerProxyModel.PolygonLayer)
         self.wektorInstrukcjaDialog.layers_comboBox.setShowCrs(True)
@@ -329,14 +327,6 @@ class AppModule(BaseModule):
     # endregion
 
     """Helper methods"""
-
-    def openFile(self):
-        shpFile = str(QFileDialog.getOpenFileName(
-            filter=("Shapefiles (*.shp)"))[0])
-        if shpFile:
-            self.iface.addVectorLayer(shpFile, str.split(
-                os.path.basename(shpFile), ".")[0], "ogr")
-
     def addTableContentGML(self):
         plik = str(QFileDialog.getOpenFileName(
             filter="pliki XML/GML (*.xml *.gml)")[0])

@@ -39,29 +39,43 @@
      </item>
      <item>
       <layout class="QGridLayout" name="gridLayout_2">
-       <item row="0" column="0">
-        <widget class="QRadioButton" name="validateGML_radioButton">
-         <property name="text">
-          <string>Walidacja GML</string>
+       <item row="2" column="2">
+        <widget class="QgsFileWidget" name="chooseXML_widget">
+         <property name="enabled">
+          <bool>false</bool>
          </property>
         </widget>
        </item>
-       <item row="1" column="0">
+       <item row="0" column="2">
+        <widget class="QgsFileWidget" name="chooseGMLset_widget">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QRadioButton" name="validateGMLset_radioButton">
+         <property name="text">
+          <string>Walidacja GML dla zbioru</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
         <widget class="QRadioButton" name="validateXML_radioButton">
          <property name="text">
           <string>Walidacja XML (metadane)</string>
          </property>
         </widget>
        </item>
-       <item row="0" column="1">
-        <widget class="QgsFileWidget" name="chooseGML_widget">
-         <property name="enabled">
-          <bool>false</bool>
+       <item row="1" column="0">
+        <widget class="QRadioButton" name="validateGMLapp_radioButton">
+         <property name="text">
+          <string>Walidacja GML dla APP</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="1">
-        <widget class="QgsFileWidget" name="chooseXML_widget">
+       <item row="1" column="2">
+        <widget class="QgsFileWidget" name="chooseGMLapp_widget">
          <property name="enabled">
           <bool>false</bool>
          </property>

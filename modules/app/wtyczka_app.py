@@ -26,6 +26,7 @@ class AppModule(BaseModule):
     def __init__(self, iface):
         self.tableView = None
         self.iface = iface
+        self.dataValidator = None  # inicjacja w głównym skrypcie wtyczki
 
         self.saved = False
         self.generated = False
@@ -41,17 +42,18 @@ class AppModule(BaseModule):
         self.dokumentyFormularzDialog = DokumentyFormularzDialog()
         self.generowanieGMLDialog = GenerowanieGMLDialog()
     # endregion
-
+    # region pytanieAppDialog
         self.pytanieAppDialog.zbior_btn.clicked.connect(
             self.pytanieAppDialog_zbior_btn_clicked)
         self.pytanieAppDialog.app_btn.clicked.connect(
             self.pytanieAppDialog_app_btn_clicked)
-
+    # endregion
+    # region rasterInstrukcjaDialog
         self.rasterInstrukcjaDialog.next_btn.clicked.connect(
             self.rasterInstrukcjaDialog_next_btn_clicked)
         self.rasterInstrukcjaDialog.prev_btn.clicked.connect(
             self.rasterInstrukcjaDialog_prev_btn_clicked)
-
+    # endregion
     # region rasterFormularzDialog
 
         self.rasterFormularzDialog.prev_btn.clicked.connect(
@@ -66,7 +68,7 @@ class AppModule(BaseModule):
             self.rasterFormularzDialog_clear_btn_clicked)
 
     # endregion
-
+    # region wektorInstrukcjaDialog
         self.wektorInstrukcjaDialog.next_btn.clicked.connect(
             self.wektorInstrukcjaDialog_next_btn_clicked)
         self.wektorInstrukcjaDialog.prev_btn.clicked.connect(
@@ -75,12 +77,11 @@ class AppModule(BaseModule):
             self.wektorInstrukcjaDialog_skip_btn_clicked)
         self.wektorInstrukcjaDialog.generateTemporaryLayer_btn.clicked.connect(
             self.newEmptyLayer)
-        self.wektorInstrukcjaDialog.chooseFile_btn.clicked.connect(
-            self.openFile)
         self.wektorInstrukcjaDialog.layers_comboBox.setFilters(
             QgsMapLayerProxyModel.PolygonLayer)
         self.wektorInstrukcjaDialog.layers_comboBox.setShowCrs(True)
-
+    # endregion
+    # region wektorFormularzDialog
         self.wektorFormularzDialog.prev_btn.clicked.connect(
             self.wektorFormularzDialog_prev_btn_clicked)
         self.wektorFormularzDialog.next_btn.clicked.connect(
@@ -91,7 +92,8 @@ class AppModule(BaseModule):
             self.wektorFormularzDialog_clear_btn_clicked)
         # zdarenia dynamicznie utworzonych obiektów UI związanych z IdIPP i mapapodkladowa
         self.prepareIdIPP(formularz=self.wektorFormularzDialog)
-
+    # endregion
+    # region dokumentyFormularzDialog
         self.dokumentyFormularzDialog.prev_btn.clicked.connect(
             self.dokumentyFormularzDialog_prev_btn_clicked)
         self.dokumentyFormularzDialog.next_btn.clicked.connect(
@@ -102,7 +104,8 @@ class AppModule(BaseModule):
             self.dokumentyFormularzDialog_clear_btn_clicked)
         # zdarenia dynamicznie utworzonych obiektów UI związanych z IdIPP
         self.prepareIdIPP(formularz=self.dokumentyFormularzDialog)
-
+    # endregion
+    # region generowanieGMLDialog
         self.generowanieGMLDialog.prev_btn.clicked.connect(
             self.generowanieGMLDialog_prev_btn_clicked)
         self.generowanieGMLDialog.generate_btn.clicked.connect(
@@ -111,33 +114,32 @@ class AppModule(BaseModule):
             self.addTableContentGML)
         self.generowanieGMLDialog.deleteElement_btn.clicked.connect(
             self.deleteTableContentGML)
-        header_gml = self.generowanieGMLDialog.filesTable_widget.horizontalHeader()
-        header_gml.setSectionResizeMode(
-            0, QtWidgets.QHeaderView.ResizeToContents)
-        header_gml.setSectionResizeMode(
-            1, QtWidgets.QHeaderView.ResizeToContents)
-        header_gml.setSectionResizeMode(
-            2, QtWidgets.QHeaderView.ResizeToContents)
-        header_gml.setSectionResizeMode(
-            3, QtWidgets.QHeaderView.ResizeToContents)
 
+        # rozszerzanie kolumn
+        header_gml = self.generowanieGMLDialog.filesTable_widget.horizontalHeader()
+        for i in range(header_gml.count()):
+            header_gml.setSectionResizeMode(i, QtWidgets.QHeaderView.ResizeToContents)
+    # endregion
+
+    # region zbiorPrzygotowanieDialog
         self.zbiorPrzygotowanieDialog.prev_btn.clicked.connect(
             self.zbiorPrzygotowanieDialog_prev_btn_clicked)
         self.zbiorPrzygotowanieDialog.next_btn.clicked.connect(
             self.checkSaveSet)
         self.zbiorPrzygotowanieDialog.validateAndGenerate_btn.clicked.connect(
-            self.showPopupGenerate2)
+            self.validateAndGenerate_btn_clicked)
         self.zbiorPrzygotowanieDialog.addElement_btn.clicked.connect(
             self.addTableContentSet)
         self.zbiorPrzygotowanieDialog.deleteElement_btn.clicked.connect(
             self.deleteTableContentSet)
+
         # auto resize kolumn
         header_zbior = self.zbiorPrzygotowanieDialog.appTable_widget.horizontalHeader()
-        header_zbior.setSectionResizeMode(
-            0, QtWidgets.QHeaderView.ResizeToContents)
-        header_zbior.setSectionResizeMode(
-            1, QtWidgets.QHeaderView.ResizeToContents)
-        self.zbiorPrzygotowanieDialog.addFile_widget.setFilter("*.gml")
+        for i in range(header_zbior.count()):
+            header_zbior.setSectionResizeMode(i, QtWidgets.QHeaderView.ResizeToContents)
+
+        self.zbiorPrzygotowanieDialog.addFile_widget.setFilter(filter="pliki XML/GML (*.xml *.gml)")
+    # endregion
 
     """Event handlers"""
 
@@ -305,21 +307,29 @@ class AppModule(BaseModule):
         self.listaOkienek.append(self.zbiorPrzygotowanieDialog)
         self.metadaneDialog.prev_btn.setEnabled(True)
 
+    def validateAndGenerate_btn_clicked(self):
+        # Sprawdzenie poprawności każdego z plików składowych
+        path = os.path.join(os.path.dirname(__file__), "../validator", 'appExample_pzpw_v001.xml')
+        validationResult = self.dataValidator.validateXml(xmlPath=path)
+        if not validationResult[0]:  # błąd walidacji pliku z danymi
+            self.iface.messageBar().pushCritical("Błąd walidacji:", "Wykryto błędy w pliku z danymi.")
+            self.showPopupValidationErrors("Błąd walidacji", "Wystąpiły błędy walidacji pliku %s :\n\n%s" % (path, validationResult[1]))
+        # Sprawdzenie zależności geometrycznych miedzy GMLami
+
+        # Łączenie APP w zbiór
+
+        self.iface.messageBar().pushSuccess("Generowanie zbioru:", "Pomyślnie wygenerowano zbiór APP.")
+        showPopup("Wygeneruj plik GML dla zbioru APP",
+                  "Poprawnie wygenerowano plik GML.")
+        self.generated = True
+        return self.generated
+
     # endregion
 
     """Helper methods"""
-    # TODO dodać inne rozszerzenia plików wektorowych - najlepiej qgisowym narzędziem
-
-    def openFile(self):
-        shpFile = str(QFileDialog.getOpenFileName(
-            filter=("Shapefiles (*.shp)"))[0])
-        if shpFile:
-            self.iface.addVectorLayer(shpFile, str.split(
-                os.path.basename(shpFile), ".")[0], "ogr")
-
     def addTableContentGML(self):
         plik = str(QFileDialog.getOpenFileName(
-            filter=("XML/GML files (*.xml *.gml)"))[0])
+            filter="pliki XML/GML (*.xml *.gml)")[0])
         param = True
         if plik:
             rows = self.generowanieGMLDialog.filesTable_widget.rowCount()
@@ -329,7 +339,7 @@ class AppModule(BaseModule):
                         i, 0).toolTip()
                     if plik == item:
                         param = False
-                        self.showPopupSameRecord()
+                        showPopup("Błąd tabeli", "Wybrany plik znajduje się już w tabeli")
                         break
                 if param:
                     self.tableContentGML(plik, rows)
@@ -383,7 +393,7 @@ class AppModule(BaseModule):
             pass
 
     def addTableContentSet(self):
-        plik = str(QFileDialog.getOpenFileName(filter=("GML file (*.gml)"))[0])
+        plik = str(QFileDialog.getOpenFileName(filter="pliki XML/GML (*.xml *.gml)")[0])
         param = True
         if plik:
             rows = self.zbiorPrzygotowanieDialog.appTable_widget.rowCount()
@@ -393,7 +403,7 @@ class AppModule(BaseModule):
                         i, 0).text()
                     if plik == item:
                         param = False
-                        self.showPopupSameRecord()
+                        showPopup("Błąd tabeli", "Wybrany plik znajduje się już w tabeli")
                         break
                 if param:
                     self.tableContentSet(plik, rows)
@@ -445,19 +455,9 @@ class AppModule(BaseModule):
             self.fieldsDefinition(fields=fields), 'granice_app', 'memory')
         QgsProject.instance().addMapLayer(layer)
 
-        # STARE
-        # self.fn = QFileDialog.getSaveFileName(filter="Shapefile (*.shp)")[0]
-        # if self.fn:
-        #     fields = QgsFields()
-        #     fields.append(QgsField('idIIP', QVariant.String))
-        #     fields.append(QgsField('nazwa', QVariant.String))
-        #     fields.append(QgsField('obowiazujeOd', QVariant.String))
-        #     fields.append(QgsField('obowiazujeDo', QVariant.String))
-        #     writer = QgsVectorFileWriter(self.fn, 'UTF-8', fields, QgsWkbTypes.Polygon,
-        #                                  QgsCoordinateReferenceSystem('EPSG:2180'), 'ESRI Shapefile')
-        #     feat = QgsFeature()
-        #     writer.addFeature(feat)
-        #     iface.addVectorLayer(self.fn, '', 'ogr')
+        self.iface.messageBar().pushSuccess("Utworzenie warstwy:", "Stworzono warstwę typu multipoligon do wektoryzacji.")
+        showPopup("Wygeneruj warstwę",
+                  "Poprawnie utworzono pustą warstwę. Uzupełnij ją danymi przestrzennymi.")
 
     """Popup windows"""
 
@@ -490,23 +490,6 @@ class AppModule(BaseModule):
             showPopup("Zapisz aktualny formularz",
                       "Poprawnie zapisano formularz. W razie potrzeby wygenerowania kolejnego formularza, należy zmodyfikować dane oraz zapisać formularz ponownie.")
         return self.saved
-
-    def showPopupSameRecord(self):
-        showPopup("Błąd tabeli", "Wybrany plik znajduje się już w tabeli")
-
-    def showPopupGenerateLayer(self):
-        showPopup("Wygeneruj warstwę",
-                  "Poprawnie utworzono pustą warstwę. Uzupełnij ją danymi wektorowymi oraz wypełnij atrybuty.")
-
-    def showPopupGenerate(self):
-        showPopup("Wygeneruj plik GML dla APP",
-                  "Poprawnie wygenerowano plik GML.")
-
-    def showPopupGenerate2(self):
-        showPopup("Wygeneruj plik GML dla zbioru APP",
-                  "Poprawnie wygenerowano plik GML.")
-        self.generated = True
-        return self.generated
 
     def showPopupAggregate(self, title, text, layer):
         msg = QMessageBox()
@@ -626,9 +609,9 @@ class AppModule(BaseModule):
             self.openNewDialog(self.metadaneDialog)
             self.listaOkienek.append(self.zbiorPrzygotowanieDialog)
             self.generated = False
-        elif not self.generated:
+        else:
             self.showPopupSaveSet()
-        return self.generated
+        return False
 
     def showPopupSaveSet(self):
         msg = QMessageBox()

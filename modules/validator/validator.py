@@ -98,5 +98,5 @@ class ValidatorLxml:
             for error in self.schema.error_log:
                 errors.append("Błąd w linii %s: %s" % (error.line, error.message.encode("utf-8").decode("utf-8")))
 
-            return [False, '\n'.join(errors)]
+            return [False, '\n\n'.join(errors)]
 

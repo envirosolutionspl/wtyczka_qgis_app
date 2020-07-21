@@ -68,16 +68,13 @@ class WtyczkaAPP(AppModule, MetadataModule, ValidatorModule, SettingsModule):
         #     print(el.objectName())
 
         # definicja walidatora
-        # self.dataValidator = validator.ValidatorXmlSchema()
-        # self.dataValidator = validator.ValidatorLxml()
         self.dataValidator = None
 
-        # print(0)
-        # print(QgsApplication.taskManager().activeTasks())
-        # QgsMessageLog.logMessage('Sr d')
+
         task = QgsTask.fromFunction('Wczytywanie schematu XSD', self.createValidator)
         QgsApplication.taskManager().addTask(task)
-        QgsMessageLog.logMessage('test')
+        QgsMessageLog.logMessage('starting XSD reading task')
+        # print('status1', task.status())
         # print(1)
         # QgsApplication.taskManager().activeTasks()
 

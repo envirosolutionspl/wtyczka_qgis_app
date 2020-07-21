@@ -15,6 +15,9 @@ def showPopup(title, text, icon=QMessageBox.Information):
     return msg.exec_()
 
 
+
+
+
 def getNamespace(element):
     m = re.match(r'\{.*\}', element.tag)
     return m.group(0) if m else ''

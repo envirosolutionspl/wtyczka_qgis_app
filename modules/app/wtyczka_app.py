@@ -25,6 +25,7 @@ class AppModule(BaseModule):
     def __init__(self, iface):
         self.tableView = None
         self.iface = iface
+        self.dataValidator = None  # inicjacja w głównym skrypcie wtyczki
 
         self.saved = False
         self.generated = False
@@ -115,11 +116,11 @@ class AppModule(BaseModule):
             self.addTableContentGML)
         self.generowanieGMLDialog.deleteElement_btn.clicked.connect(
             self.deleteTableContentGML)
-        header_gml = self.generowanieGMLDialog.filesTable_widget.horizontalHeader()
+
         # rozszerzanie kolumn
+        header_gml = self.generowanieGMLDialog.filesTable_widget.horizontalHeader()
         for i in range(header_gml.count()):
-            header_gml.setSectionResizeMode(
-                i, QtWidgets.QHeaderView.ResizeToContents)
+            header_gml.setSectionResizeMode(i, QtWidgets.QHeaderView.ResizeToContents)
     # endregion
 
     # region zbiorPrzygotowanieDialog
@@ -133,13 +134,13 @@ class AppModule(BaseModule):
             self.addTableContentSet)
         self.zbiorPrzygotowanieDialog.deleteElement_btn.clicked.connect(
             self.deleteTableContentSet)
+
         # auto resize kolumn
         header_zbior = self.zbiorPrzygotowanieDialog.appTable_widget.horizontalHeader()
-        header_zbior.setSectionResizeMode(
-            0, QtWidgets.QHeaderView.ResizeToContents)
-        header_zbior.setSectionResizeMode(
-            1, QtWidgets.QHeaderView.ResizeToContents)
-        self.zbiorPrzygotowanieDialog.addFile_widget.setFilter("*.gml")
+        for i in range(header_zbior.count()):
+            header_zbior.setSectionResizeMode(i, QtWidgets.QHeaderView.ResizeToContents)
+
+        self.zbiorPrzygotowanieDialog.addFile_widget.setFilter(filter="pliki XML/GML (*.xml *.gml)")
     # endregion
 
     """Event handlers"""
@@ -309,6 +310,17 @@ class AppModule(BaseModule):
         self.metadaneDialog.prev_btn.setEnabled(True)
 
     def validateAndGenerate_btn_clicked(self):
+        # Sprawdzenie poprawności każdego z plików składowych
+        path = os.path.join(os.path.dirname(__file__), "../validator", 'appExample_pzpw_v001.xml')
+        validationResult = self.dataValidator.validateXml(xmlPath=path)
+        if not validationResult[0]:  # błąd walidacji pliku z danymi
+            self.iface.messageBar().pushCritical("Błąd walidacji:", "Wykryto błędy w pliku z danymi.")
+            self.showPopupValidationErrors("Błąd walidacji", "Wystąpiły błędy walidacji pliku %s :\n\n%s" % (path, validationResult[1]))
+        # Sprawdzenie zależności geometrycznych miedzy GMLami
+
+        # Łączenie APP w zbiór
+
+        self.iface.messageBar().pushSuccess("Generowanie zbioru:", "Pomyślnie wygenerowano zbiór APP.")
         showPopup("Wygeneruj plik GML dla zbioru APP",
                   "Poprawnie wygenerowano plik GML.")
         self.generated = True
@@ -327,7 +339,7 @@ class AppModule(BaseModule):
 
     def addTableContentGML(self):
         plik = str(QFileDialog.getOpenFileName(
-            filter=("XML/GML files (*.xml *.gml)"))[0])
+            filter="pliki XML/GML (*.xml *.gml)")[0])
         param = True
         if plik:
             rows = self.generowanieGMLDialog.filesTable_widget.rowCount()
@@ -391,7 +403,7 @@ class AppModule(BaseModule):
             pass
 
     def addTableContentSet(self):
-        plik = str(QFileDialog.getOpenFileName(filter=("GML file (*.gml)"))[0])
+        plik = str(QFileDialog.getOpenFileName(filter="pliki XML/GML (*.xml *.gml)")[0])
         param = True
         if plik:
             rows = self.zbiorPrzygotowanieDialog.appTable_widget.rowCount()

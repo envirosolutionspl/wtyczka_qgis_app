@@ -26,8 +26,8 @@ class ValidatorModule(BaseModule):
         self.walidacjaDialog.validateXML_radioButton.toggled.connect(self.xml_checkBoxChangedAction)
         self.walidacjaDialog.close_btn.clicked.connect(self.walidacjaDialog.close)
 
-        self.walidacjaDialog.chooseXML_widget.setFilter("*.xml")
-        self.walidacjaDialog.chooseGML_widget.setFilter("*.gml; *.xml")
+        self.walidacjaDialog.chooseXML_widget.setFilter(filter="pliki XML (*.xml)")
+        self.walidacjaDialog.chooseGML_widget.setFilter(filter="pliki XML/GML (*.xml *.gml)")
         # endregion
 
     """Event handlers"""
@@ -63,13 +63,13 @@ class ValidatorModule(BaseModule):
     def __validateFile(self, path, validator):
         """walidacja pliku z danymi lub metadanymi"""
         if validator:  # walidator gotowy do dzialania
-            validationResult = self.dataValidator.validateXml(xmlPath=path)
+            validationResult = validator.validateXml(xmlPath=path)
             if validationResult[0]:  # poprawnie zwalidowano
                 self.iface.messageBar().pushSuccess("Sukces:", "Pomyślnie zwalidowano plik. Nie wykryto błędów.")
-                self.showPopupValid()
+                showPopup("Waliduj pliki", "Poprawnie zwalidowano plik.")
             else:   # błędy walidacji
                 self.iface.messageBar().pushCritical("Błąd walidacji:", "Wykryto błędy walidacji.")
-                self.showPopupInvalid(validationResult[1])
+                self.showPopupValidationErrors("Błąd walidacji", "Wystąpiły błędy walidacji pliku:\n\n" + validationResult[1])
         else:  # walidator niegotowy do dzialania - nadal wczytuje XSD
             self.iface.messageBar().pushWarning("Ostrzeżenie:",
                                                 "Schemat danych nie został jeszcze zaimportowany, spróbuj ponownie za chwilę.")
@@ -78,8 +78,4 @@ class ValidatorModule(BaseModule):
     def showPopupExport(self):
         showPopup("Wyeksportuj plik z błędami", "Poprawnie wyeksportowano plik z błędami.")
 
-    def showPopupValid(self):
-        showPopup("Waliduj pliki", "Poprawnie zwalidowano plik.")
 
-    def showPopupInvalid(self, bledy):
-        showPopup("Błąd walidacji", "Wystąpiły błędy walidacji pliku:\n\n" + bledy)

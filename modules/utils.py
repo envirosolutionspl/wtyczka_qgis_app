@@ -1,5 +1,6 @@
 from PyQt5.QtWidgets import *
 from qgis.PyQt.QtCore import Qt, QRegExp
+from qgis.core import QgsVectorLayer
 import re
 import os
 import xml.etree.ElementTree as ET
@@ -15,8 +16,11 @@ def showPopup(title, text, icon=QMessageBox.Information):
     return msg.exec_()
 
 
-
-
+def checkZbiorGeometryValidity(gmlFilesPath):
+    """sprawdza integralność zbioru APP, czy np. obrysy się nie przecinają"""
+    for gmlPath in gmlFilesPath:
+        layer = QgsVectorLayer(gmlPath, "", 'ogr')
+    return [True]
 
 def getNamespace(element):
     m = re.match(r'\{.*\}', element.tag)

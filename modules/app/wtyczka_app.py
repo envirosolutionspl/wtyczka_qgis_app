@@ -308,15 +308,24 @@ class AppModule(BaseModule):
         self.metadaneDialog.prev_btn.setEnabled(True)
 
     def validateAndGenerate_btn_clicked(self):
-        # Sprawdzenie poprawności każdego z plików składowych
-        path = os.path.join(os.path.dirname(__file__), "../validator", 'appExample_pzpw_v001.xml')
-        validationResult = self.dataValidator.validateXml(xmlPath=path)
-        if not validationResult[0]:  # błąd walidacji pliku z danymi
-            self.iface.messageBar().pushCritical("Błąd walidacji:", "Wykryto błędy w pliku z danymi.")
-            self.showPopupValidationErrors("Błąd walidacji", "Wystąpiły błędy walidacji pliku %s :\n\n%s" % (path, validationResult[1]))
-        # Sprawdzenie zależności geometrycznych miedzy GMLami
+        # TODO: Sprawdzenie poprawności każdego z plików składowych
+        files = [os.path.join(os.path.dirname(__file__), "../validator", 'appExample_pzpw_v001.xml')]
+        for path in files:
+            validationResult = self.dataValidator.validateXml(xmlPath=path)
+            if not validationResult[0]:  # błąd walidacji pliku z danymi
+                self.iface.messageBar().pushCritical("Błąd walidacji:", "Wykryto błędy w pliku z danymi.")
+                self.showPopupValidationErrors("Błąd walidacji", "Wystąpiły błędy walidacji pliku %s :\n\n%s" % (path, validationResult[1]))
+                return
+        # TODO: Sprawdzenie zależności geometrycznych miedzy GMLami
+        gmlFiles = []
+        result = utils.checkZbiorGeometryValidity(gmlFiles)
+        if result[0]:
+            pass
+        else:
+            trescBledu = result[1]
 
-        # Łączenie APP w zbiór
+
+        # TODO: Łączenie APP w zbiór
 
         self.iface.messageBar().pushSuccess("Generowanie zbioru:", "Pomyślnie wygenerowano zbiór APP.")
         showPopup("Wygeneruj plik GML dla zbioru APP",

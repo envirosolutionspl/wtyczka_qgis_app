@@ -137,6 +137,7 @@ def layout_widgets(layout):
     """lista widgetow/layoutow wewnątrz layoutu"""
     return (layout.itemAt(i) for i in range(layout.count()))
 
+
 def layout_widget_by_name(layout, name):
     """wyszukuje widgeta wedlug nazwy wewnatrz layoutu
     Do wykorystania również w trakcie tworzenia layoutu (np. QHBoxLayout)"""
@@ -153,6 +154,7 @@ def layout_widget_by_name(layout, name):
         else:
             raise NotImplementedError
 
+
 def all_layout_widgets(layout):
     """lista wszystkich widgetow/layoutow wewnątrz layoutu uwzględniając zagnieżdzone elementy"""
     types = [QLineEdit, QLabel, QComboBox, QCheckBox, QDateEdit, QListWidget]
@@ -164,7 +166,8 @@ def all_layout_widgets(layout):
         elif isinstance(item, QWidgetItem):
             widget = item.widget()
             if isinstance(widget, QScrollArea):
-                innerWidgets = all_layout_widgets(layout=widget.widget().layout())
+                innerWidgets = all_layout_widgets(
+                    layout=widget.widget().layout())
                 allWidgets.extend(innerWidgets)
             elif isinstance(widget, QGroupBox):
                 innerWidgets = all_layout_widgets(layout=widget.layout())
@@ -174,9 +177,10 @@ def all_layout_widgets(layout):
         elif isinstance(item, QSpacerItem):
             pass
         else:
-            print('------',item)
+            print('------', item)
             raise NotImplementedError
     return allWidgets
+
 
 def getWidgets(layout, types=[QPushButton, QLabel, QTextEdit, QLineEdit, QDateEdit]):
     wtypes = types
@@ -201,3 +205,94 @@ def getWidgetByName(layout, searchObjectType, name):
     Do wykorzystania gdy już są zbudowane formularze/widoki"""
     widget = layout.findChild(searchObjectType, name)
     return widget
+
+
+def makeXML(docName, elements, IPP='PL.ZIPPZP.9999_14-PZPW_P1_20200525'):
+    import datetime
+
+    # Układ współrzędnych na sztywno
+    srsName = 'http://www.opengis.net/def/crs/EPSG/0/2180'
+
+    # Strefa czasowa timezone jest ustawiona na sztywno
+    root_data = {
+        'timeStamp': datetime.datetime.utcnow().isoformat()+'Z',
+        'numberReturned': "1000000",
+        'numberMatched': "unknown",
+    }
+    # Przestrzenie anzw ustawione na sztywno
+    namespaces = {
+        'xmlns:gco': "http://www.isotc211.org/2005/gco",
+        'xmlns:gmd': "http://www.isotc211.org/2005/gmd",
+        'xmlns:gml': "http://www.opengis.net/gml/3.2",
+        'xmlns:wfs': "http://www.opengis.net/wfs/2.0",
+        'xmlns:xlink': "http://www.w3.org/1999/xlink",
+        'xmlns:xsi': "http://www.w3.org/2001/XMLSchema-instance",
+        'xmlns:app': "http://zagospodarowanieprzestrzenne.gov.pl/schemas/app/1.0",
+        'xsi:schemaLocation': "http://zagospodarowanieprzestrzenne.gov.pl/schemas/app/1.0 ../appSchema/appSchema_app_v0_0_1/planowaniePrzestrzenne.xsd http://www.opengis.net/gml/3.2 http://schemas.opengis.net/gml/3.2.1/gml.xsd http://www.opengis.net/wfs/2.0 http://schemas.opengis.net/wfs/2.0/wfs.xsd"
+    }
+    # create the file structure
+    data = ET.Element('wfs:FeatureCollection')
+    datamember = ET.SubElement(data, 'wfs:member')
+
+    for rd in root_data.keys():
+        data.set(rd, root_data[rd])
+
+    for ns in namespaces.keys():
+        data.set(ns, namespaces[ns])
+
+    tag = 'app:'
+    items = ET.SubElement(datamember, tag + docName)
+    items.set('gml:id', IPP)
+    item = ET.SubElement(items, 'gml:identifier')
+    codeSpace = 'http://zagospodarowanieprzestrzenne.gov.pl/app'
+    item.set('CodeSpace', codeSpace)
+    item.text = '/'.join([codeSpace, docName, IPP.replace('_', '/')])
+
+    for element in elements:
+        if 'ReferenceType' not in element.type:
+            item = ET.SubElement(items, tag + element.name)
+            if element.isComplex() == True:
+                ComplexItem = ET.SubElement(item, element.type[4:])
+                for innerElement in element.innerFormElements:
+                    innerItem = ET.SubElement(
+                        ComplexItem, tag+innerElement.name)
+                    innerItem.text = 'placeholder'
+            elif element.name == 'zasiegPrzestrzenny':
+                subItem1 = ET.SubElement(item, 'gml:MultiSurface')
+                subItem1.set('srsDimention', '2')
+                subItem1.set('srsName', srsName)
+                subItem2 = ET.SubElement(subItem1, 'gml:surfaceMember')
+                subItem3 = ET.SubElement(subItem2, 'gml:Polygon')
+                subItem4 = ET.SubElement(subItem3, 'gml:exterior')
+                subItem5 = ET.SubElement(subItem4, 'gml:LinearRing')
+                subItem6 = ET.SubElement(subItem5, 'gml:posList')
+                coord = '256000.0 686000.0 325000.0 350000.0 745000.0 240000.0 450000.0 431000.0'
+                subItem6.text = coord
+
+            else:
+                item.text = 'placeholder'
+    return(data)
+
+
+def createXmlRysunekAPP():
+    """Tworzy szablon xml dla Rysunku APP"""
+    data = makeXML(docName='RysunekAktuPlanowniaPrzestrzenego',
+                   elements=createFormElements('RysunekAktuPlanowniaPrzestrzenegoType'))
+
+    return data
+
+
+def createXmlDokumentFormalny():
+    """Tworzy szablon xml dla dokumentu formalnego"""
+    data = makeXML(docName='DokumentFormalny',
+                   elements=createFormElements('DokumentFormalnyType'))
+
+    return data
+
+
+def createXmlAktPlanowaniaPrzestrzennego():
+    """Tworzy szablon xml dla aktu planowania przestrzennego"""
+    data = makeXML(docName='AktPlanowaniaPrzestrzennego',
+                   elements=createFormElements('AktPlanowaniaPrzestrzennegoType'))
+
+    return data

@@ -15,6 +15,7 @@ import datetime
 import xml.etree.ElementTree as ET
 import random
 import ntpath
+from lxml import etree
 
 
 class AppModule(BaseModule):
@@ -63,7 +64,6 @@ class AppModule(BaseModule):
         self.prepareIdIPP(formularz=self.rasterFormularzDialog)
         self.rasterFormularzDialog.clear_btn.clicked.connect(
             self.rasterFormularzDialog_clear_btn_clicked)
-
 
     # endregion
 
@@ -467,20 +467,25 @@ class AppModule(BaseModule):
         if self.fn:
             self.saved = True
             # TODO wypełnienie xml wartościami z xml
+            if self.activeDlg == self.rasterFormularzDialog:
+                data = utils.createXmlRysunekAPP()
+            elif self.activeDlg == self.wektorFormularzDialog:
+                data = utils.createXmlAktPlanowaniaPrzestrzennego()
+            elif self.activeDlg == self.dokumentyFormularzDialog:
+                data = utils.createXmlDokumentFormalny()
 
-            # create the file structure
-            data = ET.Element('data')
-            items = ET.SubElement(data, 'items')
-            item1 = ET.SubElement(items, 'item')
-            item2 = ET.SubElement(items, 'item')
-            item1.set('name', 'item1')
-            item2.set('name', 'item2')
-            item1.text = 'item1abc'
-            item2.text = 'item2abc'
+            mydata = ET.tostring(data)
+            root = etree.XML(mydata)
 
-            # create a new XML file with the results
-            tree = ET.ElementTree(data)
-            tree.write(self.fn)
+            xml_string = etree.tostring(root, xml_declaration=True,
+                                        encoding='utf-8', pretty_print=True).decode('utf-8')
+            myfile = open(self.fn, "w", encoding='utf-8')
+            myfile.write(xml_string)
+            # # create the file structure
+            # data = 2
+            # # create a new XML file with the results
+            # tree = ET.ElementTree(data)
+            # tree.write(self.fn)
 
             showPopup("Zapisz aktualny formularz",
                       "Poprawnie zapisano formularz. W razie potrzeby wygenerowania kolejnego formularza, należy zmodyfikować dane oraz zapisać formularz ponownie.")

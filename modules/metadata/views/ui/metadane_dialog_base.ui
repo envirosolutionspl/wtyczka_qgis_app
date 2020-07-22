@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>692</width>
-    <height>600</height>
+    <width>654</width>
+    <height>1128</height>
    </rect>
   </property>
   <property name="font">
@@ -132,97 +132,1297 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>670</width>
-          <height>279</height>
+          <width>632</width>
+          <height>860</height>
          </rect>
         </property>
         <layout class="QGridLayout" name="gridLayout_2">
-         <item row="2" column="0">
-          <widget class="QLabel" name="streszczenie_lbl">
-           <property name="text">
-            <string>Streszczenie</string>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="0">
-          <widget class="QLabel" name="typZbioru_lbl">
-           <property name="text">
-            <string>Typ zbioru</string>
-           </property>
-          </widget>
-         </item>
-         <item row="4" column="0">
-          <widget class="QLabel" name="adresZbioruDanych_lbl">
-           <property name="text">
-            <string>Adres zbioru danych</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="0">
-          <widget class="QLabel" name="tytulZbioru_lbl">
-           <property name="text">
-            <string>Tytuł zbioru</string>
-           </property>
-          </widget>
-         </item>
-         <item row="5" column="0">
-          <widget class="QLabel" name="dataUtworzenia_lbl">
-           <property name="text">
-            <string>Data utworzenia</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1" colspan="4">
-          <widget class="QLineEdit" name="tytulZbioru_lineEdit">
+         <item row="1" column="0" colspan="2">
+          <widget class="QgsCollapsibleGroupBox" name="mGroupBox">
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-             <horstretch>0</horstretch>
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <horstretch>1</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
-           <property name="font">
-            <font>
-             <pointsize>7</pointsize>
-            </font>
+           <property name="title">
+            <string>Identyfikacja*</string>
            </property>
+           <layout class="QVBoxLayout" name="verticalLayout_2">
+            <property name="sizeConstraint">
+             <enum>QLayout::SetDefaultConstraint</enum>
+            </property>
+            <item>
+             <layout class="QHBoxLayout">
+              <item>
+               <widget class="QLabel" name="label">
+                <property name="text">
+                 <string>Tytuł zbioru*</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QgsFilterLineEdit" name="mLineEdit">
+                <property name="qgisRelation" stdset="0">
+                 <string notr="true"/>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="tytul_tooltip">
+                <property name="toolTip">
+                 <string/>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="pixmap">
+                 <pixmap>../../../../img/info1.png</pixmap>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout">
+              <item>
+               <widget class="QLabel" name="label">
+                <property name="text">
+                 <string>Streszczenie*</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QgsFilterLineEdit" name="mLineEdit">
+                <property name="qgisRelation" stdset="0">
+                 <string notr="true"/>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="streszczenie_tooltip">
+                <property name="toolTip">
+                 <string/>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="pixmap">
+                 <pixmap>../../../../img/info1.png</pixmap>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <layout class="QHBoxLayout">
+              <item>
+               <widget class="QLabel" name="label">
+                <property name="text">
+                 <string>Typ zbioru*</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QgsFilterLineEdit" name="mLineEdit">
+                <property name="qgisRelation" stdset="0">
+                 <string notr="true"/>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="typ_tooltip">
+                <property name="toolTip">
+                 <string/>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="pixmap">
+                 <pixmap>../../../../img/info1.png</pixmap>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+			<item>
+             <layout class="QHBoxLayout">
+              <item>
+               <widget class="QLabel" name="label">
+                <property name="text">
+                 <string>Adres zbioru</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QgsFilterLineEdit" name="mLineEdit">
+                <property name="qgisRelation" stdset="0">
+                 <string notr="true"/>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="typ_tooltip">
+                <property name="toolTip">
+                 <string/>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="pixmap">
+                 <pixmap>../../../../img/info1.png</pixmap>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+			<item>
+             <layout class="QHBoxLayout">
+              <item>
+               <widget class="QLabel" name="label">
+                <property name="text">
+                 <string>Unikalny identyfikator zbioru*</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QgsFilterLineEdit" name="mLineEdit">
+                <property name="qgisRelation" stdset="0">
+                 <string notr="true"/>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="typ_tooltip">
+                <property name="toolTip">
+                 <string/>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="pixmap">
+                 <pixmap>../../../../img/info1.png</pixmap>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+			<item>
+             <layout class="QHBoxLayout">
+              <item>
+               <widget class="QLabel" name="label">
+                <property name="text">
+                 <string>Język zbioru*</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QgsFilterLineEdit" name="mLineEdit">
+                <property name="qgisRelation" stdset="0">
+                 <string notr="true"/>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="typ_tooltip">
+                <property name="toolTip">
+                 <string/>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="pixmap">
+                 <pixmap>../../../../img/info1.png</pixmap>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+			<item>
+             <layout class="QHBoxLayout">
+              <item>
+               <widget class="QLabel" name="label">
+                <property name="text">
+                 <string>Kodowanie znaków</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QgsFilterLineEdit" name="mLineEdit">
+                <property name="qgisRelation" stdset="0">
+                 <string notr="true"/>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="typ_tooltip">
+                <property name="toolTip">
+                 <string/>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="pixmap">
+                 <pixmap>../../../../img/info1.png</pixmap>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
           </widget>
          </item>
-         <item row="2" column="1" colspan="5">
-          <widget class="QTextEdit" name="streszczenie_textEdit"/>
-         </item>
-         <item row="3" column="1" colspan="4">
-          <widget class="QLineEdit" name="typZbioru_lineEdit">
-           <property name="font">
-            <font>
-             <pointsize>7</pointsize>
-            </font>
+         <item row="2" column="0" colspan="2">
+          <widget class="QgsCollapsibleGroupBox" name="mGroupBox_2">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <horstretch>1</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
            </property>
+           <property name="title">
+            <string>Klasyfikacja danych przestrzennych*</string>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_2">
+            <property name="sizeConstraint">
+             <enum>QLayout::SetDefaultConstraint</enum>
+            </property>
+			<item>
+             <layout class="QHBoxLayout">
+              <item>
+               <widget class="QLabel" name="label">
+                <property name="text">
+                 <string>Kategoria tematyczna*</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QgsFilterLineEdit" name="mLineEdit">
+                <property name="qgisRelation" stdset="0">
+                 <string notr="true"/>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="tytul_tooltip">
+                <property name="toolTip">
+                 <string/>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="pixmap">
+                 <pixmap>../../../../img/info1.png</pixmap>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
           </widget>
          </item>
-         <item row="5" column="1">
-          <widget class="QDateEdit" name="dataUtworzenia_dateEdit">
-           <property name="dateTime">
-            <datetime>
-             <hour>0</hour>
-             <minute>0</minute>
-             <second>0</second>
-             <year>2020</year>
-             <month>5</month>
-             <day>22</day>
-            </datetime>
+         <item row="3" column="0" colspan="2">
+          <widget class="QgsCollapsibleGroupBox" name="mGroupBox_3">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <horstretch>1</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
            </property>
+           <property name="title">
+            <string>Słowo kluczowe</string>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_2">
+            <property name="sizeConstraint">
+             <enum>QLayout::SetDefaultConstraint</enum>
+            </property>
+			<item>
+             <layout class="QHBoxLayout">
+              <item>
+               <widget class="QLabel" name="label">
+                <property name="text">
+                 <string>Wartość słowa kluczowego*</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QgsFilterLineEdit" name="mLineEdit">
+                <property name="qgisRelation" stdset="0">
+                 <string notr="true"/>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="tytul_tooltip">
+                <property name="toolTip">
+                 <string/>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="pixmap">
+                 <pixmap>../../../../img/info1.png</pixmap>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+			<item>
+             <layout class="QHBoxLayout">
+              <item>
+               <widget class="QLabel" name="label">
+                <property name="text">
+                 <string>Standardowy słownik źródłowy</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QgsFilterLineEdit" name="mLineEdit">
+                <property name="qgisRelation" stdset="0">
+                 <string notr="true"/>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="tytul_tooltip">
+                <property name="toolTip">
+                 <string/>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="pixmap">
+                 <pixmap>../../../../img/info1.png</pixmap>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
           </widget>
          </item>
-         <item row="4" column="1" colspan="4">
-          <widget class="QLineEdit" name="adresZbioruDanych_lineEdit">
-           <property name="font">
-            <font>
-             <pointsize>7</pointsize>
-            </font>
+         <item row="4" column="0" colspan="2">
+          <widget class="QgsCollapsibleGroupBox" name="mGroupBox_4">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <horstretch>1</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
            </property>
-           <property name="text">
-            <string>Podaj adres URI</string>
+           <property name="title">
+            <string>Położenie geograficzne</string>
            </property>
+           <layout class="QVBoxLayout" name="verticalLayout_2">
+            <property name="sizeConstraint">
+             <enum>QLayout::SetDefaultConstraint</enum>
+            </property>
+			<item>
+             <layout class="QHBoxLayout">
+              <item>
+               <widget class="QLabel" name="label">
+                <property name="text">
+                 <string>Geograficzny prostokąt ograniczojący</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QgsFilterLineEdit" name="mLineEdit">
+                <property name="qgisRelation" stdset="0">
+                 <string notr="true"/>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="tytul_tooltip">
+                <property name="toolTip">
+                 <string/>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="pixmap">
+                 <pixmap>../../../../img/info1.png</pixmap>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+			<item>
+             <layout class="QHBoxLayout">
+              <item>
+               <widget class="QLabel" name="label">
+                <property name="text">
+                 <string>System odniesienia za pomocą współrzędnych</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QgsFilterLineEdit" name="mLineEdit">
+                <property name="qgisRelation" stdset="0">
+                 <string notr="true"/>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="tytul_tooltip">
+                <property name="toolTip">
+                 <string/>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="pixmap">
+                 <pixmap>../../../../img/info1.png</pixmap>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item row="5" column="0" colspan="2">
+          <widget class="QgsCollapsibleGroupBox" name="mGroupBox_5">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <horstretch>1</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="title">
+            <string>Odniesienie czasowe</string>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_2">
+            <property name="sizeConstraint">
+             <enum>QLayout::SetDefaultConstraint</enum>
+            </property>
+			<item>
+             <layout class="QHBoxLayout">
+              <item>
+               <widget class="QLabel" name="label">
+                <property name="text">
+                 <string>Data utworzenia</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QgsFilterLineEdit" name="mLineEdit">
+                <property name="qgisRelation" stdset="0">
+                 <string notr="true"/>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="tytul_tooltip">
+                <property name="toolTip">
+                 <string/>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="pixmap">
+                 <pixmap>../../../../img/info1.png</pixmap>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+			<item>
+             <layout class="QHBoxLayout">
+              <item>
+               <widget class="QLabel" name="label">
+                <property name="text">
+                 <string>Data opublikowania</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QgsFilterLineEdit" name="mLineEdit">
+                <property name="qgisRelation" stdset="0">
+                 <string notr="true"/>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="tytul_tooltip">
+                <property name="toolTip">
+                 <string/>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="pixmap">
+                 <pixmap>../../../../img/info1.png</pixmap>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item row="6" column="0" colspan="2">
+          <widget class="QgsCollapsibleGroupBox" name="mGroupBox_6">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <horstretch>1</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="title">
+            <string>Jakość i ważność</string>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_2">
+            <property name="sizeConstraint">
+             <enum>QLayout::SetDefaultConstraint</enum>
+            </property>
+			<item>
+             <layout class="QHBoxLayout">
+              <item>
+               <widget class="QLabel" name="label">
+                <property name="text">
+                 <string>Pochodzenie</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QgsFilterLineEdit" name="mLineEdit">
+                <property name="qgisRelation" stdset="0">
+                 <string notr="true"/>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="tytul_tooltip">
+                <property name="toolTip">
+                 <string/>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="pixmap">
+                 <pixmap>../../../../img/info1.png</pixmap>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+			<item>
+             <layout class="QHBoxLayout">
+              <item>
+               <widget class="QLabel" name="label">
+                <property name="text">
+                 <string>Rozdzielczość przestrzenna</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QgsFilterLineEdit" name="mLineEdit">
+                <property name="qgisRelation" stdset="0">
+                 <string notr="true"/>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="tytul_tooltip">
+                <property name="toolTip">
+                 <string/>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="pixmap">
+                 <pixmap>../../../../img/info1.png</pixmap>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+			<item>
+             <layout class="QHBoxLayout">
+              <item>
+               <widget class="QLabel" name="label">
+                <property name="text">
+                 <string>Typ reprezentacji przestrzennej</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QgsFilterLineEdit" name="mLineEdit">
+                <property name="qgisRelation" stdset="0">
+                 <string notr="true"/>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="tytul_tooltip">
+                <property name="toolTip">
+                 <string/>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="pixmap">
+                 <pixmap>../../../../img/info1.png</pixmap>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </widget>
+         </item>
+		 <item row="7" column="0" colspan="2">
+          <widget class="QgsCollapsibleGroupBox" name="mGroupBox_7">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <horstretch>1</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="title">
+            <string>Zgodność</string>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_2">
+            <property name="sizeConstraint">
+             <enum>QLayout::SetDefaultConstraint</enum>
+            </property>
+			<item>
+             <layout class="QHBoxLayout">
+              <item>
+               <widget class="QLabel" name="label">
+                <property name="text">
+                 <string>Specyfikacja</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QgsFilterLineEdit" name="mLineEdit">
+                <property name="qgisRelation" stdset="0">
+                 <string notr="true"/>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="tytul_tooltip">
+                <property name="toolTip">
+                 <string/>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="pixmap">
+                 <pixmap>../../../../img/info1.png</pixmap>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+			<item>
+             <layout class="QHBoxLayout">
+              <item>
+               <widget class="QLabel" name="label">
+                <property name="text">
+                 <string>Stopień</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QgsFilterLineEdit" name="mLineEdit">
+                <property name="qgisRelation" stdset="0">
+                 <string notr="true"/>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="tytul_tooltip">
+                <property name="toolTip">
+                 <string/>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="pixmap">
+                 <pixmap>../../../../img/info1.png</pixmap>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </widget>
+         </item>
+		 <item row="8" column="0" colspan="2">
+          <widget class="QgsCollapsibleGroupBox" name="mGroupBox_8">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <horstretch>1</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="title">
+            <string>Wymogi dotyczące dostępu i użytkowania</string>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_2">
+            <property name="sizeConstraint">
+             <enum>QLayout::SetDefaultConstraint</enum>
+            </property>
+			<item>
+             <layout class="QHBoxLayout">
+              <item>
+               <widget class="QLabel" name="label">
+                <property name="text">
+                 <string>Warunki dotyczące dostępu i użytkowania</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QgsFilterLineEdit" name="mLineEdit">
+                <property name="qgisRelation" stdset="0">
+                 <string notr="true"/>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="tytul_tooltip">
+                <property name="toolTip">
+                 <string/>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="pixmap">
+                 <pixmap>../../../../img/info1.png</pixmap>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+			<item>
+             <layout class="QHBoxLayout">
+              <item>
+               <widget class="QLabel" name="label">
+                <property name="text">
+                 <string>Ograniczenia w publicznym dostępie</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QgsFilterLineEdit" name="mLineEdit">
+                <property name="qgisRelation" stdset="0">
+                 <string notr="true"/>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="tytul_tooltip">
+                <property name="toolTip">
+                 <string/>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="pixmap">
+                 <pixmap>../../../../img/info1.png</pixmap>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </widget>
+         </item>
+		 <item row="9" column="0" colspan="2">
+          <widget class="QgsCollapsibleGroupBox" name="mGroupBox_9">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <horstretch>1</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="title">
+            <string>Organizacje odpowiedzialne</string>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_2">
+            <property name="sizeConstraint">
+             <enum>QLayout::SetDefaultConstraint</enum>
+            </property>
+			<item>
+             <layout class="QHBoxLayout">
+              <item>
+               <widget class="QLabel" name="label">
+                <property name="text">
+                 <string>Jednostka odpowiedzialna</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QgsFilterLineEdit" name="mLineEdit">
+                <property name="qgisRelation" stdset="0">
+                 <string notr="true"/>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="tytul_tooltip">
+                <property name="toolTip">
+                 <string/>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="pixmap">
+                 <pixmap>../../../../img/info1.png</pixmap>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+			<item>
+             <layout class="QHBoxLayout">
+              <item>
+               <widget class="QLabel" name="label">
+                <property name="text">
+                 <string>Rola jednostki odpowiedzialnej</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QgsFilterLineEdit" name="mLineEdit">
+                <property name="qgisRelation" stdset="0">
+                 <string notr="true"/>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="tytul_tooltip">
+                <property name="toolTip">
+                 <string/>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="pixmap">
+                 <pixmap>../../../../img/info1.png</pixmap>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </widget>
+         </item>
+		 <item row="10" column="0" colspan="2">
+          <widget class="QgsCollapsibleGroupBox" name="mGroupBox_10">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <horstretch>1</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="title">
+            <string>Kodowanie</string>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_2">
+            <property name="sizeConstraint">
+             <enum>QLayout::SetDefaultConstraint</enum>
+            </property>
+			<item>
+             <layout class="QHBoxLayout">
+              <item>
+               <widget class="QLabel" name="label">
+                <property name="text">
+                 <string>Nazwa formatu</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QgsFilterLineEdit" name="mLineEdit">
+                <property name="qgisRelation" stdset="0">
+                 <string notr="true"/>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="tytul_tooltip">
+                <property name="toolTip">
+                 <string/>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="pixmap">
+                 <pixmap>../../../../img/info1.png</pixmap>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+			<item>
+             <layout class="QHBoxLayout">
+              <item>
+               <widget class="QLabel" name="label">
+                <property name="text">
+                 <string>Wersja formatu</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QgsFilterLineEdit" name="mLineEdit">
+                <property name="qgisRelation" stdset="0">
+                 <string notr="true"/>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="tytul_tooltip">
+                <property name="toolTip">
+                 <string/>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="pixmap">
+                 <pixmap>../../../../img/info1.png</pixmap>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </widget>
+         </item>
+		 <item row="11" column="0" colspan="2">
+          <widget class="QgsCollapsibleGroupBox" name="mGroupBox_11">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <horstretch>1</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="title">
+            <string>Informacje o utrzymaniu zbioru</string>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_2">
+            <property name="sizeConstraint">
+             <enum>QLayout::SetDefaultConstraint</enum>
+            </property>
+			<item>
+             <layout class="QHBoxLayout">
+              <item>
+               <widget class="QLabel" name="label">
+                <property name="text">
+                 <string>Częstotliwość aktualizacji</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QgsFilterLineEdit" name="mLineEdit">
+                <property name="qgisRelation" stdset="0">
+                 <string notr="true"/>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="tytul_tooltip">
+                <property name="toolTip">
+                 <string/>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="pixmap">
+                 <pixmap>../../../../img/info1.png</pixmap>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+			<item>
+             <layout class="QHBoxLayout">
+              <item>
+               <widget class="QLabel" name="label">
+                <property name="text">
+                 <string>Informacja o szczegółowych wymaganiach dotyczących utrzymania</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QgsFilterLineEdit" name="mLineEdit">
+                <property name="qgisRelation" stdset="0">
+                 <string notr="true"/>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="tytul_tooltip">
+                <property name="toolTip">
+                 <string/>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="pixmap">
+                 <pixmap>../../../../img/info1.png</pixmap>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+			<item>
+             <layout class="QHBoxLayout">
+              <item>
+               <widget class="QLabel" name="label">
+                <property name="text">
+                 <string>Zakres danych</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QgsFilterLineEdit" name="mLineEdit">
+                <property name="qgisRelation" stdset="0">
+                 <string notr="true"/>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="tytul_tooltip">
+                <property name="toolTip">
+                 <string/>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="pixmap">
+                 <pixmap>../../../../img/info1.png</pixmap>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </widget>
+         </item>
+		 <item row="12" column="0" colspan="2">
+          <widget class="QgsCollapsibleGroupBox" name="mGroupBox_12">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <horstretch>1</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="title">
+            <string>Metadane na temat metadanych</string>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_2">
+            <property name="sizeConstraint">
+             <enum>QLayout::SetDefaultConstraint</enum>
+            </property>
+			<item>
+             <layout class="QHBoxLayout">
+              <item>
+               <widget class="QLabel" name="label">
+                <property name="text">
+                 <string>Punkt kontaktowy metadanych</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QgsFilterLineEdit" name="mLineEdit">
+                <property name="qgisRelation" stdset="0">
+                 <string notr="true"/>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="tytul_tooltip">
+                <property name="toolTip">
+                 <string/>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="pixmap">
+                 <pixmap>../../../../img/info1.png</pixmap>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+			<item>
+             <layout class="QHBoxLayout">
+              <item>
+               <widget class="QLabel" name="label">
+                <property name="text">
+                 <string>Data metadanych</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QgsFilterLineEdit" name="mLineEdit">
+                <property name="qgisRelation" stdset="0">
+                 <string notr="true"/>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="tytul_tooltip">
+                <property name="toolTip">
+                 <string/>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="pixmap">
+                 <pixmap>../../../../img/info1.png</pixmap>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+			<item>
+             <layout class="QHBoxLayout">
+              <item>
+               <widget class="QLabel" name="label">
+                <property name="text">
+                 <string>Język metadanych</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QgsFilterLineEdit" name="mLineEdit">
+                <property name="qgisRelation" stdset="0">
+                 <string notr="true"/>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="tytul_tooltip">
+                <property name="toolTip">
+                 <string/>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="pixmap">
+                 <pixmap>../../../../img/info1.png</pixmap>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+			<item>
+             <layout class="QHBoxLayout">
+              <item>
+               <widget class="QLabel" name="label">
+                <property name="text">
+                 <string>Unikalny identyfikator rekordu (pliku) metadanych</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QgsFilterLineEdit" name="mLineEdit">
+                <property name="qgisRelation" stdset="0">
+                 <string notr="true"/>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="tytul_tooltip">
+                <property name="toolTip">
+                 <string/>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="pixmap">
+                 <pixmap>../../../../img/info1.png</pixmap>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+			<item>
+				<widget class="QgsCollapsibleGroupBox" name="mGroupBox_12_5">
+					<property name="sizePolicy">
+						<sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+							<horstretch>1</horstretch>
+							<verstretch>0</verstretch>
+						</sizepolicy>
+					</property>
+				   <property name="title">
+					<string>Standard metadanych</string>
+				   </property>
+				   <layout class="QVBoxLayout" name="verticalLayout_2">
+					<property name="sizeConstraint">
+					 <enum>QLayout::SetDefaultConstraint</enum>
+					</property>
+					<item>
+					 <layout class="QHBoxLayout">
+					  <item>
+					   <widget class="QLabel" name="label">
+						<property name="text">
+						 <string>Nazwa standardu metadanych</string>
+						</property>
+					   </widget>
+					  </item>
+					  <item>
+					   <widget class="QgsFilterLineEdit" name="mLineEdit">
+						<property name="qgisRelation" stdset="0">
+						 <string notr="true"/>
+						</property>
+					   </widget>
+					  </item>
+					  <item>
+					   <widget class="QLabel" name="tytul_tooltip">
+						<property name="toolTip">
+						 <string/>
+						</property>
+						<property name="text">
+						 <string/>
+						</property>
+						<property name="pixmap">
+						 <pixmap>../../../../img/info1.png</pixmap>
+						</property>
+					   </widget>
+					  </item>
+					 </layout>
+					</item>
+					<item>
+					 <layout class="QHBoxLayout">
+					  <item>
+					   <widget class="QLabel" name="label">
+						<property name="text">
+						 <string>Wersja standardu metadanych</string>
+						</property>
+					   </widget>
+					  </item>
+					  <item>
+					   <widget class="QgsFilterLineEdit" name="mLineEdit">
+						<property name="qgisRelation" stdset="0">
+						 <string notr="true"/>
+						</property>
+					   </widget>
+					  </item>
+					  <item>
+					   <widget class="QLabel" name="tytul_tooltip">
+						<property name="toolTip">
+						 <string/>
+						</property>
+						<property name="text">
+						 <string/>
+						</property>
+						<property name="pixmap">
+						 <pixmap>../../../../img/info1.png</pixmap>
+						</property>
+					   </widget>
+					  </item>
+					 </layout>
+					</item>
+				   </layout>
+				  </widget>
+			</item>
+           </layout>
           </widget>
          </item>
         </layout>
@@ -340,11 +1540,21 @@
  </widget>
  <customwidgets>
   <customwidget>
+   <class>QgsCollapsibleGroupBox</class>
+   <extends>QGroupBox</extends>
+   <header>qgscollapsiblegroupbox.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
    <class>QgsFileWidget</class>
    <extends>QWidget</extends>
    <header>qgsfilewidget.h</header>
   </customwidget>
+  <customwidget>
+   <class>QgsFilterLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>qgsfilterlineedit.h</header>
+  </customwidget>
  </customwidgets>
- <resources/>
  <connections/>
 </ui>

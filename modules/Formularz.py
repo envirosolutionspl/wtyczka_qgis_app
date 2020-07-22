@@ -199,6 +199,7 @@ class Formularz:
 
             input = self.__makeInput(formElement)
             tooltipImg = self.__makeTooltip(formElement)
+            tooltipImg = self.__makeTooltip(formElement)
 
             if formElement.type == 'app:MapaPodkladowaPropertyType':
                 groupbox = QGroupBox(formElement.name)

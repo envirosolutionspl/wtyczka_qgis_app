@@ -1,10 +1,11 @@
 from . import (MetadaneDialog)
 from .. import BaseModule
 from ..utils import showPopup
-
+from .. import utils
 from qgis.PyQt import QtWidgets
-from PyQt5.QtWidgets import QFileDialog, QTableWidgetItem
+from PyQt5.QtWidgets import *
 from PyQt5.QtCore import Qt
+from PyQt5.QtGui import *
 import os
 
 
@@ -33,6 +34,17 @@ class MetadataModule(BaseModule):
         self.metadaneDialog.chooseSet_widget.setFilter("*.gml")
         # endregion
 
+        p = QPixmap(':/plugins/wtyczka_app/img/info1.png')
+
+        # nadanie grafiki tooltipa
+        for label in utils.getWidgetsByType(self.metadaneDialog, QLabel):
+            # print(label.objectName())
+            if (label.objectName().endswith("_tooltip") or
+                    label.objectName()[:-1].endswith("_tooltip") or
+                    label.objectName()[:-2].endswith("_tooltip")):
+                label.setMaximumWidth(16)
+                label.setPixmap(p.scaled(16, 16, Qt.KeepAspectRatio))
+
     """Event handlers"""
     # region metadaneDialog
     def metadaneDialog_prev_btn_clicked(self):
@@ -44,6 +56,9 @@ class MetadataModule(BaseModule):
         self.openNewDialog(self.walidacjaDialog)
         self.listaOkienek.append(self.metadaneDialog)
         self.walidacjaDialog.prev_btn.setEnabled(True)
+
+
+
 
     # def newMetadataRadioButton_toggled(self, enabled):
     #     if enabled:

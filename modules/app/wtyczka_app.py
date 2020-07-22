@@ -3,6 +3,7 @@ from . import (PytanieAppDialog, ZbiorPrzygotowanieDialog, RasterInstrukcjaDialo
                WektorFormularzDialog, DokumentyFormularzDialog, WektorInstrukcjaDialog, GenerowanieGMLDialog)
 from .. import BaseModule, utils, Formularz
 from ..utils import showPopup
+from ..models import AppTableModel
 from qgis.PyQt import QtWidgets
 from PyQt5.QtWidgets import *
 from qgis.PyQt.QtCore import QVariant, Qt
@@ -311,25 +312,41 @@ class AppModule(BaseModule):
         self.metadaneDialog.prev_btn.setEnabled(True)
 
     def validateAndGenerate_btn_clicked(self):
-        # Sprawdzenie poprawności każdego z plików składowych
-        path = os.path.join(os.path.dirname(__file__),
-                            "../validator", 'appExample_pzpw_v001.xml')
-        validationResult = self.dataValidator.validateXml(xmlPath=path)
-        if not validationResult[0]:  # błąd walidacji pliku z danymi
-            self.iface.messageBar().pushCritical(
-                "Błąd walidacji:", "Wykryto błędy w pliku z danymi.")
-            self.showPopupValidationErrors(
-                "Błąd walidacji", "Wystąpiły błędy walidacji pliku %s :\n\n%s" % (path, validationResult[1]))
-        # Sprawdzenie zależności geometrycznych miedzy GMLami
 
-        # Łączenie APP w zbiór
+        files = []
+        gmlPaths = []
+        appTable_widget = utils.getWidgetByName(
+            layout=self.zbiorPrzygotowanieDialog,
+            searchObjectType=QTableWidget,
+            name="appTable_widget")
+        for rowId in range(appTable_widget.rowCount()):
+            xmlPath = os.path.join(appTable_widget.item(rowId, 0).text())
+            xmlDate = appTable_widget.item(rowId, 1).text()
+            files.append(AppTableModel(rowId, xmlPath, xmlDate))
+            gmlPaths.append(xmlPath)
+        # files = [os.path.join(os.path.dirname(__file__), "../validator", 'appExample_pzpw_v001.xml')] # test
+
+        # Sprawdzenie poprawności każdego z plików składowych
+        for file in files:
+            # nie zwalidowano poprawnie
+            if not self.validateFile(path=file.path, validator=self.dataValidator):
+                return False
+
+        # Sprawdzenie zależności geometrycznych miedzy GMLami
+        result = utils.checkZbiorGeometryValidity(gmlPaths)
+        if not result[0]:  # niepoprawne zależności geometryczne
+            trescBledu = result[1]
+            self.iface.messageBar().pushCritical("Błąd geometrii zbioru:", trescBledu)
+            return False
+
+        # TODO: Łączenie APP w zbiór
 
         self.iface.messageBar().pushSuccess("Generowanie zbioru:",
                                             "Pomyślnie wygenerowano zbiór APP.")
         showPopup("Wygeneruj plik GML dla zbioru APP",
                   "Poprawnie wygenerowano plik GML.")
         self.generated = True
-        return self.generated
+        return True
 
     # endregion
 
@@ -577,16 +594,14 @@ class AppModule(BaseModule):
             if self.activeDlg == self.rasterFormularzDialog:
                 self.openNewDialog(self.wektorInstrukcjaDialog)
                 self.listaOkienek.append(self.rasterFormularzDialog)
-                self.saved = False
             elif self.activeDlg == self.wektorFormularzDialog:
                 self.openNewDialog(self.dokumentyFormularzDialog)
                 self.listaOkienek.append(self.wektorFormularzDialog)
-                self.saved = False
             elif self.activeDlg == self.dokumentyFormularzDialog:
                 self.openNewDialog(self.generowanieGMLDialog)
                 self.listaOkienek.append(self.dokumentyFormularzDialog)
-                self.saved = False
-        elif not self.saved:
+            self.saved = False
+        else:
             self.showPopupSaveForms()
         return self.saved
 

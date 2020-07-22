@@ -1,6 +1,7 @@
 
 from . import utils
 from PyQt5.QtWidgets import *
+from .utils import showPopup
 
 
 class BaseModule:
@@ -8,6 +9,24 @@ class BaseModule:
     listaOkienek = []
     activeDlg = None
     iface = None
+
+    """Helper methods"""
+    def validateFile(self, path, validator):
+        """walidacja pliku z danymi lub metadanymi"""
+        if validator:  # walidator gotowy do dzialania
+            validationResult = validator.validateXml(xmlPath=path)
+            if validationResult[0]:  # poprawnie zwalidowano
+                self.iface.messageBar().pushSuccess("Sukces:", "Pomyślnie zwalidowano plik. Nie wykryto błędów.")
+                showPopup("Waliduj pliki", "Poprawnie zwalidowano plik.")
+                return True
+            else:   # błędy walidacji
+                self.iface.messageBar().pushCritical("Błąd walidacji:", "Wykryto błędy walidacji.")
+                self.showPopupValidationErrors("Błąd walidacji", "Wystąpiły błędy walidacji pliku %s :\n\n%s" % (path, validationResult[1]))
+                return False
+        else:  # walidator niegotowy do dzialania - nadal wczytuje XSD
+            self.iface.messageBar().pushWarning("Ostrzeżenie:",
+                                                "Schemat walidacyjny nie został jeszcze zaimportowany, spróbuj ponownie za chwilę.")
+            return False
 
     def openNewDialog(self, dlg):
         if self.activeDlg:

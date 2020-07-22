@@ -59,8 +59,8 @@ poziomyHierarchii = {
 # słownik definiujący relacje między "typPlanu", a "poziomHierarchii"
 typyPlanuPoziomyHierarchii = dict(zip(typyPlanu.keys(),[
     [list(poziomyHierarchii.keys())[2] ,list(poziomyHierarchii.keys())[1]],
-    [list(poziomyHierarchii.keys())[1]],
     [list(poziomyHierarchii.keys())[0]],
+    [list(poziomyHierarchii.keys())[1]],
     [list(poziomyHierarchii.keys())[2]],
     [list(poziomyHierarchii.keys())[2]]
 ]))

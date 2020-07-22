@@ -1,14 +1,12 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'zbior_przygotowanie_dialog_base.ui'
+# Form implementation generated from reading ui file 'modules/app/views/ui/zbior_przygotowanie_dialog_base.ui'
 #
-# Created by: PyQt5 UI code generator 5.13.2
+# Created by: PyQt5 UI code generator 5.11.3
 #
 # WARNING! All changes made in this file will be lost!
 
-
 from PyQt5 import QtCore, QtGui, QtWidgets
-
 
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
@@ -141,14 +139,5 @@ class Ui_Dialog(object):
         self.validateAndGenerate_btn.setText(_translate("Dialog", "Waliduj/Generuj"))
         self.next_btn.setToolTip(_translate("Dialog", "<html><head/><body><p>Przycisk przeniesie do narzędzia <span style=\" font-style:italic;\">Tworzenie / aktualizacja metadanych</span></p></body></html>"))
         self.next_btn.setText(_translate("Dialog", "Przejdź do metadanych"))
+
 from qgsfilewidget import QgsFileWidget
-
-
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    Dialog = QtWidgets.QDialog()
-    ui = Ui_Dialog()
-    ui.setupUi(Dialog)
-    Dialog.show()
-    sys.exit(app.exec_())

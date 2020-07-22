@@ -1,7 +1,9 @@
 from PyQt5.QtWidgets import *
 from qgis.PyQt.QtCore import Qt, QRegExp
+from qgis.core import QgsVectorLayer
 import re
 import os
+import itertools
 import xml.etree.ElementTree as ET
 from .models import FormElement
 from . import dictionaries
@@ -14,6 +16,27 @@ def showPopup(title, text, icon=QMessageBox.Information):
     msg.setIcon(icon)
     msg.setStandardButtons(QMessageBox.Ok)
     return msg.exec_()
+
+
+def checkZbiorGeometryValidity(gmlFilesPath):
+    """sprawdza integralność zbioru APP, czy np. obrysy się nie przecinają"""
+    for gmlPath in gmlFilesPath:
+        geoms = []
+        layer = QgsVectorLayer(gmlPath, "", 'ogr')
+        if not layer.isValid():
+            return [False, "Niepoprawna warstwa wektorowa w pliku %s" % gmlPath]
+        if not layer.featureCount():
+            return [False, "Brak obiektów przestrzennych w warstwie %s" % gmlPath]
+        feat = next(layer.getFeatures())
+        geoms.append((feat.geometry(), gmlPath))
+        for a, b in itertools.combinations(geoms, 2):
+            geom1 = a[0]
+            path1 = a[1]
+            geom2 = b[0]
+            path2 = b[1]
+            if geom1.overlaps(geom2):
+                return [False, "Geometrie swóch APP w ramach jednego zbioru nie mogą na siebie nachodzić. Dotyczy plików\n\n%s\n%s" % (path1, path2)]
+    return [True]
 
 
 def getNamespace(element):

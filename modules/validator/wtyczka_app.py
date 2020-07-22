@@ -42,21 +42,21 @@ class ValidatorModule(BaseModule):
         if self.walidacjaDialog.validateGMLset_radioButton.isChecked():  # wybrano walidację GML dla zbioru
             path = self.walidacjaDialog.chooseGMLset_widget.filePath()
             if path:  # jest wybrany plik z danymi
-                self.__validateFile(path=path, validator=self.dataValidator)
+                self.validateFile(path=path, validator=self.dataValidator)
             else:   # brak pliku z danymi
                 self.iface.messageBar().pushWarning("Ostrzeżenie:", "Nie wskazano pliku z danymi.")
 
         elif self.walidacjaDialog.validateGMLapp_radioButton.isChecked():  # wybrano walidację GML dla app
             path = self.walidacjaDialog.chooseGMLapp_widget.filePath()
             if path:  # jest wybrany plik z danymi
-                self.__validateFile(path=path, validator=self.dataValidator)
+                self.validateFile(path=path, validator=self.dataValidator)
             else:   # brak pliku z danymi
                 self.iface.messageBar().pushWarning("Ostrzeżenie:", "Nie wskazano pliku z danymi.")
 
         elif self.walidacjaDialog.validateXML_radioButton.isChecked():    # wybrano walidację XML
             path = self.walidacjaDialog.chooseXML_widget.filePath()
             if path:  # jest wybrany plik z metadanymi
-                self.__validateFile(path=path, validator=self.metadataValidator)
+                self.validateFile(path=path, validator=self.metadataValidator)
             else:  # brak pliku z metadanymi
                 self.iface.messageBar().pushWarning("Ostrzeżenie:", "Nie wskazano pliku z metadanymi.")
 
@@ -71,20 +71,20 @@ class ValidatorModule(BaseModule):
 
     # endregion
 
-    """Helper methods"""
-    def __validateFile(self, path, validator):
-        """walidacja pliku z danymi lub metadanymi"""
-        if validator:  # walidator gotowy do dzialania
-            validationResult = validator.validateXml(xmlPath=path)
-            if validationResult[0]:  # poprawnie zwalidowano
-                self.iface.messageBar().pushSuccess("Sukces:", "Pomyślnie zwalidowano plik. Nie wykryto błędów.")
-                showPopup("Waliduj pliki", "Poprawnie zwalidowano plik.")
-            else:   # błędy walidacji
-                self.iface.messageBar().pushCritical("Błąd walidacji:", "Wykryto błędy walidacji.")
-                self.showPopupValidationErrors("Błąd walidacji", "Wystąpiły błędy walidacji pliku:\n\n" + validationResult[1])
-        else:  # walidator niegotowy do dzialania - nadal wczytuje XSD
-            self.iface.messageBar().pushWarning("Ostrzeżenie:",
-                                                "Schemat danych nie został jeszcze zaimportowany, spróbuj ponownie za chwilę.")
+    # """Helper methods"""
+    # def __validateFile(self, path, validator):
+    #     """walidacja pliku z danymi lub metadanymi"""
+    #     if validator:  # walidator gotowy do dzialania
+    #         validationResult = validator.validateXml(xmlPath=path)
+    #         if validationResult[0]:  # poprawnie zwalidowano
+    #             self.iface.messageBar().pushSuccess("Sukces:", "Pomyślnie zwalidowano plik. Nie wykryto błędów.")
+    #             showPopup("Waliduj pliki", "Poprawnie zwalidowano plik.")
+    #         else:   # błędy walidacji
+    #             self.iface.messageBar().pushCritical("Błąd walidacji:", "Wykryto błędy walidacji.")
+    #             self.showPopupValidationErrors("Błąd walidacji", "Wystąpiły błędy walidacji pliku:\n\n" + validationResult[1])
+    #     else:  # walidator niegotowy do dzialania - nadal wczytuje XSD
+    #         self.iface.messageBar().pushWarning("Ostrzeżenie:",
+    #                                             "Schemat nie został jeszcze zaimportowany, spróbuj ponownie za chwilę.")
 
     """Popup windows"""
     def showPopupExport(self):

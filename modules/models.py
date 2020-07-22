@@ -1,5 +1,5 @@
 class FormElement:
-
+    """ reprezentuje element definicji formularza zdefiniowany w XSD"""
     def __init__(self, name, form, type='', minOccurs=1, documentation=''):
         self.setName(name)
         self.setType(type)
@@ -36,3 +36,14 @@ class FormElement:
             self.innerFormElements.append(form)
         else:
             raise NotImplementedError
+
+
+class AppTableModel:
+    """Wiersz tabeli przygotowanai zbioru APP"""
+    def __init__(self, rowId, path, date):
+        self.rowId = rowId
+        self.path = path
+        self.date = date
+
+    def __str__(self):
+        return "%s, %s, %s" % (self.rowId, self.path, self.date)

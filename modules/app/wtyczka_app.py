@@ -327,10 +327,9 @@ class AppModule(BaseModule):
         for file in files:
             if not self.validateFile(path=file.path, validator=self.dataValidator):  # nie zwalidowano poprawnie
                 return False
+
         # Sprawdzenie zależności geometrycznych miedzy GMLami
-
         result = utils.checkZbiorGeometryValidity(gmlPaths)
-
         if not result[0]:   #niepoprawne zależności geometryczne
             trescBledu = result[1]
             self.iface.messageBar().pushCritical("Błąd geometrii zbioru:", trescBledu)

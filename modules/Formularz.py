@@ -9,13 +9,17 @@ from . import dictionaries, utils
 
 class NoScrollQComboBox(QComboBox):
     """Combobox bez scrolla"""
+
     def wheelEvent(self, event):
         event.ignore()
 
+
 class NoScrollQgsDateTimeEdit(QgsDateTimeEdit):
     """QgsDateTimeEdit bez scrolla"""
+
     def wheelEvent(self, event):
         event.ignore()
+
 
 class Formularz:
     """Klasa reprezentująca formularz"""
@@ -71,20 +75,29 @@ class Formularz:
             poziomHierarchii_cmbbx.addItems(wybor)
 
         # pobranie dynamicznie utworzonych obiektów UI
-        poziomHierarchii_cmbbx = utils.layout_widget_by_name(layout, "poziomHierarchii_cmbbx")
+        poziomHierarchii_cmbbx = utils.layout_widget_by_name(
+            layout, "poziomHierarchii_cmbbx")
         typPlanu_cmbbx = utils.layout_widget_by_name(layout, "typPlanu_cmbbx")
         if poziomHierarchii_cmbbx and typPlanu_cmbbx:   # jeżeli formularz zawiera te pola
-            typPlanu_cmbbx.currentTextChanged.connect(typPlanu_cmbbx_currentTextChanged)
+            typPlanu_cmbbx.currentTextChanged.connect(
+                typPlanu_cmbbx_currentTextChanged)
 
     def __loopFormElements(self, formElements, vbox, prefix=''):
         """Przerabia listę obiektów FormElements na GUI"""
         def createTable():
-            referencja_lineEdit = utils.layout_widget_by_name(vbox2, name="referencja_lineEdit")
-            aktualnosc_dateTimeEdit = utils.layout_widget_by_name(vbox2, name="aktualnosc_dateTimeEdit")
-            lacze_lineEdit = utils.layout_widget_by_name(vbox2, name="lacze_lineEdit")
-            lacze_lineEdit_nilReason_chkbx = utils.layout_widget_by_name(vbox2, name="lacze_lineEdit_nilReason_chkbx")
-            lacze_lineEdit_nilReason_cmbbx = utils.layout_widget_by_name(vbox2, name="lacze_lineEdit_nilReason_cmbbx")
-            lacze_lineEdit_nilReason_chkbx.stateChanged.connect(lambda: lacze_lineEdit.clear())
+            referencja_lineEdit = utils.layout_widget_by_name(
+                vbox2, name="referencja_lineEdit")
+            aktualnosc_dateTimeEdit = utils.layout_widget_by_name(
+                vbox2, name="aktualnosc_dateTimeEdit")
+            lacze_lineEdit = utils.layout_widget_by_name(
+                vbox2, name="lacze_lineEdit")
+            lacze_lineEdit_nilReason_chkbx = utils.layout_widget_by_name(
+                vbox2, name="lacze_lineEdit_nilReason_chkbx")
+            lacze_lineEdit_nilReason_cmbbx = utils.layout_widget_by_name(
+                vbox2, name="lacze_lineEdit_nilReason_cmbbx")
+            lacze_lineEdit_nilReason_chkbx.stateChanged.connect(
+                lambda: lacze_lineEdit.clear())
+
             def checkMapaPodkladowaValidity():
                 if not referencja_lineEdit.text():
                     return False
@@ -101,6 +114,7 @@ class Formularz:
                 ):
                     return False
                 return True
+
             def addItem():
                 if checkMapaPodkladowaValidity():  # jeżeli ktoś wpisał referencję
                     newItem = QListWidgetItem()
@@ -109,7 +123,7 @@ class Formularz:
                         Qt.UserRole,
                         QVariant({
                             "referencja_lineEdit": referencja_lineEdit.text(),
-                            "aktualnosc_dateTimeEdit": aktualnosc_dateTimeEdit.date(),
+                            "aktualnosc_dateTimeEdit": aktualnosc_dateTimeEdit.dateTime(),
                             "lacze_lineEdit": lacze_lineEdit.text(),
                             "lacze_lineEdit_nilReason_chkbx": lacze_lineEdit_nilReason_chkbx.checkState(),
                             "lacze_lineEdit_nilReason_cmbbx": lacze_lineEdit_nilReason_cmbbx.currentIndex()
@@ -120,10 +134,10 @@ class Formularz:
                     clearDataFromListWidget()   # czyszczenie
                 else:
                     utils.showPopup("Wypełnij formularz mapy podkładowej",
-                              'Musisz zdefiniować wartości dla obowiązkowych pól:\n'
-                              '- referencja,\n'
-                              '- aktualnosc (aktualność),\n'
-                              '- lacze (łącze) - lub zaznaczyć "brak wartości" i wzkazać powód.')
+                                    'Musisz zdefiniować wartości dla obowiązkowych pól:\n'
+                                    '- referencja,\n'
+                                    '- aktualnosc (aktualność),\n'
+                                    '- lacze (łącze) - lub zaznaczyć "brak wartości" i wzkazać powód.')
 
             def removeItem():
                 listWidget.takeItem(listWidget.currentRow())
@@ -142,10 +156,13 @@ class Formularz:
             def setDataToListWidget(listItem):
                 data = listItem.data(Qt.UserRole)
                 referencja_lineEdit.setText(data["referencja_lineEdit"])
-                aktualnosc_dateTimeEdit.setDate(data["aktualnosc_dateTimeEdit"])
+                aktualnosc_dateTimeEdit.setDate(
+                    data["aktualnosc_dateTimeEdit"])
                 lacze_lineEdit.setText(data["lacze_lineEdit"])
-                lacze_lineEdit_nilReason_chkbx.setCheckState(data["lacze_lineEdit_nilReason_chkbx"])
-                lacze_lineEdit_nilReason_cmbbx.setCurrentIndex(data["lacze_lineEdit_nilReason_cmbbx"])
+                lacze_lineEdit_nilReason_chkbx.setCheckState(
+                    data["lacze_lineEdit_nilReason_chkbx"])
+                lacze_lineEdit_nilReason_cmbbx.setCurrentIndex(
+                    data["lacze_lineEdit_nilReason_cmbbx"])
 
             # buttony
             btnHBox = QHBoxLayout()
@@ -162,7 +179,6 @@ class Formularz:
             listWidget.setObjectName("mapaPodkladowa_listWidget")
             listWidget.itemDoubleClicked.connect(setDataToListWidget)
             vbox2.addWidget(listWidget)
-
 
         for formElement in formElements:
             if (
@@ -183,7 +199,6 @@ class Formularz:
 
             input = self.__makeInput(formElement)
             tooltipImg = self.__makeTooltip(formElement)
-
 
             if formElement.type == 'app:MapaPodkladowaPropertyType':
                 groupbox = QGroupBox(formElement.name)
@@ -218,7 +233,6 @@ class Formularz:
             if formElement.isNillable:  # dodaj dodatkowo checkbox i powód
                 nilHbox = self.__makeNilHbox(input)
                 vbox.addLayout(nilHbox)
-
 
     def __makeNilHbox(self, nillableWidget):
         """tworzy zestaw widgetów do obługi typu "nillable"""
@@ -272,7 +286,8 @@ class Formularz:
         elif formElement.name == "poziomHierarchii":
             input = NoScrollQComboBox()
             input.setObjectName(formElement.name + '_cmbbx')
-            input.addItems(reversed(list(dictionaries.poziomyHierarchii.keys())[1:]))
+            input.addItems(
+                reversed(list(dictionaries.poziomyHierarchii.keys())[1:]))
             # input.addItems(dictionaries.poziomyHierarchii.keys())
         elif formElement.name == "status":
             input = NoScrollQComboBox()
@@ -312,7 +327,7 @@ class Formularz:
         # ustawienie domyślnych wartości
         fullFormElementName = formElement.form + ":" + formElement.name
         if fullFormElementName in dictionaries.initialValues.keys():
-            if isinstance(input,QLineEdit): # dla pól tekstowych
+            if isinstance(input, QLineEdit):  # dla pól tekstowych
                 input.setText(dictionaries.initialValues[fullFormElementName])
             elif isinstance(input, QComboBox):  # QComboBox
                 pass

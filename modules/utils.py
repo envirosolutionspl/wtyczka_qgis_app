@@ -4,6 +4,7 @@ import re
 import os
 import xml.etree.ElementTree as ET
 from .models import FormElement
+from . import dictionaries
 
 
 def showPopup(title, text, icon=QMessageBox.Information):
@@ -13,9 +14,6 @@ def showPopup(title, text, icon=QMessageBox.Information):
     msg.setIcon(icon)
     msg.setStandardButtons(QMessageBox.Ok)
     return msg.exec_()
-
-
-
 
 
 def getNamespace(element):
@@ -210,12 +208,90 @@ def getWidgetByName(layout, searchObjectType, name):
     return widget
 
 
-def makeXML(docName, elements, IPP='PL.ZIPPZP.9999_14-PZPW_P1_20200525'):
+def makeXmlComplex(tag, item, element, formData):
+    ComplexItem = ET.SubElement(
+        item, element.type.replace('PropertyType', ''))
+    # Tworzenie wewnętrzych elementów i wypełnianie ich
+    for innerElement in element.innerFormElements:
+        innerItem = ET.SubElement(
+            ComplexItem, tag+innerElement.name)
+        for fd in formData.keys():
+            if innerElement.name in fd:
+                innerItem.text = formData[fd]
+                break
+            # else:
+                # innerItem.text = 'BRAK DANYCH'
+
+
+def make_polygon(polygons):
+    BoundaryList = []
+    # pierwszy poligon jest outerBoundary, kolejne innerBoundary
+    for polygon in polygons:
+        Boundary = ''
+        for x, y in polygon:
+            Boundary = ' '.join([Boundary, "{} {}".format(x, y)])
+        BoundaryList.append(Boundary[1:])
+    return(BoundaryList)
+
+
+def getCoordinates(obrysLayer):
+    CoordinatesList = []
+    coordinates = ''
+    for f in obrysLayer.getFeatures():
+        obrys = f.geometry()
+    # getGeometry - wystąpił przypadek zmiany id, getFeatures jest bezpieczniejsze
+    # obrys = obrysLayer.getGeometry(1)
+    if obrys.isMultipart():
+        for poligon in obrys.asMultiPolygon():
+            CoordinatesList.append(make_polygon(poligon))
+    else:
+        # Poligon, który został multipoligonem utrzymuje typ multipoligona nawet jako zwykły poligon
+        CoordinatesList.append(make_polygon(obrys.asPolygon()))
+    return CoordinatesList
+
+
+def makeSpatialExtent(node, CoordinatesList):
+    for polygon in CoordinatesList:
+        isBoundary = True  # 0 - True, >0 - False
+        subItem2 = ET.SubElement(node, 'gml:surfaceMember')
+        subItem3 = ET.SubElement(subItem2, 'gml:Polygon')
+        for coordinates in polygon:
+            if isBoundary == True:
+                subItem4 = ET.SubElement(subItem3, 'gml:exterior')
+            else:
+                subItem4 = ET.SubElement(subItem3, 'gml:interior')
+            subItem5 = ET.SubElement(subItem4, 'gml:LinearRing')
+            subItem6 = ET.SubElement(subItem5, 'gml:posList')
+            subItem6.text = coordinates
+            isBoundary = False
+
+
+def makeXML(docName, elements, formData, obrysLayer=None):
+    # TODO Dodać obsługę nillable: https://inspire.ec.europa.eu/forum/discussion/view/61478/contents-of-attribute-nilreason-eg-unknown-vs-httpinspireeceuropaeucodelistvoidreasonvalueunknown
+    # TODO Dodać iterację po obiektach z licznością *
     import datetime
+    IPP = formData['idIIP_lineEdit']
+    if obrysLayer != None:
+        CoordinatesList = getCoordinates(obrysLayer)
+    else:
+        CoordinatesList = None
+
+    dict_map = {
+        'status': dictionaries.statusListaKodowa,
+        'poziomHierarchii': dictionaries.poziomyHierarchii,
+        'nilReason': dictionaries.nilReasons,
+        'zasiegPrzestrzenny': dictionaries.ukladyOdniesieniaPrzestrzennego,
+        'typPlanu': dictionaries.typyPlanu,
+        'dziennikUrzedowy': dictionaries.dziennikUrzedowyKod
+    }
 
     # Układ współrzędnych na sztywno
     srsName = 'http://www.opengis.net/def/crs/EPSG/0/2180'
 
+    # Elementy, których wartości nie ma w formularzu
+    pomijane_elementy = [
+        'plan', 'dokument', 'aktNormatywnyPrzystapienie', 'aktNormatywnyUchwalajacy', 'aktNormatywnyZmieniajacy', 'aktNormatywnyUchylajacy', 'aktNormatywnyUniewazniajacy', 'rysunek', 'przystapienie', 'uchwala', 'zmienia', 'uchyla', 'uniewaznia'
+    ]
     # Strefa czasowa timezone jest ustawiona na sztywno
     root_data = {
         'timeStamp': datetime.datetime.utcnow().isoformat()+'Z',
@@ -248,54 +324,130 @@ def makeXML(docName, elements, IPP='PL.ZIPPZP.9999_14-PZPW_P1_20200525'):
     items.set('gml:id', IPP)
     item = ET.SubElement(items, 'gml:identifier')
     codeSpace = 'http://zagospodarowanieprzestrzenne.gov.pl/app'
-    item.set('CodeSpace', codeSpace)
+    item.set('codeSpace', codeSpace)
     item.text = '/'.join([codeSpace, docName, IPP.replace('_', '/')])
 
     for element in elements:
-        if 'ReferenceType' not in element.type:
+        if element.name not in pomijane_elementy:
+            # if 'ReferenceType' not in element.type:
             item = ET.SubElement(items, tag + element.name)
+            # Tworzenie wewnętrzego elementu obiektu złożonego
             if element.isComplex() == True:
-                ComplexItem = ET.SubElement(item, element.type[4:])
-                for innerElement in element.innerFormElements:
-                    innerItem = ET.SubElement(
-                        ComplexItem, tag+innerElement.name)
-                    innerItem.text = 'placeholder'
+                for fd in formData.keys():
+                    if element.name in fd:
+                        if type(formData[fd]) == list:
+                            for params in formData[fd]:
+                                makeXmlComplex(tag, item, element, params)
+                        else:
+                            makeXmlComplex(tag, item, element, formData)
+
             elif element.name == 'zasiegPrzestrzenny':
                 subItem1 = ET.SubElement(item, 'gml:MultiSurface')
-                subItem1.set('srsDimention', '2')
+                subItem1.set('srsDimension', '2')
                 subItem1.set('srsName', srsName)
-                subItem2 = ET.SubElement(subItem1, 'gml:surfaceMember')
-                subItem3 = ET.SubElement(subItem2, 'gml:Polygon')
-                subItem4 = ET.SubElement(subItem3, 'gml:exterior')
-                subItem5 = ET.SubElement(subItem4, 'gml:LinearRing')
-                subItem6 = ET.SubElement(subItem5, 'gml:posList')
-                coord = '256000.0 686000.0 325000.0 350000.0 745000.0 240000.0 450000.0 431000.0'
-                subItem6.text = coord
-
+                makeSpatialExtent(subItem1, CoordinatesList)
             else:
-                item.text = 'placeholder'
+                for fd in formData.keys():
+                    if element.name in fd:
+                        if 'ReferenceType' in element.type:
+                            slownik = dict_map[element.name]
+                            try:
+                                # TODO Sprawdzić dla wszystkich formularzy
+                                if element.name == 'typPlanu':
+                                    link = 'http://zagospodarowanieprzestrzenne.gov.pl/codelist/AktPlanowaniaPrzestrzennegoKod/'
+                                elif element.name == 'dziennikUrzedowy':
+                                    link = 'http://zagospodarowanieprzestrzenne.gov.pl/codelist/DziennikUrzedowyKod/'
+                                else:
+                                    link = ''
+                                if 'http' in (link+slownik[formData[fd]]):
+                                    item.set(
+                                        'xlink:href', (link+slownik[formData[fd]]))
+                                    item.set('xlink:title', formData[fd])
+                            except:
+                                item.set('xlink: href', formData[fd])
+                                item.set('xlink:title', formData[fd])
+
+                        elif element.type == 'date':
+                            item.text = formData[fd].toString("yyyy-MM-dd")
+                        elif element.type == 'dateTime':
+                            item.text = formData[fd].toString(
+                                "yyyy-MM-ddThh:mm:ss")
+                        else:
+                            item.text = formData[fd]
+                        break
     return(data)
 
 
-def createXmlRysunekAPP():
+def getListWidgetItems(element):
+    itemList = []
+    for i in range(element.count()):
+        item = element.item(i).data(Qt.UserRole)
+        for key in item.keys():
+            if type(item[key]) == str or type(item[key]) == int:
+                continue
+            else:
+                item[key] = item[key].toString("yyyy-MM-ddThh:mm:ss")
+        itemList.append(item)
+    return(itemList)
+
+
+def retrieveFormData(data):
+    # TODO Pobierać wartości z qlistwidget zamiast z lineeditów
+    # obsługa nillable
+    pomijane = ['mapaPodkladowa_lineEdit', 'referencja_lineEdit',
+                'aktualnosc_dateTimeEdit', 'lacze_lineEdit', 'lacze_lineEdit_nilReason_chkbx']
+    form_data = {}
+    for el in data:
+        if el.objectName() in pomijane:
+            continue
+        if 'lineEdit' in el.objectName():
+            try:
+                form_data[el.objectName()] = el.text()
+            except:
+                if 'ComboBox' in type(el).__name__:
+                    form_data[el.objectName()] = el.currentText()
+        elif 'dateTimeEdit' in el.objectName():
+            try:
+                form_data[el.objectName()] = el.dateTime()
+            except:
+                if 'ComboBox' in type(el).__name__:
+                    form_data[el.objectName()] = el.currentText()
+        elif 'listWidget' in el.objectName():
+            form_data[el.objectName()] = getListWidgetItems(el)
+        else:
+            try:
+                if 'ComboBox' in type(el).__name__:
+                    form_data[el.objectName()] = el.currentText()
+            except:
+                continue
+    return(form_data)
+
+
+def createXmlRysunekAPP(layout):
     """Tworzy szablon xml dla Rysunku APP"""
     data = makeXML(docName='RysunekAktuPlanowniaPrzestrzenego',
-                   elements=createFormElements('RysunekAktuPlanowniaPrzestrzenegoType'))
+                   elements=createFormElements(
+                       'RysunekAktuPlanowniaPrzestrzenegoType'),
+                   formData=retrieveFormData(all_layout_widgets(layout)))
 
     return data
 
 
-def createXmlDokumentFormalny():
+def createXmlDokumentFormalny(layout):
     """Tworzy szablon xml dla dokumentu formalnego"""
     data = makeXML(docName='DokumentFormalny',
-                   elements=createFormElements('DokumentFormalnyType'))
+                   elements=createFormElements('DokumentFormalnyType'),
+                   formData=retrieveFormData(all_layout_widgets(layout)))
 
     return data
 
 
-def createXmlAktPlanowaniaPrzestrzennego():
+def createXmlAktPlanowaniaPrzestrzennego(layout, obrysLayer):
     """Tworzy szablon xml dla aktu planowania przestrzennego"""
     data = makeXML(docName='AktPlanowaniaPrzestrzennego',
-                   elements=createFormElements('AktPlanowaniaPrzestrzennegoType'))
+                   elements=createFormElements(
+                       'AktPlanowaniaPrzestrzennegoType'),
+                   formData=retrieveFormData(all_layout_widgets(layout)),
+                   obrysLayer=obrysLayer)
 
     return data

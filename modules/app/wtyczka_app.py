@@ -118,7 +118,8 @@ class AppModule(BaseModule):
         # rozszerzanie kolumn
         header_gml = self.generowanieGMLDialog.filesTable_widget.horizontalHeader()
         for i in range(header_gml.count()):
-            header_gml.setSectionResizeMode(i, QtWidgets.QHeaderView.ResizeToContents)
+            header_gml.setSectionResizeMode(
+                i, QtWidgets.QHeaderView.ResizeToContents)
     # endregion
 
     # region zbiorPrzygotowanieDialog
@@ -136,9 +137,11 @@ class AppModule(BaseModule):
         # auto resize kolumn
         header_zbior = self.zbiorPrzygotowanieDialog.appTable_widget.horizontalHeader()
         for i in range(header_zbior.count()):
-            header_zbior.setSectionResizeMode(i, QtWidgets.QHeaderView.ResizeToContents)
+            header_zbior.setSectionResizeMode(
+                i, QtWidgets.QHeaderView.ResizeToContents)
 
-        self.zbiorPrzygotowanieDialog.addFile_widget.setFilter(filter="pliki XML/GML (*.xml *.gml)")
+        self.zbiorPrzygotowanieDialog.addFile_widget.setFilter(
+            filter="pliki XML/GML (*.xml *.gml)")
     # endregion
 
     """Event handlers"""
@@ -309,16 +312,20 @@ class AppModule(BaseModule):
 
     def validateAndGenerate_btn_clicked(self):
         # Sprawdzenie poprawności każdego z plików składowych
-        path = os.path.join(os.path.dirname(__file__), "../validator", 'appExample_pzpw_v001.xml')
+        path = os.path.join(os.path.dirname(__file__),
+                            "../validator", 'appExample_pzpw_v001.xml')
         validationResult = self.dataValidator.validateXml(xmlPath=path)
         if not validationResult[0]:  # błąd walidacji pliku z danymi
-            self.iface.messageBar().pushCritical("Błąd walidacji:", "Wykryto błędy w pliku z danymi.")
-            self.showPopupValidationErrors("Błąd walidacji", "Wystąpiły błędy walidacji pliku %s :\n\n%s" % (path, validationResult[1]))
+            self.iface.messageBar().pushCritical(
+                "Błąd walidacji:", "Wykryto błędy w pliku z danymi.")
+            self.showPopupValidationErrors(
+                "Błąd walidacji", "Wystąpiły błędy walidacji pliku %s :\n\n%s" % (path, validationResult[1]))
         # Sprawdzenie zależności geometrycznych miedzy GMLami
 
         # Łączenie APP w zbiór
 
-        self.iface.messageBar().pushSuccess("Generowanie zbioru:", "Pomyślnie wygenerowano zbiór APP.")
+        self.iface.messageBar().pushSuccess("Generowanie zbioru:",
+                                            "Pomyślnie wygenerowano zbiór APP.")
         showPopup("Wygeneruj plik GML dla zbioru APP",
                   "Poprawnie wygenerowano plik GML.")
         self.generated = True
@@ -327,6 +334,7 @@ class AppModule(BaseModule):
     # endregion
 
     """Helper methods"""
+
     def addTableContentGML(self):
         plik = str(QFileDialog.getOpenFileName(
             filter="pliki XML/GML (*.xml *.gml)")[0])
@@ -339,7 +347,8 @@ class AppModule(BaseModule):
                         i, 0).toolTip()
                     if plik == item:
                         param = False
-                        showPopup("Błąd tabeli", "Wybrany plik znajduje się już w tabeli")
+                        showPopup("Błąd tabeli",
+                                  "Wybrany plik znajduje się już w tabeli")
                         break
                 if param:
                     self.tableContentGML(plik, rows)
@@ -393,7 +402,8 @@ class AppModule(BaseModule):
             pass
 
     def addTableContentSet(self):
-        plik = str(QFileDialog.getOpenFileName(filter="pliki XML/GML (*.xml *.gml)")[0])
+        plik = str(QFileDialog.getOpenFileName(
+            filter="pliki XML/GML (*.xml *.gml)")[0])
         param = True
         if plik:
             rows = self.zbiorPrzygotowanieDialog.appTable_widget.rowCount()
@@ -403,7 +413,8 @@ class AppModule(BaseModule):
                         i, 0).text()
                     if plik == item:
                         param = False
-                        showPopup("Błąd tabeli", "Wybrany plik znajduje się już w tabeli")
+                        showPopup("Błąd tabeli",
+                                  "Wybrany plik znajduje się już w tabeli")
                         break
                 if param:
                     self.tableContentSet(plik, rows)
@@ -438,7 +449,7 @@ class AppModule(BaseModule):
         for field in fields:
             form = Formularz()
             # TODO Czy mamy uniemożliwiać wpisywanie wartości dla ReferenceType
-            if field.name not in form.pomijane and field.type == 'gml:ReferenceType':
+            if field.name not in form.pomijane and field.type != 'gml:ReferenceType':
                 if field.isComplex():  # zawiera podrzędne elementy typu complex
                     for fieldElements in field.innerFormElements:
                         fieldDef += '&field=%s:%s' % (
@@ -455,7 +466,8 @@ class AppModule(BaseModule):
             self.fieldsDefinition(fields=fields), 'granice_app', 'memory')
         QgsProject.instance().addMapLayer(layer)
 
-        self.iface.messageBar().pushSuccess("Utworzenie warstwy:", "Stworzono warstwę typu multipoligon do wektoryzacji.")
+        self.iface.messageBar().pushSuccess("Utworzenie warstwy:",
+                                            "Stworzono warstwę typu multipoligon do wektoryzacji.")
         showPopup("Wygeneruj warstwę",
                   "Poprawnie utworzono pustą warstwę. Uzupełnij ją danymi przestrzennymi.")
 
@@ -467,12 +479,15 @@ class AppModule(BaseModule):
         if self.fn:
             self.saved = True
             # TODO wypełnienie xml wartościami z xml
+
             if self.activeDlg == self.rasterFormularzDialog:
-                data = utils.createXmlRysunekAPP()
+                data = utils.createXmlRysunekAPP(self.activeDlg.layout())
             elif self.activeDlg == self.wektorFormularzDialog:
-                data = utils.createXmlAktPlanowaniaPrzestrzennego()
+                self.obrysLayer = self.wektorInstrukcjaDialog.layers_comboBox.currentLayer()
+                data = utils.createXmlAktPlanowaniaPrzestrzennego(
+                    self.activeDlg.layout(), self.obrysLayer)
             elif self.activeDlg == self.dokumentyFormularzDialog:
-                data = utils.createXmlDokumentFormalny()
+                data = utils.createXmlDokumentFormalny(self.activeDlg.layout())
 
             mydata = ET.tostring(data)
             root = etree.XML(mydata)
@@ -481,11 +496,6 @@ class AppModule(BaseModule):
                                         encoding='utf-8', pretty_print=True).decode('utf-8')
             myfile = open(self.fn, "w", encoding='utf-8')
             myfile.write(xml_string)
-            # # create the file structure
-            # data = 2
-            # # create a new XML file with the results
-            # tree = ET.ElementTree(data)
-            # tree.write(self.fn)
 
             showPopup("Zapisz aktualny formularz",
                       "Poprawnie zapisano formularz. W razie potrzeby wygenerowania kolejnego formularza, należy zmodyfikować dane oraz zapisać formularz ponownie.")

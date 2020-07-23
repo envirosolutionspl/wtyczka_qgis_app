@@ -293,6 +293,16 @@ def makeXML(docName, elements, formData, obrysLayer=None):
     # TODO Dodać obsługę nillable: https://inspire.ec.europa.eu/forum/discussion/view/61478/contents-of-attribute-nilreason-eg-unknown-vs-httpinspireeceuropaeucodelistvoidreasonvalueunknown
     # TODO Dodać iterację po obiektach z licznością *
     import datetime
+    dict_map = {
+        'status': dictionaries.statusListaKodowa,
+        'poziomHierarchii': dictionaries.poziomyHierarchii,
+        'nilReason': dictionaries.nilReasons,
+        'zasiegPrzestrzenny': dictionaries.ukladyOdniesieniaPrzestrzennego,
+        'typPlanu': dictionaries.typyPlanu,
+        'dziennikUrzedowy': dictionaries.dziennikUrzedowyKod,
+        'ukladOdniesieniaPrzestrzennego': dictionaries.ukladyOdniesieniaPrzestrzennego
+
+    }
     IPP = formData['idIIP_lineEdit']
     if obrysLayer != None:
         CoordinatesList = getCoordinates(obrysLayer)
@@ -306,17 +316,6 @@ def makeXML(docName, elements, formData, obrysLayer=None):
                 srsName = "http://www.opengis.net/def/crs/EPSG/0/2180"
     else:
         CoordinatesList = None
-
-    dict_map = {
-        'status': dictionaries.statusListaKodowa,
-        'poziomHierarchii': dictionaries.poziomyHierarchii,
-        'nilReason': dictionaries.nilReasons,
-        'zasiegPrzestrzenny': dictionaries.ukladyOdniesieniaPrzestrzennego,
-        'typPlanu': dictionaries.typyPlanu,
-        'dziennikUrzedowy': dictionaries.dziennikUrzedowyKod,
-        'ukladOdniesieniaPrzestrzennego': dictionaries.ukladyOdniesieniaPrzestrzennego
-
-    }
 
     # Elementy, których wartości nie ma w formularzu
     pomijane_elementy = [

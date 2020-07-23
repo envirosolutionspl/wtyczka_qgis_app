@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>541</width>
+    <width>782</width>
     <height>642</height>
    </rect>
   </property>
@@ -131,9 +131,9 @@
         <property name="geometry">
          <rect>
           <x>0</x>
-          <y>-232</y>
-          <width>502</width>
-          <height>733</height>
+          <y>-39</y>
+          <width>735</width>
+          <height>363</height>
          </rect>
         </property>
         <layout class="QGridLayout" name="gridLayout_2">
@@ -1797,6 +1797,9 @@ Co najmniej należy wyspecyfikować jednostkę odpowiedzialną, pełniącą w st
            <property name="title">
             <string>Informacje o utrzymaniu zbioru*</string>
            </property>
+           <property name="collapsed">
+            <bool>true</bool>
+           </property>
            <layout class="QVBoxLayout" name="verticalLayout_2">
             <property name="sizeConstraint">
              <enum>QLayout::SetDefaultConstraint</enum>
@@ -1908,7 +1911,7 @@ Wartości elementu metadanych zawsze jest równa: według potrzeb („asNeeded�
               <item>
                <widget class="QLabel" name="e28_lbl">
                 <property name="text">
-                 <string>Zakres danych</string>
+                 <string>Zakres danych*</string>
                 </property>
                </widget>
               </item>
@@ -1955,32 +1958,157 @@ Wartości elementu metadanych zawsze jest równa: zbiór danych („dataset”).
             </sizepolicy>
            </property>
            <property name="title">
-            <string>Metadane na temat metadanych</string>
+            <string>Metadane na temat metadanych*</string>
+           </property>
+           <property name="collapsed">
+            <bool>true</bool>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_2">
             <property name="sizeConstraint">
              <enum>QLayout::SetDefaultConstraint</enum>
             </property>
             <item>
+             <widget class="QGroupBox" name="verticalGroupBox">
+              <layout class="QVBoxLayout" name="verticalLayout_3">
+               <item>
+                <layout class="QHBoxLayout">
+                 <item>
+                  <widget class="QLabel" name="e29_lbl">
+                   <property name="text">
+                    <string>Punkt kontaktowy metadanych*</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QgsFilterLineEdit" name="e29_name_lneEdit">
+                   <property name="toolTip">
+                    <string>nazwa organizacji</string>
+                   </property>
+                   <property name="placeholderText">
+                    <string>nazwa organizacji</string>
+                   </property>
+                   <property name="qgisRelation" stdset="0">
+                    <string notr="true"/>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QComboBox" name="e29_cmbbx">
+                   <property name="enabled">
+                    <bool>false</bool>
+                   </property>
+                   <item>
+                    <property name="text">
+                     <string>punkt kontaktowy</string>
+                    </property>
+                   </item>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QgsFilterLineEdit" name="e29_email_lineEdit">
+                   <property name="toolTip">
+                    <string>adres email</string>
+                   </property>
+                   <property name="placeholderText">
+                    <string>adres email</string>
+                   </property>
+                   <property name="qgisRelation" stdset="0">
+                    <string notr="true"/>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="e29_tooltip">
+                   <property name="toolTip">
+                    <string>Opis organizacji odpowiedzialnej za tworzenie i przechowywanie metadanych.
+Opis powinien obejmować co najmniej:
+•	nazwę organizacji,
+•	rolę organizacji,
+•	dane kontaktowe (adres poczty elektronicznej).
+
+Wartość elementu metadanych rola jednostki zawsze jest równa: punkt kontaktowy („contactPoint”).
+</string>
+                   </property>
+                   <property name="text">
+                    <string/>
+                   </property>
+                   <property name="pixmap">
+                    <pixmap>../../../../img/info1.png</pixmap>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QHBoxLayout">
+                 <item>
+                  <widget class="QPushButton" name="e29_add_btn">
+                   <property name="text">
+                    <string>Dodaj</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="e29_remove_btn">
+                   <property name="text">
+                    <string>Usuń</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <widget class="QListWidget" name="e29_listWidget">
+                 <property name="sortingEnabled">
+                  <bool>false</bool>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+            <item>
              <layout class="QHBoxLayout">
               <item>
-               <widget class="QLabel" name="label">
+               <widget class="QLabel" name="e30_lbl">
                 <property name="text">
-                 <string>Punkt kontaktowy metadanych</string>
+                 <string>Data metadanych*</string>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="QgsFilterLineEdit" name="mLineEdit">
-                <property name="qgisRelation" stdset="0">
-                 <string notr="true"/>
+               <spacer name="horizontalSpacer_9">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QgsDateTimeEdit" name="e30_dateTimeEdit">
+                <property name="minimumSize">
+                 <size>
+                  <width>150</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="displayFormat">
+                 <string>dd.MM.yyyy</string>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="QLabel" name="tytul_tooltip">
+               <widget class="QLabel" name="e30_tooltip">
                 <property name="toolTip">
-                 <string/>
+                 <string>Data określająca, kiedy utworzono lub zaktualizowano rekord metadanych.
+
+Wartość elementu należy podać z dokładnością dzienną (data dzienna).
+</string>
                 </property>
                 <property name="text">
                  <string/>
@@ -1995,23 +2123,32 @@ Wartości elementu metadanych zawsze jest równa: zbiór danych („dataset”).
             <item>
              <layout class="QHBoxLayout">
               <item>
-               <widget class="QLabel" name="label">
+               <widget class="QLabel" name="e31_lbl">
                 <property name="text">
-                 <string>Data metadanych</string>
+                 <string>Język metadanych*</string>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="QgsFilterLineEdit" name="mLineEdit">
+               <widget class="QgsFilterLineEdit" name="e31_lineEdit">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+                <property name="text">
+                 <string>polski</string>
+                </property>
                 <property name="qgisRelation" stdset="0">
                  <string notr="true"/>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="QLabel" name="tytul_tooltip">
+               <widget class="QLabel" name="e31_tooltip">
                 <property name="toolTip">
-                 <string/>
+                 <string>Język, w którym wyrażone są elementy metadanych.
+
+Wartość elementu metadanych zawsze jest równa: polski.
+</string>
                 </property>
                 <property name="text">
                  <string/>
@@ -2026,54 +2163,26 @@ Wartości elementu metadanych zawsze jest równa: zbiór danych („dataset”).
             <item>
              <layout class="QHBoxLayout">
               <item>
-               <widget class="QLabel" name="label">
+               <widget class="QLabel" name="e32_lbl">
                 <property name="text">
-                 <string>Język metadanych</string>
+                 <string>Unikalny identyfikator rekordu (pliku) metadanych*</string>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="QgsFilterLineEdit" name="mLineEdit">
+               <widget class="QgsFilterLineEdit" name="e32_lineEdit">
                 <property name="qgisRelation" stdset="0">
                  <string notr="true"/>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="QLabel" name="tytul_tooltip">
+               <widget class="QLabel" name="e32_tooltip">
                 <property name="toolTip">
-                 <string/>
-                </property>
-                <property name="text">
-                 <string/>
-                </property>
-                <property name="pixmap">
-                 <pixmap>../../../../img/info1.png</pixmap>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </item>
-            <item>
-             <layout class="QHBoxLayout">
-              <item>
-               <widget class="QLabel" name="label">
-                <property name="text">
-                 <string>Unikalny identyfikator rekordu (pliku) metadanych</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QgsFilterLineEdit" name="mLineEdit">
-                <property name="qgisRelation" stdset="0">
-                 <string notr="true"/>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QLabel" name="tytul_tooltip">
-                <property name="toolTip">
-                 <string/>
+                 <string>Wartość identyfikująca rekord metadanych w unikalny sposób.
+
+Wartość elementu musi być równa identyfikatorowi UUID.
+</string>
                 </property>
                 <property name="text">
                  <string/>
@@ -2094,7 +2203,7 @@ Wartości elementu metadanych zawsze jest równa: zbiór danych („dataset”).
                </sizepolicy>
               </property>
               <property name="title">
-               <string>Standard metadanych</string>
+               <string>Standard metadanych*</string>
               </property>
               <layout class="QVBoxLayout" name="verticalLayout_2">
                <property name="sizeConstraint">
@@ -2103,23 +2212,23 @@ Wartości elementu metadanych zawsze jest równa: zbiór danych („dataset”).
                <item>
                 <layout class="QHBoxLayout">
                  <item>
-                  <widget class="QLabel" name="label">
+                  <widget class="QLabel" name="e33_lbl">
                    <property name="text">
-                    <string>Nazwa standardu metadanych</string>
+                    <string>Nazwa standardu metadanych*</string>
                    </property>
                   </widget>
                  </item>
                  <item>
-                  <widget class="QgsFilterLineEdit" name="mLineEdit">
+                  <widget class="QgsFilterLineEdit" name="e33_lineEdit">
                    <property name="qgisRelation" stdset="0">
                     <string notr="true"/>
                    </property>
                   </widget>
                  </item>
                  <item>
-                  <widget class="QLabel" name="tytul_tooltip">
+                  <widget class="QLabel" name="e33_tooltip">
                    <property name="toolTip">
-                    <string/>
+                    <string>Nazwa standardu metadanych użytego do opisu zbioru.</string>
                    </property>
                    <property name="text">
                     <string/>
@@ -2134,23 +2243,23 @@ Wartości elementu metadanych zawsze jest równa: zbiór danych („dataset”).
                <item>
                 <layout class="QHBoxLayout">
                  <item>
-                  <widget class="QLabel" name="label">
+                  <widget class="QLabel" name="e34_lbl">
                    <property name="text">
-                    <string>Wersja standardu metadanych</string>
+                    <string>Wersja standardu metadanych*</string>
                    </property>
                   </widget>
                  </item>
                  <item>
-                  <widget class="QgsFilterLineEdit" name="mLineEdit">
+                  <widget class="QgsFilterLineEdit" name="e34_lineEdit">
                    <property name="qgisRelation" stdset="0">
                     <string notr="true"/>
                    </property>
                   </widget>
                  </item>
                  <item>
-                  <widget class="QLabel" name="tytul_tooltip">
+                  <widget class="QLabel" name="e34_tooltip">
                    <property name="toolTip">
-                    <string/>
+                    <string>Wersja standardu metadanych użytego do opisu zbioru.</string>
                    </property>
                    <property name="text">
                     <string/>

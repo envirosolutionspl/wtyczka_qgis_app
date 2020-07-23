@@ -372,8 +372,27 @@ class AppModule(BaseModule):
             else:
                 self.tableContentGML(plik, rows)
 
+    # def getDocType(self):
+    #     xmlTree = ET.parse(self)
+
+    #     elemList = []
+
+    #     for elem in xmlTree.iter():
+    #         elemList.append(elem.tag)
+
+    #     # now I remove duplicities - by convertion to set and back to list
+    #     elemList = list(set(elemList))
+
+    #     # Just printing out the result
+    #     print(elemList)
+    #     DocType = ''
+    #     return DocType
+
     def tableContentGML(self, file, rows):
+        # print(file)
+        # print(file.getDocType)
         # data modyfikacji
+
         def path_leaf(file):
             head, tail = ntpath.split(file)
             return tail or ntpath.basename(head)

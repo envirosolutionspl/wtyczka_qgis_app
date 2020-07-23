@@ -296,6 +296,14 @@ def makeXML(docName, elements, formData, obrysLayer=None):
     IPP = formData['idIIP_lineEdit']
     if obrysLayer != None:
         CoordinatesList = getCoordinates(obrysLayer)
+        epsg = str(obrysLayer.crs().authid()).split(':')[1]
+        # Układ współrzędnych
+        for crs in dict_map['ukladOdniesieniaPrzestrzennego'].values():
+            if epsg in crs:
+                srsName = crs
+            else:
+                # TODO co w przypadku, gdy CRS jest inny niż w słowniku - rozwiązanie tymczasowe
+                srsName = "http://www.opengis.net/def/crs/EPSG/0/2180"
     else:
         CoordinatesList = None
 
@@ -309,14 +317,6 @@ def makeXML(docName, elements, formData, obrysLayer=None):
         'ukladOdniesieniaPrzestrzennego': dictionaries.ukladyOdniesieniaPrzestrzennego
 
     }
-    epsg = str(obrysLayer.crs().authid()).split(':')[1]
-    # Układ współrzędnych
-    for crs in dict_map['ukladOdniesieniaPrzestrzennego'].values():
-        if epsg in crs:
-            srsName = crs
-        else:
-            # TODO co w przypadku, gdy CRS jest inny niż w słowniku - rozwiązanie tymczasowe
-            srsName = "http://www.opengis.net/def/crs/EPSG/0/2180"
 
     # Elementy, których wartości nie ma w formularzu
     pomijane_elementy = [

@@ -33,15 +33,15 @@ class MetadataModule(BaseModule):
         self.metadaneDialog.chooseFile_widget.clicked.connect(self.openMetaFile)
         self.metadaneDialog.chooseSet_widget.setFilter("*.gml")
         # endregion
+        self.prepareLayout()
 
+    def prepareLayout(self):
         p = QPixmap(':/plugins/wtyczka_app/img/info1.png')
 
         # nadanie grafiki tooltipa
         for label in utils.getWidgetsByType(self.metadaneDialog, QLabel):
             # print(label.objectName())
-            if (label.objectName().endswith("_tooltip") or
-                    label.objectName()[:-1].endswith("_tooltip") or
-                    label.objectName()[:-2].endswith("_tooltip")):
+            if label.objectName().endswith("_tooltip"):
                 label.setMaximumWidth(16)
                 label.setPixmap(p.scaled(16, 16, Qt.KeepAspectRatio))
 

@@ -981,7 +981,7 @@ Wartość elementu musi  wyrażać co najmniej datę dzienną, która  może by�
                </spacer>
               </item>
               <item>
-               <widget class="QgsDateTimeEdit" name="mDateTimeEdit">
+               <widget class="QgsDateTimeEdit" name="e14_dateTimeEdit">
                 <property name="minimumSize">
                  <size>
                   <width>150</width>
@@ -1131,7 +1131,7 @@ Wartość elementu musi  wyrażać co najmniej datę dzienną, która  może by�
                 </layout>
                </item>
                <item>
-                <widget class="QListWidget" name="e12_listWidget">
+                <widget class="QListWidget" name="e16_listWidget">
                  <property name="sortingEnabled">
                   <bool>false</bool>
                  </property>
@@ -1222,7 +1222,7 @@ Element metadanych zawsze przyjmuje wartości: wektor „Vector” oraz raster �
                   </widget>
                  </item>
                  <item>
-                  <widget class="QComboBox" name="comboBox">
+                  <widget class="QComboBox" name="e18_cmbbx">
                    <item>
                     <property name="text">
                      <string>utworzenie</string>
@@ -1980,7 +1980,7 @@ Wartości elementu metadanych zawsze jest równa: zbiór danych („dataset”).
                   </widget>
                  </item>
                  <item>
-                  <widget class="QgsFilterLineEdit" name="e29_name_lneEdit">
+                  <widget class="QgsFilterLineEdit" name="e29_name_lineEdit">
                    <property name="toolTip">
                     <string>nazwa organizacji</string>
                    </property>
@@ -2005,7 +2005,7 @@ Wartości elementu metadanych zawsze jest równa: zbiór danych („dataset”).
                   </widget>
                  </item>
                  <item>
-                  <widget class="QgsFilterLineEdit" name="e29_email_lineEdit">
+                  <widget class="QgsFilterLineEdit" name="e29_mail_lineEdit">
                    <property name="toolTip">
                     <string>adres email</string>
                    </property>

@@ -305,11 +305,18 @@ def makeXML(docName, elements, formData, obrysLayer=None):
         'nilReason': dictionaries.nilReasons,
         'zasiegPrzestrzenny': dictionaries.ukladyOdniesieniaPrzestrzennego,
         'typPlanu': dictionaries.typyPlanu,
-        'dziennikUrzedowy': dictionaries.dziennikUrzedowyKod
-    }
+        'dziennikUrzedowy': dictionaries.dziennikUrzedowyKod,
+        'ukladOdniesieniaPrzestrzennego': dictionaries.ukladyOdniesieniaPrzestrzennego
 
-    # Układ współrzędnych na sztywno
-    srsName = 'http://www.opengis.net/def/crs/EPSG/0/2180'
+    }
+    epsg = str(obrysLayer.crs().authid()).split(':')[1]
+    # Układ współrzędnych
+    for crs in dict_map['ukladOdniesieniaPrzestrzennego'].values():
+        if epsg in crs:
+            srsName = crs
+        else:
+            # TODO co w przypadku, gdy CRS jest inny niż w słowniku - rozwiązanie tymczasowe
+            srsName = "http://www.opengis.net/def/crs/EPSG/0/2180"
 
     # Elementy, których wartości nie ma w formularzu
     pomijane_elementy = [
@@ -390,7 +397,12 @@ def makeXML(docName, elements, formData, obrysLayer=None):
                                 item.set('xlink: href', formData[fd])
                                 item.set('xlink:title', formData[fd])
 
+                        elif element.name == 'ukladOdniesieniaPrzestrzennego':
+                            slownik = dict_map[element.name]
+                            item.text = slownik[formData[fd]]
                         elif element.type == 'date':
+                            item.text = formData[fd].toString("yyyy-MM-dd")
+                        elif element.type == 'gmd:CI_Date_PropertyType':
                             item.text = formData[fd].toString("yyyy-MM-dd")
                         elif element.type == 'dateTime':
                             item.text = formData[fd].toString(

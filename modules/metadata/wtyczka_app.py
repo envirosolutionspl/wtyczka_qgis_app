@@ -37,7 +37,7 @@ class MetadataModule(BaseModule):
         #self.metadaneDialog.existingMetadata_radioButton.toggled.connect(self.existingMetadataRadioButton_toggled)
 
         # self.metadaneDialog.newFile_widget.clicked.connect(self.saveMetaFile)
-        self.metadaneDialog.chooseFile_widget.clicked.connect(self.openMetaFile)
+        self.metadaneDialog.chooseFile_widget.setFilter("*.xml")
         self.metadaneDialog.chooseSet_widget.setFilter("*.gml")
         # endregion
         self.prepareLayout()
@@ -112,10 +112,10 @@ class MetadataModule(BaseModule):
     #     if self.outputPlik != '':
     #         self.metadaneDialog.file_lbl.setText(self.outputPlik)
 
-    def openMetaFile(self):
-        self.plik = QFileDialog.getOpenFileName(filter="*.xml")[0]
-        if self.plik != '':
-            self.metadaneDialog.file_lbl.setText(self.plik)
+    # def openMetaFile(self):
+    #     self.plik = QFileDialog.getOpenFileName(filter="*.xml")[0]
+    #     if self.plik != '':
+    #         self.metadaneDialog.file_lbl.setText(self.plik)
 
     """Popup windows"""
     def showPopupValidateAndSave(self):

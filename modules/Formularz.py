@@ -219,6 +219,13 @@ class Formularz:
 
             else:
                 hbox.addWidget(input)
+
+                if formElement.type == 'gmd:CI_Date_PropertyType':
+                    input2 = NoScrollQComboBox()
+                    input2.setObjectName(formElement.name + '_cmbbx')
+                    input2.addItems(dictionaries.cI_DateTypeCode.keys())
+                    hbox.addWidget(input2)
+
                 hbox.addWidget(tooltipImg)
                 vbox.addLayout(hbox)
                 if formElement.isComplex():  # zawiera podrzędne elementy typu complex
@@ -298,7 +305,12 @@ class Formularz:
             input = NoScrollQgsDateTimeEdit()
             input.setObjectName(formElement.name + '_dateTimeEdit')
             input.clear()
-        elif formElement.type == 'date' or formElement.type == 'gmd:CI_Date_PropertyType':
+        elif formElement.type == 'date':
+            input = NoScrollQgsDateTimeEdit()
+            input.setDisplayFormat('dd.MM.yyyy')
+            input.setObjectName(formElement.name + '_dateTimeEdit')
+            input.clear()
+        elif formElement.type == 'gmd:CI_Date_PropertyType':
             input = NoScrollQgsDateTimeEdit()
             input.setDisplayFormat('dd.MM.yyyy')
             input.setObjectName(formElement.name + '_dateTimeEdit')

@@ -24,7 +24,7 @@ def sendMail(sender, receiver, password, host, port, file):
     try:
         attach_file = MIMEApplication(open(file, "rb").read())
     except FileNotFoundError:
-        return (False, "Błąd odczytu pliku. Nie można wysłać pliku: %s" % file)
+        return False, "Błąd odczytu pliku. Nie można wysłać pliku: %s" % file
     attach_file.add_header('Content-Disposition', 'attachment', filename=tail)
     message.attach(attach_file)
 
@@ -36,16 +36,17 @@ def sendMail(sender, receiver, password, host, port, file):
             text = message.as_string()
             session.sendmail(sender, receiver, text)
     except smtplib.SMTPServerDisconnected:
-        return (False, "Przekroczono czas połączenia z serwerem")
+        return False, "Przekroczono czas połączenia z serwerem"
     except smtplib.SMTPAuthenticationError:
-        return (False, "Niepoprawny użytkownik lub hasło do serwera SMTP")
+        return False, "Niepoprawny użytkownik lub hasło do serwera SMTP"
     except smtplib.SMTPRecipientsRefused:
-        return (False, "Niepoprawny adres odbiorcy")
+        return False, "Niepoprawny adres odbiorcy"
     except socket.gaierror:
-        return (False, "Nie można nawiązać połączenia z hostem: %s poprzez port %s" % (host, port))
+        return False, "Nie można nawiązać połączenia z hostem: %s poprzez port %s" % (host, port)
     except socket.timeout:
-        return (False, "Przekroczono czas połączenia z serwerem, sprawdź port")
+        return False, "Przekroczono czas połączenia z serwerem, sprawdź port"
     return [True]
+
 
 if __name__ == "__main__":
     res = sendMail(sender="",

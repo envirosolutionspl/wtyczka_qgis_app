@@ -1,4 +1,5 @@
-from . import (MetadaneDialog)
+from . import (MetadaneDialog, SmtpDialog)
+
 from .. import BaseModule
 from ..utils import showPopup
 from .. import utils
@@ -16,16 +17,20 @@ class MetadataModule(BaseModule):
         self.iface = iface
 
         self.saved = False
-
+        #plik metadanych do wysłania
+        self.metadataXmlPath = os.path.join(os.path.dirname(__file__),'../validator','appExample_pzpw_v001.xml')
         # region okno moduł metadata
         self.metadaneDialog = MetadaneDialog()
         # endregion
+        self.smtpDialog = SmtpDialog(iface=self.iface)
+
 
         # region eventy moduł metadata
         self.metadaneDialog.prev_btn.clicked.connect(self.metadaneDialog_prev_btn_clicked)
         self.metadaneDialog.validateAndSave_btn.clicked.connect(self.showPopupValidateAndSave)
         self.metadaneDialog.close_btn.clicked.connect(self.metadaneDialog.close)
 
+        self.metadaneDialog.email_btn.clicked.connect(self.metadaneDialog_email_btn_clicked)
         #self.metadaneDialog.newMetadata_radioButton.toggled.connect(self.newMetadataRadioButton_toggled)
         #self.metadaneDialog.existingMetadata_radioButton.toggled.connect(self.existingMetadataRadioButton_toggled)
 
@@ -56,6 +61,10 @@ class MetadataModule(BaseModule):
         self.openNewDialog(self.walidacjaDialog)
         self.listaOkienek.append(self.metadaneDialog)
         self.walidacjaDialog.prev_btn.setEnabled(True)
+
+    def metadaneDialog_email_btn_clicked(self):
+        self.smtpDialog.setXmlPath(self.metadataXmlPath)
+        self.smtpDialog.show()
 
 
 

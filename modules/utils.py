@@ -17,25 +17,31 @@ def showPopup(title, text, icon=QMessageBox.Information):
     msg.setStandardButtons(QMessageBox.Ok)
     return msg.exec_()
 
+def isAppOperative(gmlPath):
+    """sprawdza czy zbiór APP jest obowiązującym zbiorem"""
+    # TODO: sprawdzenie odpowiedniego elementu GML
+    return True
 
 def checkZbiorGeometryValidity(gmlFilesPath):
-    """sprawdza integralność zbioru APP, czy np. obrysy się nie przecinają"""
+    """sprawdza integralność zbioru APP, czy np. obrysy się nie przecinają
+    na podstawie listy ścieżek do plików GML"""
+    geoms = []
     for gmlPath in gmlFilesPath:
-        geoms = []
-        layer = QgsVectorLayer(gmlPath, "", 'ogr')
-        if not layer.isValid():
-            return [False, "Niepoprawna warstwa wektorowa w pliku %s" % gmlPath]
-        if not layer.featureCount():
-            return [False, "Brak obiektów przestrzennych w warstwie %s" % gmlPath]
-        feat = next(layer.getFeatures())
-        geoms.append((feat.geometry(), gmlPath))
-        for a, b in itertools.combinations(geoms, 2):
-            geom1 = a[0]
-            path1 = a[1]
-            geom2 = b[0]
-            path2 = b[1]
-            if geom1.overlaps(geom2):
-                return [False, "Geometrie swóch APP w ramach jednego zbioru nie mogą na siebie nachodzić. Dotyczy plików\n\n%s\n%s" % (path1, path2)]
+        if isAppOperative(gmlPath): # jest obowiązujący
+            layer = QgsVectorLayer(gmlPath, "", 'ogr')
+            if not layer.isValid():
+                return [False, "Niepoprawna warstwa wektorowa w pliku %s" % gmlPath]
+            if not layer.featureCount():
+                return [False, "Brak obiektów przestrzennych w warstwie %s" % gmlPath]
+            feat = next(layer.getFeatures())
+            geoms.append((feat.geometry(), gmlPath))
+    for a, b in itertools.combinations(geoms, 2):
+        geom1 = a[0]
+        path1 = a[1]
+        geom2 = b[0]
+        path2 = b[1]
+        if geom1.overlaps(geom2):
+            return [False, "Geometrie swóch APP w ramach jednego zbioru nie mogą na siebie nachodzić. Dotyczy plików\n\n%s\n%s" % (path1, path2)]
     return [True]
 
 

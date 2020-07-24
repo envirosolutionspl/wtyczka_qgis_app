@@ -1,3 +1,4 @@
 from .dialogs import (
-    MetadaneDialog
+    MetadaneDialog,
+    SmtpDialog
     )

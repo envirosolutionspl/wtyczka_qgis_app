@@ -142,10 +142,6 @@ class Formularz:
             def removeItem():
                 listWidget.takeItem(listWidget.currentRow())
 
-            def readDataFromListWidget(item):
-                v = item.data(Qt.UserRole)
-                print(v)
-
             def clearDataFromListWidget():
                 referencja_lineEdit.clear()
                 aktualnosc_dateTimeEdit.clear()
@@ -314,7 +310,7 @@ class Formularz:
             input.setObjectName(formElement.name + '_lineEdit')
         elif formElement.type == 'anyURI':
             input = QgsFilterLineEdit()
-            # tylko liczby calkowite
+            # tylko ciąg znaków
             input.setValidator(QRegExpValidator(QRegExp(r"\S*")))
             input.setObjectName(formElement.name + '_lineEdit')
         else:

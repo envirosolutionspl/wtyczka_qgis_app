@@ -17,17 +17,19 @@ def showPopup(title, text, icon=QMessageBox.Information):
     msg.setStandardButtons(QMessageBox.Ok)
     return msg.exec_()
 
+
 def isAppOperative(gmlPath):
     """sprawdza czy zbiór APP jest obowiązującym zbiorem"""
     # TODO: sprawdzenie odpowiedniego elementu GML
     return True
+
 
 def checkZbiorGeometryValidity(gmlFilesPath):
     """sprawdza integralność zbioru APP, czy np. obrysy się nie przecinają
     na podstawie listy ścieżek do plików GML"""
     geoms = []
     for gmlPath in gmlFilesPath:
-        if isAppOperative(gmlPath): # jest obowiązujący
+        if isAppOperative(gmlPath):  # jest obowiązujący
             layer = QgsVectorLayer(gmlPath, "", 'ogr')
             if not layer.isValid():
                 return [False, "Niepoprawna warstwa wektorowa w pliku %s" % gmlPath]
@@ -324,9 +326,8 @@ def makeXML(docName, elements, formData, obrysLayer=None):
         CoordinatesList = None
 
     # Elementy, których wartości nie ma w formularzu
-    pomijane_elementy = [
-        'plan', 'dokument', 'aktNormatywnyPrzystapienie', 'aktNormatywnyUchwalajacy', 'aktNormatywnyZmieniajacy', 'aktNormatywnyUchylajacy', 'aktNormatywnyUniewazniajacy', 'rysunek', 'przystapienie', 'uchwala', 'zmienia', 'uchyla', 'uniewaznia'
-    ]
+    pomijane_elementy = formSkippedElements(docName)
+
     # Strefa czasowa timezone jest ustawiona na sztywno
     root_data = {
         'timeStamp': datetime.datetime.utcnow().isoformat()+'Z',
@@ -418,6 +419,33 @@ def makeXML(docName, elements, formData, obrysLayer=None):
     return(data)
 
 
+def formSkippedElements(docName):
+    """Zwraca listę atrybutów dla poszczególnego dokumentu, które nie występują w formularzu"""
+    pomijane = []
+    if docName == 'AktPlanowaniaPrzestrzennego':
+        pomijane = ['dokument', 'aktNormatywnyPrzystapienie', 'aktNormatywnyUchwalajacy',
+                    'aktNormatywnyZmieniajacy', 'aktNormatywnyUchylajacy', 'aktNormatywnyUniewazniajacy', 'rysunek']
+    elif docName == 'RysunekAktuPlanowniaPrzestrzenego':
+        pomijane = ['plan']
+    elif docName == 'DokumentFormalny':
+        pomijane = ['przystapienie', 'uchwala',
+                    'zmienia', 'uchyla', 'uniewaznia']
+    return(pomijane)
+
+
+def formSkippedObjects(docName):
+    """Zwraca listę nazw obiektów edytowalnych w formularzu, które nie podlegają umieszczeniu w xml"""
+    pomijane = []
+    if docName == 'AktPlanowaniaPrzestrzennego':
+        pomijane = ['mapaPodkladowa_lineEdit', 'referencja_lineEdit',
+                    'aktualnosc_dateTimeEdit', 'lacze_lineEdit', 'lacze_lineEdit_nilReason_chkbx']
+    elif docName == 'RysunekAktuPlanowniaPrzestrzenego':
+        pomijane = []
+    elif docName == 'DokumentFormalny':
+        pomijane = []
+    return(pomijane)
+
+
 def getListWidgetItems(element):
     itemList = []
     for i in range(element.count()):
@@ -431,11 +459,9 @@ def getListWidgetItems(element):
     return(itemList)
 
 
-def retrieveFormData(data):
+def retrieveFormData(data, pomijane):
     # TODO Pobierać wartości z qlistwidget zamiast z lineeditów
     # obsługa nillable
-    pomijane = ['mapaPodkladowa_lineEdit', 'referencja_lineEdit',
-                'aktualnosc_dateTimeEdit', 'lacze_lineEdit', 'lacze_lineEdit_nilReason_chkbx']
     form_data = {}
     for el in data:
         if el.objectName() in pomijane:
@@ -465,29 +491,35 @@ def retrieveFormData(data):
 
 def createXmlRysunekAPP(layout):
     """Tworzy szablon xml dla Rysunku APP"""
-    data = makeXML(docName='RysunekAktuPlanowniaPrzestrzenego',
+    docName = 'RysunekAktuPlanowniaPrzestrzenego'
+    data = makeXML(docName=docName,
                    elements=createFormElements(
-                       'RysunekAktuPlanowniaPrzestrzenegoType'),
-                   formData=retrieveFormData(all_layout_widgets(layout)))
+                       docName+'Type'),
+                   formData=retrieveFormData(all_layout_widgets(layout), formSkippedObjects(docName)))
 
     return data
 
 
 def createXmlDokumentFormalny(layout):
     """Tworzy szablon xml dla dokumentu formalnego"""
-    data = makeXML(docName='DokumentFormalny',
-                   elements=createFormElements('DokumentFormalnyType'),
-                   formData=retrieveFormData(all_layout_widgets(layout)))
+    docName = 'DokumentFormalny'
+    data = makeXML(docName=docName,
+                   elements=createFormElements(
+                       docName+'Type'),
+                   formData=retrieveFormData(all_layout_widgets(layout), formSkippedObjects(docName)))
 
     return data
 
 
 def createXmlAktPlanowaniaPrzestrzennego(layout, obrysLayer):
     """Tworzy szablon xml dla aktu planowania przestrzennego"""
-    data = makeXML(docName='AktPlanowaniaPrzestrzennego',
+    docName = 'AktPlanowaniaPrzestrzennego'
+
+    data = makeXML(docName=docName,
                    elements=createFormElements(
-                       'AktPlanowaniaPrzestrzennegoType'),
-                   formData=retrieveFormData(all_layout_widgets(layout)),
+                       docName+'Type'),
+                   formData=retrieveFormData(all_layout_widgets(
+                       layout), formSkippedObjects(docName)),
                    obrysLayer=obrysLayer)
 
     return data

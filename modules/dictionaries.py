@@ -92,3 +92,8 @@ dziennikUrzedowyKod = {
     "Dziennik Urzędowy Woj. Wielkopolskiego" : "dziennikUrzedowyWojWielkopolskiego",
     "Dziennik Urzędowy Woj. Zachodniopomorskiego" : "dziennikUrzedowyWojZachodniopomorskiego"
 }
+cI_DateTypeCode = {
+    "utworzenie": "creation",
+    "publikacja": "publication",
+    "rewizja": "revision"
+}

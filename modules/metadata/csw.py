@@ -44,12 +44,6 @@ def putFileToCswServer(url, user, password, file):
     return [True]
 
 
-def transaction():
-    pass
-
-
-
-
 if __name__ == "__main__":
     res = putFileToCswServer(
         url="http://gis.parseta.pl/geoportal/csw",

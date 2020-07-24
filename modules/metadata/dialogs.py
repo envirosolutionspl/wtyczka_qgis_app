@@ -15,7 +15,7 @@ from qgis.PyQt import QtWidgets
 from qgis.core import QgsSettings
 from qgis.gui import QgisInterface
 from .. import QDialogOverride, ButtonsDialog, utils
-from . import mail
+from . import mail, csw
 
 
 title_metadata = 'Tworzenie / aktualizacja metadanych'
@@ -39,11 +39,16 @@ class SendFileDialog:
     def saveSettings(self, formName):
         """Sprawdzanie Chceckboxów do zapisu ustawień"""
         s = QgsSettings()
+        checked = False
         for chkbx in utils.getWidgetsByType(self, QCheckBox):
             if chkbx.isChecked():
                 elementId = chkbx.objectName().split("_")[0]
                 lineEdit = utils.getWidgetByName(self, QLineEdit, elementId + "_lineEdit")
                 s.setValue("qgis_app/%s/%s" % (formName, elementId), lineEdit.text())
+                checked = True
+        if checked:
+            self.iface.messageBar().pushSuccess("Zapis parametrów połączenia:", "Pomyslnie zapisano wskazane parametry połączenia")
+
 
     def readSettings(self, formName):
         """Odczyt zapisu ustawień"""
@@ -91,20 +96,17 @@ class CswDialog(QtWidgets.QDialog, FORM_CLASS3, SendFileDialog):
     def send_btn_clicked(self):
         result = self.validateForm()
         if result[0]:
-            # sendResult = mail.sendMail(
-            #     sender=self.user_lineEdit.text(),
-            #     host=self.host_lineEdit.text(),
-            #     port=self.port_lineEdit.text(),
-            #     receiver=self.receiver_lineEdit.text(),
-            #     password=self.pass_lineEdit.text(),
-            #     file=self.xmlPath
-            # )
-            sendResult = [True]
+            sendResult = csw.putFileToCswServer(
+                url=self.host_lineEdit.text(),
+                user=self.user_lineEdit.text(),
+                password=self.pass_lineEdit.text(),
+                file=self.xmlPath
+            )
             if sendResult[0]:
-                self.iface.messageBar().pushSuccess("Mail:","Pomyslnie wysłano plik")
+                self.iface.messageBar().pushSuccess("CSW:","Pomyslnie wysłano plik")
                 self.close()
             else:
-                self.iface.messageBar().pushCritical("Mail:", "Nie udało się wysłać pliku")
+                self.iface.messageBar().pushCritical("CSW:", "Nie udało się wysłać pliku")
                 msg = sendResult[1]
                 utils.showPopup("Błąd wysyłki", msg, QMessageBox.Warning)
 

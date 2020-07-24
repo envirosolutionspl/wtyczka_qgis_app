@@ -515,15 +515,32 @@ class AppModule(BaseModule):
         if self.fn:
             self.saved = True
             # TODO wypełnienie xml wartościami z xml
-
-            if self.activeDlg == self.rasterFormularzDialog:
-                data = utils.createXmlRysunekAPP(self.activeDlg.layout())
-            elif self.activeDlg == self.wektorFormularzDialog:
+            try:
                 self.obrysLayer = self.wektorInstrukcjaDialog.layers_comboBox.currentLayer()
-                data = utils.createXmlAktPlanowaniaPrzestrzennego(
-                    self.activeDlg.layout(), self.obrysLayer)
-            elif self.activeDlg == self.dokumentyFormularzDialog:
-                data = utils.createXmlDokumentFormalny(self.activeDlg.layout())
+            except:
+                self.obrysLayer = None
+            data = utils.createXmlData(self.activeDlg, self.obrysLayer)
+
+            # if self.activeDlg == self.rasterFormularzDialog:
+            #     data = utils.createXmlData(
+            #         self.activeDlg)
+            # elif self.activeDlg == self.wektorFormularzDialog:
+
+            #     data = utils.createXmlData(
+            #         self.activeDlg,
+            #         self.obrysLayer)
+            # elif self.activeDlg == self.dokumentyFormularzDialog:
+            #     data = utils.createXmlData(
+            #         self.activeDlg)
+
+            # if self.activeDlg == self.rasterFormularzDialog:
+            #     data = utils.createXmlRysunekAPP(self.activeDlg.layout())
+            # elif self.activeDlg == self.wektorFormularzDialog:
+            #     self.obrysLayer = self.wektorInstrukcjaDialog.layers_comboBox.currentLayer()
+            #     data = utils.createXmlAktPlanowaniaPrzestrzennego(
+            #         self.activeDlg.layout(), self.obrysLayer)
+            # elif self.activeDlg == self.dokumentyFormularzDialog:
+            #     data = utils.createXmlDokumentFormalny(self.activeDlg.layout())
 
             mydata = ET.tostring(data)
             root = etree.XML(mydata)

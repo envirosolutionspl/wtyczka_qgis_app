@@ -39,6 +39,14 @@ class Formularz:
                 "rysunek",
                 "zasiegPrzestrzenny"]
 
+    def returnFormElements(self, formElements):
+        for fe in formElements:
+            print('\t'+fe.name)
+            try:
+                print(fe.refObject.objectName())
+            except:
+                print('W pominiętych')
+
     def removeForm(self, container):
         """usuwa zawartość kontenera(container), żeby zrobić miejsce na formularz"""
         container.takeWidget()
@@ -174,6 +182,7 @@ class Formularz:
             listWidget = QListWidget()
             listWidget.setObjectName("mapaPodkladowa_listWidget")
             listWidget.itemDoubleClicked.connect(setDataToListWidget)
+            formElement.refObject = listWidget
             vbox2.addWidget(listWidget)
 
         for formElement in formElements:
@@ -194,7 +203,7 @@ class Formularz:
             hbox.addWidget(lbl)
 
             input = self.__makeInput(formElement)
-            tooltipImg = self.__makeTooltip(formElement)
+            formElement.refObject = input
             tooltipImg = self.__makeTooltip(formElement)
 
             if formElement.type == 'app:MapaPodkladowaPropertyType':
@@ -224,6 +233,8 @@ class Formularz:
                     input2 = NoScrollQComboBox()
                     input2.setObjectName(formElement.name + '_cmbbx')
                     input2.addItems(dictionaries.cI_DateTypeCode.keys())
+                    formElement.refObject = input2
+
                     hbox.addWidget(input2)
 
                 hbox.addWidget(tooltipImg)
@@ -335,9 +346,11 @@ class Formularz:
 
         # ustawienie domyślnych wartości
         fullFormElementName = formElement.form + ":" + formElement.name
-        if fullFormElementName in dictionaries.initialValues.keys():
+        # print(fullFormElementName)
+        if fullFormElementName in dictionaries.placeholders.keys():
             if isinstance(input, QLineEdit):  # dla pól tekstowych
-                input.setText(dictionaries.initialValues[fullFormElementName])
+                input.setText(
+                    dictionaries.placeholders[fullFormElementName])
             elif isinstance(input, QComboBox):  # QComboBox
                 pass
 

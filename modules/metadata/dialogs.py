@@ -8,7 +8,7 @@ Okna dialogowe modułu Metadata
 import os
 
 from PyQt5.QtWidgets import *
-from PyQt5.QtGui import QRegExpValidator
+from PyQt5.QtGui import *
 from qgis.PyQt.QtCore import Qt, QVariant, QRegExp
 from qgis.PyQt import uic, QtGui
 from qgis.PyQt import QtWidgets
@@ -64,7 +64,7 @@ class SendFileDialog:
     def validateForm(self):
         """walidacja formularza"""
         for lineEdit in utils.getWidgetsByType(self, QLineEdit):
-            if not lineEdit.text():
+            if not lineEdit.text().strip():
                 elementId = lineEdit.objectName().split("_")[0]
                 label = utils.getWidgetByName(self, QLabel, elementId + "_lbl")
                 return (False, "Musisz wypełnić pole %s" % label.text())
@@ -179,6 +179,15 @@ class MetadaneDialog(QDialogOverride, FORM_CLASS, ButtonsDialog):
         for listWidget in utils.getWidgetsByType(self, QListWidget):
             self.prepareListWidgets(listWidget)
 
+        p = QPixmap(':/plugins/wtyczka_app/img/info1.png')
+
+        # nadanie grafiki tooltipa
+        for label in utils.getWidgetsByType(self, QLabel):
+            # print(label.objectName())
+            if label.objectName().endswith("_tooltip"):
+                label.setMaximumWidth(16)
+                label.setPixmap(p.scaled(16, 16, Qt.KeepAspectRatio))
+
     def prepareListWidgets(self, listWidget):
         """Przygotowanie obsługi pól wielokrotnej liczności"""
         def clearDataFromListWidget():
@@ -191,12 +200,17 @@ class MetadaneDialog(QDialogOverride, FORM_CLASS, ButtonsDialog):
                     input.clear()
 
         def checkValidity():
+            """sprawdzenie poprawności pól przed dodaniem do listWidget"""
             if elementId == 'e22' or elementId == 'e29':
                 if nameLineEdit.text() and mailLineEdit.text():
+                    return True
+            if elementId == 'e7':
+                if cmbbx.currentText():
                     return True
             if lineEdit and lineEdit.text():
                 return True
             return False
+
         def getDataFromListWidget(listItem):
             data = listItem.data(Qt.UserRole)
             for input in inputs:
@@ -206,8 +220,9 @@ class MetadaneDialog(QDialogOverride, FORM_CLASS, ButtonsDialog):
                     input.setDate(data[input.objectName()])
                 elif isinstance(input,QComboBox):
                     input.setCurrentIndex(data[input.objectName()])
+
         def addItem():
-            print("ADD")
+            # print("ADD")
             if checkValidity():  # jeżeli pola są wypełnione
                 newItem = QListWidgetItem()
                 data = {}
@@ -223,7 +238,7 @@ class MetadaneDialog(QDialogOverride, FORM_CLASS, ButtonsDialog):
                         if isinstance(input, QDateTimeEdit):
                             data[input.objectName()] = input.dateTime()
                             textList.append(input.dateTime().toString())
-                newItem.setData(Qt.UserRole,QVariant(data))
+                newItem.setData(Qt.UserRole, QVariant(data))
                 newItem.setText(" - ".join(textList))
                 listWidget.addItem(newItem)
                 clearDataFromListWidget()  # czyszczenie

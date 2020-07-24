@@ -100,6 +100,11 @@ def createFormElements(attribute):
             formElement.setMinOccurs(attrib['minOccurs'])
         except KeyError:
             pass
+        # na wypadek braku 'maxOccurs'
+        try:
+            formElement.setMaxOccurs(attrib['maxOccurs'])
+        except KeyError:
+            pass
         # documentation
         documentation = element.find("glowny:annotation", ns).find(
             "glowny:documentation", ns)
@@ -207,7 +212,6 @@ def all_layout_widgets(layout):
         elif isinstance(item, QSpacerItem):
             pass
         else:
-            print('------', item)
             raise NotImplementedError
     return allWidgets
 

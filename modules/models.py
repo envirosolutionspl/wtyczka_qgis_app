@@ -8,6 +8,7 @@ class FormElement:
         self.__isComplex = False
         self.innerFormElements = []
         self.isNillable = False
+        self.maxOccurs = None
         self.form = form    # wskazanie formularza do ktorego obiekt nalezy
 
     def setName(self, name):
@@ -21,6 +22,9 @@ class FormElement:
 
     def setMinOccurs(self, minOccurs):
         self.minOccurs = int(minOccurs)
+
+    def setMaxOccurs(self, maxOccurs):
+        self.maxOccurs = maxOccurs
 
     def setDocumentation(self, documentation):
         self.documentation = documentation

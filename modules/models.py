@@ -12,6 +12,7 @@ class FormElement:
         self.setValue(value)  # wartość elementu w formularzu
         self.attributes = {}  # atrybuty przyjmowane przez element
         self.refObject = None  # referencja na obiekt
+        self.maxOccurs = None
         self.form = form    # wskazanie formularza do ktorego obiekt nalezy
 
     def setName(self, name):
@@ -25,6 +26,9 @@ class FormElement:
 
     def setMinOccurs(self, minOccurs):
         self.minOccurs = int(minOccurs)
+
+    def setMaxOccurs(self, maxOccurs):
+        self.maxOccurs = maxOccurs
 
     def setDocumentation(self, documentation):
         self.documentation = documentation

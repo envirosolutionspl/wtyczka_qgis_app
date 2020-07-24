@@ -35,46 +35,35 @@
       </widget>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout">
-       <item>
-        <layout class="QGridLayout" name="gridLayout_4">
-         <item row="0" column="0">
-          <widget class="QLabel" name="existingMetadata_lbl">
-           <property name="text">
-            <string>Aktualizuj plik z metadanymi (opcjonalne)    </string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1">
-          <widget class="QPushButton" name="chooseFile_widget">
-           <property name="text">
-            <string>...</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="2">
-          <spacer name="horizontalSpacer">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-        </layout>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <widget class="QLabel" name="file_lbl">
+      <widget class="QLabel" name="empty3_lbl">
        <property name="text">
-        <string>...</string>
+        <string/>
        </property>
       </widget>
+     </item>
+     <item>
+      <layout class="QGridLayout" name="gridLayout_5">
+       <item row="1" column="1">
+        <widget class="QgsFileWidget" name="chooseSet_widget"/>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="addSet_lbl">
+         <property name="text">
+          <string>Wybierz plik GML dla zbioru APP (opcjonalne)</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="existingMetadata_lbl">
+         <property name="text">
+          <string>Aktualizuj plik z metadanymi (opcjonalne)    </string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QgsFileWidget" name="chooseFile_widget"/>
+       </item>
+      </layout>
      </item>
      <item>
       <widget class="Line" name="horizontal_line">
@@ -82,26 +71,6 @@
         <enum>Qt::Horizontal</enum>
        </property>
       </widget>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_2">
-       <item>
-        <widget class="QLabel" name="addSet_lbl">
-         <property name="font">
-          <font>
-           <weight>75</weight>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="text">
-          <string>Wybierz plik GML dla zbioru APP (opcjonalne)</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QgsFileWidget" name="chooseSet_widget"/>
-       </item>
-      </layout>
      </item>
      <item>
       <widget class="QLabel" name="titleForm_lbl">
@@ -131,9 +100,9 @@
         <property name="geometry">
          <rect>
           <x>0</x>
-          <y>-39</y>
-          <width>735</width>
-          <height>363</height>
+          <y>0</y>
+          <width>760</width>
+          <height>381</height>
          </rect>
         </property>
         <layout class="QGridLayout" name="gridLayout_2">
@@ -261,245 +230,369 @@ Wartości elementu metadanych zawsze jest równa: zbiór danych („dataset”).
              </layout>
             </item>
             <item>
-             <layout class="QHBoxLayout">
-              <item>
-               <widget class="QLabel" name="e4_lbl">
-                <property name="text">
-                 <string>Adres zbioru</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QgsFilterLineEdit" name="e4_lineEdit">
-                <property name="qgisRelation" stdset="0">
-                 <string notr="true"/>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QLabel" name="e4_tooltip">
-                <property name="toolTip">
-                 <string>Adres zbioru danych określa odnośnik (odnośniki) do tego zbioru lub odnośnik do dodatkowych informacji na jego temat.
+             <widget class="QGroupBox" name="verticalGroupBox">
+              <layout class="QVBoxLayout" name="verticalLayout_3">
+               <item>
+                <layout class="QHBoxLayout">
+                 <item>
+                  <widget class="QLabel" name="e4_lbl">
+                   <property name="text">
+                    <string>Adres zbioru</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QgsFilterLineEdit" name="e4_lineEdit">
+                   <property name="qgisRelation" stdset="0">
+                    <string notr="true"/>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="e4_tooltip">
+                   <property name="toolTip">
+                    <string>Adres zbioru danych określa odnośnik (odnośniki) do tego zbioru lub odnośnik do dodatkowych informacji na jego temat.
 
 Adres zbioru musi być wyspecyfikowany w formie adresu URI:
 1)	usługi sieciowej udostępniającej zbiór danych;
 2)	strony internetowej zawierającej dodatkowe informacje na temat zbioru danych, lub jeżeli jest on niedostępny;
 3)	strony internetowej organizacji odpowiedzialnej za zbiór danych.
 </string>
-                </property>
-                <property name="text">
-                 <string/>
-                </property>
-                <property name="pixmap">
-                 <pixmap>../../../../img/info1.png</pixmap>
-                </property>
-               </widget>
-              </item>
-             </layout>
+                   </property>
+                   <property name="text">
+                    <string/>
+                   </property>
+                   <property name="pixmap">
+                    <pixmap>../../../../img/info1.png</pixmap>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QHBoxLayout">
+                 <item>
+                  <widget class="QPushButton" name="e4_add_btn">
+                   <property name="text">
+                    <string>Dodaj</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="e4_remove_btn">
+                   <property name="text">
+                    <string>Usuń</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <widget class="QListWidget" name="e4_listWidget">
+                 <property name="sortingEnabled">
+                  <bool>false</bool>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
             </item>
             <item>
-             <layout class="QHBoxLayout">
-              <item>
-               <widget class="QLabel" name="e5_lbl">
-                <property name="text">
-                 <string>Unikalny identyfikator zbioru*</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QgsFilterLineEdit" name="e5_lineEdit">
-                <property name="qgisRelation" stdset="0">
-                 <string notr="true"/>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QLabel" name="e5_tooltip">
-                <property name="toolTip">
-                 <string>Wartość, o której mowa w §4 rozporządzenia, identyfikująca dany zbiór danych w unikalny sposób.</string>
-                </property>
-                <property name="text">
-                 <string/>
-                </property>
-                <property name="pixmap">
-                 <pixmap>../../../../img/info1.png</pixmap>
-                </property>
-               </widget>
-              </item>
-             </layout>
+             <widget class="QGroupBox" name="verticalGroupBox">
+              <layout class="QVBoxLayout" name="verticalLayout_3">
+               <item>
+                <layout class="QHBoxLayout">
+                 <item>
+                  <widget class="QLabel" name="e5_lbl">
+                   <property name="text">
+                    <string>Unikalny identyfikator zbioru*</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QgsFilterLineEdit" name="e5_lineEdit">
+                   <property name="qgisRelation" stdset="0">
+                    <string notr="true"/>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="e5_tooltip">
+                   <property name="toolTip">
+                    <string>Wartość, o której mowa w §4 rozporządzenia, identyfikująca dany zbiór danych w unikalny sposób.</string>
+                   </property>
+                   <property name="text">
+                    <string/>
+                   </property>
+                   <property name="pixmap">
+                    <pixmap>../../../../img/info1.png</pixmap>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QHBoxLayout">
+                 <item>
+                  <widget class="QPushButton" name="e5_add_btn">
+                   <property name="text">
+                    <string>Dodaj</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="e5_remove_btn">
+                   <property name="text">
+                    <string>Usuń</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <widget class="QListWidget" name="e5_listWidget">
+                 <property name="sortingEnabled">
+                  <bool>false</bool>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
             </item>
             <item>
-             <layout class="QHBoxLayout">
-              <item>
-               <widget class="QLabel" name="e6_lbl">
-                <property name="text">
-                 <string>Język zbioru*</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QgsFilterLineEdit" name="e6_lineEdit">
-                <property name="qgisRelation" stdset="0">
-                 <string notr="true"/>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QLabel" name="e6_tooltip">
-                <property name="toolTip">
-                 <string>Język stosowany w zbiorze danych.</string>
-                </property>
-                <property name="text">
-                 <string/>
-                </property>
-                <property name="pixmap">
-                 <pixmap>../../../../img/info1.png</pixmap>
-                </property>
-               </widget>
-              </item>
-             </layout>
+             <widget class="QGroupBox" name="verticalGroupBox">
+              <layout class="QVBoxLayout" name="verticalLayout_3">
+               <item>
+                <layout class="QHBoxLayout">
+                 <item>
+                  <widget class="QLabel" name="e6_lbl">
+                   <property name="text">
+                    <string>Język zbioru*</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QgsFilterLineEdit" name="e6_lineEdit">
+                   <property name="qgisRelation" stdset="0">
+                    <string notr="true"/>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="e6_tooltip">
+                   <property name="toolTip">
+                    <string>Język stosowany w zbiorze danych.</string>
+                   </property>
+                   <property name="text">
+                    <string/>
+                   </property>
+                   <property name="pixmap">
+                    <pixmap>../../../../img/info1.png</pixmap>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QHBoxLayout">
+                 <item>
+                  <widget class="QPushButton" name="e6_add_btn">
+                   <property name="text">
+                    <string>Dodaj</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="e6_remove_btn">
+                   <property name="text">
+                    <string>Usuń</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <widget class="QListWidget" name="e6_listWidget">
+                 <property name="sortingEnabled">
+                  <bool>false</bool>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
             </item>
             <item>
-             <layout class="QHBoxLayout">
-              <item>
-               <widget class="QLabel" name="e7_lbl">
-                <property name="text">
-                 <string>Kodowanie znaków</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <spacer name="horizontalSpacer_3">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>40</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item>
-               <widget class="QComboBox" name="e7_cmbbx">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <item>
-                 <property name="text">
-                  <string/>
+             <widget class="QGroupBox" name="verticalGroupBox">
+              <layout class="QVBoxLayout" name="verticalLayout_3">
+               <item>
+                <layout class="QHBoxLayout">
+                 <item>
+                  <widget class="QLabel" name="e7_lbl">
+                   <property name="text">
+                    <string>Kodowanie znaków</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <spacer name="horizontalSpacer_3">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>40</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                 <item>
+                  <widget class="QComboBox" name="e7_cmbbx">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                     <horstretch>0</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <item>
+                    <property name="text">
+                     <string/>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>ucs2</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>ucs4</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>utf7</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>utf8</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>utf16</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>8859część1</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>8859część2</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>8859część3</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>8859część4</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>8859część5</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>8859część9</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>8859część10</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>8859część13</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>8859część14</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>8859część15</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>8859część16</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>usAscii</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>ebcdic</string>
+                    </property>
+                   </item>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="e7_tooltip">
+                   <property name="toolTip">
+                    <string>Nazwa sposobu kodowania znaków (informacji tekstowej) użytego w zbiorze danych.</string>
+                   </property>
+                   <property name="text">
+                    <string/>
+                   </property>
+                   <property name="pixmap">
+                    <pixmap>../../../../img/info1.png</pixmap>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QHBoxLayout">
+                 <item>
+                  <widget class="QPushButton" name="e7_add_btn">
+                   <property name="text">
+                    <string>Dodaj</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="e7_remove_btn">
+                   <property name="text">
+                    <string>Usuń</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <widget class="QListWidget" name="e7_listWidget">
+                 <property name="sortingEnabled">
+                  <bool>false</bool>
                  </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>ucs2</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>ucs4</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>utf7</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>utf8</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>utf16</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>8859część1</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>8859część2</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>8859część3</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>8859część4</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>8859część5</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>8859część9</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>8859część10</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>8859część13</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>8859część14</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>8859część15</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>8859część16</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>usAscii</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>ebcdic</string>
-                 </property>
-                </item>
-               </widget>
-              </item>
-              <item>
-               <widget class="QLabel" name="e7_tooltip">
-                <property name="toolTip">
-                 <string>Nazwa sposobu kodowania znaków (informacji tekstowej) użytego w zbiorze danych.</string>
-                </property>
-                <property name="text">
-                 <string/>
-                </property>
-                <property name="pixmap">
-                 <pixmap>../../../../img/info1.png</pixmap>
-                </property>
-               </widget>
-              </item>
-             </layout>
+                </widget>
+               </item>
+              </layout>
+             </widget>
             </item>
            </layout>
           </widget>
@@ -1141,45 +1234,101 @@ Wartość elementu musi  wyrażać co najmniej datę dzienną, która  może by�
              </widget>
             </item>
             <item>
-             <layout class="QHBoxLayout">
-              <item>
-               <widget class="QLabel" name="e17_lbl">
-                <property name="text">
-                 <string>Typ reprezentacji przestrzennej*</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QgsFilterLineEdit" name="e17_lineEdit">
-                <property name="enabled">
-                 <bool>false</bool>
-                </property>
-                <property name="text">
-                 <string>Vector; Grid</string>
-                </property>
-                <property name="qgisRelation" stdset="0">
-                 <string notr="true"/>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QLabel" name="e17_tooltip">
-                <property name="toolTip">
-                 <string>Metoda przestrzennej reprezentacji danych zbioru.
+             <widget class="QGroupBox" name="verticalGroupBox">
+              <layout class="QVBoxLayout" name="verticalLayout_3">
+               <item>
+                <layout class="QHBoxLayout">
+                 <item>
+                  <widget class="QLabel" name="e17_lbl">
+                   <property name="text">
+                    <string>Typ reprezentacji przestrzennej*</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QgsFilterLineEdit" name="e17_lineEdit">
+                   <property name="enabled">
+                    <bool>false</bool>
+                   </property>
+                   <property name="text">
+                    <string/>
+                   </property>
+                   <property name="qgisRelation" stdset="0">
+                    <string notr="true"/>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="e17_tooltip">
+                   <property name="toolTip">
+                    <string>Metoda przestrzennej reprezentacji danych zbioru.
 
 Element metadanych zawsze przyjmuje wartości: wektor „Vector” oraz raster „Grid”.
 
 </string>
-                </property>
-                <property name="text">
-                 <string/>
-                </property>
-                <property name="pixmap">
-                 <pixmap>../../../../img/info1.png</pixmap>
-                </property>
-               </widget>
-              </item>
-             </layout>
+                   </property>
+                   <property name="text">
+                    <string/>
+                   </property>
+                   <property name="pixmap">
+                    <pixmap>../../../../img/info1.png</pixmap>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QHBoxLayout">
+                 <item>
+                  <widget class="QPushButton" name="e17_add_btn">
+                   <property name="enabled">
+                    <bool>false</bool>
+                   </property>
+                   <property name="text">
+                    <string>Dodaj</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="e17_remove_btn">
+                   <property name="enabled">
+                    <bool>false</bool>
+                   </property>
+                   <property name="text">
+                    <string>Usuń</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <widget class="QListWidget" name="e17_listWidget">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                 <property name="sortingEnabled">
+                  <bool>false</bool>
+                 </property>
+                 <item>
+                  <property name="text">
+                   <string>wektor</string>
+                  </property>
+                  <property name="flags">
+                   <set>ItemIsSelectable|ItemIsDragEnabled|ItemIsUserCheckable</set>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>raster</string>
+                  </property>
+                  <property name="flags">
+                   <set>ItemIsSelectable|ItemIsDragEnabled|ItemIsUserCheckable</set>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+              </layout>
+             </widget>
             </item>
            </layout>
           </widget>

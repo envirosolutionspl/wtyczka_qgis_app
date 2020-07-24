@@ -284,7 +284,7 @@ Komentarz 01. Dla poszczególnych typów aktu planowania przestrzennego atrybut 
 							<documentation>zmiana: Informacja o ilości zmian aktu planowania przestrzennego lub wydanych dla niego rozstrzygnięć nadzorczych lub wyroków sądowych.</documentation>
 						</annotation>
 					</element>
-					<element name="mapaPodkladowa" type="app:MapaPodkladowaPropertyType">
+					<element name="mapaPodkladowa" type="app:MapaPodkladowaPropertyType"  minOccurs="0" maxOccurs="unbounded">
 						<annotation>
 							<documentation>mapa podkładowa: Odniesienie do mapy podkładowej użytej do sporządzenia danego aktu planowania przestrzennego.</documentation>
 						</annotation>

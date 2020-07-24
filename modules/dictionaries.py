@@ -35,7 +35,8 @@ nilReasons = {
     "missing": "missing",
     "template": "template",
     "unknown": "unknown",
-    "withheld": "withheld"}
+    "withheld": "withheld"
+}
 ukladyOdniesieniaPrzestrzennego = {
     "PL-1992": "http://www.opengis.net/def/crs/EPSG/0/2180",
     "PL-2000(5)": "http://www.opengis.net/def/crs/EPSG/0/2176",
@@ -97,3 +98,42 @@ cI_DateTypeCode = {
     "publikacja": "publication",
     "rewizja": "revision"
 }
+<< << << < HEAD
+== == == =
+licznoscMetadataFields = {
+    "e1": '1',
+    "e2": '1',
+    "e3": '1',
+    "e4": '0+',
+    "e5": '1+',
+    "e6": '1+',
+    "e7": '0+',
+    "e8": '1',
+    "e9": '4+',
+    "e10": '01',
+    "e11": '1+',
+    "e12": '1+',
+    "e13": '1',
+    "e14": '01',
+    "e15": '1',
+    "e16": '1+',
+    "e17": '2',
+    "e18": '2+',
+    "e19": '1',
+    "e20": '1+',
+    "e21": '1',
+    "e22": '1+',
+    "e23": '1',
+    "e24": '1+',
+    "e25": '1',
+    "e26": '1',
+    "e27": '1+',
+    "e28": '1',
+    "e29": '1+',
+    "e30": '1',
+    "e31": '1',
+    "e32": '1',
+    "e33": '1',
+    "e34": '1'
+}
+>>>>>> > 1f156ab870e9ca62eff935dd43e36bbbf521ab66

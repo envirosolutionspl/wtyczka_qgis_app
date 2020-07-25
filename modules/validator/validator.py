@@ -76,9 +76,9 @@ class ValidatorQXmlSchema:
 
 class ValidatorLxml:
     """Walidator oparty o bibliotekę lxml - wczytuje XSD z internetu 30-40 sekund """
-    def __init__(self):
+    def __init__(self, schema_path=xsdPath):
         start = datetime.datetime.now()
-        xsd_root = lxml.etree.parse(xsdPath)
+        xsd_root = lxml.etree.parse(schema_path)
         self.schema = lxml.etree.XMLSchema(xsd_root)
         ts = datetime.datetime.now() - start
         print('wczytano XSD w: ', ts.seconds)

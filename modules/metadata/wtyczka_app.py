@@ -18,7 +18,7 @@ class MetadataModule(BaseModule):
         self.saved = False
         # plik metadanych do wysłania
         # TODO: Zmienić self.metadataXmlPath na ścieżkę pliku do wysłania
-        self.metadataXmlPath = os.path.join(os.path.dirname(__file__), '../validator', 'appExample_pzpw_v001.xml')
+        self.metadataXmlPath = os.path.join(os.path.dirname(__file__), '../validator', 'test_metadata.xml')
         # region okno moduł metadata
         self.metadaneDialog = MetadaneDialog()
         # endregion

@@ -70,9 +70,10 @@ class Formularz:
         """definiuje autouzupełnianie poziomHierarchii (INSPIRE)
         na podstawie typPlanu"""
         def typPlanu_cmbbx_currentTextChanged(currentText):
-            poziomHierarchii_cmbbx.clear()
-            wybor = dictionaries.typyPlanuPoziomyHierarchii[currentText]
-            poziomHierarchii_cmbbx.addItems(wybor)
+            if currentText.strip():
+                poziomHierarchii_cmbbx.clear()
+                wybor = dictionaries.typyPlanuPoziomyHierarchii[currentText]
+                poziomHierarchii_cmbbx.addItems(wybor)
 
         # pobranie dynamicznie utworzonych obiektów UI
         poziomHierarchii_cmbbx = utils.layout_widget_by_name(

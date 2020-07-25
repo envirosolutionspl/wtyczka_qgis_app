@@ -74,6 +74,9 @@ class WtyczkaAPP(AppModule, MetadataModule, ValidatorModule, SettingsModule):
         task = QgsTask.fromFunction('Wczytywanie schematu XSD', self.createValidator)
         QgsApplication.taskManager().addTask(task)
         QgsMessageLog.logMessage('starting XSD reading task')
+        task2 = QgsTask.fromFunction('Wczytywanie schematu XSD metadanych', self.createMetadataValidator)
+        QgsApplication.taskManager().addTask(task2)
+        QgsMessageLog.logMessage('starting XSD reading task')
         # print('status1', task.status())
         # print(1)
         # QgsApplication.taskManager().activeTasks()
@@ -84,6 +87,11 @@ class WtyczkaAPP(AppModule, MetadataModule, ValidatorModule, SettingsModule):
     def createValidator(self, task):
         QgsMessageLog.logMessage('walidator start')
         self.dataValidator = validator.ValidatorLxml()
+        QgsMessageLog.logMessage('walidator gotowy')
+
+    def createMetadataValidator(self, task):
+        QgsMessageLog.logMessage('walidator start')
+        self.metadataValidator = validator.ValidatorLxml(schema_path=os.path.join(os.path.dirname(__file__), 'modules/validator', 'metadane.xsd'))
         QgsMessageLog.logMessage('walidator gotowy')
 
 

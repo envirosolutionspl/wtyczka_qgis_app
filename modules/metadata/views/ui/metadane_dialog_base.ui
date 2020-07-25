@@ -100,9 +100,9 @@
         <property name="geometry">
          <rect>
           <x>0</x>
-          <y>0</y>
-          <width>760</width>
-          <height>381</height>
+          <y>-46</y>
+          <width>743</width>
+          <height>835</height>
          </rect>
         </property>
         <layout class="QGridLayout" name="gridLayout_2">
@@ -1345,7 +1345,7 @@ Element metadanych zawsze przyjmuje wartości: wektor „Vector” oraz raster �
             <string>Zgodność*</string>
            </property>
            <property name="collapsed">
-            <bool>true</bool>
+            <bool>false</bool>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_2">
             <property name="sizeConstraint">
@@ -1367,6 +1367,33 @@ Element metadanych zawsze przyjmuje wartości: wektor „Vector” oraz raster �
                   <widget class="QgsFilterLineEdit" name="e18_lineEdit">
                    <property name="qgisRelation" stdset="0">
                     <string notr="true"/>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QgsDateTimeEdit" name="e18_dateTimeEdit">
+                   <property name="minimumSize">
+                    <size>
+                     <width>150</width>
+                     <height>0</height>
+                    </size>
+                   </property>
+                   <property name="maximumDate">
+                    <date>
+                     <year>2100</year>
+                     <month>12</month>
+                     <day>31</day>
+                    </date>
+                   </property>
+                   <property name="minimumDate">
+                    <date>
+                     <year>1900</year>
+                     <month>1</month>
+                     <day>1</day>
+                    </date>
+                   </property>
+                   <property name="displayFormat">
+                    <string>dd.MM.yyyy</string>
                    </property>
                   </widget>
                  </item>
@@ -2110,7 +2137,7 @@ Wartości elementu metadanych zawsze jest równa: zbiór danych („dataset”).
             <string>Metadane na temat metadanych*</string>
            </property>
            <property name="collapsed">
-            <bool>true</bool>
+            <bool>false</bool>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_2">
             <property name="sizeConstraint">

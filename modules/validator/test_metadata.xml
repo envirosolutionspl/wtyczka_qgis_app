@@ -1,0 +1,553 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gmd:MD_Metadata xmlns:gco="http://www.isotc211.org/2005/gco"
+               	xmlns:gmx="http://www.isotc211.org/2005/gmx"
+               	xmlns:gmd="http://www.isotc211.org/2005/gmd"
+               	xmlns:gml="http://www.opengis.net/gml"
+               	xmlns:srv="http://www.isotc211.org/2005/srv"
+               	xmlns:xlink="http://www.w3.org/1999/xlink"
+               	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+               	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               	xsi:schemaLocation="http://www.isotc211.org/2005/gmd http://schemas.opengis.net/iso/19139/20070417/gmd/gmd.xsd http://www.isotc211.org/2005/gmx http://schemas.opengis.net/iso/19139/20070417/gmx/gmx.xsd http://www.isotc211.org/2005/srv http://schemas.opengis.net/iso/19139/20070417/srv/1.0/srv.xsd">
+	<gmd:fileIdentifier>
+		<gco:CharacterString>3bcbe743-e378-4810-92ba-2abebc7e0f2e</gco:CharacterString>
+	</gmd:fileIdentifier>
+	<gmd:language>
+		<gmd:LanguageCode codeList="http://www.loc.gov/standards/iso639-2/"
+                			codeListValue="pol">polski</gmd:LanguageCode>
+	</gmd:language>
+	<gmd:characterSet>
+		<gmd:MD_CharacterSetCode codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#MD_CharacterSetCode"
+                       			codeListValue="utf8"/>
+	</gmd:characterSet>
+	<gmd:hierarchyLevel>
+		<gmd:MD_ScopeCode codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#MD_ScopeCode"
+                			codeListValue="dataset"/>
+	</gmd:hierarchyLevel>
+	<gmd:contact>
+		<gmd:CI_ResponsibleParty>
+			<gmd:organisationName>
+				<gco:CharacterString>Urząd Marszałkowski Województwa Mazowieckiego</gco:CharacterString>
+			</gmd:organisationName>
+			<gmd:positionName>
+				<gco:CharacterString>Departament Cyfryzacji, Geodezji i Kartografii</gco:CharacterString>
+			</gmd:positionName>
+			<gmd:contactInfo>
+				<gmd:CI_Contact>
+					<gmd:address>
+						<gmd:CI_Address>
+							<gmd:electronicMailAddress>
+								<gco:CharacterString>geodezja@mazovia.pl</gco:CharacterString>
+							</gmd:electronicMailAddress>
+						</gmd:CI_Address>
+					</gmd:address>
+				</gmd:CI_Contact>
+			</gmd:contactInfo>
+			<gmd:role>
+				<gmd:CI_RoleCode codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#CI_RoleCode"
+               					codeListValue="pointOfContact"/>
+			</gmd:role>
+		</gmd:CI_ResponsibleParty>
+	</gmd:contact>
+	<gmd:dateStamp>
+		<gco:Date>2020-07-24</gco:Date>
+	</gmd:dateStamp>
+	<gmd:metadataStandardName>
+		<gco:CharacterString>ISO 19115</gco:CharacterString>
+	</gmd:metadataStandardName>
+	<gmd:metadataStandardVersion>
+		<gco:CharacterString>2005/Amd 1:2008</gco:CharacterString>
+	</gmd:metadataStandardVersion>
+	<!--Układ krajowy-->
+	<gmd:referenceSystemInfo>
+		<gmd:MD_ReferenceSystem>
+			<gmd:referenceSystemIdentifier>
+				<gmd:RS_Identifier>
+					<gmd:code>
+						<gco:CharacterString>http://www.opengis.net/def/crs/EPSG/0/2180</gco:CharacterString>
+					</gmd:code>
+				</gmd:RS_Identifier>
+			</gmd:referenceSystemIdentifier>
+		</gmd:MD_ReferenceSystem>
+	</gmd:referenceSystemInfo>
+	<!--Układ dla INSPIRE (jak zbiór zharmonizowany-->
+	<gmd:referenceSystemInfo>
+		<gmd:MD_ReferenceSystem>
+			<gmd:referenceSystemIdentifier>
+				<gmd:RS_Identifier>
+					<gmd:code>
+						<gco:CharacterString>http://www.opengis.net/def/crs/EPSG/0/4258</gco:CharacterString>
+					</gmd:code>
+				</gmd:RS_Identifier>
+			</gmd:referenceSystemIdentifier>
+		</gmd:MD_ReferenceSystem>
+	</gmd:referenceSystemInfo>
+	<gmd:identificationInfo>
+		<!--Jako id proponuje podawać kod rodzaju zbioru:
+			PZPW	Plan zagospodarowania przestrzennego województwa
+			SUIKZP	Studium uwarunkowań i kierunków zagospodarowania przestrzennego gminy
+			MPZP	Miejscowe plany, w tym miejscowe plany zagospodarowania przestrzennego, miejscowe plany odbudowy oraz miejscowe plany rewitalizacji
+		-->
+		<gmd:MD_DataIdentification id="PZPW">
+			<gmd:citation>
+				<gmd:CI_Citation>
+					<gmd:title>
+						<gco:CharacterString>Zbiór danych dla planu zagospodarowania przestrzennego województwa mazowieckiego</gco:CharacterString>
+					</gmd:title>
+					<gmd:date>
+						<gmd:CI_Date>
+							<gmd:date>
+								<gco:Date>2020-05-25</gco:Date>
+							</gmd:date>
+							<gmd:dateType>
+								<gmd:CI_DateTypeCode codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#CI_DateTypeCode"
+                   									codeListValue="creation"/>
+							</gmd:dateType>
+						</gmd:CI_Date>
+					</gmd:date>
+					<gmd:identifier>
+						<gmd:MD_Identifier>
+							<gmd:code>
+								<gco:CharacterString>http://zagospodarowanieprzestrzenne.gov.pl/app/AktPlanowaniaPrzestrzennego/PL.ZIPPZP.9999/14-PZPW/</gco:CharacterString>
+							</gmd:code>
+						</gmd:MD_Identifier>
+					</gmd:identifier>
+				</gmd:CI_Citation>
+			</gmd:citation>
+			<!--To jest wartość przykładowa powinna zostać rozbudowana-->
+			<gmd:abstract>
+				<gco:CharacterString>﻿﻿﻿Plan zagospodarowania przestrzennego województwa mazowieckiego.</gco:CharacterString>
+			</gmd:abstract>
+			<gmd:pointOfContact>
+				<gmd:CI_ResponsibleParty>
+					<gmd:organisationName>
+						<gco:CharacterString>Urząd Marszałkowski Województwa Mazowieckiego</gco:CharacterString>
+					</gmd:organisationName>
+					<gmd:positionName>
+						<gco:CharacterString>Departament Cyfryzacji, Geodezji i Kartografii</gco:CharacterString>
+					</gmd:positionName>
+					<gmd:contactInfo>
+						<gmd:CI_Contact>
+							<gmd:address>
+								<gmd:CI_Address>
+									<gmd:electronicMailAddress>
+										<gco:CharacterString>geodezja@mazovia.pl</gco:CharacterString>
+									</gmd:electronicMailAddress>
+								</gmd:CI_Address>
+							</gmd:address>
+						</gmd:CI_Contact>
+					</gmd:contactInfo>
+					<gmd:role>
+						<gmd:CI_RoleCode codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#CI_RoleCode"
+               							codeListValue="custodian"/>
+					</gmd:role>
+				</gmd:CI_ResponsibleParty>
+			</gmd:pointOfContact>
+			<gmd:pointOfContact>
+				<gmd:CI_ResponsibleParty>
+					<gmd:organisationName>
+						<gco:CharacterString>Mazowieckie Biuro Planowania Regionalnego w Warszawie</gco:CharacterString>
+					</gmd:organisationName>
+					<gmd:contactInfo>
+						<gmd:CI_Contact>
+							<gmd:address>
+								<gmd:CI_Address>
+									<gmd:electronicMailAddress>
+										<gco:CharacterString>biuro@mbpr.pl</gco:CharacterString>
+									</gmd:electronicMailAddress>
+								</gmd:CI_Address>
+							</gmd:address>
+						</gmd:CI_Contact>
+					</gmd:contactInfo>
+					<gmd:role>
+						<gmd:CI_RoleCode codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#CI_RoleCode"
+               							codeListValue="originator"/>
+					</gmd:role>
+				</gmd:CI_ResponsibleParty>
+			</gmd:pointOfContact>
+			<gmd:resourceMaintenance>
+				<gmd:MD_MaintenanceInformation>
+					<gmd:maintenanceAndUpdateFrequency>
+						<gmd:MD_MaintenanceFrequencyCode codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#MD_MaintenanceFrequencyCode"
+                               							codeListValue="asNeeded"/>
+					</gmd:maintenanceAndUpdateFrequency>
+					<gmd:updateScope>
+						<gmd:MD_ScopeCode codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#MD_ScopeCode"
+                							codeListValue="dataset"/>
+					</gmd:updateScope>
+					<!--Proponuje aby to była stała wartość - do ostatecznego ustalenia  -->
+					<gmd:maintenanceNote>
+						<gco:CharacterString>Zbiór danych aktualizowany w przypadku zmiany planu zagospodrowania przestrzennnego zgodnie z zasadami określonymi w Rozporządzeniu.</gco:CharacterString>
+					</gmd:maintenanceNote>
+				</gmd:MD_MaintenanceInformation>
+			</gmd:resourceMaintenance>
+			<gmd:descriptiveKeywords>
+				<gmd:MD_Keywords>
+					<gmd:keyword>
+						<gmx:Anchor xlink:href="http://inspire.ec.europa.eu/theme/lu">Zagospodarowanie przestrzenne</gmx:Anchor>
+					</gmd:keyword>
+					<gmd:thesaurusName>
+						<gmd:CI_Citation>
+							<gmd:title>
+								<gmx:Anchor xlink:href="http://www.eionet.europa.eu/gemet/inspire_themes">GEMET - INSPIRE themes, version 1.0</gmx:Anchor>
+							</gmd:title>
+							<gmd:date>
+								<gmd:CI_Date>
+									<gmd:date>
+										<gco:Date>2008-06-01</gco:Date>
+									</gmd:date>
+									<gmd:dateType>
+										<gmd:CI_DateTypeCode codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#CI_DateTypeCode"
+                   											codeListValue="publication"/>
+									</gmd:dateType>
+								</gmd:CI_Date>
+							</gmd:date>
+						</gmd:CI_Citation>
+					</gmd:thesaurusName>
+				</gmd:MD_Keywords>
+			</gmd:descriptiveKeywords>
+			<gmd:descriptiveKeywords>
+				<gmd:MD_Keywords>
+					<gmd:keyword>
+						<gmx:Anchor xlink:href="https://inspire.ec.europa.eu/metadata-codelist/SpatialScope/regional">Regionalnym</gmx:Anchor>
+					</gmd:keyword>
+					<gmd:thesaurusName>
+						<gmd:CI_Citation>
+							<gmd:title>
+								<gmx:Anchor xlink:href="http://inspire.ec.europa.eu/metadata-codelist/SpatialScope">Zakres przestrzenny</gmx:Anchor>
+							</gmd:title>
+							<gmd:date>
+								<gmd:CI_Date>
+									<gmd:date>
+										<gco:Date>2019-05-22</gco:Date>
+									</gmd:date>
+									<gmd:dateType>
+										<gmd:CI_DateTypeCode codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#CI_DateTypeCode"
+                   											codeListValue="publication">publication</gmd:CI_DateTypeCode>
+									</gmd:dateType>
+								</gmd:CI_Date>
+							</gmd:date>
+						</gmd:CI_Citation>
+					</gmd:thesaurusName>
+				</gmd:MD_Keywords>
+			</gmd:descriptiveKeywords>
+			<gmd:descriptiveKeywords>
+				<gmd:MD_Keywords>
+					<gmd:keyword>
+						<gco:CharacterString>PlannedLandUse</gco:CharacterString>
+					</gmd:keyword>
+				</gmd:MD_Keywords>
+			</gmd:descriptiveKeywords>
+			<gmd:descriptiveKeywords>
+				<gmd:MD_Keywords>
+					<gmd:keyword>
+						<gmx:Anchor xlink:href="http://inspire.ec.europa.eu/codelist/LevelOfSpatialPlanValue/regional">regionalny</gmx:Anchor>
+					</gmd:keyword>
+					<gmd:thesaurusName>
+						<gmd:CI_Citation>
+							<gmd:title>
+								<gmx:Anchor xlink:href="http://inspire.ec.europa.eu/codelist/LevelOfSpatialPlanValue">Poziom planu zagospodarowania przestrzennego</gmx:Anchor>
+							</gmd:title>
+							<gmd:date>
+								<gmd:CI_Date>
+									<gmd:date>
+										<gco:Date>2013-12-10</gco:Date>
+									</gmd:date>
+									<gmd:dateType>
+										<gmd:CI_DateTypeCode codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#CI_DateTypeCode"
+                   											codeListValue="publication">publication</gmd:CI_DateTypeCode>
+									</gmd:dateType>
+								</gmd:CI_Date>
+							</gmd:date>
+						</gmd:CI_Citation>
+					</gmd:thesaurusName>
+				</gmd:MD_Keywords>
+			</gmd:descriptiveKeywords>
+			<gmd:resourceConstraints>
+				<gmd:MD_LegalConstraints>
+					<gmd:accessConstraints>
+						<gmd:MD_RestrictionCode codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#MD_RestrictionCode"
+                      							codeListValue="otherRestrictions"/>
+					</gmd:accessConstraints>
+					<gmd:otherConstraints>
+						<gmx:Anchor xlink:href="http://inspire.ec.europa.eu/metadata-codelist/LimitationsOnPublicAccess/noLimitations">Brak ograniczeń w publicznym dostępie</gmx:Anchor>
+					</gmd:otherConstraints>
+				</gmd:MD_LegalConstraints>
+			</gmd:resourceConstraints>
+			<gmd:resourceConstraints>
+				<gmd:MD_LegalConstraints>
+					<gmd:useConstraints>
+						<gmd:MD_RestrictionCode codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#MD_RestrictionCode"
+                      							codeListValue="otherRestrictions"/>
+					</gmd:useConstraints>
+					<gmd:otherConstraints>
+						<gmx:Anchor xlink:href="http://inspire.ec.europa.eu/metadata-codelist/ConditionsApplyingToAccessAndUse/noConditionsApply">Brak warunków dostępu i użytkowania</gmx:Anchor>
+					</gmd:otherConstraints>
+				</gmd:MD_LegalConstraints>
+			</gmd:resourceConstraints>
+			<gmd:spatialRepresentationType>
+				<gmd:MD_SpatialRepresentationTypeCode codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#MD_SpatialRepresentationTypeCode"
+                                    					codeListValue="vector"/>
+			</gmd:spatialRepresentationType>
+			<gmd:spatialRepresentationType>
+				<gmd:MD_SpatialRepresentationTypeCode codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#MD_SpatialRepresentationTypeCode"
+                                    					codeListValue="grid"/>
+			</gmd:spatialRepresentationType>
+			<gmd:spatialResolution>
+				<gmd:MD_Resolution>
+					<gmd:equivalentScale>
+						<gmd:MD_RepresentativeFraction>
+							<gmd:denominator>
+								<gco:Integer>250000</gco:Integer>
+							</gmd:denominator>
+						</gmd:MD_RepresentativeFraction>
+					</gmd:equivalentScale>
+				</gmd:MD_Resolution>
+			</gmd:spatialResolution>
+			<gmd:language>
+				<gmd:LanguageCode codeList="http://www.loc.gov/standards/iso639-2/"
+                					codeListValue="pol">polski</gmd:LanguageCode>
+			</gmd:language>
+			<gmd:topicCategory>
+				<gmd:MD_TopicCategoryCode>planningCadastre</gmd:MD_TopicCategoryCode>
+			</gmd:topicCategory>
+			<!--Wartości przykładowe-->
+			<gmd:extent>
+				<gmd:EX_Extent>
+					<gmd:geographicElement>
+						<gmd:EX_GeographicBoundingBox>
+							<gmd:westBoundLongitude>
+								<gco:Decimal>13.9000</gco:Decimal>
+							</gmd:westBoundLongitude>
+							<gmd:eastBoundLongitude>
+								<gco:Decimal>23.9000</gco:Decimal>
+							</gmd:eastBoundLongitude>
+							<gmd:southBoundLatitude>
+								<gco:Decimal>49.2300</gco:Decimal>
+							</gmd:southBoundLatitude>
+							<gmd:northBoundLatitude>
+								<gco:Decimal>54.7000</gco:Decimal>
+							</gmd:northBoundLatitude>
+						</gmd:EX_GeographicBoundingBox>
+					</gmd:geographicElement>
+				</gmd:EX_Extent>
+			</gmd:extent>
+		</gmd:MD_DataIdentification>
+	</gmd:identificationInfo>
+	<gmd:distributionInfo>
+		<gmd:MD_Distribution>
+			<!--dla danych zharmonizownych do INSPIRE-->
+			<gmd:distributionFormat>
+				<gmd:MD_Format>
+					<gmd:name>
+						<gco:CharacterString>Planned Land Use GML Application Schema</gco:CharacterString>
+					</gmd:name>
+					<gmd:version>
+						<gco:CharacterString>4.0</gco:CharacterString>
+					</gmd:version>
+					<gmd:specification>
+						<gco:CharacterString>D2.8.III.4 Data Specification on Land Use – Technical Guidelines</gco:CharacterString>
+					</gmd:specification>
+				</gmd:MD_Format>
+			</gmd:distributionFormat>
+			<!--dla danych w modelu krajowym-->
+			<gmd:distributionFormat>
+				<gmd:MD_Format>
+					<gmd:name>
+						<gco:CharacterString>Schemat aplikacyjny GML Planowanie przestrzenne</gco:CharacterString>
+					</gmd:name>
+					<gmd:version>
+						<gco:CharacterString>1.0</gco:CharacterString>
+					</gmd:version>
+					<gmd:specification>
+						<gco:CharacterString>Specyfikacja danych: Planowanie przestrzenne v1.0</gco:CharacterString>
+					</gmd:specification>
+				</gmd:MD_Format>
+			</gmd:distributionFormat>
+			<!--Tutaj należuy podać odniesienie do usługi pobierania udostpniajacej zbiór danych. Poniższy przykład jest dla zupełnie innego zasobu udostpnianego przez WFS
+				Sekcja <gmd:onLine> powinna wystąpić co najmniej dwa razy: dla usługi z zasobem w modelu krajowym i w modelu INSPIRE
+				Ewentualnie można stosować wariantowość:
+					- usługi sieciowej udostępniającej zbiór danych;
+					- strony internetowej zawierającej dodatkowe informacje na temat zbioru danych, lub jeżeli jest on niedostępny;
+					- strony internetowej organizacji odpowiedzialnej za zbiór danych.
+			-->
+			<gmd:transferOptions>
+				<gmd:MD_DigitalTransferOptions>
+					<gmd:onLine>
+						<gmd:CI_OnlineResource>
+							<gmd:linkage>
+								<gmd:URL>https://inspire.gios.gov.pl/wss/prtr/wfs?SERVICE=WFS&amp;VERSION=2.0.0&amp;REQUEST=GetCapabilities</gmd:URL>
+							</gmd:linkage>
+							<gmd:name>
+								<gco:CharacterString>Usługa pobierania INSPIRE dla "﻿﻿Krajowy Rejestr Uwalniania i Transferu Zanieczyszczeń" (WFS)</gco:CharacterString>
+							</gmd:name>
+							<gmd:description>
+								<gco:CharacterString>Usługa pobierania umożliwiająca pobieranie danych INSPIRE dla "Krajowy Rejestr Uwalniania i Transferu Zanieczyszczeń". Usługa wykorzystuje interfejs WFS OGC w wersji 2.0.0. Usługa implementuje bezpośredni dostęp do obiektów</gco:CharacterString>
+							</gmd:description>
+							<gmd:function>
+								<gmd:CI_OnLineFunctionCode codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#CI_OnLineFunctionCode"
+                         									codeListValue="download"/>
+							</gmd:function>
+						</gmd:CI_OnlineResource>
+					</gmd:onLine>
+				</gmd:MD_DigitalTransferOptions>
+			</gmd:transferOptions>
+		</gmd:MD_Distribution>
+	</gmd:distributionInfo>
+	<gmd:dataQualityInfo>
+		<gmd:DQ_DataQuality>
+			<gmd:scope>
+				<gmd:DQ_Scope>
+					<gmd:level>
+						<gmd:MD_ScopeCode codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#MD_ScopeCode"
+                							codeListValue="dataset">dataset</gmd:MD_ScopeCode>
+					</gmd:level>
+				</gmd:DQ_Scope>
+			</gmd:scope>
+			<!--Wartości elementów dla zbioru zharmonizowanego-->
+			<gmd:report>
+				<gmd:DQ_DomainConsistency>
+					<gmd:result>
+						<gmd:DQ_ConformanceResult>
+							<gmd:specification>
+								<gmd:CI_Citation>
+									<gmd:title>
+										<gmx:Anchor xlink:href="http://data.europa.eu/eli/reg/2010/1089">Rozporządzenie Komisji (UE) Nr 1089/2010 z dnia 23 listopada 2010 r. w sprawie wykonania dyrektywy 2007/2/WE Parlamentu Europejskiego i Rady w zakresie interoperacyjności zbiorów i usług danych przestrzennych</gmx:Anchor>
+									</gmd:title>
+									<gmd:date>
+										<gmd:CI_Date>
+											<gmd:date>
+												<gco:Date>2010-12-08</gco:Date>
+											</gmd:date>
+											<gmd:dateType>
+												<gmd:CI_DateTypeCode codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#CI_DateTypeCode"
+                   													codeListValue="publication"/>
+											</gmd:dateType>
+										</gmd:CI_Date>
+									</gmd:date>
+								</gmd:CI_Citation>
+							</gmd:specification>
+							<gmd:explanation>
+								<gmx:Anchor xlink:href="http://inspire.ec.europa.eu/metadata-codelist/DegreeOfConformity/conformant">Zbiór danych jest zgodny z wymaganiami INSPIRE dotyczącymi interoperacyjności zbiorów i usług danych przestrzennych.</gmx:Anchor>
+							</gmd:explanation>
+							<gmd:pass>
+								<gco:Boolean>true</gco:Boolean>
+							</gmd:pass>
+						</gmd:DQ_ConformanceResult>
+					</gmd:result>
+				</gmd:DQ_DomainConsistency>
+			</gmd:report>
+			<!--Wartości elementów dla zbioru zharmonizowanego-->
+			<gmd:report>
+				<gmd:DQ_DomainConsistency>
+					<gmd:result>
+						<gmd:DQ_ConformanceResult>
+							<gmd:specification>
+								<gmd:CI_Citation>
+									<gmd:title>
+										<gco:CharacterString>D2.8.III.4 Data Specification on Land Use – Technical Guidelines</gco:CharacterString>
+									</gmd:title>
+									<gmd:date>
+										<gmd:CI_Date>
+											<gmd:date>
+												<gco:Date>2013-12-10</gco:Date>
+											</gmd:date>
+											<gmd:dateType>
+												<gmd:CI_DateTypeCode codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#CI_DateTypeCode"
+                   													codeListValue="publication"/>
+											</gmd:dateType>
+										</gmd:CI_Date>
+									</gmd:date>
+								</gmd:CI_Citation>
+							</gmd:specification>
+							<gmd:explanation>
+								<gmx:Anchor xlink:href="http://inspire.ec.europa.eu/metadata-codelist/DegreeOfConformity/conformant">Zbiór danych jest zgodny z zestawem testów abstrakcyjnych zdefiniowanych w aneksie A dokumentu D2.8.III.4 Data Specification on Land Use – Technical Guidelines</gmx:Anchor>
+							</gmd:explanation>
+							<gmd:pass>
+								<gco:Boolean>true</gco:Boolean>
+							</gmd:pass>
+						</gmd:DQ_ConformanceResult>
+					</gmd:result>
+				</gmd:DQ_DomainConsistency>
+			</gmd:report>
+			<!--Zgodność z przepisami krajowymi-->
+			<gmd:report>
+				<gmd:DQ_DomainConsistency>
+					<gmd:result>
+						<gmd:DQ_ConformanceResult>
+							<gmd:specification>
+								<gmd:CI_Citation>
+									<gmd:title>
+										<!--xlink:href z URL do strony sejmu lub dziannika ustaw z rozporządzeniem-->
+										<!--Uaktualnić do ostatecznej wersji rozporządzenia-->
+										<gmx:Anchor xlink:href="http://anyURL/sejm">Rozporządzenie Ministra Rozwoju z dnia ……………………. 2020 r. w sprawie zbiorów danych przestrzennych oraz metadanych w zakresie zagospodarowania przestrzennego</gmx:Anchor>
+									</gmd:title>
+									<gmd:date>
+										<gmd:CI_Date>
+											<gmd:date>
+												<!--Uaktualnić dat po publikajci-->
+												<gco:Date>2020-12-31</gco:Date>
+											</gmd:date>
+											<gmd:dateType>
+												<gmd:CI_DateTypeCode codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#CI_DateTypeCode"
+                   													codeListValue="publication"/>
+											</gmd:dateType>
+										</gmd:CI_Date>
+									</gmd:date>
+								</gmd:CI_Citation>
+							</gmd:specification>
+							<gmd:explanation>
+								<gmx:Anchor xlink:href="http://inspire.ec.europa.eu/metadata-codelist/DegreeOfConformity/conformant">Zbiór danych jest zgodny z krajowymi wymaganiami dla zbiorów danych przestrzennych oraz metadanych w zakresie zagospodarowania przestrzennego.</gmx:Anchor>
+							</gmd:explanation>
+							<gmd:pass>
+								<gco:Boolean>true</gco:Boolean>
+							</gmd:pass>
+						</gmd:DQ_ConformanceResult>
+					</gmd:result>
+				</gmd:DQ_DomainConsistency>
+			</gmd:report>
+			<gmd:report>
+				<gmd:DQ_DomainConsistency>
+					<gmd:result>
+						<gmd:DQ_ConformanceResult>
+							<gmd:specification>
+								<gmd:CI_Citation>
+									<gmd:title>
+										<!--xlink:href z URL do strony ministerstwa ze specyfikajcą-->
+										<!--Uaktualnić do ostatecznej wersji rozporządzenia-->
+										<gmx:Anchor xlink:href="http://anyURL/sejm">Planowanie przestrzenne: Specyfikacja danych</gmx:Anchor>
+									</gmd:title>
+									<gmd:date>
+										<gmd:CI_Date>
+											<gmd:date>
+												<!--Uaktualnić dat po publikajci-->
+												<gco:Date>2020-12-31</gco:Date>
+											</gmd:date>
+											<gmd:dateType>
+												<gmd:CI_DateTypeCode codeList="http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#CI_DateTypeCode"
+                   													codeListValue="publication"/>
+											</gmd:dateType>
+										</gmd:CI_Date>
+									</gmd:date>
+								</gmd:CI_Citation>
+							</gmd:specification>
+							<gmd:explanation>
+								<gmx:Anchor xlink:href="http://inspire.ec.europa.eu/metadata-codelist/DegreeOfConformity/conformant">Zbiór danych jest zgodny z zestawem testów abstrakcyjnych zdefiniowanych w dokumancie Planowanie przestrzenne: Specyfikacja danych.</gmx:Anchor>
+							</gmd:explanation>
+							<gmd:pass>
+								<gco:Boolean>true</gco:Boolean>
+							</gmd:pass>
+						</gmd:DQ_ConformanceResult>
+					</gmd:result>
+				</gmd:DQ_DomainConsistency>
+			</gmd:report>
+			<gmd:lineage>
+				<gmd:LI_Lineage>
+					<gmd:statement>
+						<!--Wartość przykładowa dla innego zasobu-->
+						<gco:CharacterString>﻿Dane źródłowe pochodzą z bazy danych PRTR prowadzonej przez GIOŚ, gromadzącej dane z Krajowego Rejestru Uwalniania i Transferu Zanieczyszczeń. Dane zostały przekształcone zgodnie z modelem INSPIRE w zakresie tematu Obiekty produkcyjne i przemysłowe (PF) w wersji schematu 4.0. Wytyczne techniczne dla tematu PF dostępne są w specyfikacji D2.8.III.8 INSPIRE Data Specification on Production and Industrial Facilities - Technical Guidelines.</gco:CharacterString>
+					</gmd:statement>
+				</gmd:LI_Lineage>
+			</gmd:lineage>
+		</gmd:DQ_DataQuality>
+	</gmd:dataQualityInfo>
+</gmd:MD_Metadata>

@@ -78,9 +78,10 @@ class Formularz:
         """definiuje autouzupełnianie poziomHierarchii (INSPIRE)
         na podstawie typPlanu"""
         def typPlanu_cmbbx_currentTextChanged(currentText):
-            poziomHierarchii_cmbbx.clear()
-            wybor = dictionaries.typyPlanuPoziomyHierarchii[currentText]
-            poziomHierarchii_cmbbx.addItems(wybor)
+            if currentText.strip():
+                poziomHierarchii_cmbbx.clear()
+                wybor = dictionaries.typyPlanuPoziomyHierarchii[currentText]
+                poziomHierarchii_cmbbx.addItems(wybor)
 
         # pobranie dynamicznie utworzonych obiektów UI
         poziomHierarchii_cmbbx = utils.layout_widget_by_name(
@@ -113,7 +114,7 @@ class Formularz:
                         return True
                     else:
                         return False
-
+                    
             def addItem():
                 if checkListFormValidity():
                     newListWidgetItem = QListWidgetItem()
@@ -258,26 +259,6 @@ class Formularz:
                         formElement.innerFormElements, vbox2, '  - ')
 
                 createListWidget(formElement.name)
-
-            # if formElement.type == 'app:MapaPodkladowaPropertyType':
-            #     groupbox = QGroupBox(formElement.name)
-            #     groupbox.setObjectName("groupBox")
-            #     vbox2 = QVBoxLayout()
-            #     groupbox.setLayout(vbox2)
-            #     vbox2.addLayout(hbox)
-            #
-            #     hbox.addWidget(input)
-            #     hbox.addWidget(tooltipImg)
-            #     vbox.addWidget(groupbox)
-            #
-            #     if formElement.isComplex():  # zawiera podrzędne elementy typu complex
-            #         # input.setEnabled(False)
-            #         input.setVisible(False)
-            #         # rekurencja dla obiektów wewntrznych
-            #         self.__loopFormElements(
-            #             formElement.innerFormElements, vbox2, '  - ')
-            #
-            #     createListWidget('app:MapaPodkladowaPropertyType')
 
             else:
                 hbox.addWidget(input)

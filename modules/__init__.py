@@ -17,31 +17,36 @@ class QDialogOverride(QtWidgets.QDialog):
             else:
                 event.ignore()
 class ButtonsDialog:
+    ustawieniaDialog = UstawieniaDialog()
+    pomocDialog = PomocDialog()
+
     def __init__(self):
         vLayout = self.layout().itemAt(0)
 
+
         hbox = QHBoxLayout()
         hbox.addItem(QSpacerItem(20, 40, QSizePolicy.Expanding, QSizePolicy.Minimum))
-        settings_btn = QPushButton()
-        settings_btn.setIcon(QIcon(':/plugins/wtyczka_app/img/ustawienia.png'))
-        settings_btn.setIconSize(QSize(20, 20))
-        settings_btn.setObjectName("settings_btn")
-        settings_btn.setToolTip("Ustawienia")
-        settings_btn.clicked.connect(self.__settings_btn_clicked)
-        hbox.addWidget(settings_btn)
-        help_btn = QPushButton()
-        help_btn.setIcon(QIcon(':/plugins/wtyczka_app/img/info2.png'))
-        help_btn.setIconSize(QSize(20, 20))
-        help_btn.setObjectName("help_btn")
-        help_btn.setToolTip("Pomoc")
-        help_btn.clicked.connect(self.__help_btn_clicked)
-        hbox.addWidget(help_btn)
+        self.settings_btn = QPushButton()
+        self.settings_btn.setIcon(QIcon(':/plugins/wtyczka_app/img/ustawienia.png'))
+        self.settings_btn.setIconSize(QSize(20, 20))
+        self.settings_btn.setObjectName("settings_btn")
+        self.settings_btn.setToolTip("Ustawienia")
+        self.settings_btn.clicked.connect(self.settings_btn_clicked)
+        hbox.addWidget(self.settings_btn)
+        self.help_btn = QPushButton()
+        self.help_btn.setIcon(QIcon(':/plugins/wtyczka_app/img/info2.png'))
+        self.help_btn.setIconSize(QSize(20, 20))
+        self.help_btn.setObjectName("help_btn")
+        self.help_btn.setToolTip("Pomoc")
+        self.help_btn.clicked.connect(self.help_btn_clicked)
+        hbox.addWidget(self.help_btn)
         vLayout.insertLayout(0, hbox)
 
-    def __settings_btn_clicked(self):
-        self.ustawieniaDialog = UstawieniaDialog()
+        self.pomocDialog.cancel_btn.clicked.connect(self.pomocDialog.reject)
+        self.ustawieniaDialog.cancel_btn.clicked.connect(self.ustawieniaDialog.reject)
+
+    def settings_btn_clicked(self):
         self.ustawieniaDialog.exec()
 
-    def __help_btn_clicked(self):
-        self.pomocDialog = PomocDialog()
+    def help_btn_clicked(self):
         self.pomocDialog.exec()

@@ -658,11 +658,11 @@ def makeListWidgetLaczeNode(item, data):
 
 
 def makeDataNode(item, data, slownik):
-    item1 = ET.SubElement(item, 'gml:CI_Date')
-    item2 = ET.SubElement(item1, 'gml:date')
+    item1 = ET.SubElement(item, 'gmd:CI_Date')
+    item2 = ET.SubElement(item1, 'gmd:date')
     item3 = ET.SubElement(item2, 'gco:Date')
     item3.text = data[0].dateTime().toString("yyyy-MM-dd")
-    item4 = ET.SubElement(item2, 'gmd:DateType')
+    item4 = ET.SubElement(item1, 'gmd:dateType')
     item5 = ET.SubElement(item4, 'gmd:CI_DateTypeCode')
     item5.set(
         'codeList', 'http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#CI_DateTypeCode')

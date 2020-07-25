@@ -400,6 +400,8 @@ class Formularz:
         # ustawienie domyślnych wartości
         fullFormElementName = formElement.form + ":" + formElement.name
         # # print(fullFormElementName)
+
+        # wartości domyślne - debug
         # if fullFormElementName in dictionaries.placeholders.keys():
         #     if isinstance(input, QLineEdit):  # dla pól tekstowych
         #         input.setText(

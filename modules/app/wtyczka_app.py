@@ -510,7 +510,7 @@ class AppModule(BaseModule):
     """Popup windows"""
 
     def showPopupSaveForm(self):
-        if True:  # utils.isFormFilled(self.activeDlg):
+        if utils.isFormFilled(self.activeDlg):
             self.fn = QFileDialog.getSaveFileName(
                 filter="XML Files (*.xml)")[0]
             if self.fn:

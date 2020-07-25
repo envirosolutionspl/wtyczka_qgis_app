@@ -12,6 +12,7 @@ class FormElement:
         self.setValue(value)  # wartość elementu w formularzu
         self.attributes = {}  # atrybuty przyjmowane przez element
         self.refObject = None  # referencja na obiekt
+        self.refNilObject = None  # referencja na obiekt
         self.maxOccurs = None
         self.form = form    # wskazanie formularza do ktorego obiekt nalezy
 

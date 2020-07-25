@@ -299,7 +299,7 @@ class Formularz:
 
             if formElement.isNillable:  # dodaj dodatkowo checkbox i powód
                 nilHbox = self.__makeNilHbox(input)
-                formElement.refObject = [input, nilHbox]
+                formElement.refNilObject = nilHbox
                 vbox.addLayout(nilHbox)
 
     def __makeNilHbox(self, nillableWidget):

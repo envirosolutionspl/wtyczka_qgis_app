@@ -268,8 +268,9 @@ def makeXmlComplex(tag, item, element):
 #                 # innerItem.text = 'BRAK DANYCH'
 
 
-def makeXmlListElements(tag, item, element, formData):
+def makeXmlListElements(tag, item, element, formData, slownik={}):
     # Tworzenie wewnętrzych elementów i wypełnianie ich
+    nilReason = ["inapplicable", "missing", "template", "unknown", "withheld"]
     for fee in formData:
         if element.isComplex():
             ComplexItem = ET.SubElement(
@@ -278,10 +279,11 @@ def makeXmlListElements(tag, item, element, formData):
                 innerItem = ET.SubElement(
                     ComplexItem, tag+innerElement.name)
                 for fd in fee.keys():
+
                     try:  # Sprawdzanie Nil == True
                         if fee[innerElement.name+'_lineEdit_nilReason_chkbx']:
                             makeNil(
-                                innerItem, innerElement, fee[innerElement.name+'_lineEdit_nilReason_cmbbx'])
+                                innerItem, innerElement, nilReason[fee[innerElement.name+'_lineEdit_nilReason_cmbbx']])  # fee[innerElement.name+'_lineEdit_nilReason_cmbbx'])
                     except:
                         pass
 
@@ -295,7 +297,7 @@ def makeXmlListElements(tag, item, element, formData):
                 try:  # Sprawdzanie Nil == True
                     if fee[innerElement.name+'_lineEdit_nilReason_chkbx']:
                         makeNil(
-                            innerItem, innerElement, fee[innerElement.name+'_lineEdit_nilReason_chkbx'])
+                            innerItem, innerElement, fee[innerElement.name+'_lineEdit_nilReason_cmbbx'])
                 except:
                     pass
                 if element.name in fd:
@@ -505,23 +507,51 @@ def formSkippedObjects(docName):
     return(pomijane)
 
 
+def checkForNillable(fe, element):
+    nil = False  # Brak Nillable
+    if fe.isNillable:
+        widgets = all_layout_widgets(element[1])
+        for widget in widgets:
+            if type(widget).__name__ == 'QCheckBox':
+                if widget.isChecked() == True:
+                    nil = True
+    return nil
+
+
 def checkElement(fe, element):
+
     try:  # LineEdit / Date
-        print(element.text())
+        # print('1' + element.text())
         if fe.minOccurs > 0 and (element.text() is None or element.text() == 'NULL' or element.text() == ''):
+            # try:
+            #     if checkForNillable(fe, element):
+            #         return(checkForNillable(fe, element))
+            # except:
+            #     pass
             showPopup(title='Błąd formularza',
                       text='Brak wartości dla atrybutu: %s' % fe.name)
             return False
     except:  # Combobox
         try:
-            print(element.currentText())
+            # print('2' + element.currentText())
             if fe.minOccurs > 0 and (element.currentText() is None or element.currentText() == ''):
+                # try:
+                #     if checkForNillable(fe, element):
+                #         return(checkForNillable(fe, element))
+                # except:
+                #     pass
                 showPopup(title='Błąd formularza',
                           text='Brak wartości dla atrybutu: %s' % fe.name)
                 return False
         except:
             try:  # ListWidget
+                # print('3')
                 if fe.minOccurs > 0 and element.count() > 0:
+                    # try:
+                    #     if checkForNillable(fe, element):
+                    #         return(checkForNillable(fe, element))
+                    # except:
+                    #     pass
                     showPopup(title='Błąd formularza',
                               text='Brak wartości dla atrybutu: %s' % fe.name)
                     return False
@@ -532,8 +562,6 @@ def checkElement(fe, element):
 
 def isFormFilled(dialog):
     for fe in dialog.formElements:
-        print(fe.name)
-        print(fe.minOccurs)
         if fe.name in dialog.pomijane:
             continue
         # Sprawdza tylko czy wartość występuje co najmniej raz - brak specyfikacji dokładnej liczności
@@ -541,6 +569,15 @@ def isFormFilled(dialog):
             for element in fe.refObject:
                 if checkElement(fe, element) == False:  # Brak wartości
                     return False
+        elif fe.refNilObject is not None:
+            print(fe.name)
+            widgets = all_layout_widgets(fe.refNilObject)
+            for widget in widgets:
+                if type(widget).__name__ == 'QCheckBox':
+                    if widget.isChecked() == True:
+                        return True
+            if checkElement(fe, fe.refObject) == False:  # Brak wartości
+                return False
         else:
             if checkElement(fe, fe.refObject) == False:  # Brak wartości
                 return False
@@ -596,7 +633,7 @@ def getListWidgetItems(listWidget):
     itemList = []
     for i in range(listWidget.count()):
         item = listWidget.item(i).data(Qt.UserRole)
-        print(item)
+        # print(item)
         for key in item.keys():
             if type(item[key]) == str or type(item[key]) == int:
                 continue
@@ -637,6 +674,27 @@ def makeNil(item, element, nilReason):
     if element.isNillable:
         item.set('nilReason', str(nilReason))
         item.set('xsi:nil', 'true')
+
+
+def checkForNoValue(element):
+    try:
+        if element.text() == '' or element.text() == 'NULL':
+            return True
+        # print(element.text())
+    except:
+        try:
+            if element.currentText() == '':
+                return True
+            # print(element.currentText())
+        except:
+            try:
+                params = getListWidgetItems(element)
+                if params == []:
+                    return True
+            except:
+                # print(element)
+                pass
+    return False  # jest wartość
 
 
 def createXmlData(dialog, obrysLayer):  # NOWE
@@ -709,6 +767,10 @@ def createXmlData(dialog, obrysLayer):  # NOWE
     itemid.set('codeSpace', codeSpace)
 
     for fe in dialog.formElements:
+        refObject = fe.refObject
+
+        if checkForNoValue(refObject):
+            continue
         if fe.name in dialog.pomijane and fe.name != 'zasiegPrzestrzenny':
             continue
         if fe.name in dict_map.keys():
@@ -720,21 +782,24 @@ def createXmlData(dialog, obrysLayer):  # NOWE
         else:
             link = ''
         if fe.name == 'idIIP':
-            IIP = fe.refObject.text()
+            IIP = refObject.text()
             items.set('gml:id', IIP)
             itemid.text = '/'.join([codeSpace, docName, IIP.replace('_', '/')])
 
-        if fe.isComplex():  # Element jest wielokrotny
+        print(fe.name)
+
+        if fe.isComplex():
             item = ET.SubElement(items, tag + fe.name)
-            if fe.maxOccurs == 'unbounded':
-                params = getListWidgetItems(fe.refObject)
+            if fe.maxOccurs == 'unbounded':  # Element jest wielokrotny
+                params = getListWidgetItems(refObject)
+                # print(params)
                 makeXmlListElements(tag, item, fe, params)
                 continue
             else:
                 makeXmlComplex(tag, item, fe)
                 continue
         elif fe.maxOccurs == 'unbounded':  # Element jest wielokrotny
-            params = getListWidgetItems(fe.refObject)
+            params = getListWidgetItems(refObject)
             if params == [] and fe.minOccurs == 0:
                 continue
             makeXmlListElements(tag, items, fe, params)
@@ -743,8 +808,9 @@ def createXmlData(dialog, obrysLayer):  # NOWE
             item = ET.SubElement(items, tag + fe.name)
 
         if fe.isNillable:
+            refNilObject = fe.refNilObject
             nil = False
-            widgets = all_layout_widgets(fe.refObject[1])
+            widgets = all_layout_widgets(refNilObject)
             for widget in widgets:
                 if type(widget).__name__ == 'QCheckBox':
                     if widget.isChecked() == True:
@@ -757,22 +823,22 @@ def createXmlData(dialog, obrysLayer):  # NOWE
             continue
 
         if fe.name == 'data':
-            makeDataNode(item, fe.refObject, slownik)
+            makeDataNode(item, refObject, slownik)
         elif fe.name == 'ukladOdniesieniaPrzestrzennego':
-            item.text = slownik[fe.refObject.currentText()]
+            item.text = slownik[refObject.currentText()]
         elif fe.type == 'date':
-            item.text = fe.refObject.dateTime().toString("yyyy-MM-dd")
+            item.text = refObject.dateTime().toString("yyyy-MM-dd")
         elif fe.type == 'dateTime':
-            item.text = fe.refObject.dateTime().toString(
+            item.text = refObject.dateTime().toString(
                 "yyyy-MM-ddThh:mm:ss")
         elif 'ReferenceType' in fe.type:
             try:
-                item.set('xlink:href', (link+slownik[fe.refObject.text()]))
-                item.set('xlink:title', fe.refObject.text())
+                item.set('xlink:href', (link+slownik[refObject.text()]))
+                item.set('xlink:title', refObject.text())
             except:
                 item.set('xlink:href',
-                         (link+slownik[fe.refObject.currentText()]))
-                item.set('xlink:title', fe.refObject.currentText())
+                         (link+slownik[refObject.currentText()]))
+                item.set('xlink:title', refObject.currentText())
         elif fe.name == 'zasiegPrzestrzenny':
             subItem1 = ET.SubElement(item, 'gml:MultiSurface')
             subItem1.set('srsDimension', '2')
@@ -780,10 +846,10 @@ def createXmlData(dialog, obrysLayer):  # NOWE
             makeSpatialExtent(subItem1, CoordinatesList)
         else:
             try:
-                item.text = fe.refObject.text()
+                item.text = refObject.text()
             except:
                 try:
-                    item.text = fe.refObject.currentText()
+                    item.text = refObject.currentText()
                 except:
                     pass
 

@@ -42,9 +42,6 @@ class ButtonsDialog:
         hbox.addWidget(self.help_btn)
         vLayout.insertLayout(0, hbox)
 
-        self.pomocDialog.cancel_btn.clicked.connect(self.pomocDialog.reject)
-        self.ustawieniaDialog.cancel_btn.clicked.connect(self.ustawieniaDialog.reject)
-
     def settings_btn_clicked(self):
         self.ustawieniaDialog.exec()
 

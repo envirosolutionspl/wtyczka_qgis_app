@@ -281,12 +281,11 @@ class Formularz:
 
             else:
                 hbox.addWidget(input)
-
                 if formElement.type == 'gmd:CI_Date_PropertyType':
                     input2 = NoScrollQComboBox()
                     input2.setObjectName(formElement.name + '_cmbbx')
                     input2.addItems(dictionaries.cI_DateTypeCode.keys())
-                    formElement.refObject = input2
+                    formElement.refObject = [input, input2]
 
                     hbox.addWidget(input2)
 
@@ -300,6 +299,7 @@ class Formularz:
 
             if formElement.isNillable:  # dodaj dodatkowo checkbox i powód
                 nilHbox = self.__makeNilHbox(input)
+                formElement.refObject = [input, nilHbox]
                 vbox.addLayout(nilHbox)
 
     def __makeNilHbox(self, nillableWidget):

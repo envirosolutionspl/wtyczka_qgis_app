@@ -510,48 +510,49 @@ class AppModule(BaseModule):
     """Popup windows"""
 
     def showPopupSaveForm(self):
+        if True:  # utils.isFormFilled(self.activeDlg):
+            self.fn = QFileDialog.getSaveFileName(
+                filter="XML Files (*.xml)")[0]
+            if self.fn:
+                self.saved = True
+                # TODO wypełnienie xml wartościami z xml
+                try:
+                    self.obrysLayer = self.wektorInstrukcjaDialog.layers_comboBox.currentLayer()
+                except:
+                    self.obrysLayer = None
+                data = utils.createXmlData(self.activeDlg, self.obrysLayer)
 
-        self.fn = QFileDialog.getSaveFileName(filter="XML Files (*.xml)")[0]
-        if self.fn:
-            self.saved = True
-            # TODO wypełnienie xml wartościami z xml
-            try:
-                self.obrysLayer = self.wektorInstrukcjaDialog.layers_comboBox.currentLayer()
-            except:
-                self.obrysLayer = None
-            data = utils.createXmlData(self.activeDlg, self.obrysLayer)
+                # if self.activeDlg == self.rasterFormularzDialog:
+                #     data = utils.createXmlData(
+                #         self.activeDlg)
+                # elif self.activeDlg == self.wektorFormularzDialog:
 
-            # if self.activeDlg == self.rasterFormularzDialog:
-            #     data = utils.createXmlData(
-            #         self.activeDlg)
-            # elif self.activeDlg == self.wektorFormularzDialog:
+                #     data = utils.createXmlData(
+                #         self.activeDlg,
+                #         self.obrysLayer)
+                # elif self.activeDlg == self.dokumentyFormularzDialog:
+                #     data = utils.createXmlData(
+                #         self.activeDlg)
 
-            #     data = utils.createXmlData(
-            #         self.activeDlg,
-            #         self.obrysLayer)
-            # elif self.activeDlg == self.dokumentyFormularzDialog:
-            #     data = utils.createXmlData(
-            #         self.activeDlg)
+                # if self.activeDlg == self.rasterFormularzDialog:
+                #     data = utils.createXmlRysunekAPP(self.activeDlg.layout())
+                # elif self.activeDlg == self.wektorFormularzDialog:
+                #     self.obrysLayer = self.wektorInstrukcjaDialog.layers_comboBox.currentLayer()
+                #     data = utils.createXmlAktPlanowaniaPrzestrzennego(
+                #         self.activeDlg.layout(), self.obrysLayer)
+                # elif self.activeDlg == self.dokumentyFormularzDialog:
+                #     data = utils.createXmlDokumentFormalny(self.activeDlg.layout())
 
-            # if self.activeDlg == self.rasterFormularzDialog:
-            #     data = utils.createXmlRysunekAPP(self.activeDlg.layout())
-            # elif self.activeDlg == self.wektorFormularzDialog:
-            #     self.obrysLayer = self.wektorInstrukcjaDialog.layers_comboBox.currentLayer()
-            #     data = utils.createXmlAktPlanowaniaPrzestrzennego(
-            #         self.activeDlg.layout(), self.obrysLayer)
-            # elif self.activeDlg == self.dokumentyFormularzDialog:
-            #     data = utils.createXmlDokumentFormalny(self.activeDlg.layout())
+                mydata = ET.tostring(data)
+                root = etree.XML(mydata)
 
-            mydata = ET.tostring(data)
-            root = etree.XML(mydata)
+                xml_string = etree.tostring(root, xml_declaration=True,
+                                            encoding='utf-8', pretty_print=True).decode('utf-8')
+                myfile = open(self.fn, "w", encoding='utf-8')
+                myfile.write(xml_string)
 
-            xml_string = etree.tostring(root, xml_declaration=True,
-                                        encoding='utf-8', pretty_print=True).decode('utf-8')
-            myfile = open(self.fn, "w", encoding='utf-8')
-            myfile.write(xml_string)
-
-            showPopup("Zapisz aktualny formularz",
-                      "Poprawnie zapisano formularz. W razie potrzeby wygenerowania kolejnego formularza, należy zmodyfikować dane oraz zapisać formularz ponownie.")
+                showPopup("Zapisz aktualny formularz",
+                          "Poprawnie zapisano formularz. W razie potrzeby wygenerowania kolejnego formularza, należy zmodyfikować dane oraz zapisać formularz ponownie.")
         return self.saved
 
     def showPopupAggregate(self, title, text, layer):

@@ -98,8 +98,7 @@ cI_DateTypeCode = {
     "publikacja": "publication",
     "rewizja": "revision"
 }
-<< << << < HEAD
-== == == =
+
 licznoscMetadataFields = {
     "e1": '1',
     "e2": '1',
@@ -136,4 +135,3 @@ licznoscMetadataFields = {
     "e33": '1',
     "e34": '1'
 }
->>>>>> > 1f156ab870e9ca62eff935dd43e36bbbf521ab66

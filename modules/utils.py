@@ -7,6 +7,7 @@ import itertools
 import xml.etree.ElementTree as ET
 from .models import FormElement
 from . import dictionaries
+import datetime
 
 
 def showPopup(title, text, icon=QMessageBox.Information):
@@ -250,19 +251,56 @@ def makeXmlComplex(tag, item, element):
         subItem = ET.SubElement(ComplexItem, tag + inner.name)
         subItem.text = inner.refObject.text()
 
-# def makeXmlComplex(tag, item, element, formData):
-#     ComplexItem = ET.SubElement(
-#         item, element.type.replace('PropertyType', ''))
+
+# def makeXmlListComplex(tag, item, element, formData):
 #     # Tworzenie wewnętrzych elementów i wypełnianie ich
-#     for innerElement in element.innerFormElements:
-#         innerItem = ET.SubElement(
-#             ComplexItem, tag+innerElement.name)
-#         for fd in formData.keys():
-#             if innerElement.name in fd:
-#                 innerItem.text = formData[fd]
-#                 break
+#     for fee in formData:
+#         ComplexItem = ET.SubElement(
+#             item, element.type.replace('PropertyType', ''))
+#         for innerElement in element.innerFormElements:
+#             innerItem = ET.SubElement(
+#                 ComplexItem, tag+innerElement.name)
+#             for fd in fee.keys():
+#                 if innerElement.name in fd:
+#                     innerItem.text = fee[fd]
+#                     break
 #             # else:
 #                 # innerItem.text = 'BRAK DANYCH'
+
+
+def makeXmlListElements(tag, item, element, formData):
+    # Tworzenie wewnętrzych elementów i wypełnianie ich
+    for fee in formData:
+        if element.isComplex():
+            ComplexItem = ET.SubElement(
+                item, element.type.replace('PropertyType', ''))
+            for innerElement in element.innerFormElements:
+                innerItem = ET.SubElement(
+                    ComplexItem, tag+innerElement.name)
+                for fd in fee.keys():
+                    try:  # Sprawdzanie Nil == True
+                        if fee[innerElement.name+'_lineEdit_nilReason_chkbx']:
+                            makeNil(
+                                innerItem, innerElement, fee[innerElement.name+'_lineEdit_nilReason_cmbbx'])
+                    except:
+                        pass
+
+                    if innerElement.name in fd:
+                        innerItem.text = fee[fd]
+                        break
+        else:
+            multiItem = ET.SubElement(
+                item, tag+element.name)
+            for fd in fee.keys():
+                try:  # Sprawdzanie Nil == True
+                    if fee[innerElement.name+'_lineEdit_nilReason_chkbx']:
+                        makeNil(
+                            innerItem, innerElement, fee[innerElement.name+'_lineEdit_nilReason_chkbx'])
+                except:
+                    pass
+                if element.name in fd:
+                    multiItem.text = fee[fd]
+                    break
 
 
 def make_polygon(polygons):
@@ -411,7 +449,7 @@ def makeXML(docName, elements, formData, obrysLayer=None):
                                         'xlink:href', (link+slownik[formData[fd]]))
                                     item.set('xlink:title', formData[fd])
                             except:
-                                item.set('xlink: href', formData[fd])
+                                item.set('xlink:href', formData[fd])
                                 item.set('xlink:title', formData[fd])
 
                         elif element.name == 'ukladOdniesieniaPrzestrzennego':
@@ -467,6 +505,48 @@ def formSkippedObjects(docName):
     return(pomijane)
 
 
+def checkElement(fe, element):
+    try:  # LineEdit / Date
+        print(element.text())
+        if fe.minOccurs > 0 and (element.text() is None or element.text() == 'NULL' or element.text() == ''):
+            showPopup(title='Błąd formularza',
+                      text='Brak wartości dla atrybutu: %s' % fe.name)
+            return False
+    except:  # Combobox
+        try:
+            print(element.currentText())
+            if fe.minOccurs > 0 and (element.currentText() is None or element.currentText() == ''):
+                showPopup(title='Błąd formularza',
+                          text='Brak wartości dla atrybutu: %s' % fe.name)
+                return False
+        except:
+            try:  # ListWidget
+                if fe.minOccurs > 0 and element.count() > 0:
+                    showPopup(title='Błąd formularza',
+                              text='Brak wartości dla atrybutu: %s' % fe.name)
+                    return False
+            except:
+                print('checkElement')
+    return True
+
+
+def isFormFilled(dialog):
+    for fe in dialog.formElements:
+        print(fe.name)
+        print(fe.minOccurs)
+        if fe.name in dialog.pomijane:
+            continue
+        # Sprawdza tylko czy wartość występuje co najmniej raz - brak specyfikacji dokładnej liczności
+        if type(fe.refObject) == list:
+            for element in fe.refObject:
+                if checkElement(fe, element) == False:  # Brak wartości
+                    return False
+        else:
+            if checkElement(fe, fe.refObject) == False:  # Brak wartości
+                return False
+    return True  # Wszystko wypełnione
+
+
 def getListWidgetItems(element):
     itemList = []
     for i in range(element.count()):
@@ -483,13 +563,6 @@ def getListWidgetItems(element):
 
 
 def retrieveFormData(elements, data, pomijane):
-    # TODO Pobierać wartości z qlistwidget zamiast z lineeditów
-    # obsługa nillable
-
-    # for element in elements:
-    #     print('\t'+element.name)
-    #     print(element.refObject)
-    # if element.isComplex():
 
     form_data = {}
     for el in data:
@@ -518,11 +591,56 @@ def retrieveFormData(elements, data, pomijane):
                 continue
     return(form_data)
 
-# NOWE
+
+def getListWidgetItems(listWidget):
+    itemList = []
+    for i in range(listWidget.count()):
+        item = listWidget.item(i).data(Qt.UserRole)
+        print(item)
+        for key in item.keys():
+            if type(item[key]) == str or type(item[key]) == int:
+                continue
+            elif type(item[key]) == bool:
+                continue
+            else:
+                item[key] = item[key].toString("yyyy-MM-ddThh:mm:ss")
+        itemList.append(item)
+    return(itemList)
 
 
-def createXmlData(dialog, obrysLayer):
-    import datetime
+def makeMapaPodkladowaNode(item, data):
+    for i in data.keys():
+        item1 = ET.SubElement(item, 'app:MapaPodkladowa')
+        item1.text = data[i]
+
+
+def makeListWidgetLaczeNode(item, data):
+    for i in data.keys():
+        item1 = ET.SubElement(item, 'app:lacze')
+        item1.text = data[i]
+
+
+def makeDataNode(item, data, slownik):
+    item1 = ET.SubElement(item, 'gml:CI_Date')
+    item2 = ET.SubElement(item1, 'gml:date')
+    item3 = ET.SubElement(item2, 'gco:Date')
+    item3.text = data[0].dateTime().toString("yyyy-MM-dd")
+    item4 = ET.SubElement(item2, 'gmd:DateType')
+    item5 = ET.SubElement(item4, 'gmd:CI_DateTypeCode')
+    item5.set(
+        'codeList', 'http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#CI_DateTypeCode')
+    item5.set('codeListValue', slownik[data[1].currentText()])
+    item5.text = data[1].currentText()
+
+
+def makeNil(item, element, nilReason):
+    if element.isNillable:
+        item.set('nilReason', str(nilReason))
+        item.set('xsi:nil', 'true')
+
+
+def createXmlData(dialog, obrysLayer):  # NOWE
+
     dict_map = {
         'status': dictionaries.statusListaKodowa,
         'poziomHierarchii': dictionaries.poziomyHierarchii,
@@ -541,7 +659,6 @@ def createXmlData(dialog, obrysLayer):
     }
 
     docName = docNames[type(dialog).__name__]
-    # IIP = dialog.formElements.refObject.
     try:
         CoordinatesList = getCoordinates(obrysLayer)
         epsg = str(obrysLayer.crs().authid()).split(':')[1]
@@ -587,24 +704,88 @@ def createXmlData(dialog, obrysLayer):
     tag = 'app:'
     items = ET.SubElement(datamember, tag + docName)
 
-    item = ET.SubElement(items, 'gml:identifier')
+    itemid = ET.SubElement(items, 'gml:identifier')
     codeSpace = 'http://zagospodarowanieprzestrzenne.gov.pl/app'
-    item.set('codeSpace', codeSpace)
-    # items.set('gml:id', IPP)
-    # item.text = '/'.join([codeSpace, docName, IPP.replace('_', '/')])
+    itemid.set('codeSpace', codeSpace)
+
     for fe in dialog.formElements:
-        # print(fe.name)
-        # print(type(fe.refObject))
-        item = ET.SubElement(items, tag + fe.name)
-        if fe.isComplex():
-            makeXmlComplex(tag, item, fe)
-        try:
-            item.text = fe.refObject.text()
-        except:
+        if fe.name in dialog.pomijane and fe.name != 'zasiegPrzestrzenny':
+            continue
+        if fe.name in dict_map.keys():
+            slownik = dict_map[fe.name]  # sprawdzać też na innerElements
+        if fe.name == 'typPlanu':
+            link = 'http://zagospodarowanieprzestrzenne.gov.pl/codelist/AktPlanowaniaPrzestrzennegoKod/'
+        elif fe.name == 'dziennikUrzedowy':
+            link = 'http://zagospodarowanieprzestrzenne.gov.pl/codelist/DziennikUrzedowyKod/'
+        else:
+            link = ''
+        if fe.name == 'idIIP':
+            IIP = fe.refObject.text()
+            items.set('gml:id', IIP)
+            itemid.text = '/'.join([codeSpace, docName, IIP.replace('_', '/')])
+
+        if fe.isComplex():  # Element jest wielokrotny
+            item = ET.SubElement(items, tag + fe.name)
+            if fe.maxOccurs == 'unbounded':
+                params = getListWidgetItems(fe.refObject)
+                makeXmlListElements(tag, item, fe, params)
+                continue
+            else:
+                makeXmlComplex(tag, item, fe)
+                continue
+        elif fe.maxOccurs == 'unbounded':  # Element jest wielokrotny
+            params = getListWidgetItems(fe.refObject)
+            if params == [] and fe.minOccurs == 0:
+                continue
+            makeXmlListElements(tag, items, fe, params)
+            continue
+        else:  # Element jest elementarny
+            item = ET.SubElement(items, tag + fe.name)
+
+        if fe.isNillable:
+            nil = False
+            widgets = all_layout_widgets(fe.refObject[1])
+            for widget in widgets:
+                if type(widget).__name__ == 'QCheckBox':
+                    if widget.isChecked() == True:
+                        nil = True
+                        for widget in widgets:
+                            if type(widget).__name__ == 'QComboBox':
+                                makeNil(item, fe, widget.currentText())
+                                continue
+
+            continue
+
+        if fe.name == 'data':
+            makeDataNode(item, fe.refObject, slownik)
+        elif fe.name == 'ukladOdniesieniaPrzestrzennego':
+            item.text = slownik[fe.refObject.currentText()]
+        elif fe.type == 'date':
+            item.text = fe.refObject.dateTime().toString("yyyy-MM-dd")
+        elif fe.type == 'dateTime':
+            item.text = fe.refObject.dateTime().toString(
+                "yyyy-MM-ddThh:mm:ss")
+        elif 'ReferenceType' in fe.type:
             try:
-                item.text = fe.refObject.currentText()
+                item.set('xlink:href', (link+slownik[fe.refObject.text()]))
+                item.set('xlink:title', fe.refObject.text())
             except:
-                print('yolo')
+                item.set('xlink:href',
+                         (link+slownik[fe.refObject.currentText()]))
+                item.set('xlink:title', fe.refObject.currentText())
+        elif fe.name == 'zasiegPrzestrzenny':
+            subItem1 = ET.SubElement(item, 'gml:MultiSurface')
+            subItem1.set('srsDimension', '2')
+            subItem1.set('srsName', srsName)
+            makeSpatialExtent(subItem1, CoordinatesList)
+        else:
+            try:
+                item.text = fe.refObject.text()
+            except:
+                try:
+                    item.text = fe.refObject.currentText()
+                except:
+                    pass
 
     return data
 

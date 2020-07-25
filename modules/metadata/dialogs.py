@@ -188,11 +188,14 @@ class MetadaneDialog(QDialogOverride, FORM_CLASS, ButtonsDialog):
                 label.setMaximumWidth(16)
                 label.setPixmap(p.scaled(16, 16, Qt.KeepAspectRatio))
 
+                label.setToolTip(
+                    "<FONT COLOR=black>%s</FONT>" % label.toolTip())  # dodanie tooltip z documentation 'rich text' dla zawijania
+
     def prepareListWidgets(self, listWidget):
         """Przygotowanie obsługi pól wielokrotnej liczności"""
         def clearDataFromListWidget():
             for input in inputs:
-                if isinstance(input,QComboBox):
+                if isinstance(input, QComboBox):
                     input.setCurrentIndex(0)
                 if isinstance(input, QLineEdit):
                     input.clear()

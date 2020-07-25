@@ -250,26 +250,6 @@ class Formularz:
 
                 createListWidget(formElement.name)
 
-            # if formElement.type == 'app:MapaPodkladowaPropertyType':
-            #     groupbox = QGroupBox(formElement.name)
-            #     groupbox.setObjectName("groupBox")
-            #     vbox2 = QVBoxLayout()
-            #     groupbox.setLayout(vbox2)
-            #     vbox2.addLayout(hbox)
-            #
-            #     hbox.addWidget(input)
-            #     hbox.addWidget(tooltipImg)
-            #     vbox.addWidget(groupbox)
-            #
-            #     if formElement.isComplex():  # zawiera podrzędne elementy typu complex
-            #         # input.setEnabled(False)
-            #         input.setVisible(False)
-            #         # rekurencja dla obiektów wewntrznych
-            #         self.__loopFormElements(
-            #             formElement.innerFormElements, vbox2, '  - ')
-            #
-            #     createListWidget('app:MapaPodkladowaPropertyType')
-
             else:
                 hbox.addWidget(input)
 

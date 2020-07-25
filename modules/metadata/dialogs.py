@@ -217,7 +217,7 @@ class MetadaneDialog(QDialogOverride, FORM_CLASS, ButtonsDialog):
                 if isinstance(input,QLineEdit):
                     input.setText(data[input.objectName()])
                 elif isinstance(input,QDateTimeEdit):
-                    input.setDate(data[input.objectName()])
+                    input.setDateTime(data[input.objectName()])
                 elif isinstance(input,QComboBox):
                     input.setCurrentIndex(data[input.objectName()])
 

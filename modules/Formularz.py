@@ -399,13 +399,13 @@ class Formularz:
 
         # ustawienie domyślnych wartości
         fullFormElementName = formElement.form + ":" + formElement.name
-        # print(fullFormElementName)
-        if fullFormElementName in dictionaries.placeholders.keys():
-            if isinstance(input, QLineEdit):  # dla pól tekstowych
-                input.setText(
-                    dictionaries.placeholders[fullFormElementName])
-            elif isinstance(input, QComboBox):  # QComboBox
-                pass
+        # # print(fullFormElementName)
+        # if fullFormElementName in dictionaries.placeholders.keys():
+        #     if isinstance(input, QLineEdit):  # dla pól tekstowych
+        #         input.setText(
+        #             dictionaries.placeholders[fullFormElementName])
+        #     elif isinstance(input, QComboBox):  # QComboBox
+        #         pass
 
         # ustawienie podpowiedzi
         if fullFormElementName in dictionaries.placeholders.keys():

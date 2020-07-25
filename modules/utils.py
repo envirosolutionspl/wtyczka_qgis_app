@@ -820,8 +820,6 @@ def createXmlData(dialog, obrysLayer):  # NOWE
                                 makeNil(item, fe, widget.currentText())
                                 continue
 
-            continue
-
         if fe.name == 'data':
             makeDataNode(item, refObject, slownik)
         elif fe.name == 'ukladOdniesieniaPrzestrzennego':

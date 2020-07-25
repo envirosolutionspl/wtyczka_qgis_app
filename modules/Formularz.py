@@ -106,7 +106,7 @@ class Formularz:
                         return True
                     else:
                         return False
-
+                    
             def addItem():
                 if checkListFormValidity():
                     newListWidgetItem = QListWidgetItem()

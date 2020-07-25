@@ -21,8 +21,8 @@ from lxml import etree
 
 class AppModule(BaseModule):
     metadaneDialog = None
-    ustawieniaDialog = None
-    pomocDialog = None
+    # ustawieniaDialog = None
+    # pomocDialog = None
 
     def __init__(self, iface):
         self.tableView = None
@@ -42,6 +42,8 @@ class AppModule(BaseModule):
         self.wektorFormularzDialog = WektorFormularzDialog()
         self.dokumentyFormularzDialog = DokumentyFormularzDialog()
         self.generowanieGMLDialog = GenerowanieGMLDialog()
+
+        # self.pytanieAppDialog.settings_btn.clicked.connect(self.__settings_btn_clicked)
     # endregion
     # region pytanieAppDialog
         self.pytanieAppDialog.zbior_btn.clicked.connect(

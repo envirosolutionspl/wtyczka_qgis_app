@@ -29,6 +29,7 @@ class SettingsModule(BaseModule):
         self.pomocDialog.cancel_btn.clicked.connect(self.pomocDialog.reject)
         # endregion
 
+
     """Event handlers"""
 
     """Helper methods"""

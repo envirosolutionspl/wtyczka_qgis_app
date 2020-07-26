@@ -109,19 +109,12 @@
         </spacer>
        </item>
        <item>
-        <widget class="QPushButton" name="ok_btn">
+        <widget class="QPushButton" name="cancel_btn">
          <property name="enabled">
           <bool>true</bool>
          </property>
          <property name="text">
-          <string>Ok</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="cancel_btn">
-         <property name="text">
-          <string>Anuluj</string>
+          <string>Zamknij</string>
          </property>
         </widget>
        </item>

@@ -45,8 +45,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>461</width>
-          <height>339</height>
+          <width>484</width>
+          <height>228</height>
          </rect>
         </property>
         <layout class="QGridLayout" name="gridLayout">
@@ -92,6 +92,9 @@
          <property name="text">
           <string>Wyczyść formularz</string>
          </property>
+         <property name="autoDefault">
+          <bool>false</bool>
+         </property>
         </widget>
        </item>
       </layout>
@@ -125,8 +128,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>461</width>
-          <height>128</height>
+          <width>484</width>
+          <height>228</height>
          </rect>
         </property>
         <layout class="QGridLayout" name="gridLayout_2">
@@ -276,6 +279,9 @@
          <property name="text">
           <string>Wstecz</string>
          </property>
+         <property name="autoDefault">
+          <bool>false</bool>
+         </property>
         </widget>
        </item>
        <item>
@@ -296,6 +302,9 @@
          <property name="text">
           <string>Zapisz aktualny formularz</string>
          </property>
+         <property name="autoDefault">
+          <bool>false</bool>
+         </property>
         </widget>
        </item>
        <item>
@@ -305,6 +314,9 @@
          </property>
          <property name="text">
           <string>Dalej</string>
+         </property>
+         <property name="autoDefault">
+          <bool>false</bool>
          </property>
         </widget>
        </item>

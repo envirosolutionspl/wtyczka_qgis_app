@@ -46,7 +46,7 @@
           <x>0</x>
           <y>0</y>
           <width>484</width>
-          <height>230</height>
+          <height>238</height>
          </rect>
         </property>
         <layout class="QGridLayout" name="gridLayout">
@@ -79,12 +79,18 @@
          <property name="text">
           <string>Pobierz wartości z istniejącego formularza</string>
          </property>
+         <property name="autoDefault">
+          <bool>false</bool>
+         </property>
         </widget>
        </item>
        <item>
         <widget class="QPushButton" name="clear_btn">
          <property name="text">
           <string>Wyczyść formularz</string>
+         </property>
+         <property name="autoDefault">
+          <bool>false</bool>
          </property>
         </widget>
        </item>
@@ -114,7 +120,7 @@
           <x>0</x>
           <y>0</y>
           <width>484</width>
-          <height>229</height>
+          <height>221</height>
          </rect>
         </property>
         <layout class="QGridLayout" name="gridLayout_2">
@@ -258,6 +264,9 @@
          <property name="text">
           <string>Wstecz</string>
          </property>
+         <property name="autoDefault">
+          <bool>false</bool>
+         </property>
         </widget>
        </item>
        <item>
@@ -278,6 +287,9 @@
          <property name="text">
           <string>Zapisz aktualny formularz</string>
          </property>
+         <property name="autoDefault">
+          <bool>false</bool>
+         </property>
         </widget>
        </item>
        <item>
@@ -287,6 +299,9 @@
          </property>
          <property name="text">
           <string>Dalej</string>
+         </property>
+         <property name="autoDefault">
+          <bool>false</bool>
          </property>
         </widget>
        </item>

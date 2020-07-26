@@ -59,11 +59,8 @@ class Ui_Dialog(object):
         self.horizontalLayout_2.addWidget(self.help_btn)
         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_2.addItem(spacerItem)
-        self.ok_btn = QtWidgets.QPushButton(Dialog)
-        self.ok_btn.setEnabled(True)
-        self.ok_btn.setObjectName("ok_btn")
-        self.horizontalLayout_2.addWidget(self.ok_btn)
         self.cancel_btn = QtWidgets.QPushButton(Dialog)
+        self.cancel_btn.setEnabled(True)
         self.cancel_btn.setObjectName("cancel_btn")
         self.horizontalLayout_2.addWidget(self.cancel_btn)
         self.verticalLayout.addLayout(self.horizontalLayout_2)
@@ -78,8 +75,7 @@ class Ui_Dialog(object):
         self.title_lbl.setText(_translate("Dialog", "Instrukcja użytkowania wtyczki APP"))
         self.instruction_lbl.setText(_translate("Dialog", "Instrukcja dotycząca obsługi całej wtyczki. Ogólne wskazówki oraz opis poszczególnych okienek. Wytłumaczenie sekwencji kroków jaką należy przejść, aby uzyskać finalny produkt."))
         self.help_btn.setText(_translate("Dialog", "Info"))
-        self.ok_btn.setText(_translate("Dialog", "Ok"))
-        self.cancel_btn.setText(_translate("Dialog", "Anuluj"))
+        self.cancel_btn.setText(_translate("Dialog", "Zamknij"))
 
 
 if __name__ == "__main__":

@@ -914,20 +914,25 @@ def getDocType(filePath):
     docNames = ['AktPlanowaniaPrzestrzennego',
                 'RysunekAktuPlanowniaPrzestrzenego',
                 'DokumentFormalny']
-    tree = ET.parse(filePath)
-    root = tree.getroot()
-    elemList = []
+    try:
+        tree = ET.parse(filePath)
+        root = tree.getroot()
+        elemList = []
+        # Sprawdzanie, czy plik
+        if len(root) != 1:
+            return ''
+        for elem in root.iter():
+            elemList.append(elem.tag)
 
-    for elem in root.iter():
-        elemList.append(elem.tag)
+        # usuwanie duplikatów
+        elemList = list(set(elemList))
 
-    # usuwanie duplikatów
-    elemList = list(set(elemList))
-
-    for elem in elemList:
-        for docName in docNames:
-            if docName in elem:
-                return docName
+        for elem in elemList:
+            for docName in docNames:
+                if docName in elem:
+                    return docName
+    except:
+        return ''
     return ''
 
 
@@ -984,6 +989,9 @@ def mergeDocsToAPP(docList):  # docList z getTableContent
         docType = getDocType(doc)
         # słownik/tablica rootów poszczególnych dokumentów
         docRoots[docType].append(ET.parse(doc).getroot())
+        if docType == 'DokumentFormalny':
+            pass
+
     # TODO walidacja liczności poszczególnych plików dokumenty i relacje
     if len(docRoots['AktPlanowaniaPrzestrzennego']) != 1:
         showPopup(title='Błąd liczności dokumentu', text='Liczba Aktów Planowania Przestrzennego: %i\nWymagana liczba: 1' % len(
@@ -1031,7 +1039,7 @@ def mergeDocsToAPP(docList):  # docList z getTableContent
     # eksport APP
     mydata = ET.tostring(rootAkt)
     from lxml import etree
-    root = etree.XML(mydata.replace(b'><', b'>\n\t\t\t<'))
+    root = etree.XML(mydata)  # .replace(b'><', b'>\n\t\t\t<'))
     xml_string = etree.tostring(
         root,
         xml_declaration=True,

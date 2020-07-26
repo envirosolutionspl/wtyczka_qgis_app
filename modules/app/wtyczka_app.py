@@ -399,7 +399,10 @@ class AppModule(BaseModule):
             'RysunekAktuPlanowniaPrzestrzenego': 'Rysunek APP',
             'DokumentFormalny': 'Dokument Formalny'
         }
-        docName = docNames[utils.getDocType(file)]
+        try:
+            docName = docNames[utils.getDocType(file)]
+        except:
+            docName = ''
         if docName == '':
             utils.showPopup(title='Błędny plik',
                             text='Wczytano błędny plik: %s' % file2)

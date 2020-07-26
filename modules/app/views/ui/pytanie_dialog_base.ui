@@ -68,8 +68,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>533</width>
-          <height>374</height>
+          <width>564</width>
+          <height>300</height>
          </rect>
         </property>
         <layout class="QGridLayout" name="gridLayout">
@@ -116,6 +116,9 @@
         <widget class="QPushButton" name="app_btn">
          <property name="text">
           <string>APP</string>
+         </property>
+         <property name="default">
+          <bool>true</bool>
          </property>
         </widget>
        </item>

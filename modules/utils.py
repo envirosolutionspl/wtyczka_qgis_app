@@ -898,6 +898,7 @@ def createXmlAktPlanowaniaPrzestrzennego(layout, obrysLayer):
 
 
 def putElement(element, subElementName, newElement):
+    # Możemy umieścić nowy element nad starym elementem o określonej nazwie
     # element = root, subElementName = str element przed który wrzucamy, newElement = ET.Element
     idx = 0
     for elem in element:
@@ -906,7 +907,7 @@ def putElement(element, subElementName, newElement):
             return True
         idx += 1
         if len(list(elem)) > 0:
-            putElement(elem, subElementName, newElement)
+            return(putElement(elem, subElementName, newElement))
     return False
 
 
@@ -937,24 +938,20 @@ def getDocType(filePath):
 
 
 def getDocIIP(rootDoc, IIP=''):
-    if IIP != '':
-        return IIP
     for elem in rootDoc:
         for attr in elem.attrib.keys():
             if 'id' in attr:
                 IIP = elem.attrib[attr]
                 break
         if len(list(elem)) > 0:
-            IIP = getDocIIP(elem, IIP)
+            return(getDocIIP(elem, IIP))
     return IIP
 
 
-def getDocRelationCount(element, subElementName):
-    pass
-
-
-def addElement():
-    pass
+def newItem(root, name, link, ns):
+    newElement = ET.SubElement(root, "{%s}%s" % (ns['app'], name))
+    newElement.set('xlink:href', link)
+    return newElement
 
 
 def mergeDocsToAPP(docList):  # docList z getTableContent
@@ -983,108 +980,116 @@ def mergeDocsToAPP(docList):  # docList z getTableContent
             "rysunek": []  # APP
         },
         'DokumentFormalny': {
-            "przystąpienie": [],  # Dokument
+            "przystapienie": [],  # Dokument
             "uchwala": [],  # Dokument
             "zmienia": [],  # Dokument
             "uchyla": [],  # Dokument
-            "unieważnia": []  # Dokument
+            "uniewaznia": []  # Dokument
         },
         'RysunekAktuPlanowniaPrzestrzenego': {
-            "plan": ''  # Rysunek
+            "plan": []  # Rysunek
         }
     }
-
     docRoots = {
         'AktPlanowaniaPrzestrzennego': [],
         'DokumentFormalny': [],
         'RysunekAktuPlanowniaPrzestrzenego': []
     }
+
     for prefix, uri in ns.items():
         ET.register_namespace(prefix, uri)
 
+    # Pozyskiwanie APP
     for doc, relation in docList:
         docType = getDocType(doc)
-        # słownik/tablica rootów poszczególnych dokumentów
         root = ET.parse(doc).getroot()
+        if docType == 'AktPlanowaniaPrzestrzennego':
+            APProot = ET.parse(doc).getroot()
+            appIIP = getDocIIP(root)
+            APPrelLink = 'http://zagospodarowanieprzestrzenne.gov.pl/app/%s/%s' % (
+                docType, appIIP)
+
+    for doc, relation in docList:
+        if relation == 'przystąpienie':
+            relation = 'przystapienie'
+        if relation == 'unieważnia':
+            relation = 'uniewaznia'
+        docType = getDocType(doc)
+        root = ET.parse(doc).getroot()
+        # słownik/tablica rootów poszczególnych dokumentów
         docRoots[docType].append(root)
         IIP = getDocIIP(root)
+        relLink = 'http://zagospodarowanieprzestrzenne.gov.pl/app/%s/%s' % (
+            docType, IIP)
         if docType == 'DokumentFormalny':
-            if relation in pomijane[docType].keys():
-                pomijane[docType][relation].append(
-                    doc)  # Zapisywana ścieżka - obsłużyć
-
+            if relation == 'przystapienie':
+                pomijane['AktPlanowaniaPrzestrzennego']['aktNormatywnyPrzystapienie'].append(
+                    relLink)
+                pomijane[docType]['przystapienie'].append(root)
+            if relation == 'uchwala':
+                pomijane['AktPlanowaniaPrzestrzennego']['aktNormatywnyUchwalajacy'].append(
+                    relLink)
+                pomijane[docType]['uchwala'].append(root)
+            if relation == 'zmienia':
+                pomijane['AktPlanowaniaPrzestrzennego']['aktNormatywnyZmieniajacy'].append(
+                    relLink)
+                pomijane[docType]['zmienia'].append(root)
+            if relation == 'uchyla':
+                pomijane['AktPlanowaniaPrzestrzennego']['aktNormatywnyUchylajacy'].append(
+                    relLink)
+                pomijane[docType]['uchyla'].append(root)
+            if relation == 'uniewaznia':
+                pomijane['AktPlanowaniaPrzestrzennego']['aktNormatywnyUniewazniajacy'].append(
+                    relLink)
+                pomijane[docType]['uniewaznia'].append(root)
+        if docType == 'RysunekAktuPlanowniaPrzestrzenego':
+            pomijane['AktPlanowaniaPrzestrzennego']['rysunek'].append(relLink)
+            pomijane[docType]['plan'].append(root)
+            # Dodaje atrybut do rysunku
+            newItem(root=root[0][0], name='plan', link=APPrelLink, ns=ns)
+    print(pomijane)
     # Sprawdzanie relacji Dokumentu formalnego
-    l_przystapienie = len(pomijane['DokumentFormalny']['przystąpienie'])
+    l_przystapienie = len(pomijane['DokumentFormalny']['przystapienie'])
     l_uchwala = len(pomijane['DokumentFormalny']['uchwala'])
     suma = l_przystapienie + l_uchwala
+    print(suma)
     if suma > 2 or suma == 0:
         # Wymagany jest co najmniej 1 dokument
         showPopup(title='Błąd liczności Dokumentów',
                   text='Nieprawidłowa liczba dokumentów.\n Przystąpienie: %i (0..1)\nUchwala: %i (0..1)' % (l_przystapienie, l_uchwala))
         return ''
-
-    # for relacja in pomijane['DokumentFormalny'].keys():
-    #     if relacja == 'przystapienie':
-    #         if len(pomijane['DokumentFormalny'][relacja]) < 1:
-    #             pass
-    #     if relacja == 'uchwala':
-    #         if len(pomijane['DokumentFormalny'][relacja]) < 1:
-    #             pass
-    #     if relacja == 'zmienia':
-    #         pass
-    #     if relacja == 'uchyla':
-    #         pass
-    #     if relacja == 'uniewaznia':
-    #         pass
-
-    # TODO walidacja liczności poszczególnych plików dokumenty i relacje
     if len(docRoots['AktPlanowaniaPrzestrzennego']) != 1:
         showPopup(title='Błąd liczności dokumentu',
                   text='Liczba Aktów Planowania Przestrzennego: %i\nWymagana liczba: 1' % len(docRoots['AktPlanowaniaPrzestrzennego']))
+        return ''
     if len(docRoots['DokumentFormalny']) < 1:
         showPopup(title='Błąd liczności dokumentu',
                   text='Liczba Dokumentów Formalnych: %i\nWymagana liczba: 1+' % len(docRoots['DokumentFormalny']))
+        return ''
     if len(docRoots['RysunekAktuPlanowniaPrzestrzenego']) < 1:
         showPopup(title='Błąd liczności dokumentu',
                   text='Liczba Rysunków: %i\nWymagana liczba: 1+' % len(docRoots['RysunekAktuPlanowniaPrzestrzenego']))
+        return ''
 
-    # # TODO pozyskiwanie linku i idIIP poszczególnych dokumentów
-    # # dodawanie atrybutów do poszczególnych dokumentów
-    # for docName in docRoots.keys():
-    #     for doc in docRoots[docName]:
-    #         if docName == 'AktPlanowaniaPrzestrzennego':
-    #             pass
-    #         if docName == 'DokumentFormalny':
-    #             pass
-    #         if docName == 'RysunekAktuPlanowniaPrzestrzenego':
-    #             for pominiety in pomijane[docName].keys():
-    #                 if pominiety == 'plan':
-    #                     newElement = ET.Element("{%s}plan" % ns['app'])
-    #                     newElement.set('xlink:href', 'placeholder')
-    #                     # putElement(rootAkt, 'obowiazujeOd', newElement)
-    #                     pomijane[pominiety] = newElement
+    for atr in pomijane['AktPlanowaniaPrzestrzennego']:
+        for value in pomijane['AktPlanowaniaPrzestrzennego'][atr]:
+            newItem(APProot[0][0], name=atr, link=value, ns=ns)
 
-    # # Dodawanie atrybutów do dokumentów # Łączenie dokumentów
-    # for rysunek in docRoots['RysunekAktuPlanowniaPrzestrzenego']:
-    #     for atrybut in pomijane['RysunekAktuPlanowniaPrzestrzenego'].keys():
-    #         rysunek[0][0].append(
-    #             pomijane['RysunekAktuPlanowniaPrzestrzenego'][atrybut])
+    for atr in pomijane['DokumentFormalny']:
+        for root in pomijane['DokumentFormalny'][atr]:
+            newItem(root=root[0][0], name=atr, link=APPrelLink, ns=ns)
 
-    # for dokument in docRoots['DokumentFormalny']:
-    #     for atrybut in pomijane['DokumentFormalny'].keys():
-    #         dokument[0][0].append(
-    #             pomijane['DokumentFormalny'][atrybut])
+    for atr in pomijane['DokumentFormalny']:
+        for root in pomijane['DokumentFormalny'][atr]:
+            APProot.append(root[0])
+    for atr in pomijane['RysunekAktuPlanowniaPrzestrzenego']:
+        for root in pomijane['RysunekAktuPlanowniaPrzestrzenego'][atr]:
+            APProot.append(root[0])
 
-    for docName in docRoots.keys():
-        if docName == 'AktPlanowaniaPrzestrzennego':
-            rootAkt = docRoots[docName][0]
-            continue
-        for doc in docRoots[docName]:
-            rootAkt.append(doc[0])
     # eksport APP
-    mydata = ET.tostring(rootAkt)
+    mydata = ET.tostring(APProot).replace(b'><', b'>\n\t<')
     from lxml import etree
-    root = etree.XML(mydata)  # .replace(b'><', b'>\n\t\t\t<'))
+    root = etree.XML(mydata)
     xml_string = etree.tostring(
         root,
         xml_declaration=True,

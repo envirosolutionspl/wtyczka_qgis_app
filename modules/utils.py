@@ -953,6 +953,9 @@ def getDocRelationCount(element, subElementName):
     pass
 
 
+def addElement
+
+
 def mergeDocsToAPP(docList):  # docList z getTableContent
     # docList[0] - ścieżka
     # docList[0] - relacja dokumentu / '' dla APP, Rysunek
@@ -1004,7 +1007,6 @@ def mergeDocsToAPP(docList):  # docList z getTableContent
         root = ET.parse(doc).getroot()
         docRoots[docType].append(root)
         IIP = getDocIIP(root)
-        print('IIP ', IIP)
         if docType == 'DokumentFormalny':
             if relation in pomijane[docType].keys():
                 pomijane[docType][relation].append(
@@ -1036,14 +1038,14 @@ def mergeDocsToAPP(docList):  # docList z getTableContent
 
     # TODO walidacja liczności poszczególnych plików dokumenty i relacje
     if len(docRoots['AktPlanowaniaPrzestrzennego']) != 1:
-        showPopup(title='Błąd liczności dokumentu', text='Liczba Aktów Planowania Przestrzennego: %i\nWymagana liczba: 1' % len(
-            docRoots['AktPlanowaniaPrzestrzennego']))
+        showPopup(title='Błąd liczności dokumentu',
+                  text='Liczba Aktów Planowania Przestrzennego: %i\nWymagana liczba: 1' % len(docRoots['AktPlanowaniaPrzestrzennego']))
     if len(docRoots['DokumentFormalny']) < 1:
         showPopup(title='Błąd liczności dokumentu',
                   text='Liczba Dokumentów Formalnych: %i\nWymagana liczba: 1+' % len(docRoots['DokumentFormalny']))
     if len(docRoots['RysunekAktuPlanowniaPrzestrzenego']) < 1:
-        showPopup(title='Błąd liczności dokumentu', text='Liczba Rysunków: %i\nWymagana liczba: 1+' %
-                  len(docRoots['RysunekAktuPlanowniaPrzestrzenego']))
+        showPopup(title='Błąd liczności dokumentu',
+                  text='Liczba Rysunków: %i\nWymagana liczba: 1+' % len(docRoots['RysunekAktuPlanowniaPrzestrzenego']))
 
     # # TODO pozyskiwanie linku i idIIP poszczególnych dokumentów
     # # dodawanie atrybutów do poszczególnych dokumentów

@@ -415,12 +415,10 @@ class AppModule(BaseModule):
         if self.generowanieGMLDialog.filesTable_widget.item(rows, 1).text() == 'Dokument Formalny':
             c = QComboBox()
             c.addItems(['przystąpienie', 'uchwala', 'zmienia',
-                        'uchyla', 'unieważnia', 'inna'])
+                        'uchyla', 'unieważnia'])
             i = self.generowanieGMLDialog.filesTable_widget.model().index(rows, 3)
             self.generowanieGMLDialog.filesTable_widget.setCellWidget(
                 rows, 3, c)
-            print(self.generowanieGMLDialog.filesTable_widget.cellWidget(
-                rows, 3).currentText())
         else:
             empty = QTableWidgetItem('')
             empty.setFlags(flags)
@@ -450,16 +448,19 @@ class AppModule(BaseModule):
         return content  # ścieżki do plików
 
     def generateAPP(self):  # Generowanie pliku z APP
-        self.fn = QFileDialog.getSaveFileName(
-            filter="XML Files (*.xml)")[0]
-        if self.fn:
-            docList = self.getTableContent()
-
-            xml_string = utils.mergeDocsToAPP(docList)
-            if xml_string != '':
-                myfile = open(self.fn, "w", encoding='utf-8')
-                myfile.write(xml_string)
-                self.showPopupApp()
+        docList = self.getTableContent()
+        if len(docList) == 0:
+            utils.showPopup(title='Brak Dokumentów',
+                            text='Do tabeli nie zostały dodane żadne dokumenty.')
+        else:
+            self.fn = QFileDialog.getSaveFileName(
+                filter="XML Files (*.xml)")[0]
+            if self.fn:
+                xml_string = utils.mergeDocsToAPP(docList)
+                if xml_string != '':
+                    myfile = open(self.fn, "w", encoding='utf-8')
+                    myfile.write(xml_string)
+                    self.showPopupApp()
 # Zbiór
 
     def addTableContentSet(self):

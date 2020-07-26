@@ -936,6 +936,19 @@ def getDocType(filePath):
     return ''
 
 
+def getDocIIP(rootDoc, IIP=''):
+    if IIP != '':
+        return IIP
+    for elem in rootDoc:
+        for attr in elem.attrib.keys():
+            if 'id' in attr:
+                IIP = elem.attrib[attr]
+                break
+        if len(list(elem)) > 0:
+            IIP = getDocIIP(elem, IIP)
+    return IIP
+
+
 def getDocRelationCount(element, subElementName):
     pass
 
@@ -966,11 +979,11 @@ def mergeDocsToAPP(docList):  # docList z getTableContent
             "rysunek": []  # APP
         },
         'DokumentFormalny': {
-            "przystapienie": [],  # Dokument
+            "przystąpienie": [],  # Dokument
             "uchwala": [],  # Dokument
             "zmienia": [],  # Dokument
             "uchyla": [],  # Dokument
-            "uniewaznia": []  # Dokument
+            "unieważnia": []  # Dokument
         },
         'RysunekAktuPlanowniaPrzestrzenego': {
             "plan": ''  # Rysunek
@@ -988,9 +1001,38 @@ def mergeDocsToAPP(docList):  # docList z getTableContent
     for doc, relation in docList:
         docType = getDocType(doc)
         # słownik/tablica rootów poszczególnych dokumentów
-        docRoots[docType].append(ET.parse(doc).getroot())
+        root = ET.parse(doc).getroot()
+        docRoots[docType].append(root)
+        IIP = getDocIIP(root)
+        print('IIP ', IIP)
         if docType == 'DokumentFormalny':
-            pass
+            if relation in pomijane[docType].keys():
+                pomijane[docType][relation].append(
+                    doc)  # Zapisywana ścieżka - obsłużyć
+
+    # Sprawdzanie relacji Dokumentu formalnego
+    l_przystapienie = len(pomijane['DokumentFormalny']['przystąpienie'])
+    l_uchwala = len(pomijane['DokumentFormalny']['uchwala'])
+    suma = l_przystapienie + l_uchwala
+    if suma > 2 or suma == 0:
+        # Wymagany jest co najmniej 1 dokument
+        showPopup(title='Błąd liczności Dokumentów',
+                  text='Nieprawidłowa liczba dokumentów.\n Przystąpienie: %i (0..1)\nUchwala: %i (0..1)' % (l_przystapienie, l_uchwala))
+        return ''
+
+    # for relacja in pomijane['DokumentFormalny'].keys():
+    #     if relacja == 'przystapienie':
+    #         if len(pomijane['DokumentFormalny'][relacja]) < 1:
+    #             pass
+    #     if relacja == 'uchwala':
+    #         if len(pomijane['DokumentFormalny'][relacja]) < 1:
+    #             pass
+    #     if relacja == 'zmienia':
+    #         pass
+    #     if relacja == 'uchyla':
+    #         pass
+    #     if relacja == 'uniewaznia':
+    #         pass
 
     # TODO walidacja liczności poszczególnych plików dokumenty i relacje
     if len(docRoots['AktPlanowaniaPrzestrzennego']) != 1:

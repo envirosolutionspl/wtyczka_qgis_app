@@ -101,8 +101,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>743</width>
-          <height>560</height>
+          <width>760</width>
+          <height>381</height>
          </rect>
         </property>
         <layout class="QGridLayout" name="gridLayout_2">
@@ -676,7 +676,7 @@ Wartość elementu metadanych zawsze jest równa: „Planowanie/Kataster” („
             <string>Słowo kluczowe*</string>
            </property>
            <property name="collapsed">
-            <bool>false</bool>
+            <bool>true</bool>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_2">
             <property name="sizeConstraint">
@@ -746,32 +746,6 @@ Obowiązkowo należy podać  słowa kluczowe:
                  <property name="sortingEnabled">
                   <bool>false</bool>
                  </property>
-                 <item>
-                  <property name="text">
-                   <string>Zagospodarowanie przestrzenne</string>
-                  </property>
-                  <property name="flags">
-                   <set>ItemIsSelectable|ItemIsDragEnabled|ItemIsUserCheckable</set>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>&lt;zakres przestrzenny&gt;</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>PlannedLandUse</string>
-                  </property>
-                  <property name="flags">
-                   <set>ItemIsSelectable|ItemIsDragEnabled|ItemIsUserCheckable</set>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>&lt;poziom planu zagosp. przetrz.&gt;</string>
-                  </property>
-                 </item>
                 </widget>
                </item>
               </layout>
@@ -1048,7 +1022,7 @@ Należy podać identyfikator systemu odniesienia w EPSG Geodetic Parameter Regis
             <string>Odniesienie czasowe*</string>
            </property>
            <property name="collapsed">
-            <bool>false</bool>
+            <bool>true</bool>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_2">
             <property name="sizeConstraint">
@@ -1373,22 +1347,6 @@ Element metadanych zawsze przyjmuje wartości: wektor „Vector” oraz raster �
                  <property name="sortingEnabled">
                   <bool>false</bool>
                  </property>
-                 <item>
-                  <property name="text">
-                   <string>wektor</string>
-                  </property>
-                  <property name="flags">
-                   <set>ItemIsSelectable|ItemIsDragEnabled|ItemIsUserCheckable</set>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>raster</string>
-                  </property>
-                  <property name="flags">
-                   <set>ItemIsSelectable|ItemIsDragEnabled|ItemIsUserCheckable</set>
-                  </property>
-                 </item>
                 </widget>
                </item>
               </layout>

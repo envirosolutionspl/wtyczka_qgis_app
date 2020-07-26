@@ -14,7 +14,7 @@ from qgis.PyQt import uic, QtGui
 from qgis.PyQt import QtWidgets
 from qgis.core import QgsSettings
 from qgis.gui import QgisInterface
-from .. import QDialogOverride, ButtonsDialog, utils
+from .. import QDialogOverride, ButtonsDialog, utils, dictionaries
 from . import mail, csw
 
 
@@ -251,6 +251,18 @@ class MetadaneDialog(QDialogOverride, FORM_CLASS, ButtonsDialog):
         def removeItem(listWidget):
             listWidget.takeItem(listWidget.currentRow())
 
+        def setDefaultValues(elementId, listWidget):
+            """ustawia domyślne wartości dla listWidget na podstawie słownika"""
+            if elementId in dictionaries.metadataListWidgetsDefaultItemsDisabled.keys():
+                dataList = dictionaries.metadataListWidgetsDefaultItemsDisabled[elementId]
+                for data in dataList:
+                    newItem = QListWidgetItem()
+                    newItem.setData(Qt.UserRole, QVariant(data))
+                    newItem.setText(list(data.values())[0])
+                    newItem.setFlags(Qt.NoItemFlags)
+                    listWidget.addItem(newItem)
+
+
         # print(listWidget.objectName())
         elementId = listWidget.objectName().split('_')[0]
         add_btn = utils.getWidgetByName(self, QPushButton, elementId + "_add_btn")
@@ -260,6 +272,7 @@ class MetadaneDialog(QDialogOverride, FORM_CLASS, ButtonsDialog):
         nameLineEdit = utils.getWidgetByName(self, QLineEdit, elementId + "_name_lineEdit")
         dateTimeEdit = utils.getWidgetByName(self, QDateTimeEdit, elementId + "_dateTimeEdit")
         cmbbx = utils.getWidgetByName(self, QComboBox, elementId + "_cmbbx")
+        setDefaultValues(elementId, listWidget)
 
         inputs = [lineEdit, dateTimeEdit, cmbbx, mailLineEdit, nameLineEdit]
         add_btn.clicked.connect(addItem)

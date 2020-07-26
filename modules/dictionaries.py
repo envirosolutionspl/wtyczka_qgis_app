@@ -135,3 +135,8 @@ licznoscMetadataFields = {
     "e33": '1',
     "e34": '1'
 }
+# stałe niezmienne wartości dla pól wielokrotnych
+metadataListWidgetsDefaultItemsDisabled = {
+    'e9': [{'e9_lineEdit': 'Zagospodarowanie przestrzenne'}, {'e9_lineEdit': 'PlannedLandUse'}],
+    'e17': [{'e17_lineEdit': 'wektor'}, {'e17_lineEdit': 'raster'}],
+}

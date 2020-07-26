@@ -112,7 +112,7 @@ class AppModule(BaseModule):
         self.generowanieGMLDialog.prev_btn.clicked.connect(
             self.generowanieGMLDialog_prev_btn_clicked)
         self.generowanieGMLDialog.generate_btn.clicked.connect(
-            self.showPopupApp)
+            self.generateAPP)
         self.generowanieGMLDialog.addElement_btn.clicked.connect(
             self.addTableContentGML)
         self.generowanieGMLDialog.deleteElement_btn.clicked.connect(
@@ -374,27 +374,8 @@ class AppModule(BaseModule):
             else:
                 self.tableContentGML(plik, rows)
 
-    # def getDocType(self):
-    #     xmlTree = ET.parse(self)
-
-    #     elemList = []
-
-    #     for elem in xmlTree.iter():
-    #         elemList.append(elem.tag)
-
-    #     # now I remove duplicities - by convertion to set and back to list
-    #     elemList = list(set(elemList))
-
-    #     # Just printing out the result
-    #     print(elemList)
-    #     DocType = ''
-    #     return DocType
-
     def tableContentGML(self, file, rows):
-        # print(file)
-        # print(file.getDocType)
         # data modyfikacji
-
         def path_leaf(file):
             head, tail = ntpath.split(file)
             return tail or ntpath.basename(head)
@@ -412,9 +393,18 @@ class AppModule(BaseModule):
         item.setFlags(flags)
         self.generowanieGMLDialog.filesTable_widget.setItem(rows, 2, item)
 
-        # TODO rodzaj dokumentu
+        # Ustawianie rodzaju dokumentu
+        docNames = {
+            'AktPlanowaniaPrzestrzennego': 'APP',
+            'RysunekAktuPlanowniaPrzestrzenego': 'Rysunek APP',
+            'DokumentFormalny': 'Dokument Formalny'
+        }
+        docName = docNames[utils.getDocType(file)]
+        if docName == '':
+            utils.showPopup(title='Błędny plik',
+                            text='Wczytano błędny plik: %s' % file2)
         rodzaj = ['Dokument Formalny', 'APP', 'Rysunek APP']
-        item2 = QTableWidgetItem(random.choice(rodzaj))
+        item2 = QTableWidgetItem(docName)
         item2.setFlags(flags)
         self.generowanieGMLDialog.filesTable_widget.setItem(rows, 1, item2)
 
@@ -424,7 +414,10 @@ class AppModule(BaseModule):
             c.addItems(['przystąpienie', 'uchwala', 'zmienia',
                         'uchyla', 'unieważnia', 'inna'])
             i = self.generowanieGMLDialog.filesTable_widget.model().index(rows, 3)
-            self.generowanieGMLDialog.filesTable_widget.setIndexWidget(i, c)
+            self.generowanieGMLDialog.filesTable_widget.setCellWidget(
+                rows, 3, c)
+            print(self.generowanieGMLDialog.filesTable_widget.cellWidget(
+                rows, 3).currentText())
         else:
             empty = QTableWidgetItem('')
             empty.setFlags(flags)
@@ -438,6 +431,32 @@ class AppModule(BaseModule):
             self.generowanieGMLDialog.filesTable_widget.setCurrentCell(-1, -1)
         else:
             pass
+
+    def getTableContent(self):
+        content = []
+        row_num = self.generowanieGMLDialog.filesTable_widget.rowCount()
+        for i in range(row_num):
+            item = self.generowanieGMLDialog.filesTable_widget.item(
+                i, 0).toolTip()
+            try:
+                relation = self.generowanieGMLDialog.filesTable_widget.cellWidget(
+                    i, 3).currentText()
+            except:
+                relation = ''
+            content.append([item, relation])
+        return content  # ścieżki do plików
+
+    def generateAPP(self):  # Generowanie pliku z APP
+        self.fn = QFileDialog.getSaveFileName(
+            filter="XML Files (*.xml)")[0]
+        if self.fn:
+            docList = self.getTableContent()
+            xml_string = utils.mergeDocsToAPP(docList)
+
+            myfile = open(self.fn, "w", encoding='utf-8')
+            myfile.write(xml_string)
+            self.showPopupApp()
+# Zbiór
 
     def addTableContentSet(self):
         plik = str(QFileDialog.getOpenFileName(
@@ -524,27 +543,6 @@ class AppModule(BaseModule):
                     self.obrysLayer = None
                 data = utils.createXmlData(self.activeDlg, self.obrysLayer)
 
-                # if self.activeDlg == self.rasterFormularzDialog:
-                #     data = utils.createXmlData(
-                #         self.activeDlg)
-                # elif self.activeDlg == self.wektorFormularzDialog:
-
-                #     data = utils.createXmlData(
-                #         self.activeDlg,
-                #         self.obrysLayer)
-                # elif self.activeDlg == self.dokumentyFormularzDialog:
-                #     data = utils.createXmlData(
-                #         self.activeDlg)
-
-                # if self.activeDlg == self.rasterFormularzDialog:
-                #     data = utils.createXmlRysunekAPP(self.activeDlg.layout())
-                # elif self.activeDlg == self.wektorFormularzDialog:
-                #     self.obrysLayer = self.wektorInstrukcjaDialog.layers_comboBox.currentLayer()
-                #     data = utils.createXmlAktPlanowaniaPrzestrzennego(
-                #         self.activeDlg.layout(), self.obrysLayer)
-                # elif self.activeDlg == self.dokumentyFormularzDialog:
-                #     data = utils.createXmlDokumentFormalny(self.activeDlg.layout())
-
                 mydata = ET.tostring(data)
                 root = etree.XML(mydata)
 
@@ -586,6 +584,7 @@ class AppModule(BaseModule):
         QgsProject.instance().addMapLayer(aggregated['OUTPUT'])
 
     def showPopupApp(self):
+        # Popup generowanie APP
         msg = QMessageBox()
         msg.setIcon(QtWidgets.QMessageBox.Question)
         msg.setWindowTitle('Czy chcesz utworzyć kolejny APP?')

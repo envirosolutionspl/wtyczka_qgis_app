@@ -895,3 +895,146 @@ def createXmlAktPlanowaniaPrzestrzennego(layout, obrysLayer):
                    obrysLayer=obrysLayer)
 
     return data
+
+
+def putElement(element, subElementName, newElement):
+    # element = root, subElementName = str element przed który wrzucamy, newElement = ET.Element
+    idx = 0
+    for elem in element:
+        if subElementName in elem.tag:
+            element.insert(idx, newElement)
+            return True
+        idx += 1
+        if len(list(elem)) > 0:
+            putElement(elem, subElementName, newElement)
+    return False
+
+
+def getDocType(filePath):
+    docNames = ['AktPlanowaniaPrzestrzennego',
+                'RysunekAktuPlanowniaPrzestrzenego',
+                'DokumentFormalny']
+    tree = ET.parse(filePath)
+    root = tree.getroot()
+    elemList = []
+
+    for elem in root.iter():
+        elemList.append(elem.tag)
+
+    # usuwanie duplikatów
+    elemList = list(set(elemList))
+
+    for elem in elemList:
+        for docName in docNames:
+            if docName in elem:
+                return docName
+    return ''
+
+
+def getDocRelationCount(element, subElementName):
+    pass
+
+
+def mergeDocsToAPP(docList):  # docList z getTableContent
+    # docList[0] - ścieżka
+    # docList[0] - relacja dokumentu / '' dla APP, Rysunek
+    ns = {
+        'xsi': "http://www.w3.org/2001/XMLSchema",
+        'app': "http://zagospodarowanieprzestrzenne.gov.pl/schemas/app/1.0",
+        'gmd': "http://www.isotc211.org/2005/gmd",
+        'gco': 'http://www.isotc211.org/2005/gco',
+        'xlink': 'http://www.w3.org/1999/xlink',
+        'gml': "http://www.opengis.net/gml/3.2",
+        'wfs': 'http://www.opengis.net/wfs/2.0',
+        'gmlexr': "http://www.opengis.net/gml/3.3/exr"
+    }
+    # TODO POZYSKAĆ PARAMETR Z TABELI DLA DOKUMENTU
+    # Przechowywanie elementów referencyjnych
+    pomijane = {
+        'AktPlanowaniaPrzestrzennego': {
+            "dokument": [],  # APP ???
+            "aktNormatywnyPrzystapienie": [],  # APP
+            "aktNormatywnyUchwalajacy": [],  # APP
+            "aktNormatywnyZmieniajacy": [],  # APP
+            "aktNormatywnyUchylajacy": [],  # APP
+            "aktNormatywnyUniewazniajacy": [],  # APP
+            "rysunek": []  # APP
+        },
+        'DokumentFormalny': {
+            "przystapienie": [],  # Dokument
+            "uchwala": [],  # Dokument
+            "zmienia": [],  # Dokument
+            "uchyla": [],  # Dokument
+            "uniewaznia": []  # Dokument
+        },
+        'RysunekAktuPlanowniaPrzestrzenego': {
+            "plan": ''  # Rysunek
+        }
+    }
+
+    docRoots = {
+        'AktPlanowaniaPrzestrzennego': [],
+        'DokumentFormalny': [],
+        'RysunekAktuPlanowniaPrzestrzenego': []
+    }
+    for prefix, uri in ns.items():
+        ET.register_namespace(prefix, uri)
+
+    for doc, relation in docList:
+        docType = getDocType(doc)
+        # słownik/tablica rootów poszczególnych dokumentów
+        docRoots[docType].append(ET.parse(doc).getroot())
+    # TODO walidacja liczności poszczególnych plików dokumenty i relacje
+    if len(docRoots['AktPlanowaniaPrzestrzennego']) != 1:
+        showPopup(title='Błąd liczności dokumentu', text='Liczba Aktów Planowania Przestrzennego: %i\nWymagana liczba: 1' % len(
+            docRoots['AktPlanowaniaPrzestrzennego']))
+    if len(docRoots['DokumentFormalny']) < 1:
+        showPopup(title='Błąd liczności dokumentu',
+                  text='Liczba Dokumentów Formalnych: %i\nWymagana liczba: 1+' % len(docRoots['DokumentFormalny']))
+    if len(docRoots['RysunekAktuPlanowniaPrzestrzenego']) < 1:
+        showPopup(title='Błąd liczności dokumentu', text='Liczba Rysunków: %i\nWymagana liczba: 1+' %
+                  len(docRoots['RysunekAktuPlanowniaPrzestrzenego']))
+
+    # # TODO pozyskiwanie linku i idIIP poszczególnych dokumentów
+    # # dodawanie atrybutów do poszczególnych dokumentów
+    # for docName in docRoots.keys():
+    #     for doc in docRoots[docName]:
+    #         if docName == 'AktPlanowaniaPrzestrzennego':
+    #             pass
+    #         if docName == 'DokumentFormalny':
+    #             pass
+    #         if docName == 'RysunekAktuPlanowniaPrzestrzenego':
+    #             for pominiety in pomijane[docName].keys():
+    #                 if pominiety == 'plan':
+    #                     newElement = ET.Element("{%s}plan" % ns['app'])
+    #                     newElement.set('xlink:href', 'placeholder')
+    #                     # putElement(rootAkt, 'obowiazujeOd', newElement)
+    #                     pomijane[pominiety] = newElement
+
+    # # Dodawanie atrybutów do dokumentów # Łączenie dokumentów
+    # for rysunek in docRoots['RysunekAktuPlanowniaPrzestrzenego']:
+    #     for atrybut in pomijane['RysunekAktuPlanowniaPrzestrzenego'].keys():
+    #         rysunek[0][0].append(
+    #             pomijane['RysunekAktuPlanowniaPrzestrzenego'][atrybut])
+
+    # for dokument in docRoots['DokumentFormalny']:
+    #     for atrybut in pomijane['DokumentFormalny'].keys():
+    #         dokument[0][0].append(
+    #             pomijane['DokumentFormalny'][atrybut])
+
+    for docName in docRoots.keys():
+        if docName == 'AktPlanowaniaPrzestrzennego':
+            rootAkt = docRoots[docName][0]
+            continue
+        for doc in docRoots[docName]:
+            rootAkt.append(doc[0])
+    # eksport APP
+    mydata = ET.tostring(rootAkt)
+    from lxml import etree
+    root = etree.XML(mydata.replace(b'><', b'>\n\t\t\t<'))
+    xml_string = etree.tostring(
+        root,
+        xml_declaration=True,
+        encoding='utf-8',
+        pretty_print=True).decode('utf-8')
+    return xml_string

@@ -114,7 +114,7 @@ class Formularz:
                         return True
                     else:
                         return False
-                    
+
             def addItem():
                 if checkListFormValidity():
                     newListWidgetItem = QListWidgetItem()
@@ -345,7 +345,10 @@ class Formularz:
         elif formElement.name == "dziennikUrzedowy":
             input = NoScrollQComboBox()
             input.setObjectName(formElement.name + '_cmbbx')
-            input.addItems(dictionaries.dziennikUrzedowyKod.keys())
+            dict1 = dictionaries.dziennikUrzedowyKod.keys()
+            values = ['']
+            values.extend(list(dict1))
+            input.addItems(values)
         elif formElement.type == 'dateTime':
             input = NoScrollQgsDateTimeEdit()
             input.setObjectName(formElement.name + '_dateTimeEdit')

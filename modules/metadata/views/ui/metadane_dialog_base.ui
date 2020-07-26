@@ -100,9 +100,9 @@
         <property name="geometry">
          <rect>
           <x>0</x>
-          <y>-46</y>
-          <width>743</width>
-          <height>835</height>
+          <y>0</y>
+          <width>760</width>
+          <height>381</height>
          </rect>
         </property>
         <layout class="QGridLayout" name="gridLayout_2">
@@ -206,6 +206,12 @@ Nazwa zbioru danych przestrzennych musi być skonstruowana zgodnie ze wzorem dla
               </item>
               <item>
                <widget class="QgsFilterLineEdit" name="e3_lineEdit">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
+                <property name="text">
+                 <string>dataset</string>
+                </property>
                 <property name="qgisRelation" stdset="0">
                  <string notr="true"/>
                 </property>
@@ -740,32 +746,6 @@ Obowiązkowo należy podać  słowa kluczowe:
                  <property name="sortingEnabled">
                   <bool>false</bool>
                  </property>
-                 <item>
-                  <property name="text">
-                   <string>Zagospodarowanie przestrzenne</string>
-                  </property>
-                  <property name="flags">
-                   <set>ItemIsSelectable|ItemIsDragEnabled|ItemIsUserCheckable</set>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>&lt;zakres przestrzenny&gt;</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>PlannedLandUse</string>
-                  </property>
-                  <property name="flags">
-                   <set>ItemIsSelectable|ItemIsDragEnabled|ItemIsUserCheckable</set>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>&lt;poziom planu zagosp. przetrz.&gt;</string>
-                  </property>
-                 </item>
                 </widget>
                </item>
               </layout>
@@ -785,6 +765,38 @@ Obowiązkowo należy podać  słowa kluczowe:
                 <property name="qgisRelation" stdset="0">
                  <string notr="true"/>
                 </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QgsDateTimeEdit" name="e10_dateTimeEdit">
+                <property name="minimumSize">
+                 <size>
+                  <width>150</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="displayFormat">
+                 <string>dd.MM.yyyy</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QComboBox" name="e10_cmbbx">
+                <item>
+                 <property name="text">
+                  <string>utworzenie</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>aktualizacja</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>publikacja</string>
+                 </property>
+                </item>
                </widget>
               </item>
               <item>
@@ -903,10 +915,50 @@ Współrzędne należy podać w Światowym Systemie Geodezyjnym 1984 (WGS84).
                   </widget>
                  </item>
                  <item>
-                  <widget class="QgsFilterLineEdit" name="e12_lineEdit">
-                   <property name="qgisRelation" stdset="0">
-                    <string notr="true"/>
+                  <spacer name="horizontalSpacer">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
                    </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>40</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                 <item>
+                  <widget class="QComboBox" name="e12_cmbbx">
+                   <item>
+                    <property name="text">
+                     <string>http://www.opengis.net/def/crs/EPSG/0/2180</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>http://www.opengis.net/def/crs/EPSG/0/2176</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>http://www.opengis.net/def/crs/EPSG/0/2177</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>http://www.opengis.net/def/crs/EPSG/0/2178</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>http://www.opengis.net/def/crs/EPSG/0/2179</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>http://www.opengis.net/def/crs/EPSG/0/4258</string>
+                    </property>
+                   </item>
                   </widget>
                  </item>
                  <item>
@@ -1016,19 +1068,12 @@ Należy podać identyfikator systemu odniesienia w EPSG Geodetic Parameter Regis
               </item>
               <item>
                <widget class="QComboBox" name="e13_cmbbx">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
                 <item>
                  <property name="text">
                   <string>utworzenie</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>publikacja</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>przegląd</string>
                  </property>
                 </item>
                </widget>
@@ -1085,19 +1130,12 @@ Wartość elementu musi  wyrażać co najmniej datę dzienną, która  może by�
               </item>
               <item>
                <widget class="QComboBox" name="e14_cmbbx">
-                <item>
-                 <property name="text">
-                  <string>utworzenie</string>
-                 </property>
-                </item>
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
                 <item>
                  <property name="text">
                   <string>publikacja</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>przegląd</string>
                  </property>
                 </item>
                </widget>
@@ -1309,22 +1347,6 @@ Element metadanych zawsze przyjmuje wartości: wektor „Vector” oraz raster �
                  <property name="sortingEnabled">
                   <bool>false</bool>
                  </property>
-                 <item>
-                  <property name="text">
-                   <string>wektor</string>
-                  </property>
-                  <property name="flags">
-                   <set>ItemIsSelectable|ItemIsDragEnabled|ItemIsUserCheckable</set>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>raster</string>
-                  </property>
-                  <property name="flags">
-                   <set>ItemIsSelectable|ItemIsDragEnabled|ItemIsUserCheckable</set>
-                  </property>
-                 </item>
                 </widget>
                </item>
               </layout>
@@ -1345,7 +1367,7 @@ Element metadanych zawsze przyjmuje wartości: wektor „Vector” oraz raster �
             <string>Zgodność*</string>
            </property>
            <property name="collapsed">
-            <bool>false</bool>
+            <bool>true</bool>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_2">
             <property name="sizeConstraint">
@@ -1615,7 +1637,7 @@ Oprócz przepisów wykonawczych przyjętych na podstawie art. 7 ust. 1 dyrektywy
                  <bool>false</bool>
                 </property>
                 <property name="text">
-                 <string>Brak ograniczeń</string>
+                 <string>Brak ograniczeń w publicznym dostępie</string>
                 </property>
                 <property name="qgisRelation" stdset="0">
                  <string notr="true"/>
@@ -2137,7 +2159,7 @@ Wartości elementu metadanych zawsze jest równa: zbiór danych („dataset”).
             <string>Metadane na temat metadanych*</string>
            </property>
            <property name="collapsed">
-            <bool>false</bool>
+            <bool>true</bool>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_2">
             <property name="sizeConstraint">

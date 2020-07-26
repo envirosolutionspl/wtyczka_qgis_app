@@ -219,7 +219,7 @@ def all_layout_widgets(layout):
     return allWidgets
 
 
-def getWidgets(layout, types=[QPushButton, QLabel, QTextEdit, QLineEdit, QDateEdit]):
+def getWidgets(layout, types=[QPushButton, QLabel, QTextEdit, QLineEdit, QDateEdit, QComboBox, QListWidget]):
     wtypes = types
     qreg = QRegExp(r'.*')
     mywidgets = {}

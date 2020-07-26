@@ -1,5 +1,6 @@
 from . import (MetadaneDialog, SmtpDialog, CswDialog)
 from .metadata_form_validator import validateMetadataForm
+from .metadata_import_eksport import formToMetadataElementDict, metadataElementDictToXml
 from .. import BaseModule
 from ..utils import showPopup
 from .. import utils
@@ -90,6 +91,11 @@ class MetadataModule(BaseModule):
 
     """Popup windows"""
     def showPopupValidateAndSave(self):
+        # odczyt fromularza
+        metadataElementDict = formToMetadataElementDict(self.metadaneDialog)
+        # zapis xml
+        metadataElementDictToXml(metadataElementDict)
+
         validationResult = validateMetadataForm(dlg=self.metadaneDialog)
         if validationResult[0]:
             showPopup("Zwaliduj i zapisz plik XML", "Poprawnie zwalidowano oraz zapisano plik XML.")

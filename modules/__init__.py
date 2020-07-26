@@ -31,6 +31,7 @@ class ButtonsDialog:
         self.settings_btn.setIconSize(QSize(20, 20))
         self.settings_btn.setObjectName("settings_btn")
         self.settings_btn.setToolTip("Ustawienia")
+        self.settings_btn.setAutoDefault(False)
         self.settings_btn.clicked.connect(self.settings_btn_clicked)
         hbox.addWidget(self.settings_btn)
         self.help_btn = QPushButton()
@@ -38,12 +39,10 @@ class ButtonsDialog:
         self.help_btn.setIconSize(QSize(20, 20))
         self.help_btn.setObjectName("help_btn")
         self.help_btn.setToolTip("Pomoc")
+        self.help_btn.setAutoDefault(False)
         self.help_btn.clicked.connect(self.help_btn_clicked)
         hbox.addWidget(self.help_btn)
         vLayout.insertLayout(0, hbox)
-
-        self.pomocDialog.cancel_btn.clicked.connect(self.pomocDialog.reject)
-        self.ustawieniaDialog.cancel_btn.clicked.connect(self.ustawieniaDialog.reject)
 
     def settings_btn_clicked(self):
         self.ustawieniaDialog.exec()

@@ -358,21 +358,34 @@ class AppModule(BaseModule):
         plik = str(QFileDialog.getOpenFileName(
             filter="pliki XML/GML (*.xml *.gml)")[0])
         param = True
-        if plik:
-            rows = self.generowanieGMLDialog.filesTable_widget.rowCount()
-            if rows > 0:
-                for i in range(rows):
-                    item = self.generowanieGMLDialog.filesTable_widget.item(
-                        i, 0).toolTip()
-                    if plik == item:
-                        param = False
-                        showPopup("Błąd tabeli",
-                                  "Wybrany plik znajduje się już w tabeli")
-                        break
-                if param:
+        docNames = {
+            'AktPlanowaniaPrzestrzennego': 'APP',
+            'RysunekAktuPlanowniaPrzestrzenego': 'Rysunek APP',
+            'DokumentFormalny': 'Dokument Formalny'
+        }
+        try:
+            docName = utils.getDocType(plik)
+        except:
+            docName = ''
+        if docName == '':
+            utils.showPopup(title='Błędny plik',
+                            text='Wczytano błędny plik: %s' % plik)
+        elif docName in docNames.keys():
+            if plik:
+                rows = self.generowanieGMLDialog.filesTable_widget.rowCount()
+                if rows > 0:
+                    for i in range(rows):
+                        item = self.generowanieGMLDialog.filesTable_widget.item(
+                            i, 0).toolTip()
+                        if plik == item:
+                            param = False
+                            showPopup("Błąd tabeli",
+                                      "Wybrany plik znajduje się już w tabeli")
+                            break
+                    if param:
+                        self.tableContentGML(plik, rows)
+                else:
                     self.tableContentGML(plik, rows)
-            else:
-                self.tableContentGML(plik, rows)
 
     def tableContentGML(self, file, rows):
         # data modyfikacji
@@ -399,13 +412,9 @@ class AppModule(BaseModule):
             'RysunekAktuPlanowniaPrzestrzenego': 'Rysunek APP',
             'DokumentFormalny': 'Dokument Formalny'
         }
-        try:
-            docName = docNames[utils.getDocType(file)]
-        except:
-            docName = ''
-        if docName == '':
-            utils.showPopup(title='Błędny plik',
-                            text='Wczytano błędny plik: %s' % file2)
+
+        docName = docNames[utils.getDocType(file)]
+
         rodzaj = ['Dokument Formalny', 'APP', 'Rysunek APP']
         item2 = QTableWidgetItem(docName)
         item2.setFlags(flags)

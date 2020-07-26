@@ -35,6 +35,8 @@ class UstawieniaDialog(QtWidgets.QDialog, FORM_CLASS):
         self.setWindowTitle(title_settings)
         self.setWindowIcon(QtGui.QIcon(icon_settings))
         self.setWindowFlag(Qt.WindowMinMaxButtonsHint, True)
+        self.cancel_btn.clicked.connect(self.reject)
+
 
 class PomocDialog(QtWidgets.QDialog, FORM_CLASS1):
     def __init__(self, parent=None):
@@ -44,3 +46,4 @@ class PomocDialog(QtWidgets.QDialog, FORM_CLASS1):
         self.setWindowTitle(title_help)
         self.setWindowIcon(QtGui.QIcon(icon_help))
         self.setWindowFlag(Qt.WindowMinMaxButtonsHint, True)
+        self.cancel_btn.clicked.connect(self.reject)

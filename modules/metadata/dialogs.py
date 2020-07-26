@@ -14,7 +14,7 @@ from qgis.PyQt import uic, QtGui
 from qgis.PyQt import QtWidgets
 from qgis.core import QgsSettings
 from qgis.gui import QgisInterface
-from .. import QDialogOverride, ButtonsDialog, utils
+from .. import QDialogOverride, ButtonsDialog, utils, dictionaries
 from . import mail, csw
 
 
@@ -207,7 +207,7 @@ class MetadaneDialog(QDialogOverride, FORM_CLASS, ButtonsDialog):
             if elementId == 'e22' or elementId == 'e29':
                 if nameLineEdit.text() and mailLineEdit.text():
                     return True
-            if elementId == 'e7':
+            if elementId == 'e7' or elementId == 'e12':
                 if cmbbx.currentText():
                     return True
             if lineEdit and lineEdit.text():
@@ -222,7 +222,7 @@ class MetadaneDialog(QDialogOverride, FORM_CLASS, ButtonsDialog):
                 elif isinstance(input,QDateTimeEdit):
                     input.setDateTime(data[input.objectName()])
                 elif isinstance(input,QComboBox):
-                    input.setCurrentIndex(data[input.objectName()])
+                    input.setCurrentIndex(input.findText(data[input.objectName()]))
 
         def addItem():
             # print("ADD")
@@ -236,7 +236,7 @@ class MetadaneDialog(QDialogOverride, FORM_CLASS, ButtonsDialog):
                             data[input.objectName()] = input.text()
                             textList.append(input.text())
                         if isinstance(input, QComboBox):
-                            data[input.objectName()] = input.currentIndex()
+                            data[input.objectName()] = input.currentText()
                             textList.append(input.currentText())
                         if isinstance(input, QDateTimeEdit):
                             data[input.objectName()] = input.dateTime()
@@ -251,6 +251,18 @@ class MetadaneDialog(QDialogOverride, FORM_CLASS, ButtonsDialog):
         def removeItem(listWidget):
             listWidget.takeItem(listWidget.currentRow())
 
+        def setDefaultValues(elementId, listWidget):
+            """ustawia domyślne wartości dla listWidget na podstawie słownika"""
+            if elementId in dictionaries.metadataListWidgetsDefaultItemsDisabled.keys():
+                dataList = dictionaries.metadataListWidgetsDefaultItemsDisabled[elementId]
+                for data in dataList:
+                    newItem = QListWidgetItem()
+                    newItem.setData(Qt.UserRole, QVariant(data))
+                    newItem.setText(list(data.values())[0])
+                    newItem.setFlags(Qt.NoItemFlags)
+                    listWidget.addItem(newItem)
+
+
         # print(listWidget.objectName())
         elementId = listWidget.objectName().split('_')[0]
         add_btn = utils.getWidgetByName(self, QPushButton, elementId + "_add_btn")
@@ -260,6 +272,7 @@ class MetadaneDialog(QDialogOverride, FORM_CLASS, ButtonsDialog):
         nameLineEdit = utils.getWidgetByName(self, QLineEdit, elementId + "_name_lineEdit")
         dateTimeEdit = utils.getWidgetByName(self, QDateTimeEdit, elementId + "_dateTimeEdit")
         cmbbx = utils.getWidgetByName(self, QComboBox, elementId + "_cmbbx")
+        setDefaultValues(elementId, listWidget)
 
         inputs = [lineEdit, dateTimeEdit, cmbbx, mailLineEdit, nameLineEdit]
         add_btn.clicked.connect(addItem)

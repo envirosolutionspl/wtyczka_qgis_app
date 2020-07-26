@@ -17,17 +17,10 @@ class SettingsModule(BaseModule):
         self.ustawieniaDialog = UstawieniaDialog()
         # endregion
 
-        # region eventy moduł settings
-        self.ustawieniaDialog.cancel_btn.clicked.connect(self.ustawieniaDialog.reject)
-        # endregion
-
         # region okno moduł help
         self.pomocDialog = PomocDialog()
         # endregion
 
-        # region eventy moduł help
-        self.pomocDialog.cancel_btn.clicked.connect(self.pomocDialog.reject)
-        # endregion
 
 
     """Event handlers"""

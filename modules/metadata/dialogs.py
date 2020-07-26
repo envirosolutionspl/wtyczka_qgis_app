@@ -222,7 +222,7 @@ class MetadaneDialog(QDialogOverride, FORM_CLASS, ButtonsDialog):
                 elif isinstance(input,QDateTimeEdit):
                     input.setDateTime(data[input.objectName()])
                 elif isinstance(input,QComboBox):
-                    input.setCurrentIndex(data[input.objectName()])
+                    input.setCurrentIndex(input.findText(data[input.objectName()]))
 
         def addItem():
             # print("ADD")
@@ -236,7 +236,7 @@ class MetadaneDialog(QDialogOverride, FORM_CLASS, ButtonsDialog):
                             data[input.objectName()] = input.text()
                             textList.append(input.text())
                         if isinstance(input, QComboBox):
-                            data[input.objectName()] = input.currentIndex()
+                            data[input.objectName()] = input.currentText()
                             textList.append(input.currentText())
                         if isinstance(input, QDateTimeEdit):
                             data[input.objectName()] = input.dateTime()

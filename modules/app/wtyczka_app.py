@@ -399,7 +399,10 @@ class AppModule(BaseModule):
             'RysunekAktuPlanowniaPrzestrzenego': 'Rysunek APP',
             'DokumentFormalny': 'Dokument Formalny'
         }
-        docName = docNames[utils.getDocType(file)]
+        try:
+            docName = docNames[utils.getDocType(file)]
+        except:
+            docName = ''
         if docName == '':
             utils.showPopup(title='Błędny plik',
                             text='Wczytano błędny plik: %s' % file2)
@@ -451,11 +454,12 @@ class AppModule(BaseModule):
             filter="XML Files (*.xml)")[0]
         if self.fn:
             docList = self.getTableContent()
-            xml_string = utils.mergeDocsToAPP(docList)
 
-            myfile = open(self.fn, "w", encoding='utf-8')
-            myfile.write(xml_string)
-            self.showPopupApp()
+            xml_string = utils.mergeDocsToAPP(docList)
+            if xml_string != '':
+                myfile = open(self.fn, "w", encoding='utf-8')
+                myfile.write(xml_string)
+                self.showPopupApp()
 # Zbiór
 
     def addTableContentSet(self):

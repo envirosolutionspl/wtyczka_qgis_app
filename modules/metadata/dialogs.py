@@ -207,7 +207,7 @@ class MetadaneDialog(QDialogOverride, FORM_CLASS, ButtonsDialog):
             if elementId == 'e22' or elementId == 'e29':
                 if nameLineEdit.text() and mailLineEdit.text():
                     return True
-            if elementId == 'e7':
+            if elementId == 'e7' or elementId == 'e12':
                 if cmbbx.currentText():
                     return True
             if lineEdit and lineEdit.text():

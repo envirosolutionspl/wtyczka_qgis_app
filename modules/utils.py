@@ -953,7 +953,8 @@ def getDocRelationCount(element, subElementName):
     pass
 
 
-def addElement
+def addElement():
+    pass
 
 
 def mergeDocsToAPP(docList):  # docList z getTableContent

@@ -509,10 +509,11 @@ class AppModule(BaseModule):
         self.zbiorPrzygotowanieDialog.appTable_widget.setRowCount(rows + 1)
 
         # pierwsza kolumna
-        idIIP = utils.getDocIIP()
+        idIIP = utils.getIPPapp(file)
         itemIIP = QTableWidgetItem(idIIP)
+        itemIIP.setFlags(flags)
         self.zbiorPrzygotowanieDialog.appTable_widget.setItem(
-            rows, 1, itemIIP)
+            rows, 0, itemIIP)
         # druga kolumna
         self.zbiorPrzygotowanieDialog.appTable_widget.setItem(
             rows, 1, QTableWidgetItem(file))

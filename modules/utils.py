@@ -568,8 +568,6 @@ def getListWidgetItems(element):
         itemList.append(item)
     return(itemList)
 
-# def findFormObject
-
 
 def retrieveFormData(elements, data, pomijane):
 
@@ -910,7 +908,7 @@ def getDocType(filePath):
 def getDocIIP(rootDoc, IIP=''):
     for elem in rootDoc:
         for attr in elem.attrib.keys():
-            if 'id' in attr:
+            if '{http://www.opengis.net/gml/3.2}id' in attr:  # szybka zmiana
                 IIP = elem.attrib[attr]
                 break
         if len(list(elem)) > 0:
@@ -1181,9 +1179,6 @@ def getIPPapp(filePath):
         tree = ET.parse(filePath)
         root = tree.getroot()
         elemList = []
-        # Sprawdzanie, czy plik
-        if len(root) != 1:
-            return ''
         for member in root:
             if AppName in member[0].tag:
                 IIP = getDocIIP(member)

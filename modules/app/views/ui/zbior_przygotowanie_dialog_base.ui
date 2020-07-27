@@ -48,8 +48,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>643</width>
-          <height>148</height>
+          <width>625</width>
+          <height>282</height>
          </rect>
         </property>
         <layout class="QGridLayout" name="gridLayout">
@@ -163,17 +163,17 @@
       <widget class="QTableWidget" name="appTable_widget">
        <column>
         <property name="text">
+         <string>idIIP</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
          <string>Plik APP (GML)</string>
         </property>
        </column>
        <column>
         <property name="text">
          <string>Data modyfikacji</string>
-        </property>
-       </column>
-       <column>
-        <property name="text">
-         <string>idIIP</string>
         </property>
        </column>
       </widget>

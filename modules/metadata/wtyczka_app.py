@@ -18,8 +18,9 @@ class MetadataModule(BaseModule):
 
         self.saved = False
         # plik metadanych do wysłania
-        # TODO: Zmienić self.metadataXmlPath na ścieżkę pliku do wysłania
-        self.metadataXmlPath = os.path.join(os.path.dirname(__file__), '../validator', 'test_metadata.xml')
+
+        # self.metadataXmlPath = os.path.join(os.path.dirname(__file__), '../validator', 'test_metadata.xml')
+        self.metadataXmlPath = None
         # region okno moduł metadata
         self.metadaneDialog = MetadaneDialog()
         # endregion
@@ -79,10 +80,18 @@ class MetadataModule(BaseModule):
     # endregion
 
     """Helper methods"""
-    # def saveMetaFile(self):
-    #     self.outputPlik = QFileDialog.getSaveFileName(filter="*.xml")[0]
-    #     if self.outputPlik != '':
-    #         self.metadaneDialog.file_lbl.setText(self.outputPlik)
+    def saveMetaFile(self, xmlString):
+        self.metadataXmlPath = QFileDialog.getSaveFileName(filter="*.xml")[0]
+        if self.metadataXmlPath:
+            try:
+                with open(self.metadataXmlPath, 'w') as file:
+                    file.write(xmlString)
+                    return True
+            except IOError:
+                showPopup("Błąd zapisu",
+                          "Nie udało się zapisać pliku na dysku.")
+                return False
+        return False
 
     # def openMetaFile(self):
     #     self.plik = QFileDialog.getOpenFileName(filter="*.xml")[0]
@@ -91,16 +100,20 @@ class MetadataModule(BaseModule):
 
     """Popup windows"""
     def showPopupValidateAndSave(self):
-        # odczyt fromularza
-        metadataElementDict = formToMetadataElementDict(self.metadaneDialog)
-        # zapis xml
-        metadataElementDictToXml(metadataElementDict)
-
         validationResult = validateMetadataForm(dlg=self.metadaneDialog)
+        # if True: # do testów w celu ominięcia walidacji formularza
         if validationResult[0]:
-            showPopup("Zwaliduj i zapisz plik XML", "Poprawnie zwalidowano oraz zapisano plik XML.")
-            self.metadaneDialog.server_btn.setEnabled(True)
-            self.metadaneDialog.email_btn.setEnabled(True)
+            # odczyt fromularza
+            metadataElementDict = formToMetadataElementDict(self.metadaneDialog)
+            # wygnerowanie XML
+            xml = metadataElementDictToXml(metadataElementDict)
+            showPopup("Zwaliduj plik XML",
+                      "Poprawnie zwalidowano formularz. Możesz teraz zapisać plik XML z metadanymi.")
+            if self.saveMetaFile(xmlString=xml):
+                self.iface.messageBar().pushSuccess("Generowanie pliku metadanych:",
+                                                    "Pomyślnie zapisano plik metadanych.")
+                self.metadaneDialog.server_btn.setEnabled(True)
+                self.metadaneDialog.email_btn.setEnabled(True)
         else:
             msg = validationResult[1]
             utils.showPopup("Błąd walidacji formularza", msg, QMessageBox.Warning)

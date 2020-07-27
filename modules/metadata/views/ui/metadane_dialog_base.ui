@@ -100,9 +100,9 @@
         <property name="geometry">
          <rect>
           <x>0</x>
-          <y>0</y>
-          <width>760</width>
-          <height>381</height>
+          <y>-86</y>
+          <width>743</width>
+          <height>690</height>
          </rect>
         </property>
         <layout class="QGridLayout" name="gridLayout_2">
@@ -726,6 +726,69 @@ Obowiązkowo należy podać  słowa kluczowe:
                <item>
                 <layout class="QHBoxLayout">
                  <item>
+                  <widget class="QLabel" name="e10_lbl">
+                   <property name="text">
+                    <string>Standardowy słownik źródłowy</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QgsFilterLineEdit" name="e10_lineEdit">
+                   <property name="qgisRelation" stdset="0">
+                    <string notr="true"/>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QgsDateTimeEdit" name="e10_dateTimeEdit">
+                   <property name="minimumSize">
+                    <size>
+                     <width>150</width>
+                     <height>0</height>
+                    </size>
+                   </property>
+                   <property name="displayFormat">
+                    <string>dd.MM.yyyy</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QComboBox" name="e10_cmbbx">
+                   <item>
+                    <property name="text">
+                     <string>utworzenie</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>aktualizacja</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>publikacja</string>
+                    </property>
+                   </item>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="e10_tooltip">
+                   <property name="toolTip">
+                    <string extracomment="Nazwa kontrolowanego słownika (tezaurusa, ontologii) lub podobnego wiarygodnego źródła słów kluczowych.  Wartość elementu jest określana dla pojedynczego słowa kluczowego lub grupy słów kluczowych, które pochodzą z jednego kontrolowanego słownika. "/>
+                   </property>
+                   <property name="text">
+                    <string/>
+                   </property>
+                   <property name="pixmap">
+                    <pixmap>../../../../img/info1.png</pixmap>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QHBoxLayout">
+                 <item>
                   <widget class="QPushButton" name="e9_add_btn">
                    <property name="text">
                     <string>Dodaj</string>
@@ -750,69 +813,6 @@ Obowiązkowo należy podać  słowa kluczowe:
                </item>
               </layout>
              </widget>
-            </item>
-            <item>
-             <layout class="QHBoxLayout">
-              <item>
-               <widget class="QLabel" name="e10_lbl">
-                <property name="text">
-                 <string>Standardowy słownik źródłowy</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QgsFilterLineEdit" name="e10_lineEdit">
-                <property name="qgisRelation" stdset="0">
-                 <string notr="true"/>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QgsDateTimeEdit" name="e10_dateTimeEdit">
-                <property name="minimumSize">
-                 <size>
-                  <width>150</width>
-                  <height>0</height>
-                 </size>
-                </property>
-                <property name="displayFormat">
-                 <string>dd.MM.yyyy</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QComboBox" name="e10_cmbbx">
-                <item>
-                 <property name="text">
-                  <string>utworzenie</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>aktualizacja</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>publikacja</string>
-                 </property>
-                </item>
-               </widget>
-              </item>
-              <item>
-               <widget class="QLabel" name="e10_tooltip">
-                <property name="toolTip">
-                 <string extracomment="Nazwa kontrolowanego słownika (tezaurusa, ontologii) lub podobnego wiarygodnego źródła słów kluczowych.  Wartość elementu jest określana dla pojedynczego słowa kluczowego lub grupy słów kluczowych, które pochodzą z jednego kontrolowanego słownika. "/>
-                </property>
-                <property name="text">
-                 <string/>
-                </property>
-                <property name="pixmap">
-                 <pixmap>../../../../img/info1.png</pixmap>
-                </property>
-               </widget>
-              </item>
-             </layout>
             </item>
            </layout>
           </widget>
@@ -1126,6 +1126,13 @@ Wartość elementu musi  wyrażać co najmniej datę dzienną, która  może by�
                   <height>0</height>
                  </size>
                 </property>
+                <property name="date">
+                 <date>
+                  <year>2020</year>
+                  <month>7</month>
+                  <day>28</day>
+                 </date>
+                </property>
                </widget>
               </item>
               <item>
@@ -1367,7 +1374,7 @@ Element metadanych zawsze przyjmuje wartości: wektor „Vector” oraz raster �
             <string>Zgodność*</string>
            </property>
            <property name="collapsed">
-            <bool>true</bool>
+            <bool>false</bool>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_2">
             <property name="sizeConstraint">
@@ -1463,6 +1470,57 @@ Oprócz przepisów wykonawczych przyjętych na podstawie art. 7 ust. 1 dyrektywy
                <item>
                 <layout class="QHBoxLayout">
                  <item>
+                  <widget class="QLabel" name="e19_lbl">
+                   <property name="text">
+                    <string>Stopień*</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <spacer name="horizontalSpacer_7">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>40</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                 <item>
+                  <widget class="QComboBox" name="e19_cmbbx">
+                   <item>
+                    <property name="text">
+                     <string>prawda</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>fałsz</string>
+                    </property>
+                   </item>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="e19_tooltip">
+                   <property name="toolTip">
+                    <string>Stopień zgodności zbioru danych z przepisami wykonawczymi przyjętymi na podstawie art. 7 ust. 1 dyrektywy INSPIRE lub z inną specyfikacją.</string>
+                   </property>
+                   <property name="text">
+                    <string/>
+                   </property>
+                   <property name="pixmap">
+                    <pixmap>../../../../img/info1.png</pixmap>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QHBoxLayout">
+                 <item>
                   <widget class="QPushButton" name="e18_add_btn">
                    <property name="text">
                     <string>Dodaj</string>
@@ -1487,57 +1545,6 @@ Oprócz przepisów wykonawczych przyjętych na podstawie art. 7 ust. 1 dyrektywy
                </item>
               </layout>
              </widget>
-            </item>
-            <item>
-             <layout class="QHBoxLayout">
-              <item>
-               <widget class="QLabel" name="e19_lbl">
-                <property name="text">
-                 <string>Stopień*</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <spacer name="horizontalSpacer_7">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>40</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item>
-               <widget class="QComboBox" name="e19_cmbbx">
-                <item>
-                 <property name="text">
-                  <string>prawda</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>fałsz</string>
-                 </property>
-                </item>
-               </widget>
-              </item>
-              <item>
-               <widget class="QLabel" name="e19_tooltip">
-                <property name="toolTip">
-                 <string>Stopień zgodności zbioru danych z przepisami wykonawczymi przyjętymi na podstawie art. 7 ust. 1 dyrektywy INSPIRE lub z inną specyfikacją.</string>
-                </property>
-                <property name="text">
-                 <string/>
-                </property>
-                <property name="pixmap">
-                 <pixmap>../../../../img/info1.png</pixmap>
-                </property>
-               </widget>
-              </item>
-             </layout>
             </item>
            </layout>
           </widget>
@@ -1746,6 +1753,102 @@ Co najmniej należy wyspecyfikować jednostkę odpowiedzialną, pełniącą w st
                <item>
                 <layout class="QHBoxLayout">
                  <item>
+                  <widget class="QLabel" name="e23_lbl">
+                   <property name="text">
+                    <string>Rola jednostki odpowiedzialnej*</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <spacer name="horizontalSpacer_8">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>40</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                 <item>
+                  <widget class="QComboBox" name="e23_cmbbx">
+                   <item>
+                    <property name="text">
+                     <string>dostawca zasobu</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>opiekun (konserwator)</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>właściciel</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>użytkownik</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>dystrybutor</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>twórca</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>punkt kontaktowy</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>główny badacz</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>przetwórca</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>wydawca</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>autor</string>
+                    </property>
+                   </item>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="e23_tooltip">
+                   <property name="toolTip">
+                    <string>Rola pełniona przez jednostkę odpowiedzialną w stosunku do zbioru danych.</string>
+                   </property>
+                   <property name="text">
+                    <string/>
+                   </property>
+                   <property name="pixmap">
+                    <pixmap>../../../../img/info1.png</pixmap>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QHBoxLayout">
+                 <item>
                   <widget class="QPushButton" name="e22_add_btn">
                    <property name="text">
                     <string>Dodaj</string>
@@ -1771,102 +1874,6 @@ Co najmniej należy wyspecyfikować jednostkę odpowiedzialną, pełniącą w st
               </layout>
              </widget>
             </item>
-            <item>
-             <layout class="QHBoxLayout">
-              <item>
-               <widget class="QLabel" name="e23_lbl">
-                <property name="text">
-                 <string>Rola jednostki odpowiedzialnej*</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <spacer name="horizontalSpacer_8">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>40</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-              <item>
-               <widget class="QComboBox" name="e23_cmbbx">
-                <item>
-                 <property name="text">
-                  <string>dostawca zasobu</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>opiekun (konserwator)</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>właściciel</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>użytkownik</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>dystrybutor</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>twórca</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>punkt kontaktowy</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>główny badacz</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>przetwórca</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>wydawca</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>autor</string>
-                 </property>
-                </item>
-               </widget>
-              </item>
-              <item>
-               <widget class="QLabel" name="e23_tooltip">
-                <property name="toolTip">
-                 <string>Rola pełniona przez jednostkę odpowiedzialną w stosunku do zbioru danych.</string>
-                </property>
-                <property name="text">
-                 <string/>
-                </property>
-                <property name="pixmap">
-                 <pixmap>../../../../img/info1.png</pixmap>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </item>
            </layout>
           </widget>
          </item>
@@ -1882,7 +1889,7 @@ Co najmniej należy wyspecyfikować jednostkę odpowiedzialną, pełniącą w st
             <string>Kodowanie*</string>
            </property>
            <property name="collapsed">
-            <bool>true</bool>
+            <bool>false</bool>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_2">
             <property name="sizeConstraint">
@@ -1925,6 +1932,37 @@ Co najmniej należy wyspecyfikować jednostkę odpowiedzialną, pełniącą w st
                <item>
                 <layout class="QHBoxLayout">
                  <item>
+                  <widget class="QLabel" name="e25_lbl">
+                   <property name="text">
+                    <string>Wersja formatu*</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QgsFilterLineEdit" name="e25_lineEdit">
+                   <property name="qgisRelation" stdset="0">
+                    <string notr="true"/>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="e25_tooltip">
+                   <property name="toolTip">
+                    <string>Wersja formatu danych, w jakim dokonuje się dystrybucji zbioru danych.</string>
+                   </property>
+                   <property name="text">
+                    <string/>
+                   </property>
+                   <property name="pixmap">
+                    <pixmap>../../../../img/info1.png</pixmap>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item>
+                <layout class="QHBoxLayout">
+                 <item>
                   <widget class="QPushButton" name="e24_add_btn">
                    <property name="text">
                     <string>Dodaj</string>
@@ -1949,37 +1987,6 @@ Co najmniej należy wyspecyfikować jednostkę odpowiedzialną, pełniącą w st
                </item>
               </layout>
              </widget>
-            </item>
-            <item>
-             <layout class="QHBoxLayout">
-              <item>
-               <widget class="QLabel" name="e25_lbl">
-                <property name="text">
-                 <string>Wersja formatu*</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QgsFilterLineEdit" name="e25_lineEdit">
-                <property name="qgisRelation" stdset="0">
-                 <string notr="true"/>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QLabel" name="e25_tooltip">
-                <property name="toolTip">
-                 <string>Wersja formatu danych, w jakim dokonuje się dystrybucji zbioru danych.</string>
-                </property>
-                <property name="text">
-                 <string/>
-                </property>
-                <property name="pixmap">
-                 <pixmap>../../../../img/info1.png</pixmap>
-                </property>
-               </widget>
-              </item>
-             </layout>
             </item>
            </layout>
           </widget>

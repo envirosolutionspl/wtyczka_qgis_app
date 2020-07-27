@@ -201,6 +201,16 @@ class MetadaneDialog(QDialogOverride, FORM_CLASS, ButtonsDialog):
     def prepareListWidgets(self, listWidget):
         """Przygotowanie obsługi pól wielokrotnej liczności"""
         def clearDataFromListWidget():
+            if elementId == 'e22':
+                utils.getWidgetByName(layout=self, searchObjectType=QComboBox, name='e23_cmbbx').setCurrentIndex(0)
+            if elementId == 'e18':
+                utils.getWidgetByName(layout=self, searchObjectType=QComboBox, name='e19_cmbbx').setCurrentIndex(0)
+            if elementId == 'e24':
+                utils.getWidgetByName(layout=self, searchObjectType=QLineEdit, name='e25_lineEdit').clear()
+            if elementId == 'e9':
+                utils.getWidgetByName(layout=self, searchObjectType=QLineEdit, name='e10_lineEdit').clear()
+                utils.getWidgetByName(layout=self, searchObjectType=QDateTimeEdit, name='e10_dateTimeEdit').clear()
+                utils.getWidgetByName(layout=self, searchObjectType=QComboBox, name='e10_cmbbx').setCurrentIndex(0)
             for input in inputs:
                 if isinstance(input, QComboBox):
                     input.setCurrentIndex(0)
@@ -214,10 +224,19 @@ class MetadaneDialog(QDialogOverride, FORM_CLASS, ButtonsDialog):
             if elementId == 'e22' or elementId == 'e29':
                 if nameLineEdit.text() and mailLineEdit.text():
                     return True
-            if elementId == 'e7' or elementId == 'e12':
+            elif elementId == 'e7' or elementId == 'e12':
                 if cmbbx.currentText():
                     return True
-            if lineEdit and lineEdit.text():
+            elif elementId == 'e24':
+                if lineEdit.text() and utils.getWidgetByName(layout=self, searchObjectType=QLineEdit, name='e25_lineEdit').text():
+                    return True
+            elif elementId == 'e9':
+                if (
+                        lineEdit.text() and
+                        utils.getWidgetByName(layout=self, searchObjectType=QLineEdit, name='e10_lineEdit').text() and
+                        utils.getWidgetByName(layout=self, searchObjectType=QDateTimeEdit, name='e10_dateTimeEdit').dateTime()):
+                    return True
+            elif lineEdit and lineEdit.text():
                 return True
             return False
 

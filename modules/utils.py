@@ -257,8 +257,9 @@ def makeXmlListElements(tag, item, element, formData, slownik={}):
     nilReason = ["inapplicable", "missing", "template", "unknown", "withheld"]
     for fee in formData:
         if element.isComplex():
+            subItem = ET.SubElement(item, tag + element.name)
             ComplexItem = ET.SubElement(
-                item, element.type.replace('PropertyType', ''))
+                subItem, element.type.replace('PropertyType', ''))
             for innerElement in element.innerFormElements:
                 innerItem = ET.SubElement(
                     ComplexItem, tag+innerElement.name)
@@ -503,20 +504,24 @@ def checkForNillable(fe, element):
 
 
 def checkElement(fe, element):
-
-    try:  # LineEdit / Date
-        if fe.minOccurs > 0 and (element.text() is None or element.text() == 'NULL' or element.text() == ''):
+    try:  # LineEdit
+        if fe.minOccurs > 0 and (element.dateTime().toString() is None or element.dateTime().toString() == 'NULL' or element.dateTime().toString() == ''):
             return False
-    except:  # Combobox
+    except:
         try:
-            if fe.minOccurs > 0 and (element.currentText() is None or element.currentText() == ''):
+            if fe.minOccurs > 0 and (element.text() is None or element.text() == 'NULL' or element.text() == ''):
                 return False
+
         except:
-            try:  # ListWidget
-                if fe.minOccurs > 0 and element.count() > 0:
+            try:  # Combobox
+                if fe.minOccurs > 0 and (element.currentText() is None or element.currentText() == ''):
                     return False
             except:
-                print('checkElement')
+                try:  # ListWidget
+                    if fe.minOccurs > 0 and element.count() > 0:
+                        return False
+                except:
+                    print('checkElement')
     return True
 
 
@@ -646,9 +651,17 @@ def makeNil(item, element, nilReason):
         item.set('xsi:nil', 'true')
 
 
+def checkForNoDateValue(element):
+    if element.dateTime().toString() == '' or element.text() == 'NULL' or element.text() == None:
+        return True
+
+    print(element.dateTime())
+    return False  # jest wartość
+
+
 def checkForNoValue(element):
     try:
-        if element.text() == '' or element.text() == 'NULL':
+        if element.text() == '' or element.text() == 'NULL' or element.text() == None:
             return True
         # print(element.text())
     except:
@@ -738,8 +751,10 @@ def createXmlData(dialog, obrysLayer):  # NOWE
 
     for fe in dialog.formElements:
         refObject = fe.refObject
-
+        print(fe.name)
         if checkForNoValue(refObject):
+            continue
+        if (fe.type == 'date' or fe.type == 'dateTime') and checkForNoDateValue(refObject):
             continue
         if fe.name in dialog.pomijane and fe.name != 'zasiegPrzestrzenny':
             continue
@@ -757,13 +772,14 @@ def createXmlData(dialog, obrysLayer):  # NOWE
             itemid.text = '/'.join([codeSpace, docName, IIP.replace('_', '/')])
 
         if fe.isComplex():
-            item = ET.SubElement(items, tag + fe.name)
+
             if fe.maxOccurs == 'unbounded':  # Element jest wielokrotny
                 params = getListWidgetItems(refObject)
                 # print(params)
-                makeXmlListElements(tag, item, fe, params)
+                makeXmlListElements(tag, items, fe, params)
                 continue
             else:
+                item = ET.SubElement(items, tag + fe.name)
                 makeXmlComplex(tag, item, fe)
                 continue
         elif fe.maxOccurs == 'unbounded':  # Element jest wielokrotny

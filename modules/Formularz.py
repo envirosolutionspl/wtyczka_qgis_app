@@ -61,9 +61,9 @@ class Formularz:
         for widget in widgets[QgsFilterLineEdit]:
             widget.clear()
         for widget in widgets[QgsMapLayerComboBox]:
-            widget.setCurrentIndex(-1)
+            widget.setCurrentIndex(0)
         for widget in widgets[QComboBox]:
-            widget.setCurrentIndex(-1)
+            widget.setCurrentIndex(0)
 
     def createForm(self, container, formElements):
         """tworzy formularz w miejscu kontenera (container), na podstawie listy obiektów klasy <FormElement>"""
@@ -386,12 +386,12 @@ class Formularz:
         # # print(fullFormElementName)
 
         # wartości domyślne - debug
-        # if fullFormElementName in dictionaries.placeholders.keys():
-        #     if isinstance(input, QLineEdit):  # dla pól tekstowych
-        #         input.setText(
-        #             dictionaries.placeholders[fullFormElementName])
-        #     elif isinstance(input, QComboBox):  # QComboBox
-        #         pass
+        if fullFormElementName in dictionaries.placeholders.keys():
+            if isinstance(input, QLineEdit):  # dla pól tekstowych
+                input.setText(
+                    dictionaries.placeholders[fullFormElementName])
+            elif isinstance(input, QComboBox):  # QComboBox
+                pass
 
         # ustawienie podpowiedzi
         if fullFormElementName in dictionaries.placeholders.keys():

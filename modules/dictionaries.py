@@ -1,3 +1,4 @@
+from PyQt5.QtCore import QDateTime
 initialValues = {
     "lokalnyId": "RYS1",
     "przestrzenNazw": "PL.ZIPPZP.9999/14-PZPW"
@@ -137,6 +138,20 @@ licznoscMetadataFields = {
 }
 # stałe niezmienne wartości dla pól wielokrotnych
 metadataListWidgetsDefaultItemsDisabled = {
-    'e9': [{'e9_lineEdit': 'Zagospodarowanie przestrzenne'}, {'e9_lineEdit': 'PlannedLandUse'}],
+    'e9': [
+        {
+            'e9_lineEdit': 'Zagospodarowanie przestrzenne',
+            'e10_cmbbx': 'publikacja',
+            'e10_dateTimeEdit': QDateTime(2008, 6, 1, 0, 0),
+            'e10_lineEdit': 'GEMET - INSPIRE themes, version 1.0',
+            'xlink': "http://www.eionet.europa.eu/gemet/inspire_themes"
+        },
+        {
+            'e9_lineEdit': 'PlannedLandUse',
+            'e10_cmbbx': None,
+            'e10_dateTimeEdit': None,
+            'e10_lineEdit': '',
+            'xlink': None
+        }],
     'e17': [{'e17_lineEdit': 'wektor'}, {'e17_lineEdit': 'raster'}],
 }

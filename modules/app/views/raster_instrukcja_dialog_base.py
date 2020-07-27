@@ -52,6 +52,7 @@ class Ui_Dialog(object):
         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout.addItem(spacerItem)
         self.next_btn = QtWidgets.QPushButton(Dialog)
+        self.next_btn.setDefault(True)
         self.next_btn.setObjectName("next_btn")
         self.horizontalLayout.addWidget(self.next_btn)
         self.verticalLayout.addLayout(self.horizontalLayout)

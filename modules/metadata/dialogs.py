@@ -181,6 +181,13 @@ class MetadaneDialog(QDialogOverride, FORM_CLASS, ButtonsDialog):
 
         p = QPixmap(':/plugins/wtyczka_app/img/info1.png')
 
+        # Ograniczenia Pól
+        input = utils.getWidgetByName(self, QLineEdit, "e11_lineEdit")
+        input.setValidator(QRegExpValidator(QRegExp("[0-9.,]*")))
+        input = utils.getWidgetByName(self, QLineEdit, "e16_lineEdit")
+        input.setValidator(QRegExpValidator(QRegExp("[0-9]*")))
+
+
         # nadanie grafiki tooltipa
         for label in utils.getWidgetsByType(self, QLabel):
             # print(label.objectName())
@@ -217,12 +224,28 @@ class MetadaneDialog(QDialogOverride, FORM_CLASS, ButtonsDialog):
         def getDataFromListWidget(listItem):
             data = listItem.data(Qt.UserRole)
             for input in inputs:
-                if isinstance(input,QLineEdit):
+                if isinstance(input, QLineEdit):
                     input.setText(data[input.objectName()])
-                elif isinstance(input,QDateTimeEdit):
+                elif isinstance(input, QDateTimeEdit):
                     input.setDateTime(data[input.objectName()])
-                elif isinstance(input,QComboBox):
+                elif isinstance(input, QComboBox):
                     input.setCurrentIndex(input.findText(data[input.objectName()]))
+            if elementId == 'e22':
+                input2 = utils.getWidgetByName(layout=self, searchObjectType=QComboBox, name='e23_cmbbx')
+                input2.setCurrentIndex(input2.findText(data[input2.objectName()]))
+            if elementId == 'e18':
+                input2 = utils.getWidgetByName(layout=self, searchObjectType=QComboBox, name='e19_cmbbx')
+                input2.setCurrentIndex(input2.findText(data[input2.objectName()]))
+            if elementId == 'e24':
+                input2 = utils.getWidgetByName(layout=self, searchObjectType=QLineEdit, name='e25_lineEdit')
+                input2.setText(data[input2.objectName()])
+            if elementId == 'e9':
+                input2 = utils.getWidgetByName(layout=self, searchObjectType=QLineEdit, name='e10_lineEdit')
+                input2.setText(data[input2.objectName()])
+                input2 = utils.getWidgetByName(layout=self, searchObjectType=QDateTimeEdit, name='e10_dateTimeEdit')
+                input2.setDateTime(data[input2.objectName()])
+                input2 = utils.getWidgetByName(layout=self, searchObjectType=QComboBox, name='e10_cmbbx')
+                input2.setCurrentIndex(input2.findText(data[input2.objectName()]))
 
         def addItem():
             # print("ADD")
@@ -231,16 +254,38 @@ class MetadaneDialog(QDialogOverride, FORM_CLASS, ButtonsDialog):
                 data = {}
                 textList = []
                 for input in inputs:
-                    if input:
-                        if isinstance(input, QLineEdit):
-                            data[input.objectName()] = input.text()
-                            textList.append(input.text())
-                        if isinstance(input, QComboBox):
-                            data[input.objectName()] = input.currentText()
-                            textList.append(input.currentText())
-                        if isinstance(input, QDateTimeEdit):
-                            data[input.objectName()] = input.dateTime()
-                            textList.append(input.dateTime().toString())
+                    if isinstance(input, QLineEdit):
+                        data[input.objectName()] = input.text()
+                        textList.append(input.text())
+                    if isinstance(input, QComboBox):
+                        data[input.objectName()] = input.currentText()
+                        textList.append(input.currentText())
+                    if isinstance(input, QDateTimeEdit):
+                        data[input.objectName()] = input.dateTime()
+                        textList.append(input.dateTime().toString())
+
+                if elementId == 'e22':
+                    input2 = utils.getWidgetByName(layout=self, searchObjectType=QComboBox, name='e23_cmbbx')
+                    data[input2.objectName()] = input2.currentText()
+                    textList.append(input2.currentText())
+                if elementId == 'e18':
+                    input2 = utils.getWidgetByName(layout=self, searchObjectType=QComboBox, name='e19_cmbbx')
+                    data[input2.objectName()] = input2.currentText()
+                    textList.append(input2.currentText())
+                if elementId == 'e24':
+                    input2 = utils.getWidgetByName(layout=self, searchObjectType=QLineEdit, name='e25_lineEdit')
+                    data[input2.objectName()] = input2.text()
+                    textList.append(input2.text())
+                if elementId == 'e9':
+                    input2 = utils.getWidgetByName(layout=self, searchObjectType=QLineEdit, name='e10_lineEdit')
+                    data[input2.objectName()] = input2.text()
+                    textList.append(input2.text())
+                    input2 = utils.getWidgetByName(layout=self, searchObjectType=QDateTimeEdit, name='e10_dateTimeEdit')
+                    data[input2.objectName()] = input2.dateTime()
+                    input2 = utils.getWidgetByName(layout=self, searchObjectType=QComboBox, name='e10_cmbbx')
+                    data[input2.objectName()] = input2.currentText()
+                    data['xlink'] = None
+
                 newItem.setData(Qt.UserRole, QVariant(data))
                 newItem.setText(" - ".join(textList))
                 listWidget.addItem(newItem)

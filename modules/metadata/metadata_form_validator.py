@@ -16,7 +16,7 @@ def validateMetadataForm(dlg):
         licznosc = dictionaries.licznoscMetadataFields[elementId]
         if licznosc == '1':   # wymagane 1
             lineEdit = utils.getWidgetByName(dlg, QLineEdit, elementId + "_lineEdit")
-            if not lineEdit.text().strip():
+            if not lineEdit or lineEdit.text().strip():
                 return False, "Pole '%s' jest obowiązkowe. Musisz je wypełnić aby wygenerować plik metadanych" % label.text()
         elif '+' in licznosc and licznosc[0] != 0:  # wielokrotnego wyboru wymagane
             listWidget = utils.getWidgetByName(dlg, QListWidget, elementId + "_listWidget")

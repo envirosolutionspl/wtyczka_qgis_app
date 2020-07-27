@@ -252,22 +252,6 @@ def makeXmlComplex(tag, item, element):
         subItem.text = inner.refObject.text()
 
 
-# def makeXmlListComplex(tag, item, element, formData):
-#     # Tworzenie wewnętrzych elementów i wypełnianie ich
-#     for fee in formData:
-#         ComplexItem = ET.SubElement(
-#             item, element.type.replace('PropertyType', ''))
-#         for innerElement in element.innerFormElements:
-#             innerItem = ET.SubElement(
-#                 ComplexItem, tag+innerElement.name)
-#             for fd in fee.keys():
-#                 if innerElement.name in fd:
-#                     innerItem.text = fee[fd]
-#                     break
-#             # else:
-#                 # innerItem.text = 'BRAK DANYCH'
-
-
 def makeXmlListElements(tag, item, element, formData, slownik={}):
     # Tworzenie wewnętrzych elementów i wypełnianie ich
     nilReason = ["inapplicable", "missing", "template", "unknown", "withheld"]
@@ -521,39 +505,15 @@ def checkForNillable(fe, element):
 def checkElement(fe, element):
 
     try:  # LineEdit / Date
-        # print('1' + element.text())
         if fe.minOccurs > 0 and (element.text() is None or element.text() == 'NULL' or element.text() == ''):
-            # try:
-            #     if checkForNillable(fe, element):
-            #         return(checkForNillable(fe, element))
-            # except:
-            #     pass
-            showPopup(title='Błąd formularza',
-                      text='Brak wartości dla atrybutu: %s' % fe.name)
             return False
     except:  # Combobox
         try:
-            # print('2' + element.currentText())
             if fe.minOccurs > 0 and (element.currentText() is None or element.currentText() == ''):
-                # try:
-                #     if checkForNillable(fe, element):
-                #         return(checkForNillable(fe, element))
-                # except:
-                #     pass
-                showPopup(title='Błąd formularza',
-                          text='Brak wartości dla atrybutu: %s' % fe.name)
                 return False
         except:
             try:  # ListWidget
-                # print('3')
                 if fe.minOccurs > 0 and element.count() > 0:
-                    # try:
-                    #     if checkForNillable(fe, element):
-                    #         return(checkForNillable(fe, element))
-                    # except:
-                    #     pass
-                    showPopup(title='Błąd formularza',
-                              text='Brak wartości dla atrybutu: %s' % fe.name)
                     return False
             except:
                 print('checkElement')
@@ -562,24 +522,36 @@ def checkElement(fe, element):
 
 def isFormFilled(dialog):
     for fe in dialog.formElements:
+        if fe.isComplex() and fe.minOccurs > 0:
+            for inner in fe.innerFormElements:
+                if checkElement(inner, inner.refObject) == False:
+                    showPopup(title='Błąd formularza',
+                              text='Brak wartości dla atrybutu: %s' % fe.name)
+                    return False
         if fe.name in dialog.pomijane:
             continue
         # Sprawdza tylko czy wartość występuje co najmniej raz - brak specyfikacji dokładnej liczności
         if type(fe.refObject) == list:
             for element in fe.refObject:
                 if checkElement(fe, element) == False:  # Brak wartości
+                    showPopup(title='Błąd formularza',
+                              text='Brak wartości dla atrybutu: %s' % fe.name)
                     return False
+
         elif fe.refNilObject is not None:
-            print(fe.name)
             widgets = all_layout_widgets(fe.refNilObject)
-            for widget in widgets:
-                if type(widget).__name__ == 'QCheckBox':
-                    if widget.isChecked() == True:
-                        return True
             if checkElement(fe, fe.refObject) == False:  # Brak wartości
-                return False
+                for widget in widgets:
+                    if type(widget).__name__ == 'QCheckBox':
+                        if widget.isChecked() == False:  # Brak Nillable
+                            showPopup(title='Błąd formularza',
+                                      text='Brak wartości dla atrybutu: %s' % fe.name)
+                            return False
+
         else:
             if checkElement(fe, fe.refObject) == False:  # Brak wartości
+                showPopup(title='Błąd formularza',
+                          text='Brak wartości dla atrybutu: %s' % fe.name)
                 return False
     return True  # Wszystko wypełnione
 

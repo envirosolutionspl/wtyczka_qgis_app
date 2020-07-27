@@ -346,7 +346,9 @@ class AppModule(BaseModule):
             self.iface.messageBar().pushCritical("Błąd geometrii zbioru:", trescBledu)
             return False
 
-        self.fn = QFileDialog.getSaveFileName(filter="XML Files (*.xml)")[0]
+        s = QgsSettings()
+        defaultPath = s.value("qgis_app/settings/defaultPath", "/")
+        self.fn = QFileDialog.getSaveFileName(directory=defaultPath, filter="XML Files (*.xml)")[0]
         if self.fn:
             xml_string = utils.mergeAppToCollection(files)
             if xml_string != '':
@@ -481,8 +483,9 @@ class AppModule(BaseModule):
             utils.showPopup(title='Brak Dokumentów',
                             text='Do tabeli nie zostały dodane żadne dokumenty.')
         else:
-            self.fn = QFileDialog.getSaveFileName(
-                filter="XML Files (*.xml)")[0]
+            s = QgsSettings()
+            defaultPath = s.value("qgis_app/settings/defaultPath", "/")
+            self.fn = QFileDialog.getSaveFileName(directory=defaultPath, filter="XML Files (*.xml)")[0]
             if self.fn:
                 xml_string = utils.mergeDocsToAPP(docList)
                 if xml_string != '':
@@ -574,7 +577,9 @@ class AppModule(BaseModule):
 
     def showPopupSaveForm(self):
         if utils.isFormFilled(self.activeDlg):
-            self.fn = QFileDialog.getSaveFileName(
+            s = QgsSettings()
+            defaultPath = s.value("qgis_app/settings/defaultPath", "/")
+            self.fn = QFileDialog.getSaveFileName(directory=defaultPath,
                 filter="XML Files (*.xml)")[0]
             if self.fn:
                 self.saved = True

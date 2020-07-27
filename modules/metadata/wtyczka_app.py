@@ -1,12 +1,14 @@
 from . import (MetadaneDialog, SmtpDialog, CswDialog)
 from .metadata_form_validator import validateMetadataForm
 from .metadata_import_eksport import formToMetadataElementDict, metadataElementDictToXml
+from .metadata_form_initializer import initializeMetadataForm
 from .. import BaseModule
 from ..utils import showPopup
 from .. import utils
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import *
+from qgis.core import QgsSettings
 import os
 
 
@@ -23,6 +25,9 @@ class MetadataModule(BaseModule):
         self.metadataXmlPath = None
         # region okno moduł metadata
         self.metadaneDialog = MetadaneDialog()
+
+        initializeMetadataForm(self.metadaneDialog)
+
         # endregion
         self.smtpDialog = SmtpDialog(iface=self.iface)
         self.cswDialog = CswDialog(iface=self.iface)
@@ -81,7 +86,9 @@ class MetadataModule(BaseModule):
 
     """Helper methods"""
     def saveMetaFile(self, xmlString):
-        self.metadataXmlPath = QFileDialog.getSaveFileName(filter="*.xml")[0]
+        s = QgsSettings()
+        defaultPath = s.value("qgis_app/settings/defaultPath", "")
+        self.metadataXmlPath = QFileDialog.getSaveFileName(directory=defaultPath, filter="*.xml")[0]
         if self.metadataXmlPath:
             try:
                 with open(self.metadataXmlPath, 'w') as file:

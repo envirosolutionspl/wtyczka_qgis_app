@@ -76,6 +76,8 @@ class CswDialog(QtWidgets.QDialog, FORM_CLASS3, SendFileDialog):
     def __init__(self, iface, xmlPath=None, parent=None,):
         """Constructor."""
         super(CswDialog, self).__init__(parent)
+        self.send_btn = None
+        self.save_btn = None
         self.iface = iface
         self.xmlPath = xmlPath
         self.setupUi(self)

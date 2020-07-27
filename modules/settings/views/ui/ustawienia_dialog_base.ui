@@ -54,20 +54,119 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>482</width>
-            <height>500</height>
+            <width>476</width>
+            <height>474</height>
            </rect>
           </property>
-          <layout class="QGridLayout" name="gridLayout_2">
-           <item row="4" column="1">
-            <widget class="QLabel" name="settings_lbl">
-             <property name="text">
-              <string>Tutaj znajdą się ustawienia użytkownika. Wszystkie ścieżki, dane ustawione tutaj - będą widnieć we wtyczce.</string>
+          <layout class="QVBoxLayout" name="verticalLayout_2">
+           <item>
+            <widget class="QGroupBox" name="verticalGroupBox">
+             <property name="title">
+              <string>Domyślna ścieżka zapisu plików</string>
              </property>
-             <property name="wordWrap">
-              <bool>true</bool>
-             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_4">
+              <item>
+               <widget class="QPushButton" name="folder_btn">
+                <property name="text">
+                 <string>Wybierz katalog</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QLabel" name="folder_lbl">
+                <property name="font">
+                 <font>
+                  <weight>50</weight>
+                  <bold>false</bold>
+                 </font>
+                </property>
+                <property name="text">
+                 <string/>
+                </property>
+               </widget>
+              </item>
+             </layout>
             </widget>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_5">
+             <item>
+              <widget class="QGroupBox" name="verticalGroupBox">
+               <property name="title">
+                <string>Domyślny punkt kontaktowy</string>
+               </property>
+               <layout class="QVBoxLayout" name="verticalLayout_3">
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_7">
+                  <item>
+                   <widget class="QLabel" name="name_lbl">
+                    <property name="text">
+                     <string>Nazwa       </string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QgsFilterLineEdit" name="name_lineEdit">
+                    <property name="qgisRelation" stdset="0">
+                     <string notr="true"/>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_6">
+                  <item>
+                   <widget class="QLabel" name="mail_lbl">
+                    <property name="text">
+                     <string>Adres email</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QgsFilterLineEdit" name="mail_lineEdit">
+                    <property name="qgisRelation" stdset="0">
+                     <string notr="true"/>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+               </layout>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_3">
+             <item>
+              <widget class="QPushButton" name="smtp_btn">
+               <property name="text">
+                <string>Ustawienia serwera SMTP</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="csw_btn">
+               <property name="text">
+                <string>Ustawienia serwera CSW</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <spacer name="verticalSpacer_2">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
            </item>
           </layout>
          </widget>
@@ -105,19 +204,12 @@
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="reset_btn">
-         <property name="text">
-          <string>Resetuj</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="cancel_btn">
+        <widget class="QPushButton" name="exit_btn">
          <property name="enabled">
           <bool>true</bool>
          </property>
          <property name="text">
-          <string>Anuluj</string>
+          <string>Zamknij</string>
          </property>
         </widget>
        </item>
@@ -127,6 +219,13 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QgsFilterLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>qgsfilterlineedit.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

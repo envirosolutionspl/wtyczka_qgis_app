@@ -326,8 +326,9 @@ class AppModule(BaseModule):
             searchObjectType=QTableWidget,
             name="appTable_widget")
         for rowId in range(appTable_widget.rowCount()):
-            xmlPath = os.path.join(appTable_widget.item(rowId, 0).text())
-            xmlDate = appTable_widget.item(rowId, 1).text()
+            xmlIpp = appTable_widget.item(rowId, 0).text()
+            xmlPath = os.path.join(appTable_widget.item(rowId, 1).text())
+            xmlDate = appTable_widget.item(rowId, 2).text()
             files.append(AppTableModel(rowId, xmlPath, xmlDate))
             gmlPaths.append(xmlPath)
         # files = [os.path.join(os.path.dirname(__file__), "../validator", 'appExample_pzpw_v001.xml')] # test
@@ -493,7 +494,7 @@ class AppModule(BaseModule):
             if rows > 0:
                 for i in range(rows):
                     item = self.zbiorPrzygotowanieDialog.appTable_widget.item(
-                        i, 0).text()
+                        i, 1).text()
                     if plik == item:
                         param = False
                         showPopup("Błąd tabeli",

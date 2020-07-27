@@ -787,6 +787,14 @@ def createXmlData(dialog, obrysLayer):  # NOWE
                             if type(widget).__name__ == 'QComboBox':
                                 makeNil(item, fe, widget.currentText())
                                 continue
+                    else:
+                        try:
+                            item.text = refObject.text()
+                        except:
+                            try:
+                                item.text = refObject.currentText()
+                            except:
+                                pass
 
         elif fe.name == 'data':
             makeDataNode(item, refObject, slownik)

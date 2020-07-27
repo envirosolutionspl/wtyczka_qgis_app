@@ -967,7 +967,6 @@ def mergeDocsToAPP(docList):  # docList z getTableContent
         'wfs': 'http://www.opengis.net/wfs/2.0',
         'gmlexr': "http://www.opengis.net/gml/3.3/exr"
     }
-    # TODO POZYSKAĆ PARAMETR Z TABELI DLA DOKUMENTU
     # Przechowywanie elementów referencyjnych
     pomijane = {
         'AktPlanowaniaPrzestrzennego': {
@@ -1004,12 +1003,14 @@ def mergeDocsToAPP(docList):  # docList z getTableContent
         docType = getDocType(doc)
         root = ET.parse(doc).getroot()
         if docType == 'AktPlanowaniaPrzestrzennego':
-            APProot = ET.parse(doc).getroot()
+            APProot = root
             appIIP = getDocIIP(root)
             APPrelLink = 'http://zagospodarowanieprzestrzenne.gov.pl/app/%s/%s' % (
                 docType, appIIP)
 
     for doc, relation in docList:
+        if relation == 'inna':
+            relation = 'dokument'
         if relation == 'przystąpienie':
             relation = 'przystapienie'
         if relation == 'unieważnia':
@@ -1042,6 +1043,9 @@ def mergeDocsToAPP(docList):  # docList z getTableContent
                 pomijane['AktPlanowaniaPrzestrzennego']['aktNormatywnyUniewazniajacy'].append(
                     relLink)
                 pomijane[docType]['uniewaznia'].append(root)
+            if relation == 'dokument':
+                pomijane['AktPlanowaniaPrzestrzennego']['dokument'].append(
+                    relLink)
         if docType == 'RysunekAktuPlanowniaPrzestrzenego':
             pomijane['AktPlanowaniaPrzestrzennego']['rysunek'].append(relLink)
             pomijane[docType]['plan'].append(root)
@@ -1087,7 +1091,110 @@ def mergeDocsToAPP(docList):  # docList z getTableContent
             APProot.append(root[0])
 
     # eksport APP
-    mydata = ET.tostring(APProot).replace(b'><', b'>\n\t<')
+    mydata = ET.tostring(APProot)  # .replace(b'><', b'>\n\t<')
+    from lxml import etree
+    root = etree.XML(mydata)
+    xml_string = etree.tostring(
+        root,
+        xml_declaration=True,
+        encoding='utf-8',
+        pretty_print=True).decode('utf-8')
+    return xml_string
+
+
+def mergeFormalDocuments(root, elements=[]):
+    pomijane = ["przystapienie",
+                "uchwala",
+                "zmienia",
+                "uchyla",
+                "uniewaznia"]
+    ns = "{http://zagospodarowanieprzestrzenne.gov.pl/schemas/app/1.0}"
+    for element in root:
+        el_name = element.tag.replace(ns, '')
+        if el_name in pomijane:
+            elements.append(element)
+            root.remove(element)
+        if len(list(element)) > 0:
+            mergeFormalDocuments(element, elements)
+    return elements
+
+
+def sortDocRelations(relationList):
+    DokumentFormalny = {
+        "przystapienie": [],  # Dokument
+        "uchwala": [],  # Dokument
+        "zmienia": [],  # Dokument
+        "uchyla": [],  # Dokument
+        "uniewaznia": []  # Dokument
+    }
+    ns = "{http://zagospodarowanieprzestrzenne.gov.pl/schemas/app/1.0}"
+    for relation in relationList:
+        rel_name = relation.tag.replace(ns, '')
+        DokumentFormalny[relationList].append(relation)
+    return DokumentFormalny
+
+
+def mergeAppToCollection(AppFiles):
+    ns = {
+        'xsi': "http://www.w3.org/2001/XMLSchema",
+        'app': 'http://zagospodarowanieprzestrzenne.gov.pl/schemas/app/1.0',
+        'gmd': "http://www.isotc211.org/2005/gmd",
+        'gco': 'http://www.isotc211.org/2005/gco',
+        'xlink': 'http://www.w3.org/1999/xlink',
+        'gml': "http://www.opengis.net/gml/3.2",
+        'wfs': 'http://www.opengis.net/wfs/2.0',
+        'gmlexr': "http://www.opengis.net/gml/3.3/exr"
+    }
+
+    formalDocIIP = {}
+
+    for prefix, uri in ns.items():
+        ET.register_namespace(prefix, uri)
+
+    main = True
+    memberList = []
+
+    for file in AppFiles:
+        path = file.path
+        root = ET.parse(path).getroot()  # APP
+        for member in root:
+            if 'DokumentFormalny' in member[0].tag:
+                docAttributes = mergeFormalDocuments(
+                    member[0], [])  # Lista atrybutów dokumentu
+                IIP = getDocIIP(member)
+                if IIP in formalDocIIP.keys():  # Sprawdzić czy atrybut nie występuje w liście
+                    for attr in docAttributes:
+                        for listElem in formalDocIIP[IIP]:
+                            if attr.tag != listElem.tag:
+                                formalDocIIP[IIP].append(attr)
+                else:
+                    formalDocIIP[IIP] = docAttributes
+            memberList.append(member)
+        if main:
+            rootMain = root
+            while len(list(rootMain)) > 0:
+                member = rootMain[0]
+                rootMain.remove(member)
+            main = False
+
+    for member in memberList:
+        # print(member[0])
+        skip = False  # Pomiń dokument, jeśli już istnieje w APP
+        if 'DokumentFormalny' in member[0].tag:
+            IIP = getDocIIP(member)
+            for root in rootMain:
+                rootIIP = getDocIIP(root)
+                if rootIIP == IIP:
+                    skip = True
+                    break
+            if skip:
+                continue
+            for element in formalDocIIP[IIP]:
+                member[0].append(element)
+        rootMain.append(member)
+
+    # eksport APP
+    mydata = ET.tostring(rootMain)  # .replace(b'><', b'>\n\t<')
     from lxml import etree
     root = etree.XML(mydata)
     xml_string = etree.tostring(

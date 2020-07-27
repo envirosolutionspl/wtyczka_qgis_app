@@ -343,11 +343,17 @@ class AppModule(BaseModule):
 
         # TODO: Łączenie APP w zbiór
 
-        self.iface.messageBar().pushSuccess("Generowanie zbioru:",
-                                            "Pomyślnie wygenerowano zbiór APP.")
-        showPopup("Wygeneruj plik GML dla zbioru APP",
-                  "Poprawnie wygenerowano plik GML.")
-        self.generated = True
+        self.fn = QFileDialog.getSaveFileName(filter="XML Files (*.xml)")[0]
+        if self.fn:
+            xml_string = utils.mergeAppToCollection(files)
+            if xml_string != '':
+                myfile = open(self.fn, "w", encoding='utf-8')
+                myfile.write(xml_string)
+                self.iface.messageBar().pushSuccess("Generowanie zbioru:",
+                                                    "Pomyślnie wygenerowano zbiór APP.")
+                showPopup("Wygeneruj plik GML dla zbioru APP",
+                          "Poprawnie wygenerowano plik GML.")
+                self.generated = True
         return True
 
     # endregion
@@ -424,7 +430,7 @@ class AppModule(BaseModule):
         if self.generowanieGMLDialog.filesTable_widget.item(rows, 1).text() == 'Dokument Formalny':
             c = QComboBox()
             c.addItems(['przystąpienie', 'uchwala', 'zmienia',
-                        'uchyla', 'unieważnia'])
+                        'uchyla', 'unieważnia', 'inna'])
             i = self.generowanieGMLDialog.filesTable_widget.model().index(rows, 3)
             self.generowanieGMLDialog.filesTable_widget.setCellWidget(
                 rows, 3, c)
@@ -561,7 +567,7 @@ class AppModule(BaseModule):
                 root = etree.XML(mydata)
 
                 xml_string = etree.tostring(root, xml_declaration=True,
-                                            encoding='utf-8', pretty_print=True).decode('utf-8')
+                                            encoding='utf-8', pretty_print=True).decode('utf-8')  # TODO Sprawdzić bez pretty_print
                 myfile = open(self.fn, "w", encoding='utf-8')
                 myfile.write(xml_string)
 

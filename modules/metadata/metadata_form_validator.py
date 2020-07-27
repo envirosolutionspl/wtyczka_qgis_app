@@ -14,7 +14,7 @@ def validateMetadataForm(dlg):
 
         elementId = label.objectName().split('_')[0]
         licznosc = dictionaries.licznoscMetadataFields[elementId]
-        if licznosc == '1':   # wymagane 1
+        if licznosc == '1' and elementId != 'e25':   # wymagane 1
             lineEdit = utils.getWidgetByName(dlg, QLineEdit, elementId + "_lineEdit")
             if lineEdit and not lineEdit.text().strip():
                 return False, "Pole '%s' jest obowiązkowe. Musisz je wypełnić aby wygenerować plik metadanych" % label.text()

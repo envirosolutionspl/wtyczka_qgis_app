@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'modules/app/views/ui/zbior_przygotowanie_dialog_base.ui'
+# Form implementation generated from reading ui file 'zbior_przygotowanie_dialog_base.ui'
 #
-# Created by: PyQt5 UI code generator 5.11.3
+# Created by: PyQt5 UI code generator 5.13.2
 #
 # WARNING! All changes made in this file will be lost!
 
+
 from PyQt5 import QtCore, QtGui, QtWidgets
+
 
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
@@ -29,7 +31,7 @@ class Ui_Dialog(object):
         self.instruction_scrollArea.setWidgetResizable(True)
         self.instruction_scrollArea.setObjectName("instruction_scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 643, 118))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 643, 148))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.gridLayout = QtWidgets.QGridLayout(self.scrollAreaWidgetContents)
         self.gridLayout.setObjectName("gridLayout")
@@ -74,23 +76,27 @@ class Ui_Dialog(object):
         font = QtGui.QFont()
         font.setPointSize(10)
         self.addElement_btn.setFont(font)
+        self.addElement_btn.setAutoDefault(False)
         self.addElement_btn.setObjectName("addElement_btn")
         self.horizontalLayout_3.addWidget(self.addElement_btn)
         self.deleteElement_btn = QtWidgets.QPushButton(Dialog)
         font = QtGui.QFont()
         font.setPointSize(10)
         self.deleteElement_btn.setFont(font)
+        self.deleteElement_btn.setAutoDefault(False)
         self.deleteElement_btn.setObjectName("deleteElement_btn")
         self.horizontalLayout_3.addWidget(self.deleteElement_btn)
         self.verticalLayout.addLayout(self.horizontalLayout_3)
         self.appTable_widget = QtWidgets.QTableWidget(Dialog)
         self.appTable_widget.setObjectName("appTable_widget")
-        self.appTable_widget.setColumnCount(2)
+        self.appTable_widget.setColumnCount(3)
         self.appTable_widget.setRowCount(0)
         item = QtWidgets.QTableWidgetItem()
         self.appTable_widget.setHorizontalHeaderItem(0, item)
         item = QtWidgets.QTableWidgetItem()
         self.appTable_widget.setHorizontalHeaderItem(1, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.appTable_widget.setHorizontalHeaderItem(2, item)
         self.verticalLayout.addWidget(self.appTable_widget)
         self.empty2_lbl = QtWidgets.QLabel(Dialog)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
@@ -105,15 +111,18 @@ class Ui_Dialog(object):
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         self.prev_btn = QtWidgets.QPushButton(Dialog)
         self.prev_btn.setEnabled(True)
+        self.prev_btn.setAutoDefault(False)
         self.prev_btn.setObjectName("prev_btn")
         self.horizontalLayout_2.addWidget(self.prev_btn)
         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.horizontalLayout_2.addItem(spacerItem)
         self.validateAndGenerate_btn = QtWidgets.QPushButton(Dialog)
+        self.validateAndGenerate_btn.setAutoDefault(False)
         self.validateAndGenerate_btn.setObjectName("validateAndGenerate_btn")
         self.horizontalLayout_2.addWidget(self.validateAndGenerate_btn)
         self.next_btn = QtWidgets.QPushButton(Dialog)
         self.next_btn.setEnabled(True)
+        self.next_btn.setAutoDefault(False)
         self.next_btn.setObjectName("next_btn")
         self.horizontalLayout_2.addWidget(self.next_btn)
         self.verticalLayout.addLayout(self.horizontalLayout_2)
@@ -135,9 +144,20 @@ class Ui_Dialog(object):
         item.setText(_translate("Dialog", "Plik APP (GML)"))
         item = self.appTable_widget.horizontalHeaderItem(1)
         item.setText(_translate("Dialog", "Data modyfikacji"))
+        item = self.appTable_widget.horizontalHeaderItem(2)
+        item.setText(_translate("Dialog", "idIIP"))
         self.prev_btn.setText(_translate("Dialog", "Wstecz"))
         self.validateAndGenerate_btn.setText(_translate("Dialog", "Waliduj/Generuj"))
         self.next_btn.setToolTip(_translate("Dialog", "<html><head/><body><p>Przycisk przeniesie do narzędzia <span style=\" font-style:italic;\">Tworzenie / aktualizacja metadanych</span></p></body></html>"))
         self.next_btn.setText(_translate("Dialog", "Przejdź do metadanych"))
-
 from qgsfilewidget import QgsFileWidget
+
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    Dialog = QtWidgets.QDialog()
+    ui = Ui_Dialog()
+    ui.setupUi(Dialog)
+    Dialog.show()
+    sys.exit(app.exec_())

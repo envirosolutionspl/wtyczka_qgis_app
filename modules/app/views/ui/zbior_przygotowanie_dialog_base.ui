@@ -171,6 +171,11 @@
          <string>Data modyfikacji</string>
         </property>
        </column>
+       <column>
+        <property name="text">
+         <string>idIIP</string>
+        </property>
+       </column>
       </widget>
      </item>
      <item>

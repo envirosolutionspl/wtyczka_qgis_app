@@ -365,7 +365,13 @@ class AppModule(BaseModule):
 
     def getFormValues(self):
         print('Nie działam, ale się staram')
-        pass
+        plik = str(QFileDialog.getOpenFileName(
+            filter="pliki XML/GML (*.xml *.gml)")[0])
+        print(plik)
+        if plik:
+            formElements = self.activeDlg.formElements
+            utils.loadItemsToForm(plik, formElements)
+            pass
 
     def addTableContentGML(self):
         plik = str(QFileDialog.getOpenFileName(

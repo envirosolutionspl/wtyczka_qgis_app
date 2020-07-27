@@ -654,8 +654,6 @@ def makeNil(item, element, nilReason):
 def checkForNoDateValue(element):
     if element.dateTime().toString() == '' or element.text() == 'NULL' or element.text() == None:
         return True
-
-    print(element.dateTime())
     return False  # jest wartość
 
 
@@ -751,7 +749,6 @@ def createXmlData(dialog, obrysLayer):  # NOWE
 
     for fe in dialog.formElements:
         refObject = fe.refObject
-        print(fe.name)
         if checkForNoValue(refObject):
             continue
         if (fe.type == 'date' or fe.type == 'dateTime') and checkForNoDateValue(refObject):
@@ -804,13 +801,19 @@ def createXmlData(dialog, obrysLayer):  # NOWE
                                 makeNil(item, fe, widget.currentText())
                                 continue
                     else:
-                        try:
-                            item.text = refObject.text()
-                        except:
+                        if fe.type == 'date':
+                            item.text = refObject.dateTime().toString("yyyy-MM-dd")
+                        elif fe.type == 'dateTime':
+                            item.text = refObject.dateTime().toString(
+                                "yyyy-MM-ddThh:mm:ss")
+                        else:
                             try:
-                                item.text = refObject.currentText()
+                                item.text = refObject.text()
                             except:
-                                pass
+                                try:
+                                    item.text = refObject.currentText()
+                                except:
+                                    pass
 
         elif fe.name == 'data':
             makeDataNode(item, refObject, slownik)
@@ -1043,12 +1046,10 @@ def mergeDocsToAPP(docList):  # docList z getTableContent
             pomijane[docType]['plan'].append(root)
             # Dodaje atrybut do rysunku
             newItem(root=root[0][0], name='plan', link=APPrelLink, ns=ns)
-    print(pomijane)
     # Sprawdzanie relacji Dokumentu formalnego
     l_przystapienie = len(pomijane['DokumentFormalny']['przystapienie'])
     l_uchwala = len(pomijane['DokumentFormalny']['uchwala'])
     suma = l_przystapienie + l_uchwala
-    print(suma)
     if suma > 2 or suma == 0:
         # Wymagany jest co najmniej 1 dokument
         showPopup(title='Błąd liczności Dokumentów',
@@ -1210,3 +1211,56 @@ def getIPPapp(filePath):
     except:
         return ''
     return ''
+
+
+def findElementByTag(root, name, elem=None):
+    for element in root:
+        if '{http://zagospodarowanieprzestrzenne.gov.pl/schemas/app/1.0}'+name in element.tag:
+            return element
+        if len(list(element)) > 0:
+            elem = findElementByTag(element, name)
+    if elem is not None:
+        return elem
+    return None
+
+
+def setValueToWidget(formElement, value):
+    try:
+        if formElement.type == 'string':
+            formElement.refObject.setText(element.text)
+    except:
+        print(formElement.name)
+
+
+def loadItemsToForm(filePath, formElements):
+    root = ET.parse(filePath).getroot()
+
+    ns = {
+        'xsi': "http://www.w3.org/2001/XMLSchema",
+        'app': "http://zagospodarowanieprzestrzenne.gov.pl/schemas/app/1.0",
+        'gmd': "http://www.isotc211.org/2005/gmd",
+        'gco': 'http://www.isotc211.org/2005/gco',
+        'xlink': 'http://www.w3.org/1999/xlink',
+        'gml': "http://www.opengis.net/gml/3.2",
+        'wfs': 'http://www.opengis.net/wfs/2.0',
+        'gmlexr': "http://www.opengis.net/gml/3.3/exr"
+    }
+
+    for prefix, uri in ns.items():
+        ET.register_namespace(prefix, uri)
+
+    for fe in formElements:
+        element = findElementByTag(root, fe.name, None)
+        try:
+            value = element.text
+            setValueToWidget(fe, value)
+        except:
+            print(fe.name)
+            pass
+        for inner in fe.innerFormElements:
+            try:
+                innerElement = findElementByTag(element, inner.name, None)
+                value = innerElement.text
+                setValueToWidget(inner, value)
+            except:
+                print(inner.name)

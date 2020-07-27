@@ -69,6 +69,8 @@ class AppModule(BaseModule):
         self.prepareIdIPP(formularz=self.rasterFormularzDialog)
         self.rasterFormularzDialog.clear_btn.clicked.connect(
             self.rasterFormularzDialog_clear_btn_clicked)
+        self.rasterFormularzDialog.getValues_btn.clicked.connect(
+            self.getFormValues)
 
     # endregion
     # region wektorInstrukcjaDialog
@@ -105,6 +107,8 @@ class AppModule(BaseModule):
             self.showPopupSaveForm)
         self.dokumentyFormularzDialog.clear_btn.clicked.connect(
             self.dokumentyFormularzDialog_clear_btn_clicked)
+        self.dokumentyFormularzDialog.getValues_btn.clicked.connect(
+            self.getFormValues)
         # zdarenia dynamicznie utworzonych obiektów UI związanych z IdIPP
         self.prepareIdIPP(formularz=self.dokumentyFormularzDialog)
     # endregion
@@ -181,7 +185,7 @@ class AppModule(BaseModule):
         self.listaOkienek.append(self.rasterFormularzDialog)
 
     def rasterFormularzDialog_clear_btn_clicked(self):
-        print(self.rasterFormularzDialog.form_scrollArea)
+        # print(self.rasterFormularzDialog.form_scrollArea)
         self.rasterFormularzDialog.clearForm(
             self.rasterFormularzDialog.form_scrollArea)
 
@@ -341,8 +345,6 @@ class AppModule(BaseModule):
             self.iface.messageBar().pushCritical("Błąd geometrii zbioru:", trescBledu)
             return False
 
-        # TODO: Łączenie APP w zbiór
-
         self.fn = QFileDialog.getSaveFileName(filter="XML Files (*.xml)")[0]
         if self.fn:
             xml_string = utils.mergeAppToCollection(files)
@@ -359,6 +361,10 @@ class AppModule(BaseModule):
     # endregion
 
     """Helper methods"""
+
+    def getFormValues(self):
+        print('Nie działam, ale się staram')
+        pass
 
     def addTableContentGML(self):
         plik = str(QFileDialog.getOpenFileName(
@@ -501,14 +507,22 @@ class AppModule(BaseModule):
     def tableContentSet(self, file, rows):
         flags = Qt.ItemFlags(32)
         self.zbiorPrzygotowanieDialog.appTable_widget.setRowCount(rows + 1)
-        self.zbiorPrzygotowanieDialog.appTable_widget.setItem(
-            rows, 0, QTableWidgetItem(file))
 
+        # pierwsza kolumna
+        idIIP = utils.getDocIIP()
+        itemIIP = QTableWidgetItem(idIIP)
+        self.zbiorPrzygotowanieDialog.appTable_widget.setItem(
+            rows, 1, itemIIP)
+        # druga kolumna
+        self.zbiorPrzygotowanieDialog.appTable_widget.setItem(
+            rows, 1, QTableWidgetItem(file))
+        # trzecia kolumna
         t = os.path.getmtime(file)
         mtime = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(t))
         item = QTableWidgetItem(mtime)
         item.setFlags(flags)
-        self.zbiorPrzygotowanieDialog.appTable_widget.setItem(rows, 1, item)
+        # dodanie do tabeli
+        self.zbiorPrzygotowanieDialog.appTable_widget.setItem(rows, 2, item)
 
     def deleteTableContentSet(self):
         row_num = self.zbiorPrzygotowanieDialog.appTable_widget.rowCount()

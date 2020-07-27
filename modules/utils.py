@@ -1173,3 +1173,21 @@ def mergeAppToCollection(AppFiles):
         encoding='utf-8',
         pretty_print=True).decode('utf-8')
     return xml_string
+
+
+def getIPPapp(filePath):
+    AppName = 'AktPlanowaniaPrzestrzennego'
+    try:
+        tree = ET.parse(filePath)
+        root = tree.getroot()
+        elemList = []
+        # Sprawdzanie, czy plik
+        if len(root) != 1:
+            return ''
+        for member in root:
+            if AppName in member[0].tag:
+                IIP = getDocIIP(member)
+                return IIP
+    except:
+        return ''
+    return ''

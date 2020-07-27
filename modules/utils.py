@@ -758,8 +758,6 @@ def createXmlData(dialog, obrysLayer):  # NOWE
             items.set('gml:id', IIP)
             itemid.text = '/'.join([codeSpace, docName, IIP.replace('_', '/')])
 
-        print(fe.name)
-
         if fe.isComplex():
             item = ET.SubElement(items, tag + fe.name)
             if fe.maxOccurs == 'unbounded':  # Element jest wielokrotny
@@ -792,7 +790,7 @@ def createXmlData(dialog, obrysLayer):  # NOWE
                                 makeNil(item, fe, widget.currentText())
                                 continue
 
-        if fe.name == 'data':
+        elif fe.name == 'data':
             makeDataNode(item, refObject, slownik)
         elif fe.name == 'ukladOdniesieniaPrzestrzennego':
             item.text = slownik[refObject.currentText()]

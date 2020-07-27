@@ -100,9 +100,9 @@
         <property name="geometry">
          <rect>
           <x>0</x>
-          <y>-86</y>
-          <width>743</width>
-          <height>690</height>
+          <y>0</y>
+          <width>760</width>
+          <height>381</height>
          </rect>
         </property>
         <layout class="QGridLayout" name="gridLayout_2">
@@ -774,7 +774,7 @@ Obowiązkowo należy podać  słowa kluczowe:
                  <item>
                   <widget class="QLabel" name="e10_tooltip">
                    <property name="toolTip">
-                    <string extracomment="Nazwa kontrolowanego słownika (tezaurusa, ontologii) lub podobnego wiarygodnego źródła słów kluczowych.  Wartość elementu jest określana dla pojedynczego słowa kluczowego lub grupy słów kluczowych, które pochodzą z jednego kontrolowanego słownika. "/>
+                    <string extracomment="Nazwa kontrolowanego słownika (tezaurusa, ontologii) lub podobnego wiarygodnego źródła słów kluczowych.  Wartość elementu jest określana dla pojedynczego słowa kluczowego lub grupy słów kluczowych, które pochodzą z jednego kontrolowanego słownika. ">Nazwa sposobu kodowania znaków (informacji tekstowej) użytego w zbiorze danych.</string>
                    </property>
                    <property name="text">
                     <string/>
@@ -1374,7 +1374,7 @@ Element metadanych zawsze przyjmuje wartości: wektor „Vector” oraz raster �
             <string>Zgodność*</string>
            </property>
            <property name="collapsed">
-            <bool>false</bool>
+            <bool>true</bool>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_2">
             <property name="sizeConstraint">
@@ -1889,7 +1889,7 @@ Co najmniej należy wyspecyfikować jednostkę odpowiedzialną, pełniącą w st
             <string>Kodowanie*</string>
            </property>
            <property name="collapsed">
-            <bool>false</bool>
+            <bool>true</bool>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_2">
             <property name="sizeConstraint">

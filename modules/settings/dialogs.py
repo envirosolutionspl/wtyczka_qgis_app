@@ -7,9 +7,10 @@ Okna dialogowe modułu Settings
 import os
 
 from PyQt5.QtWidgets import QMessageBox
-from qgis.PyQt.QtCore import Qt
+from qgis.PyQt.QtCore import Qt, QRegExp
 from qgis.PyQt import uic, QtGui
 from qgis.PyQt import QtWidgets
+from PyQt5.QtGui import QRegExpValidator
 
 
 title_settings = 'Ustawienia'
@@ -36,7 +37,7 @@ class UstawieniaDialog(QtWidgets.QDialog, FORM_CLASS):
         self.setWindowIcon(QtGui.QIcon(icon_settings))
         self.setWindowFlag(Qt.WindowMinMaxButtonsHint, True)
         self.exit_btn.clicked.connect(self.reject)
-
+        self.mail_lineEdit.setValidator(QRegExpValidator(QRegExp(r"[0-9a-zA-Z.\-\_\@\+]*")))
 
 
 class PomocDialog(QtWidgets.QDialog, FORM_CLASS1):

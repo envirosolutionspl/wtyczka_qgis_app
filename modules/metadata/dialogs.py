@@ -183,12 +183,25 @@ class MetadaneDialog(QDialogOverride, FORM_CLASS, ButtonsDialog):
 
         p = QPixmap(':/plugins/wtyczka_app/img/info1.png')
 
-        # Ograniczenia Pól
+        # Ograniczenia Pól QLineEdit
+        # URI:
+        for objectName in ["e4_lineEdit"]:
+            input = utils.getWidgetByName(self, QLineEdit, objectName)
+            input.setValidator(QRegExpValidator(QRegExp(r"\S*")))
+
+        # mail:
+        for objectName in ["e22_mail_lineEdit", "e29_mail_lineEdit"]:
+            input = utils.getWidgetByName(self, QLineEdit, objectName)
+            input.setValidator(QRegExpValidator(QRegExp(r"[0-9a-zA-Z.\-\_\@\+]*")))
+
         input = utils.getWidgetByName(self, QLineEdit, "e11_lineEdit")
         input.setValidator(QRegExpValidator(QRegExp("[0-9.,]*")))
         input = utils.getWidgetByName(self, QLineEdit, "e16_lineEdit")
         input.setValidator(QRegExpValidator(QRegExp("[0-9]*")))
 
+        # czyszczenie QgsDateTimeEdit
+        for dateTimeEdit in utils.getWidgetsByType(self, QDateTimeEdit):
+            dateTimeEdit.clear()
 
         # nadanie grafiki tooltipa
         for label in utils.getWidgetsByType(self, QLabel):
@@ -224,21 +237,29 @@ class MetadaneDialog(QDialogOverride, FORM_CLASS, ButtonsDialog):
         def checkValidity():
             """sprawdzenie poprawności pól przed dodaniem do listWidget"""
             if elementId == 'e22' or elementId == 'e29':
-                if nameLineEdit.text() and mailLineEdit.text():
+                if nameLineEdit.text().strip() and mailLineEdit.text().strip():
+                    return True
+            elif elementId == 'e11':
+                extent = lineEdit.text()
+                if extent.count(',') == 3 and extent.count('.') <= 4:
                     return True
             elif elementId == 'e7' or elementId == 'e12':
                 if cmbbx.currentText():
                     return True
             elif elementId == 'e24':
-                if lineEdit.text() and utils.getWidgetByName(layout=self, searchObjectType=QLineEdit, name='e25_lineEdit').text():
+                if lineEdit.text().strip() and utils.getWidgetByName(layout=self, searchObjectType=QLineEdit, name='e25_lineEdit').text().strip():
+                    return True
+            elif elementId == 'e18':
+                if lineEdit.text().strip() and dateTimeEdit.dateTime():
                     return True
             elif elementId == 'e9':
-                if (
-                        lineEdit.text() and
-                        utils.getWidgetByName(layout=self, searchObjectType=QLineEdit, name='e10_lineEdit').text() and
-                        utils.getWidgetByName(layout=self, searchObjectType=QDateTimeEdit, name='e10_dateTimeEdit').dateTime()):
+                e10_lineEdit = utils.getWidgetByName(layout=self, searchObjectType=QLineEdit, name='e10_lineEdit')
+                e10_dateTimeEdit = utils.getWidgetByName(layout=self, searchObjectType=QDateTimeEdit, name='e10_dateTimeEdit')
+                if lineEdit.text().strip() and not e10_lineEdit.text().strip(): # bez standardowego slownika
                     return True
-            elif lineEdit and lineEdit.text():
+                if lineEdit.text().strip() and e10_lineEdit.text().strip() and e10_dateTimeEdit.dateTime(): # standardowy słownik
+                    return True
+            elif lineEdit and lineEdit.text().strip():
                 return True
             return False
 
@@ -283,7 +304,7 @@ class MetadaneDialog(QDialogOverride, FORM_CLASS, ButtonsDialog):
                         textList.append(input.currentText())
                     if isinstance(input, QDateTimeEdit):
                         data[input.objectName()] = input.dateTime()
-                        textList.append(input.dateTime().toString())
+                        textList.append(input.dateTime().toString("dd-MM-yyyy"))
 
                 if elementId == 'e22':
                     input2 = utils.getWidgetByName(layout=self, searchObjectType=QComboBox, name='e23_cmbbx')
@@ -300,7 +321,6 @@ class MetadaneDialog(QDialogOverride, FORM_CLASS, ButtonsDialog):
                 if elementId == 'e9':
                     input2 = utils.getWidgetByName(layout=self, searchObjectType=QLineEdit, name='e10_lineEdit')
                     data[input2.objectName()] = input2.text()
-                    textList.append(input2.text())
                     input2 = utils.getWidgetByName(layout=self, searchObjectType=QDateTimeEdit, name='e10_dateTimeEdit')
                     data[input2.objectName()] = input2.dateTime()
                     input2 = utils.getWidgetByName(layout=self, searchObjectType=QComboBox, name='e10_cmbbx')
@@ -313,7 +333,7 @@ class MetadaneDialog(QDialogOverride, FORM_CLASS, ButtonsDialog):
                 clearDataFromListWidget()  # czyszczenie
             else:
                 utils.showPopup("Wypełnij formularz mapy podkładowej",
-                                'Musisz zdefiniować wartości dla wszystkich pól')
+                                'Musisz zdefiniować poprawne wartości dla wszystkich wymaganych pól przed dodaniem do listy')
         def removeItem(listWidget):
             listWidget.takeItem(listWidget.currentRow())
 

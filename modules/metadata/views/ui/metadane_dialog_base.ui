@@ -849,6 +849,12 @@ Obowiązkowo należy podać  słowa kluczowe:
                  </item>
                  <item>
                   <widget class="QgsFilterLineEdit" name="e11_lineEdit">
+                   <property name="toolTip">
+                    <string>Prostokąt zdefiniowany jako &lt;xmin&gt;,&lt;xmax&gt;,&lt;ymin&gt;,&lt;ymax&gt; np.: 13.9000,23.9000,49.2300,54.7000</string>
+                   </property>
+                   <property name="placeholderText">
+                    <string>np.: 13.9000,23.9000,49.2300,54.7000</string>
+                   </property>
                    <property name="qgisRelation" stdset="0">
                     <string notr="true"/>
                    </property>

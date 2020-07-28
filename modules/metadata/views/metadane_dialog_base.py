@@ -1253,6 +1253,8 @@ class Ui_Dialog(object):
         self.e9_listWidget.setSortingEnabled(False)
         self.mGroupBox_4.setTitle(_translate("Dialog", "Położenie geograficzne*"))
         self.e11_lbl.setText(_translate("Dialog", "Geograficzny prostokąt ograniczający*"))
+        self.e11_lineEdit.setToolTip(_translate("Dialog", "Prostokąt zdefiniowany jako <xmin>,<xmax>,<ymin>,<ymax> np.: 13.9000,23.9000,49.2300,54.7000"))
+        self.e11_lineEdit.setPlaceholderText(_translate("Dialog", "np.: 13.9000,23.9000,49.2300,54.7000"))
         self.e11_tooltip.setToolTip(_translate("Dialog", "Zasięg zbioru w przestrzeni geograficznej, wyrażony za pomocą prostokąta ograniczającego, opisanego za pomocą południków granicy zachodniej i granicy wschodniej obszaru oraz równoleżników granicy południowej i granicy północnej wyrażonych w częściach dziesiętnych stopnia, z dokładnością do co najmniej czterech cyfr dziesiętnych.\n"
 "\n"
 "Jeżeli zbiór danych charakteryzuje się brakiem ciągłości przestrzennej, można określić więcej niż jeden prostokąt ograniczający.\n"

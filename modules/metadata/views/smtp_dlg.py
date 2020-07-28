@@ -127,7 +127,7 @@ class Ui_smtp_dlg(object):
 
     def retranslateUi(self, smtp_dlg):
         _translate = QtCore.QCoreApplication.translate
-        smtp_dlg.setWindowTitle(_translate("smtp_dlg", "Dialog"))
+        smtp_dlg.setWindowTitle(_translate("smtp_dlg", "Wysyłanie metadanych na email"))
         self.verticalGroupBox.setTitle(_translate("smtp_dlg", "parametry połaczenia SMTP"))
         self.host_lbl.setText(_translate("smtp_dlg", "host          "))
         self.host_lineEdit.setPlaceholderText(_translate("smtp_dlg", "np:. smtp.gmail.com"))

@@ -51,7 +51,8 @@ class MetadataModule(BaseModule):
         if path:
             # utworzenie słownika na podstawie pliku zbioru APP
             metadataElementDict = appGmlToMetadataElementDict(path)
-            print(metadataElementDict)
+            for k, v in metadataElementDict.items():
+                print(k, v)
 
             # zapisanie słownika do formularza
             metadataElementDictToForm(metadataElementDict, self.metadaneDialog)

@@ -1,5 +1,5 @@
 from . import (MetadaneDialog, SmtpDialog, CswDialog)
-from . import formToMetadataElementDict, metadataElementDictToXml, appGmlToMetadataElementDict
+from . import formToMetadataElementDict, metadataElementDictToXml, appGmlToMetadataElementDict, metadataElementDictToForm
 from .metadata_form_validator import validateMetadataForm
 from .metadata_form_initializer import initializeMetadataForm
 from .. import BaseModule
@@ -49,10 +49,15 @@ class MetadataModule(BaseModule):
     """Event handlers"""
     def chooseSet_widget_fileChanged(self, path):
         if path:
+            # utworzenie słownika na podstawie pliku zbioru APP
             metadataElementDict = appGmlToMetadataElementDict(path)
             print(metadataElementDict)
-            # if self.dataValidator.validateXml(path)[0]: # poprawny GML
-            #     metadataElementDict = appGmlToMetadataElementDict(path)
+
+            # zapisanie słownika do formularza
+            metadataElementDictToForm(metadataElementDict, self.metadaneDialog)
+            self.iface.messageBar().pushSuccess("Aktualizacja formularza metadanych:",
+                                                "Zaktualizowano formularz metadanych w oparciu o plik zbioru APP.")
+
 
     # region metadaneDialog
     def metadaneDialog_prev_btn_clicked(self):

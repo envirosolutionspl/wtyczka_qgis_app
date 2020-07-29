@@ -19,7 +19,8 @@ class SettingsModule(BaseModule):
         # region okno moduł settings
         self.ustawieniaDialog = ustawieniaDialog
         # endregion
-
+        self.settingsSmtpDialog = SmtpDialog(self.iface)
+        self.settingsCswDialog = CswDialog(self.iface)
         # region okno moduł help
         self.pomocDialog = PomocDialog()
         # endregion
@@ -44,14 +45,12 @@ class SettingsModule(BaseModule):
         s.setValue("qgis_app/settings/contactMail", self.ustawieniaDialog.mail_lineEdit.text())
 
     def smtp_btn_clicked(self):
-        smtpDialog = SmtpDialog(self.iface)
-        smtpDialog.show()
-        smtpDialog.send_btn.setVisible(False)
+        self.settingsSmtpDialog.show()
+        self.settingsSmtpDialog.send_btn.setVisible(False)
 
     def csw_btn_clicked(self):
-        cswDialog = CswDialog(self.iface)
-        cswDialog.show()
-        cswDialog.send_btn.setVisible(False)
+        self.settingsCswDialog.show()
+        self.settingsCswDialog.send_btn.setVisible(False)
 
     def readSettings(self):
         s = QgsSettings()

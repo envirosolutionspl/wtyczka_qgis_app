@@ -4,7 +4,7 @@ from PyQt5.QtCore import QSize
 from qgis.PyQt import QtWidgets
 from .base import BaseModule
 from .Formularz import Formularz
-from .settings import UstawieniaDialog,PomocDialog, ustawieniaDialog
+from .settings import UstawieniaDialog,PomocDialog, ustawieniaDialog, pomocDialog
 
 class QDialogOverride(QtWidgets.QDialog):
     def closeEvent(self, event):
@@ -17,8 +17,6 @@ class QDialogOverride(QtWidgets.QDialog):
             else:
                 event.ignore()
 class ButtonsDialog:
-    # ustawieniaDialog = UstawieniaDialog()
-    pomocDialog = PomocDialog()
 
     def __init__(self):
         vLayout = self.layout().itemAt(0)
@@ -45,7 +43,7 @@ class ButtonsDialog:
         vLayout.insertLayout(0, hbox)
 
     def settings_btn_clicked(self):
-        ustawieniaDialog.exec()
+        ustawieniaDialog.show()
 
     def help_btn_clicked(self):
-        self.pomocDialog.exec()
+        pomocDialog.show()

@@ -3,3 +3,4 @@ from .dialogs import (
     PomocDialog
 )
 ustawieniaDialog = UstawieniaDialog()
+pomocDialog = PomocDialog()

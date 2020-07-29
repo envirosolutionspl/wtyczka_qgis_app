@@ -21,6 +21,7 @@ class MetadataModule(BaseModule):
         self.saved = False
         # plik metadanych do wysłania
 
+        self.s = QgsSettings()
         # self.metadataXmlPath = os.path.join(os.path.dirname(__file__), '../validator', 'test_metadata.xml')
         self.metadataXmlPath = None
         # region okno moduł metadata
@@ -42,7 +43,10 @@ class MetadataModule(BaseModule):
 
         # self.metadaneDialog.newFile_widget.clicked.connect(self.saveMetaFile)
         self.metadaneDialog.chooseFile_widget.setFilter(filter="pliki XML (*.xml)")
+        self.metadaneDialog.chooseFile_widget.setDefaultRoot(self.s.value("qgis_app/settings/defaultPath", ""))
+
         self.metadaneDialog.chooseSet_widget.setFilter(filter="pliki XML/GML (*.xml *.gml)")
+        self.metadaneDialog.chooseSet_widget.setDefaultRoot(self.s.value("qgis_app/settings/defaultPath", ""))
         self.metadaneDialog.chooseSet_widget.fileChanged.connect(self.chooseSet_widget_fileChanged)
         # endregion
 
@@ -100,8 +104,8 @@ class MetadataModule(BaseModule):
 
     """Helper methods"""
     def saveMetaFile(self, xmlString):
-        s = QgsSettings()
-        defaultPath = s.value("qgis_app/settings/defaultPath", "")
+
+        defaultPath = self.s.value("qgis_app/settings/defaultPath", "")
         self.metadataXmlPath = QFileDialog.getSaveFileName(directory=defaultPath, filter="*.xml")[0]
         if self.metadataXmlPath:
             try:

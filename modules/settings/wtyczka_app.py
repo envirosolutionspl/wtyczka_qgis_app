@@ -1,9 +1,7 @@
-from . import (UstawieniaDialog, PomocDialog)
+from . import (UstawieniaDialog, PomocDialog, ustawieniaDialog, PLUGIN_VERSION)
 from .. import BaseModule
-from . import ustawieniaDialog
 from ..utils import showPopup
 from ..metadata import SmtpDialog, CswDialog
-
 from qgis.PyQt import QtWidgets
 from PyQt5.QtWidgets import QFileDialog, QTableWidgetItem
 from PyQt5.QtCore import Qt
@@ -23,6 +21,8 @@ class SettingsModule(BaseModule):
         self.settingsCswDialog = CswDialog(self.iface)
         # region okno moduł help
         self.pomocDialog = PomocDialog()
+        # print('kkkkk', PLUGIN_VERSION)
+
         # endregion
 
         self.readSettings()
@@ -34,7 +34,7 @@ class SettingsModule(BaseModule):
 
     """Event handlers"""
     def folder_btn_clicked(self):
-        path = QFileDialog.getExistingDirectory(self.ustawieniaDialog, "Open Directory", "/", QFileDialog.ShowDirsOnly)
+        path = QFileDialog.getExistingDirectory(self.ustawieniaDialog, "Wskaż domyślny folder zapisu", "/", QFileDialog.ShowDirsOnly)
         if path:
             self.ustawieniaDialog.folder_lbl.setText(path)
 

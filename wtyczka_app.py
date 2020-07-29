@@ -22,7 +22,8 @@
  ***************************************************************************/
 """
 from PyQt5.QtWidgets import QDialog, QFileDialog
-
+import os
+from . import PLUGIN_VERSION
 from qgis.PyQt.QtGui import QIcon
 from qgis.PyQt.QtWidgets import QAction, QToolButton, QMenu
 from qgis.core import QgsTask, QgsApplication, QgsMessageLog
@@ -38,9 +39,10 @@ from .modules.validator import validator
 from .modules import utils
 
 
-import os
+
+
+
 PLUGIN_NAME = 'Wtyczka APP'
-PLUGIN_VERSION = '0.1'
 
 
 class WtyczkaAPP(AppModule, MetadataModule, ValidatorModule, SettingsModule):
@@ -143,6 +145,9 @@ class WtyczkaAPP(AppModule, MetadataModule, ValidatorModule, SettingsModule):
         self.addAction(icon_path=':/plugins/wtyczka_app/img/ustawienia.png',
                        text=u'Ustawienia',
                        callback=self.run_settings)
+        self.addAction(icon_path=':/plugins/wtyczka_app/img/info2.png',
+                       text=u'Pomoc',
+                       callback=self.run_help)
 
 
 
@@ -165,6 +170,9 @@ class WtyczkaAPP(AppModule, MetadataModule, ValidatorModule, SettingsModule):
 
     def run_settings(self):
         self.openNewDialog(self.ustawieniaDialog)
+
+    def run_help(self):
+        self.openNewDialog(self.pomocDialog)
 
     def run_validator(self):
         self.openNewDialog(self.walidacjaDialog)

@@ -1,3 +1,4 @@
+from .. import PLUGIN_VERSION
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import QSize
@@ -5,6 +6,7 @@ from qgis.PyQt import QtWidgets
 from .base import BaseModule
 from .Formularz import Formularz
 from .settings import UstawieniaDialog,PomocDialog, ustawieniaDialog, pomocDialog
+
 
 class QDialogOverride(QtWidgets.QDialog):
     def closeEvent(self, event):

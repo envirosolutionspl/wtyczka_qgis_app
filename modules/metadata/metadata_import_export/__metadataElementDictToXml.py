@@ -1,94 +1,9 @@
-from .. import dictionaries, utils
-from PyQt5.QtWidgets import *
-from PyQt5.QtCore import QRegExp, Qt
-from collections import ChainMap
-from xml.etree.ElementTree import Element,  Comment, tostring
 import xml.etree.ElementTree as ET
 from xml.dom import minidom
-import sys
-translation = {
-    'dostawca zasobu': 'resourceProvider',
-    'opiekun (konserwator)': 'custodian',
-    'właściciel': 'owner',
-    'użytkownik': 'user',
-    'dystrybutor': 'distributor',
-    'twórca': 'originator',
-    'punkt kontaktowy': 'pointOfContact',
-    'główny badacz': 'principalInvestigator',
-    'przetwórca': 'processor',
-    'wydawca': 'publisher',
-    'autor': 'author',
-    # E26
-    'według potrzeb': 'asNeeded',
-    # E28
-    'zbiór danych': 'dataset',
-    # CI_DateTypeCode
-    'publikacja': 'publication',
-    'utworzenie': 'creation',
-    'aktualizacja': 'revision',
-    # E17
-    'wektor': 'vector',
-    'raster': 'grid',
-    # E8
-    'Planowanie/Kataster': 'planningCadastre',
-    # E19
-    'prawda': 'true',
-    'fałsz': 'false'
-}
-"""
-
-metadataElementDict - słownik zawierający elementID jako klucz np 'e23' i wartość elementu jako:
-    - słownik - dla elementów wielokrotnych (tam gdzie jest QListWidget) - lista zawiera słowniki "data" przechowywane w QListWidgetItem.
-      każdy słownik zawiera jako klucz - nazwę pola, jako wartość -wartość pola np. dla e9: [{'e9_lineEdit': 'Zagospodarowanie przestrzenne'}, {'e9_lineEdit': 'PlannedLandUse'}]
-    - słownik - dla pojedynczych - zawierający nazwę pola i wartość np: e13: {'e13_cmbbx': 'utworzenie', 'e13_dateTimeEdit': PyQt5.QtCore.QDateTime(2020, 7, 26, 18, 16, 2, 978)}
-
-"""
-def formToMetadataElementDict(form):
-    """pobiera wartości formularza do słownika metadataElementDict"""
-    listWidgets = form.findChildren(QListWidget, QRegExp(r'.*'))
-    lineEdits = form.findChildren(QLineEdit, QRegExp(r'.*'))
-    dateTimeEdits = form.findChildren(QDateTimeEdit, QRegExp(r'.*'))
-    comboBoxes = form.findChildren(QComboBox, QRegExp(r'.*'))
-    singleWidgets = lineEdits + dateTimeEdits + comboBoxes
-    metadataElementDict = {}
-    for elementId, licznosc in dictionaries.licznoscMetadataFields.items():
-
-        if not (licznosc == '01' or licznosc == '1'):   # pola wielokrotnego wyboru
-            # pobierz listWidget
-            listWidget = utils.getWidgetByName(layout=form, searchObjectType=QListWidget, name=elementId + '_listWidget')
-            dataList = []
-            for i in range(listWidget.count()):
-                listWidgetItem = listWidget.item(i)
-                data = listWidgetItem.data(Qt.UserRole) # slownik
-                # if data is None:
-                #     data = listWidgetItem.text()
-                dataList.append(data)
-            metadataElementDict[elementId] = dataList
-
-        else:   # pola pojedynczego wyboru
-            # pobierz wszystkie widgety o danym elementId
-            tempList = []
-            for input in [x for x in singleWidgets if x.objectName().startswith(elementId + '_')]:
-                if isinstance(input, QLineEdit):
-                    tempList.append({input.objectName(): input.text()})
-                elif isinstance(input, QDateTimeEdit):
-                    tempList.append({input.objectName(): input.dateTime()})
-                elif isinstance(input, QComboBox):
-                    tempList.append({input.objectName(): input.currentText()})
-
-            metadataElementDict[elementId] = dict(ChainMap(*tempList))
-
-    for k,v in metadataElementDict.items():
-        print(k,dictionaries.licznoscMetadataFields[k],v)
-    return metadataElementDict
-
-def metadataElementDictToForm(metadataElementDict, targetForm):
-    """aktualizuje formularz na podstawie słownika metadataElementDict"""
-    pass
+from . import translation
 
 def metadataElementDictToXml(metadataElementDict):
     """tworzy XML na podstawie słownika metadataElementDict"""
-    xml = None
 
     # Przestrzenie nazw ustawione na sztywno
     namespaces = {
@@ -425,11 +340,4 @@ def metadataElementDictToXml(metadataElementDict):
     characterString.text = metadataElementDict['e15']['e15_lineEdit']
 
     # print(minidom.parseString(tostring(root, encoding='utf-8', method='xml').decode('utf-8')).toprettyxml())
-    return minidom.parseString(tostring(root, encoding='utf-8', method='xml').decode('utf-8')).toprettyxml()
-
-
-def xmlToMetadataElementDict(xml):
-    """słownik metadataElementDict na podstawie pliku XML"""
-    metadataElementList = []
-    return metadataElementList
-
+    return minidom.parseString(ET.tostring(root, encoding='utf-8', method='xml').decode('utf-8')).toprettyxml()

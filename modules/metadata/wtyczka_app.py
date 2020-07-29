@@ -1,6 +1,6 @@
 from . import (MetadaneDialog, SmtpDialog, CswDialog)
+from . import formToMetadataElementDict, metadataElementDictToXml, appGmlToMetadataElementDict
 from .metadata_form_validator import validateMetadataForm
-from .metadata_import_eksport import formToMetadataElementDict, metadataElementDictToXml
 from .metadata_form_initializer import initializeMetadataForm
 from .. import BaseModule
 from ..utils import showPopup
@@ -9,7 +9,7 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import *
 from qgis.core import QgsSettings
-import os
+
 
 
 class MetadataModule(BaseModule):
@@ -17,7 +17,7 @@ class MetadataModule(BaseModule):
 
     def __init__(self, iface):
         self.iface = iface
-
+        self.dataValidator = None
         self.saved = False
         # plik metadanych do wysłania
 
@@ -41,11 +41,19 @@ class MetadataModule(BaseModule):
         self.metadaneDialog.server_btn.clicked.connect(self.metadaneDialog_server_btn_clicked)
 
         # self.metadaneDialog.newFile_widget.clicked.connect(self.saveMetaFile)
-        self.metadaneDialog.chooseFile_widget.setFilter("*.xml")
-        self.metadaneDialog.chooseSet_widget.setFilter("*.gml")
+        self.metadaneDialog.chooseFile_widget.setFilter(filter="pliki XML (*.xml)")
+        self.metadaneDialog.chooseSet_widget.setFilter(filter="pliki XML/GML (*.xml *.gml)")
+        self.metadaneDialog.chooseSet_widget.fileChanged.connect(self.chooseSet_widget_fileChanged)
         # endregion
 
     """Event handlers"""
+    def chooseSet_widget_fileChanged(self, path):
+        if path:
+            metadataElementDict = appGmlToMetadataElementDict(path)
+            print(metadataElementDict)
+            # if self.dataValidator.validateXml(path)[0]: # poprawny GML
+            #     metadataElementDict = appGmlToMetadataElementDict(path)
+
     # region metadaneDialog
     def metadaneDialog_prev_btn_clicked(self):
         self.openNewDialog(self.listaOkienek.pop())

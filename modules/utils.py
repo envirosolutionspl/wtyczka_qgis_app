@@ -21,7 +21,22 @@ def showPopup(title, text, icon=QMessageBox.Information):
 
 def isAppOperative(gmlPath):
     """sprawdza czy zbiór APP jest obowiązującym zbiorem"""
-    # TODO: sprawdzenie odpowiedniego elementu GML
+    ns = {'xsi': "http://www.w3.org/2001/XMLSchema",
+          'app': "http://zagospodarowanieprzestrzenne.gov.pl/schemas/app/1.0",
+          'gmd': "http://www.isotc211.org/2005/gmd",
+          'gco': 'http://www.isotc211.org/2005/gco',
+          'xlink': 'http://www.w3.org/1999/xlink',
+          'gml': "http://www.opengis.net/gml/3.2",
+          'wfs': 'http://www.opengis.net/wfs/2.0',
+          'gmlexr': "http://www.opengis.net/gml/3.3/exr"}
+
+    statusPath = 'wfs:member/app:AktPlanowaniaPrzestrzennego/app:status[@xlink:title="nieaktualny"]'
+    root = ET.parse(gmlPath).getroot()
+    find = root.find(statusPath, ns)
+    if find:
+        print('APP status nieaktualny')
+        return False
+    print('APP status aktualny')
     return True
 
 

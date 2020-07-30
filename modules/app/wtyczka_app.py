@@ -336,7 +336,7 @@ class AppModule(BaseModule):
         # Sprawdzenie poprawności każdego z plików składowych
         for file in files:
             # nie zwalidowano poprawnie
-            if not self.validateFile(path=file.path, validator=self.dataValidator):
+            if not self.validateFile(path=file.path, validator=self.dataValidator, mute=True):
                 return False
 
         # Sprawdzenie zależności geometrycznych miedzy GMLami
@@ -348,7 +348,8 @@ class AppModule(BaseModule):
 
         s = QgsSettings()
         defaultPath = s.value("qgis_app/settings/defaultPath", "/")
-        self.fn = QFileDialog.getSaveFileName(directory=defaultPath, filter="XML Files (*.xml)")[0]
+        self.fn = QFileDialog.getSaveFileName(
+            directory=defaultPath, filter="XML Files (*.xml)")[0]
         if self.fn:
             xml_string = utils.mergeAppToCollection(files)
             if xml_string != '':
@@ -485,7 +486,8 @@ class AppModule(BaseModule):
         else:
             s = QgsSettings()
             defaultPath = s.value("qgis_app/settings/defaultPath", "/")
-            self.fn = QFileDialog.getSaveFileName(directory=defaultPath, filter="XML Files (*.xml)")[0]
+            self.fn = QFileDialog.getSaveFileName(
+                directory=defaultPath, filter="XML Files (*.xml)")[0]
             if self.fn:
                 xml_string = utils.mergeDocsToAPP(docList)
                 if xml_string != '':
@@ -580,7 +582,7 @@ class AppModule(BaseModule):
             s = QgsSettings()
             defaultPath = s.value("qgis_app/settings/defaultPath", "/")
             self.fn = QFileDialog.getSaveFileName(directory=defaultPath,
-                filter="XML Files (*.xml)")[0]
+                                                  filter="XML Files (*.xml)")[0]
             if self.fn:
                 self.saved = True
                 # TODO wypełnienie xml wartościami z xml

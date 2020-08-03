@@ -388,11 +388,15 @@ class AppModule(BaseModule):
             docName = utils.getDocType(plik)
         except:
             docName = ''
-        if docName == '':
-            utils.showPopup(title='Błędny plik',
-                            text='Wczytano błędny plik: %s' % plik)
-        elif docName in docNames.keys():
-            if plik:
+        # if docName == '':
+        #     utils.showPopup(title='Błędny plik',
+        #                     text='Wczytano błędny plik: %s' % plik)
+        # elif docName in docNames.keys():
+        if plik:
+            if docName == '':
+                utils.showPopup(title='Błędny plik',
+                                text='Wczytano błędny plik: %s' % plik)
+            elif docName in docNames.keys():
                 rows = self.generowanieGMLDialog.filesTable_widget.rowCount()
                 if rows > 0:
                     for i in range(rows):
@@ -599,8 +603,12 @@ class AppModule(BaseModule):
                 myfile = open(self.fn, "w", encoding='utf-8')
                 myfile.write(xml_string)
 
-                showPopup("Zapisz aktualny formularz",
-                          "Poprawnie zapisano formularz. W razie potrzeby wygenerowania kolejnego formularza, należy zmodyfikować dane oraz zapisać formularz ponownie.")
+                if self.activeDlg == self.wektorFormularzDialog:
+                    showPopup("Zapisz aktualny formularz",
+                              "Poprawnie zapisano formularz.")
+                else:
+                    showPopup("Zapisz aktualny formularz",
+                              "Poprawnie zapisano formularz. W razie potrzeby wygenerowania kolejnego formularza, należy zmodyfikować dane oraz zapisać formularz ponownie.")
         return self.saved
 
     def showPopupAggregate(self, title, text, layer):

@@ -367,12 +367,11 @@ class AppModule(BaseModule):
     """Helper methods"""
 
     def getFormValues(self):
-        print('Nie działam, ale się staram')
         plik = str(QFileDialog.getOpenFileName(
             filter="pliki XML/GML (*.xml *.gml)")[0])
-        print(plik)
         if plik:
             formElements = self.activeDlg.formElements
+            self.activeDlg.clearForm(self.activeDlg.form_scrollArea)
             utils.loadItemsToForm(plik, formElements)
             pass
 

@@ -1,5 +1,5 @@
 from PyQt5.QtWidgets import *
-from qgis.PyQt.QtCore import Qt, QRegExp
+from qgis.PyQt.QtCore import Qt, QRegExp, QVariant
 from qgis.core import QgsVectorLayer
 import re
 import os
@@ -764,7 +764,7 @@ def createXmlData(dialog, obrysLayer):  # NOWE
 
     for fe in dialog.formElements:
         refObject = fe.refObject
-        if checkForNoValue(refObject):
+        if checkForNoValue(refObject) and fe.minOccurs < 1:
             continue
         if (fe.type == 'date' or fe.type == 'dateTime') and checkForNoDateValue(refObject):
             continue
@@ -1239,15 +1239,74 @@ def findElementByTag(root, name, elem=None):
     return None
 
 
+def addToComboBox(formElement, value, formDict):
+    feDict = formDict
+    for key in feDict.keys():
+        if value == key:
+            formElement.refObject.setCurrentText(key)
+            break
+        if value == feDict[key]:
+            formElement.refObject.setCurrentText(key)
+            break
+
+
 def setValueToWidget(formElement, value):
-    try:
-        if formElement.type == 'string':
-            formElement.refObject.setText(element.text)
-    except:
-        print(formElement.name)
+    widgetType = type(formElement.refObject).__name__
+    # print(formElement.name+' '+formElement.type+' '+widgetType)
+    if widgetType == 'QgsFilterLineEdit':
+        formElement.refObject.setText(value)
+    if widgetType == 'NoScrollQgsDateTimeEdit' and formElement.type == 'dateTime':
+        dateValue = value.replace('T', ' ')
+        date_time_obj = datetime.datetime.strptime(
+            dateValue, '%Y-%m-%d %H:%M:%S')
+        formElement.refObject.setDateTime(date_time_obj)
+    if widgetType == 'NoScrollQgsDateTimeEdit' and formElement.type == 'date':
+        date_time_obj = datetime.datetime.strptime(
+            value, '%Y-%m-%d')
+        formElement.refObject.setDateTime(date_time_obj)
+    if widgetType == 'NoScrollQgsDateEdit' and formElement.type == 'date':  # Brak typu?
+        date_time_obj = datetime.datetime.strptime(value, '%Y-%m-%d')
+        formElement.refObject.setDate(date_time_obj)
+    if widgetType == 'NoScrollQComboBox':
+        if formElement.name == 'ukladOdniesieniaPrzestrzennego':
+            feDict = dictionaries.ukladyOdniesieniaPrzestrzennego
+            addToComboBox(formElement, value, feDict)
+        if formElement.name == 'dziennikUrzedowy':
+            feDict = dictionaries.dziennikUrzedowyKod
+            addToComboBox(formElement, value, feDict)
+        if formElement.name == 'typPlanu':
+            feDict = dictionaries.typyPlanu
+            addToComboBox(formElement, value, feDict)
+        if formElement.name == 'poziomHierarchii':
+            feDict = dictionaries.poziomyHierarchii
+            addToComboBox(formElement, value, feDict)
+        if formElement.name == 'status':
+            feDict = dictionaries.statusListaKodowa
+            addToComboBox(formElement, value, feDict)
+
+
+def setValueToListWidget(formElement, value):
+    if formElement.name == 'lacze':
+        objectName = 'lacze_lineEdit'
+
+    listWidget = formElement.refObject
+    newListWidgetItem = QListWidgetItem()
+    data = {}
+    textList = []
+
+    data[objectName] = value
+    textList.append(value)
+
+    newListWidgetItem.setData(
+        Qt.UserRole,
+        QVariant(data)
+    )
+    newListWidgetItem.setText(" - ".join(textList))
+    listWidget.addItem(newListWidgetItem)
 
 
 def loadItemsToForm(filePath, formElements):
+    # TODO czyszczenie formularza przed wywołaniem
     root = ET.parse(filePath).getroot()
 
     ns = {
@@ -1265,17 +1324,61 @@ def loadItemsToForm(filePath, formElements):
         ET.register_namespace(prefix, uri)
 
     for fe in formElements:
+        # iteruje się po xml i szuka odpowiadającego atrybutu z formularza
         element = findElementByTag(root, fe.name, None)
-        try:
-            value = element.text
+        if element == None:
+            continue
+        value = element.text
+        elementAttrib = element.attrib
+        if len(elementAttrib) > 0:
+            if fe.type == 'gml:ReferenceType':
+                for key in elementAttrib.keys():
+                    if 'title' in key:
+                        value = elementAttrib[key]
+        if fe.name == 'data':
+            datePath = 'gmd:CI_Date/gmd:date/gco:Date'
+            dateTypePath = 'gmd:CI_Date/gmd:dateType/gmd:CI_DateTypeCode'
+            dataDate = element.find(datePath, ns)
+            dataDateTypeCode = element.find(dateTypePath, ns)
+            date_time_obj = datetime.datetime.strptime(
+                dataDate.text, '%Y-%m-%d')
+            fe.refObject[0].setDate(date_time_obj)
+            feDict = dictionaries.cI_DateTypeCode
+            for key in feDict.keys():
+                if dataDateTypeCode.text == key:
+                    fe.refObject[1].setCurrentText(key)
+        elif fe.isNillable and len(elementAttrib) > 0:
+            if 'nilReason' in elementAttrib:
+                refNilObject = fe.refNilObject
+                widgets = all_layout_widgets(refNilObject)
+                for widget in widgets:
+                    if type(widget).__name__ == 'QCheckBox':
+                        if widget.isChecked() == False:
+                            widget.click()
+                    if 'QComboBox' in type(widget).__name__:
+                        feDict = dictionaries.nilReasons
+                        widget.setEnabled(True)
+                        for key in feDict.keys():
+                            if elementAttrib['nilReason'] == key:
+                                widget.setCurrentText(key)
+        elif fe.maxOccurs == 'unbounded':
+            formNames = ['AktPlanowaniaPrzestrzennego',
+                         'RysunekAktuPlanowniaPrzestrzenego', 'DokumentFormalny']
+            elements = []
+            for formName in formNames:
+                elementPath = 'wfs:member/app:%s/app:%s' % (formName, fe.name)
+                elements = root.findall(elementPath, ns)
+                if elements != []:
+                    break
+            for elem in elements:
+                setValueToListWidget(fe, elem.text)
+
+        else:
             setValueToWidget(fe, value)
-        except:
-            print(fe.name)
-            pass
         for inner in fe.innerFormElements:
             try:
                 innerElement = findElementByTag(element, inner.name, None)
                 value = innerElement.text
                 setValueToWidget(inner, value)
             except:
-                print(inner.name)
+                print('\t Nieobsługiwany atrybut: '+inner.name+' '+inner.type)

@@ -1,5 +1,9 @@
 from . import (MetadaneDialog, SmtpDialog, CswDialog)
-from . import formToMetadataElementDict, metadataElementDictToXml, appGmlToMetadataElementDict, metadataElementDictToForm
+from . import (xmlToMetadataElementDict,
+               formToMetadataElementDict,
+               metadataElementDictToXml,
+               appGmlToMetadataElementDict,
+               metadataElementDictToForm)
 from .metadata_form_validator import validateMetadataForm
 from .metadata_form_initializer import initializeMetadataForm
 from .. import BaseModule
@@ -44,6 +48,7 @@ class MetadataModule(BaseModule):
         # self.metadaneDialog.newFile_widget.clicked.connect(self.saveMetaFile)
         self.metadaneDialog.chooseFile_widget.setFilter(filter="pliki XML (*.xml)")
         self.metadaneDialog.chooseFile_widget.setDefaultRoot(self.s.value("qgis_app/settings/defaultPath", ""))
+        self.metadaneDialog.chooseFile_widget.fileChanged.connect(self.chooseFile_widget_fileChanged)
 
         self.metadaneDialog.chooseSet_widget.setFilter(filter="pliki XML/GML (*.xml *.gml)")
         self.metadaneDialog.chooseSet_widget.setDefaultRoot(self.s.value("qgis_app/settings/defaultPath", ""))
@@ -62,6 +67,20 @@ class MetadataModule(BaseModule):
             metadataElementDictToForm(metadataElementDict, self.metadaneDialog)
             self.iface.messageBar().pushSuccess("Aktualizacja formularza metadanych:",
                                                 "Zaktualizowano formularz metadanych w oparciu o plik zbioru APP.")
+
+    def chooseFile_widget_fileChanged(self, path):
+        if path:
+            # utworzenie słownika na podstawie pliku metadanych
+            metadataElementDict = xmlToMetadataElementDict(path)
+            print('---')
+            for k, v in metadataElementDict.items():
+                print(k, v)
+            print(metadataElementDict)
+
+            # zapisanie słownika do formularza
+            metadataElementDictToForm(metadataElementDict, self.metadaneDialog)
+            self.iface.messageBar().pushSuccess("Aktualizacja formularza metadanych:",
+                                                "Zaktualizowano formularz metadanych w oparciu o plik XML metadanych.")
 
 
     # region metadaneDialog

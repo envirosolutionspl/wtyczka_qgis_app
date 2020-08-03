@@ -15,7 +15,7 @@ def metadataElementDictToForm(metadataElementDict, targetForm):
                 listWidget.addItem(item)
 
         else:   # pojedyncze elementy np. lineEdit
-            for inputName, value in formDefinition:
+            for inputName, value in formDefinition.items():
                 input = utils.getWidgetByName(layout=targetForm, searchObjectType=QWidget, name=inputName)
                 if isinstance(input, QComboBox):
                     input.setCurrentIndex(input.findText(value))

@@ -229,6 +229,49 @@ class AppModule(BaseModule):
             # zasiegPrzestrzenny.setText(str(self.obrysLayer.sourceExtent()))
             # print(zasiegPrzestrzenny)
             self.openNewDialog(self.wektorFormularzDialog)
+            self.obrysLayer = self.wektorInstrukcjaDialog.layers_comboBox.currentLayer()
+            formElements = self.wektorFormularzDialog.formElements
+            obrys = self.obrysLayer.getFeature(1)
+            attrs = obrys.attributes()
+
+            fields = obrys.fields()
+
+            for formElement in formElements:
+                if formElement.name in fields.names():
+                    idx = fields.indexFromName(formElement.name)
+                    value = attrs[idx]
+                    formItem = formElement.refObject
+                    try:
+                        if isinstance(formItem, QLineEdit):
+                            formItem.setText(value)
+                        elif isinstance(formItem, QDateTimeEdit):
+                            formItem.setDateTime(value)
+                        elif isinstance(formItem, QDateEdit):
+                            formItem.setDate(value)
+                        elif isinstance(formItem, QCheckBox):
+                            formItem.setChecked(value)
+                        elif isinstance(formItem, QComboBox):
+                            formItem.setCurrentIndex(value)
+                    except:
+                        pass
+                for inner in formElement.innerFormElements:
+                    if inner.name in fields.names():
+                        idx = fields.indexFromName(inner.name)
+                        value = attrs[idx]
+                        formItem = inner.refObject
+                        try:
+                            if isinstance(formItem, QLineEdit):
+                                formItem.setText(value)
+                            elif isinstance(formItem, QDateTimeEdit):
+                                formItem.setDateTime(value)
+                            elif isinstance(formItem, QDateEdit):
+                                formItem.setDate(value)
+                            elif isinstance(formItem, QCheckBox):
+                                formItem.setChecked(value)
+                            elif isinstance(formItem, QComboBox):
+                                formItem.setCurrentIndex(value)
+                        except:
+                            pass
             self.listaOkienek.append(self.wektorInstrukcjaDialog)
 
     def wektorInstrukcjaDialog_prev_btn_clicked(self):
@@ -556,13 +599,15 @@ class AppModule(BaseModule):
         for field in fields:
             form = Formularz()
             # TODO Czy mamy uniemożliwiać wpisywanie wartości dla ReferenceType
-            if field.name not in form.pomijane and field.type != 'gml:ReferenceType':
-                if field.isComplex():  # zawiera podrzędne elementy typu complex
-                    for fieldElements in field.innerFormElements:
-                        fieldDef += '&field=%s:%s' % (
-                            fieldElements.name, fieldElements.type)
-                    continue
-                fieldDef += '&field=%s:%s' % (field.name, field.type)
+            if field.isComplex():  # zawiera podrzędne elementy typu complex
+                for fieldElements in field.innerFormElements:
+                    fieldDef += '&field=%s:%s' % (
+                        fieldElements.name, fieldElements.type.replace('gml:ReferenceType', 'string').replace('anyURI', 'string'))
+                continue
+            print(field.type)
+            if 'gml' not in field.type or 'gml:ReferenceType' in field.type:
+                fieldDef += '&field=%s:%s' % (field.name,
+                                              field.type.replace('gml:ReferenceType', 'string').replace('anyURI', 'string'))
         return(fieldDef)
 
     def newEmptyLayer(self):
@@ -588,7 +633,6 @@ class AppModule(BaseModule):
                                                   filter="XML Files (*.xml)")[0]
             if self.fn:
                 self.saved = True
-                # TODO wypełnienie xml wartościami z xml
                 try:
                     self.obrysLayer = self.wektorInstrukcjaDialog.layers_comboBox.currentLayer()
                 except:

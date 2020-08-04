@@ -1256,10 +1256,13 @@ def setValueToWidget(formElement, value):
     if widgetType == 'QgsFilterLineEdit':
         formElement.refObject.setText(value)
     if widgetType == 'NoScrollQgsDateTimeEdit' and formElement.type == 'dateTime':
-        dateValue = value.replace('T', ' ')
-        date_time_obj = datetime.datetime.strptime(
-            dateValue, '%Y-%m-%d %H:%M:%S')
-        formElement.refObject.setDateTime(date_time_obj)
+        try:
+            dateValue = value.replace('T', ' ')
+            date_time_obj = datetime.datetime.strptime(
+                dateValue, '%Y-%m-%d %H:%M:%S')
+            formElement.refObject.setDateTime(date_time_obj)
+        except:
+            formElement.refObject.setDateTime(value)
     if widgetType == 'NoScrollQgsDateTimeEdit' and formElement.type == 'date':
         date_time_obj = datetime.datetime.strptime(
             value, '%Y-%m-%d')

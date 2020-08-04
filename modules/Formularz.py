@@ -281,6 +281,9 @@ class Formularz:
 
                 hbox.addWidget(tooltipImg)
                 vbox.addLayout(hbox)
+                # if formElement.name == 'zmiana':
+                #     input.setEnabled(False)
+                #     input.setText('0')
                 if formElement.isComplex():  # zawiera podrzędne elementy typu complex
                     input.setEnabled(False)
                     # rekurencja dla obiektów wewntrznych
@@ -395,12 +398,12 @@ class Formularz:
         # # print(fullFormElementName)
 
         # wartości domyślne - debug
-        if fullFormElementName in dictionaries.placeholders.keys():
-            if isinstance(input, QLineEdit):  # dla pól tekstowych
-                input.setText(
-                    dictionaries.placeholders[fullFormElementName])
-            elif isinstance(input, QComboBox):  # QComboBox
-                pass
+        # if fullFormElementName in dictionaries.placeholders.keys():
+        #     if isinstance(input, QLineEdit):  # dla pól tekstowych
+        #         input.setText(
+        #             dictionaries.placeholders[fullFormElementName])
+        #     elif isinstance(input, QComboBox):  # QComboBox
+        #         pass
 
         # ustawienie podpowiedzi
         if fullFormElementName in dictionaries.placeholders.keys():

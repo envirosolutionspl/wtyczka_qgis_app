@@ -1,6 +1,7 @@
 import xml.etree.ElementTree as ET
 from xml.dom import minidom
 from . import translation
+from .. import dictionaries
 
 def metadataElementDictToXml(metadataElementDict):
     """tworzy XML na podstawie słownika metadataElementDict"""
@@ -174,8 +175,17 @@ def metadataElementDictToXml(metadataElementDict):
         descriptiveKeywords = ET.SubElement(mD_DataIdentification, 'gmd:descriptiveKeywords')
         mD_Keywords = ET.SubElement(descriptiveKeywords, 'gmd:MD_Keywords')
         keyword = ET.SubElement(mD_Keywords, 'gmd:keyword')
-        characterString = ET.SubElement(keyword, 'gco:CharacterString')
-        characterString.text = listItem['e9_lineEdit']
+        keywordValue = listItem['e9_lineEdit']
+        keywordValueLower = keywordValue[:].lower()
+        slownikRoboczy = {**dictionaries.metadataKeywordAnchors, **dictionaries.poziomyHierarchii}
+        if keywordValueLower in slownikRoboczy: # jest anchor w slowniku
+            anchor = ET.SubElement(keyword,
+                                   'gmx:Anchor',
+                                   {'xlink:href': slownikRoboczy[keywordValueLower]})
+            anchor.text = keywordValue
+        else:   #zwykly tekst
+            characterString = ET.SubElement(keyword, 'gco:CharacterString')
+            characterString.text = keywordValue
 
         if listItem['e10_lineEdit']:
             """gmd:thesaurusName"""
@@ -217,7 +227,9 @@ def metadataElementDictToXml(metadataElementDict):
                           'codeList': 'http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#MD_RestrictionCode',
                           'codeListValue': 'otherRestrictions'})
         otherConstraints = ET.SubElement(mD_LegalConstraints, 'gmd:otherConstraints')
-        anchor = ET.SubElement(otherConstraints, 'gmx:Anchor', {})  # TODO: dodać xlink
+
+        xlink = dictionaries.metadataKeywordAnchors(listItem['e20_lineEdit']) if listItem['e20_lineEdit'] in dictionaries.metadataKeywordAnchors else ""
+        anchor = ET.SubElement(otherConstraints, 'gmx:Anchor', {'xlink:href': xlink})
         anchor.text = listItem['e20_lineEdit']
 
     """gmd:spatialRepresentationType"""

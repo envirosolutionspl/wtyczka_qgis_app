@@ -4,18 +4,20 @@
 Okna dialogowe modułu Metadata
  ***************************************************************************/
 """
+from .. import QDialogOverride, ButtonsDialog, utils, dictionaries
+from . import mail, csw, metadataElementDictToForm
 
 import os
 
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
-from qgis.PyQt.QtCore import Qt, QVariant, QRegExp
+from qgis.PyQt.QtCore import Qt, QVariant, QRegExp, QDateTime
 from qgis.PyQt import uic, QtGui
 from qgis.PyQt import QtWidgets
 from qgis.core import QgsSettings
 from qgis.gui import QgisInterface
-from .. import QDialogOverride, ButtonsDialog, utils, dictionaries
-from . import mail, csw
+
+
 
 
 title_metadata = 'Tworzenie / aktualizacja metadanych'
@@ -201,7 +203,8 @@ class MetadaneDialog(QDialogOverride, FORM_CLASS, ButtonsDialog):
 
         # czyszczenie QgsDateTimeEdit
         for dateTimeEdit in utils.getWidgetsByType(self, QDateTimeEdit):
-            dateTimeEdit.clear()
+            if dateTimeEdit.objectName() != 'e30_dateTimeEdit':
+                dateTimeEdit.clear()
 
         # nadanie grafiki tooltipa
         for label in utils.getWidgetsByType(self, QLabel):
@@ -289,7 +292,7 @@ class MetadaneDialog(QDialogOverride, FORM_CLASS, ButtonsDialog):
                     input2.clear()
                 input2 = utils.getWidgetByName(layout=self, searchObjectType=QDateTimeEdit, name='e10_dateTimeEdit')
                 if input2.objectName() in data:
-                    input2.setDateTime(data[input2.objectName()])
+                    input2.setDateTime(QDateTime() if data[input2.objectName()] is None else data[input2.objectName()])
                 else:
                     input2.clear()
                 input2 = utils.getWidgetByName(layout=self, searchObjectType=QComboBox, name='e10_cmbbx')
@@ -348,6 +351,7 @@ class MetadaneDialog(QDialogOverride, FORM_CLASS, ButtonsDialog):
 
         def setDefaultValues(elementId, listWidget):
             """ustawia domyślne wartości dla listWidget na podstawie słownika"""
+            # pola zablokowane
             if elementId in dictionaries.metadataListWidgetsDefaultItemsDisabled.keys():
                 dataList = dictionaries.metadataListWidgetsDefaultItemsDisabled[elementId]
                 for data in dataList:
@@ -356,6 +360,9 @@ class MetadaneDialog(QDialogOverride, FORM_CLASS, ButtonsDialog):
                     newItem.setText(list(data.values())[0])
                     newItem.setFlags(Qt.NoItemFlags)
                     listWidget.addItem(newItem)
+            # pola edytowalne
+            metadataElementDictToForm(metadataElementDict=dictionaries.metadataListWidgetsDefaultItemsEnabled,
+                                      targetForm=self)
 
 
         # print(listWidget.objectName())

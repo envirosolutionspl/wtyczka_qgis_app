@@ -2431,6 +2431,12 @@ Wartość elementu musi być równa identyfikatorowi UUID.
                  </item>
                  <item>
                   <widget class="QgsFilterLineEdit" name="e33_lineEdit">
+                   <property name="enabled">
+                    <bool>false</bool>
+                   </property>
+                   <property name="text">
+                    <string>ISO 19115</string>
+                   </property>
                    <property name="qgisRelation" stdset="0">
                     <string notr="true"/>
                    </property>
@@ -2462,6 +2468,12 @@ Wartość elementu musi być równa identyfikatorowi UUID.
                  </item>
                  <item>
                   <widget class="QgsFilterLineEdit" name="e34_lineEdit">
+                   <property name="enabled">
+                    <bool>false</bool>
+                   </property>
+                   <property name="text">
+                    <string>2005/Amd 1:2008</string>
+                   </property>
                    <property name="qgisRelation" stdset="0">
                     <string notr="true"/>
                    </property>

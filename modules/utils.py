@@ -10,13 +10,6 @@ from . import dictionaries
 import datetime
 
 
-def getKeyByValue(dictionary, value):
-    """Zwraca klucz słownika na podstawie wartości"""
-    for key, v in dictionary.items():
-        if v == value:
-            return key
-    return None
-
 def showPopup(title, text, icon=QMessageBox.Information):
     msg = QMessageBox()
     msg.setWindowTitle(title)
@@ -317,7 +310,7 @@ def make_polygon(polygons):
     # pierwszy poligon jest outerBoundary, kolejne innerBoundary
     for polygon in polygons:
         Boundary = ''
-        for y, x in polygon:  # zamienione x, y
+        for x, y in polygon:
             Boundary = ' '.join([Boundary, "{} {}".format(x, y)])
         BoundaryList.append(Boundary[1:])
     return(BoundaryList)

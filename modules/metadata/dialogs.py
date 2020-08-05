@@ -273,7 +273,7 @@ class MetadaneDialog(QDialogOverride, FORM_CLASS, ButtonsDialog):
                     input.setText(data[input.objectName()])
                 elif isinstance(input, QDateTimeEdit):
                     input.setDateTime(data[input.objectName()])
-                elif isinstance(input, QComboBox):
+                elif isinstance(input, QComboBox) and elementId != 'e29':
                     input.setCurrentIndex(input.findText(data[input.objectName()]))
             if elementId == 'e22':
                 input2 = utils.getWidgetByName(layout=self, searchObjectType=QComboBox, name='e23_cmbbx')

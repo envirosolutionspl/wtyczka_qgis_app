@@ -187,7 +187,7 @@ def metadataElementDictToXml(metadataElementDict):
             characterString = ET.SubElement(keyword, 'gco:CharacterString')
             characterString.text = keywordValue
 
-        if listItem['e10_lineEdit']:
+        if 'e10_lineEdit' in listItem and listItem['e10_lineEdit']:
             """gmd:thesaurusName"""
             thesaurusName = ET.SubElement(mD_Keywords, 'gmd:thesaurusName')
             cI_Citation = ET.SubElement(thesaurusName, 'gmd:CI_Citation')

@@ -149,11 +149,53 @@ def xmlToMetadataElementDict(xml):
         itemsList.append(data)
     metadataElementDict['e18'] = itemsList
 
-    # E20 i E21
-    # TODO: E20 i E21
+    # E20
+    itemsList = []
+    for element in root.findall(
+            '//gmd:MD_DataIdentification/gmd:resourceConstraints//gmd:useConstraints/../gmd:otherConstraints/gmx:Anchor', ns):
+        itemsList.append({'e20_lineEdit': element.text})
+    metadataElementDict['e20'] = itemsList
 
+    # E22 i E23
+    itemsList = []
+    for pointOfContact in root.findall(
+            '//gmd:MD_DataIdentification/gmd:pointOfContact', ns):
+        organisationName = pointOfContact.find('.//gmd:organisationName/gco:CharacterString', ns)
+        mail = pointOfContact.find('.//gmd:contactInfo//gmd:electronicMailAddress/gco:CharacterString', ns)
+        role = pointOfContact.find('.//gmd:CI_RoleCode', ns)
+        itemsList.append({
+            'e22_name_lineEdit': organisationName.text,
+            'e22_mail_lineEdit': mail.text,
+            'e23_cmbbx': utils.getKeyByValue(translation, role.attrib['codeListValue'])
+        })
+    metadataElementDict['e22'] = itemsList
 
+    # TODO: E24/E25 - zależy czy na stałe czy nie
 
+    # E27
+    itemsList = []
+    for element in root.findall(
+            '//gmd:MD_DataIdentification/gmd:resourceMaintenance//gmd:maintenanceNote/gco:CharacterString',
+            ns):
+        itemsList.append({'e27_lineEdit': element.text})
+    metadataElementDict['e27'] = itemsList
+
+    # E29
+    itemsList = []
+    for contact in root.findall('/gmd:contact', ns):
+        organisationName = contact.find('.//gmd:organisationName/gco:CharacterString', ns)
+        mail = contact.find('.//gmd:contactInfo//gmd:electronicMailAddress/gco:CharacterString', ns)
+        itemsList.append({
+            'e29_name_lineEdit': organisationName.text,
+            'e29_mail_lineEdit': mail.text,
+            'e29_cmbbx': 'punkt kontaktowy'
+        })
+    metadataElementDict['e29'] = itemsList
+
+    # E32
+    element = root.find('/gmd:fileIdentifier/gco:CharacterString', ns)
+    if element is not None:
+        metadataElementDict['e32'] = {'e32_lineEdit': element.text}
 
 
     return metadataElementDict

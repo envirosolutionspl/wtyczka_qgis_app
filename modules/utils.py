@@ -10,6 +10,13 @@ from . import dictionaries
 import datetime
 
 
+def getKeyByValue(dictionary, value):
+    """Zwraca klucz słownika na podstawie wartości"""
+    for key, v in dictionary.items():
+        if v == value:
+            return key
+    return None
+
 def showPopup(title, text, icon=QMessageBox.Information):
     msg = QMessageBox()
     msg.setWindowTitle(title)

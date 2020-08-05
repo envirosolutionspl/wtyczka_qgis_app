@@ -283,11 +283,20 @@ class MetadaneDialog(QDialogOverride, FORM_CLASS, ButtonsDialog):
                 input2.setText(data[input2.objectName()])
             if elementId == 'e9':
                 input2 = utils.getWidgetByName(layout=self, searchObjectType=QLineEdit, name='e10_lineEdit')
-                input2.setText(data[input2.objectName()])
+                if input2.objectName() in data:
+                    input2.setText(data[input2.objectName()])
+                else:
+                    input2.clear()
                 input2 = utils.getWidgetByName(layout=self, searchObjectType=QDateTimeEdit, name='e10_dateTimeEdit')
-                input2.setDateTime(data[input2.objectName()])
+                if input2.objectName() in data:
+                    input2.setDateTime(data[input2.objectName()])
+                else:
+                    input2.clear()
                 input2 = utils.getWidgetByName(layout=self, searchObjectType=QComboBox, name='e10_cmbbx')
-                input2.setCurrentIndex(input2.findText(data[input2.objectName()]))
+                if input2.objectName() in data:
+                    input2.setCurrentIndex(input2.findText(data[input2.objectName()]))
+                else:
+                    input2.setCurrentIndex(0)
 
         def addItem():
             # print("ADD")

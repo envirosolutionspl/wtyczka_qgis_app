@@ -310,7 +310,7 @@ def make_polygon(polygons):
     # pierwszy poligon jest outerBoundary, kolejne innerBoundary
     for polygon in polygons:
         Boundary = ''
-        for x, y in polygon:
+        for y, x in polygon:  # zamienione x, y
             Boundary = ' '.join([Boundary, "{} {}".format(x, y)])
         BoundaryList.append(Boundary[1:])
     return(BoundaryList)

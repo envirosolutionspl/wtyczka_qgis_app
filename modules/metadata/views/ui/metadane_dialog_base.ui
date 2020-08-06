@@ -766,7 +766,7 @@ Obowiązkowo należy podać  słowa kluczowe:
                    </item>
                    <item>
                     <property name="text">
-                     <string>publikacja</string>
+                     <string>przegląd</string>
                     </property>
                    </item>
                   </widget>

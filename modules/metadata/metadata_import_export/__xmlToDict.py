@@ -142,10 +142,11 @@ def xmlToMetadataElementDict(xml):
             data['e18_lineEdit'] = title.text
         elif title_anchor is not None:
             data['e18_lineEdit'] = title_anchor.text
+        else:
+            data['e18_lineEdit'] = ""
         data['e18_dateTimeEdit'] = QDateTime.fromString(date.text, "yyyy-MM-dd")
         data['e18_cmbbx'] = utils.getKeyByValue(translation, dateType.attrib['codeListValue'])
         data['e19_cmbbx'] = utils.getKeyByValue(translation, _pass.text)
-        print("---fff---", data)
         itemsList.append(data)
     metadataElementDict['e18'] = itemsList
 

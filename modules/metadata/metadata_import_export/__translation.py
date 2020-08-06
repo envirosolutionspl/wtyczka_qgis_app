@@ -17,7 +17,7 @@ translation = {
     # CI_DateTypeCode
     'publikacja': 'publication',
     'utworzenie': 'creation',
-    'aktualizacja': 'revision',
+    'przegląd': 'revision',
     # E17
     'wektor': 'vector',
     'raster': 'grid',

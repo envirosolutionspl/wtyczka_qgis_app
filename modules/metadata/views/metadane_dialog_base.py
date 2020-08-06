@@ -1250,7 +1250,7 @@ class Ui_Dialog(object):
         self.e10_dateTimeEdit.setDisplayFormat(_translate("Dialog", "dd.MM.yyyy"))
         self.e10_cmbbx.setItemText(0, _translate("Dialog", "utworzenie"))
         self.e10_cmbbx.setItemText(1, _translate("Dialog", "aktualizacja"))
-        self.e10_cmbbx.setItemText(2, _translate("Dialog", "publikacja"))
+        self.e10_cmbbx.setItemText(2, _translate("Dialog", "przegląd"))
         self.e10_tooltip.setToolTip(_translate("Dialog", "Nazwa sposobu kodowania znaków (informacji tekstowej) użytego w zbiorze danych."))
         self.e9_add_btn.setText(_translate("Dialog", "Dodaj"))
         self.e9_remove_btn.setText(_translate("Dialog", "Usuń"))

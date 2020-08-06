@@ -228,7 +228,10 @@ def metadataElementDictToXml(metadataElementDict):
                           'codeListValue': 'otherRestrictions'})
         otherConstraints = ET.SubElement(mD_LegalConstraints, 'gmd:otherConstraints')
 
-        xlink = dictionaries.metadataKeywordAnchors(listItem['e20_lineEdit']) if listItem['e20_lineEdit'] in dictionaries.metadataKeywordAnchors else ""
+        if 'e20_lineEdit' in listItem and listItem['e20_lineEdit'] in dictionaries.metadataKeywordAnchors:
+            xlink = dictionaries.metadataKeywordAnchors[listItem['e20_lineEdit']]
+        else:
+            xlink = ""
         anchor = ET.SubElement(otherConstraints, 'gmx:Anchor', {'xlink:href': xlink})
         anchor.text = listItem['e20_lineEdit']
 
@@ -329,8 +332,13 @@ def metadataElementDictToXml(metadataElementDict):
         specification = ET.SubElement(dQ_ConformanceResult, 'gmd:specification')
         cI_Citation = ET.SubElement(specification, 'gmd:CI_Citation')
         title = ET.SubElement(cI_Citation, 'gmd:title')
-        anchor = ET.SubElement(title, 'gmd:Anchor', {}) # TODO: dorobić xlink
-        anchor.text = listItem['e18_lineEdit']
+        xlink = None    # TODO: dorobić xlink
+        if xlink is None:
+            characterString = ET.SubElement(title, 'gco:CharacterString')
+            characterString.text = listItem['e18_lineEdit']
+        else:
+            anchor = ET.SubElement(title, 'gmx:Anchor', {'xlink:href': xlink})
+            anchor.text = listItem['e18_lineEdit']
         date = ET.SubElement(cI_Citation, 'gmd:date')
         cI_Date = ET.SubElement(date, 'gmd:CI_Date')
         date2 = ET.SubElement(cI_Date, 'gmd:date')

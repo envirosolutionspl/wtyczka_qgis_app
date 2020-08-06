@@ -104,7 +104,7 @@ dziennikUrzedowyKod = {
 cI_DateTypeCode = {
     "utworzenie": "creation",
     "publikacja": "publication",
-    "rewizja": "revision"
+    "przegląd": "revision"
 }
 
 licznoscMetadataFields = {

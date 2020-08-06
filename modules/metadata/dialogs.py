@@ -208,7 +208,6 @@ class MetadaneDialog(QDialogOverride, FORM_CLASS, ButtonsDialog):
 
         # nadanie grafiki tooltipa
         for label in utils.getWidgetsByType(self, QLabel):
-            # print(label.objectName())
             if label.objectName().endswith("_tooltip"):
                 label.setMaximumWidth(16)
                 label.setPixmap(p.scaled(16, 16, Qt.KeepAspectRatio))
@@ -302,7 +301,6 @@ class MetadaneDialog(QDialogOverride, FORM_CLASS, ButtonsDialog):
                     input2.setCurrentIndex(0)
 
         def addItem():
-            # print("ADD")
             if checkValidity():  # jeżeli pola są wypełnione
                 newItem = QListWidgetItem()
                 data = {}
@@ -365,7 +363,6 @@ class MetadaneDialog(QDialogOverride, FORM_CLASS, ButtonsDialog):
                                       targetForm=self)
 
 
-        # print(listWidget.objectName())
         elementId = listWidget.objectName().split('_')[0]
         add_btn = utils.getWidgetByName(self, QPushButton, elementId + "_add_btn")
         remove_btn = utils.getWidgetByName(self, QPushButton, elementId + "_remove_btn")
@@ -376,7 +373,7 @@ class MetadaneDialog(QDialogOverride, FORM_CLASS, ButtonsDialog):
         cmbbx = utils.getWidgetByName(self, QComboBox, elementId + "_cmbbx")
         setDefaultValues(elementId, listWidget)
 
-        inputs = [lineEdit, dateTimeEdit, cmbbx, mailLineEdit, nameLineEdit]
+        inputs = [lineEdit, nameLineEdit, mailLineEdit, dateTimeEdit, cmbbx]
         add_btn.clicked.connect(addItem)
         remove_btn.clicked.connect(lambda: removeItem(listWidget))
         listWidget.itemDoubleClicked.connect(getDataFromListWidget)

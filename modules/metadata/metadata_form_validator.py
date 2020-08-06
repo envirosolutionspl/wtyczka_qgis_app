@@ -56,4 +56,33 @@ def validateMetadataForm(dlg):
                 return False, "W polu '%s' nie wprowadzono wszystkich wymaganych wartości.\nBrak klucza '%s', wymagane %s" % (
                     label.text().strip('*'), 'Poziom planu zagospodarowania przestrzennego', '\'regionalny\' lub \'lokalny\'')
 
+        # E11 prostokąt ograniczający
+        if elementId == 'e11':
+            bboxes = []
+            for i in range(listWidget.count()):
+                item = listWidget.item(i)
+                data = item.data(Qt.UserRole)
+                bboxes.append(data['e11_lineEdit'])
+            for bbox in bboxes:
+                # zła ilość kropek lub przecinków
+                if bbox.count(',') != 3 or bbox.count('.') > 4:
+                    return False, "Niepoprawna wartość w polu '%s'.\nZły format prostokąta ograniczającego.\nPodano: '%s'\nPoprawny format to: '<xmin>,<xmax>,<ymin>,<ymax>'" % (
+                        label.text().strip('*'), bbox)
+                # sprawdzenie wartości
+                bboxList = bbox.strip().split(',')
+                xmin = float(bboxList[0])
+                xmax = float(bboxList[1])
+                ymin = float(bboxList[2])
+                ymax = float(bboxList[3])
+                if (
+                        xmin > xmax or
+                        ymin > ymax or
+                        (xmin < -180 or xmin > 180) or
+                        (xmax < -180 or xmax > 180) or
+                        (ymin < -90 or ymin > 90) or
+                        (ymax < -90 or ymax > 90)
+                ):
+                    return False, "Niepoprawna wartość w polu '%s'.\nZła wartość współrzędnych prostokąta ograniczającego.\nPodano: '%s'\nPoprawny format to: '<xmin>,<xmax>,<ymin>,<ymax>'\nx musi być w zakresie <-180;180>\ny musi być w zakresie <-90;90>" % (
+                        label.text().strip('*'), bbox)
+
     return [True]

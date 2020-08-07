@@ -37,7 +37,8 @@ class Formularz:
                 "plan",
                 "dokument",
                 "rysunek",
-                "zasiegPrzestrzenny"]
+                "zasiegPrzestrzenny",
+                "zmiana"]
 
     def returnFormElements(self, formElements):
         for fe in formElements:
@@ -110,13 +111,13 @@ class Formularz:
                         return False
                     if not aktualnosc_dateTimeEdit.date():
                         return False
-                    if (not lacze_lineEdit.text() and
-                            not lacze_lineEdit_nilReason_chkbx.isChecked()):
-                        return False
-                    if (not lacze_lineEdit.text() and
-                            lacze_lineEdit_nilReason_chkbx.isChecked() and
-                            not lacze_lineEdit_nilReason_cmbbx.currentText()):
-                        return False
+                    # if (not lacze_lineEdit.text() and
+                    #         not lacze_lineEdit_nilReason_chkbx.isChecked()):
+                    #     return False
+                    # if (not lacze_lineEdit.text() and
+                    #         lacze_lineEdit_nilReason_chkbx.isChecked() and
+                    #         not lacze_lineEdit_nilReason_cmbbx.currentText()):
+                    #     return False
                     return True
                 else:
                     if formItems[0].text().strip():
@@ -190,17 +191,15 @@ class Formularz:
                     vbox2, name="aktualnosc_dateTimeEdit")
                 lacze_lineEdit = utils.layout_widget_by_name(
                     vbox2, name="lacze_lineEdit")
-                lacze_lineEdit_nilReason_chkbx = utils.layout_widget_by_name(
-                    vbox2, name="lacze_lineEdit_nilReason_chkbx")
-                lacze_lineEdit_nilReason_cmbbx = utils.layout_widget_by_name(
-                    vbox2, name="lacze_lineEdit_nilReason_cmbbx")
-                lacze_lineEdit_nilReason_chkbx.stateChanged.connect(
-                    lambda: lacze_lineEdit.clear())
+                # lacze_lineEdit_nilReason_chkbx = utils.layout_widget_by_name(
+                #     vbox2, name="lacze_lineEdit_nilReason_chkbx")
+                # lacze_lineEdit_nilReason_cmbbx = utils.layout_widget_by_name(
+                #     vbox2, name="lacze_lineEdit_nilReason_cmbbx")
+                # lacze_lineEdit_nilReason_chkbx.stateChanged.connect(
+                #     lambda: lacze_lineEdit.clear())
                 formItems = [referencja_lineEdit,
                              aktualnosc_dateTimeEdit,
-                             lacze_lineEdit,
-                             lacze_lineEdit_nilReason_chkbx,
-                             lacze_lineEdit_nilReason_cmbbx]
+                             lacze_lineEdit]  # , lacze_lineEdit_nilReason_chkbx, lacze_lineEdit_nilReason_cmbbx]
             elif formElement.name == 'lacze':
                 lacze_lineEdit = utils.layout_widget_by_name(
                     vbox2, name="lacze_lineEdit")
@@ -235,6 +234,8 @@ class Formularz:
                     formElement.type == "gml:MultiSurfacePropertyType"
             ) and formElement.name in self.pomijane:
                 continue  # pomiń element
+            if formElement.name == 'zmiana':
+                continue  # pomiń zmianę (dodana w postprodukcji 8-) )
 
             hbox = QHBoxLayout()  # wiersz formularza
             hbox.setObjectName(formElement.name + '_hbox')

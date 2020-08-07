@@ -23,7 +23,10 @@ class FormElement:
         self.type = type
 
     def setNillable(self):
-        self.isNillable = True
+        # self.isNillable = True
+        # nie będzie nillable
+        self.isNillable = False
+        self.minOccurs = 0
 
     def setMinOccurs(self, minOccurs):
         self.minOccurs = int(minOccurs)

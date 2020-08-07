@@ -140,7 +140,8 @@ class AppModule(BaseModule):
             self.addTableContentSet)
         self.zbiorPrzygotowanieDialog.deleteElement_btn.clicked.connect(
             self.deleteTableContentSet)
-
+        self.zbiorPrzygotowanieDialog.addFile_widget.fileChanged.connect(
+            self.loadSet)
         # auto resize kolumn
         header_zbior = self.zbiorPrzygotowanieDialog.appTable_widget.horizontalHeader()
         for i in range(header_zbior.count()):
@@ -149,6 +150,7 @@ class AppModule(BaseModule):
 
         self.zbiorPrzygotowanieDialog.addFile_widget.setFilter(
             filter="pliki XML/GML (*.xml *.gml)")
+
     # endregion
 
     """Event handlers"""
@@ -372,6 +374,7 @@ class AppModule(BaseModule):
             xmlIpp = appTable_widget.item(rowId, 0).text()
             xmlPath = os.path.join(appTable_widget.item(rowId, 1).text())
             xmlDate = appTable_widget.item(rowId, 2).text()
+            # TODO usunąć zbiór z listy
             files.append(AppTableModel(rowId, xmlPath, xmlDate))
             gmlPaths.append(xmlPath)
         # files = [os.path.join(os.path.dirname(__file__), "../validator", 'appExample_pzpw_v001.xml')] # test
@@ -394,7 +397,7 @@ class AppModule(BaseModule):
         self.fn = QFileDialog.getSaveFileName(
             directory=defaultPath, filter="XML Files (*.xml)")[0]
         if self.fn:
-            xml_string = utils.mergeAppToCollection(files)
+            xml_string = utils.mergeAppToCollection(files, set={})
             if xml_string != '':
                 myfile = open(self.fn, "w", encoding='utf-8')
                 myfile.write(xml_string)
@@ -542,6 +545,29 @@ class AppModule(BaseModule):
                     self.showPopupApp()
 # Zbiór
 
+    def loadSet(self):
+        # TODO dodawanie aktów do tabeli
+        # TODO zapisywanie ??
+        # TODO identyfikacja zbioru
+        setPath = self.zbiorPrzygotowanieDialog.addFile_widget.filePath()
+        param = True
+        if setPath:
+            for iip in utils.setAppId(setPath):
+                rows = self.zbiorPrzygotowanieDialog.appTable_widget.rowCount()
+                if rows > 0:
+                    for i in range(rows):
+                        item = self.zbiorPrzygotowanieDialog.appTable_widget.item(
+                            i, 0).text()
+                        if iip == item:
+                            param = False
+                            showPopup("Błąd tabeli",
+                                      "Wybrany plik znajduje się już w tabeli")
+                            break
+                    if param:
+                        self.tableContentAddSet(iip+' (Zbiór)', setPath, rows)
+                else:
+                    self.tableContentAddSet(iip+' (Zbiór)', setPath, rows)
+
     def addTableContentSet(self):
         plik = str(QFileDialog.getOpenFileName(
             filter="pliki XML/GML (*.xml *.gml)")[0])
@@ -562,7 +588,30 @@ class AppModule(BaseModule):
             else:
                 self.tableContentSet(plik, rows)
 
+    def tableContentAddSet(self, iip, file, rows):
+        """Dodanie zbioru do tabeli zbioru"""
+        flags = Qt.ItemFlags(32)
+        self.zbiorPrzygotowanieDialog.appTable_widget.setRowCount(rows + 1)
+
+        # pierwsza kolumna
+        idIIP = iip
+        itemIIP = QTableWidgetItem(idIIP)
+        itemIIP.setFlags(flags)
+        self.zbiorPrzygotowanieDialog.appTable_widget.setItem(
+            rows, 0, itemIIP)
+        # druga kolumna
+        self.zbiorPrzygotowanieDialog.appTable_widget.setItem(
+            rows, 1, QTableWidgetItem(file))
+        # trzecia kolumna
+        t = os.path.getmtime(file)
+        mtime = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(t))
+        item = QTableWidgetItem(mtime)
+        item.setFlags(flags)
+        # dodanie do tabeli
+        self.zbiorPrzygotowanieDialog.appTable_widget.setItem(rows, 2, item)
+
     def tableContentSet(self, file, rows):
+        """Dodanie APP do tabeli zbioru"""
         flags = Qt.ItemFlags(32)
         self.zbiorPrzygotowanieDialog.appTable_widget.setRowCount(rows + 1)
 

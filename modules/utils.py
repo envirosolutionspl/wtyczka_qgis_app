@@ -907,7 +907,7 @@ def createXmlAktPlanowaniaPrzestrzennego(layout, obrysLayer):
     return data
 
 
-def putElement(element, subElementName, newElement):
+def putElementAbove(element, subElementName, newElement):
     # Możemy umieścić nowy element nad starym elementem o określonej nazwie
     # element = root, subElementName = str element przed który wrzucamy, newElement = ET.Element
     idx = 0
@@ -916,8 +916,25 @@ def putElement(element, subElementName, newElement):
             element.insert(idx, newElement)
             return True
         idx += 1
-        if len(list(elem)) > 0:
-            return(putElement(elem, subElementName, newElement))
+        # if len(list(elem)) > 0:
+        #     if putElementAbove(elem, subElementName, newElement):
+        #         return(putElementAbove(elem, subElementName, newElement))
+    return False
+
+
+def putElementBelow(element, subElementName, newElement):
+    # Możemy umieścić nowy element pod starym elementem o określonej nazwie
+    # element = root, subElementName = str element przed który wrzucamy, newElement = ET.Element
+    idx = 0
+    for elem in element:
+        idx += 1
+        if subElementName in elem.tag:
+            element.insert(idx, newElement)
+            return True
+
+        # if len(list(elem)) > 0:
+        #     if putElementBelow(elem, subElementName, newElement):
+        #         return(putElementBelow(elem, subElementName, newElement))
     return False
 
 
@@ -979,8 +996,8 @@ def mergeDocsToAPP(docList):  # docList z getTableContent
     }
     # Przechowywanie elementów referencyjnych
     pomijane = {
-        'AktPlanowaniaPrzestrzennego': {
-            "dokument": [],  # APP ???
+        'AktPlanowaniaPrzestrzennego': {  # + zmiana
+            "dokument": [],  # APP
             "aktNormatywnyPrzystapienie": [],  # APP
             "aktNormatywnyUchwalajacy": [],  # APP
             "aktNormatywnyZmieniajacy": [],  # APP
@@ -1083,6 +1100,7 @@ def mergeDocsToAPP(docList):  # docList z getTableContent
                   text='Liczba Rysunków: %i\nWymagana liczba: 1+' % len(docRoots['RysunekAktuPlanowniaPrzestrzenego']))
         return ''
 
+    # Dodawanie atrybutów do APP
     for atr in pomijane['AktPlanowaniaPrzestrzennego']:
         for value in pomijane['AktPlanowaniaPrzestrzennego'][atr]:
             newItem(APProot[0][0], name=atr, link=value, ns=ns)
@@ -1097,6 +1115,16 @@ def mergeDocsToAPP(docList):  # docList z getTableContent
     for atr in pomijane['RysunekAktuPlanowniaPrzestrzenego']:
         for root in pomijane['RysunekAktuPlanowniaPrzestrzenego'][atr]:
             APProot.append(root[0])
+
+    zmiana_count = len(
+        pomijane['AktPlanowaniaPrzestrzennego']['aktNormatywnyZmieniajacy'])
+    newElement = ET.Element("{%s}zmiana" % ns['app'])
+    newElement.text = str(zmiana_count)
+    print(zmiana_count)
+    aktPath = 'wfs:member/app:AktPlanowaniaPrzestrzennego'
+    aktRoot = APProot.find(aktPath, ns)
+    print(putElementBelow(element=aktRoot, subElementName='status',
+                          newElement=newElement))
 
     # eksport APP
     mydata = ET.tostring(APProot)  # .replace(b'><', b'>\n\t<')
@@ -1142,7 +1170,7 @@ def sortDocRelations(relationList):
     return DokumentFormalny
 
 
-def mergeAppToCollection(AppFiles):
+def mergeAppToCollection(AppFiles, set={}):
     ns = {
         'xsi': "http://www.w3.org/2001/XMLSchema",
         'app': 'http://zagospodarowanieprzestrzenne.gov.pl/schemas/app/1.0',
@@ -1385,3 +1413,25 @@ def loadItemsToForm(filePath, formElements):
                 setValueToWidget(inner, value)
             except:
                 print('\t Nieobsługiwany atrybut: '+inner.name+' '+inner.type)
+
+
+def setAppId(setPath):
+    """pozyskiwanie id IIP z aktów (APP) w zadanym zbiorze"""
+    ns = {
+        'xsi': "http://www.w3.org/2001/XMLSchema",
+        'app': "http://zagospodarowanieprzestrzenne.gov.pl/schemas/app/1.0",
+        'gmd': "http://www.isotc211.org/2005/gmd",
+        'gco': 'http://www.isotc211.org/2005/gco',
+        'xlink': 'http://www.w3.org/1999/xlink',
+        'gml': "http://www.opengis.net/gml/3.2",
+        'wfs': 'http://www.opengis.net/wfs/2.0',
+        'gmlexr': "http://www.opengis.net/gml/3.3/exr"
+    }
+    root = ET.parse(setPath).getroot()
+    appPath = 'wfs:member/app:AktPlanowaniaPrzestrzennego'
+    appList = root.findall(appPath, ns)
+    idIIPList = []
+    for app in appList:
+        idIIPList.append(app.attrib['{http://www.opengis.net/gml/3.2}id'])
+
+    return idIIPList

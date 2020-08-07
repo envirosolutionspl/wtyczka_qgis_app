@@ -58,6 +58,13 @@ poziomyHierarchii = {
     "lokalny": "http://inspire.ec.europa.eu/codelist/LevelOfSpatialPlanValue/local",
     "sublokalny": "http://inspire.ec.europa.eu/codelist/LevelOfSpatialPlanValue/infraLocal"
 }
+metadataKeywordAnchors = {
+    'regionalnym': "https://inspire.ec.europa.eu/metadata-codelist/SpatialScope/regional",
+    'lokalne': "https://inspire.ec.europa.eu/metadata-codelist/SpatialScope/local",
+    'zagospodarowanie przestrzenne': "http://inspire.ec.europa.eu/theme/lu",
+    'Brak warunków dostępu i użytkowania': "http://inspire.ec.europa.eu/metadata-codelist/ConditionsApplyingToAccessAndUse/noConditionsApply"
+}
+
 # słownik definiujący relacje między "typPlanu", a "poziomHierarchii"
 typyPlanuPoziomyHierarchii = dict(zip(typyPlanu.keys(), [
     [list(poziomyHierarchii.keys())[2], list(poziomyHierarchii.keys())[1]],
@@ -97,7 +104,7 @@ dziennikUrzedowyKod = {
 cI_DateTypeCode = {
     "utworzenie": "creation",
     "publikacja": "publication",
-    "rewizja": "revision"
+    "przegląd": "revision"
 }
 
 licznoscMetadataFields = {
@@ -154,4 +161,10 @@ metadataListWidgetsDefaultItemsDisabled = {
             'xlink': None
         }],
     'e17': [{'e17_lineEdit': 'wektor'}, {'e17_lineEdit': 'raster'}],
+}
+
+# domyślne zmienne wartości dla pól wielokrotnych
+metadataListWidgetsDefaultItemsEnabled = {
+    'e6': [{'e6_lineEdit': 'polski'}],
+    'e20': [{'e20_lineEdit': 'Brak warunków dostępu i użytkowania'}],
 }

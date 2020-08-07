@@ -766,7 +766,7 @@ Obowiązkowo należy podać  słowa kluczowe:
                    </item>
                    <item>
                     <property name="text">
-                     <string>publikacja</string>
+                     <string>przegląd</string>
                     </property>
                    </item>
                   </widget>
@@ -1680,6 +1680,9 @@ Wartość elementu metadanych zawsze jest równa: Brak ograniczeń w publicznym 
          </item>
          <item row="9" column="0" colspan="2">
           <widget class="QgsCollapsibleGroupBox" name="mGroupBox_9">
+           <property name="enabled">
+            <bool>true</bool>
+           </property>
            <property name="sizePolicy">
             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
              <horstretch>1</horstretch>
@@ -1723,6 +1726,12 @@ Wartość elementu metadanych zawsze jest równa: Brak ograniczeń w publicznym 
                  </item>
                  <item>
                   <widget class="QgsFilterLineEdit" name="e22_mail_lineEdit">
+                   <property name="maximumSize">
+                    <size>
+                     <width>150</width>
+                     <height>16777215</height>
+                    </size>
+                   </property>
                    <property name="toolTip">
                     <string>adres email</string>
                    </property>
@@ -2431,6 +2440,12 @@ Wartość elementu musi być równa identyfikatorowi UUID.
                  </item>
                  <item>
                   <widget class="QgsFilterLineEdit" name="e33_lineEdit">
+                   <property name="enabled">
+                    <bool>false</bool>
+                   </property>
+                   <property name="text">
+                    <string>ISO 19115</string>
+                   </property>
                    <property name="qgisRelation" stdset="0">
                     <string notr="true"/>
                    </property>
@@ -2462,6 +2477,12 @@ Wartość elementu musi być równa identyfikatorowi UUID.
                  </item>
                  <item>
                   <widget class="QgsFilterLineEdit" name="e34_lineEdit">
+                   <property name="enabled">
+                    <bool>false</bool>
+                   </property>
+                   <property name="text">
+                    <string>2005/Amd 1:2008</string>
+                   </property>
                    <property name="qgisRelation" stdset="0">
                     <string notr="true"/>
                    </property>

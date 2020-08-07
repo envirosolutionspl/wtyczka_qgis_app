@@ -11,7 +11,10 @@ def metadataElementDictToForm(metadataElementDict, targetForm):
             for data in formDefinition:
                 item = QListWidgetItem()
                 item.setData(Qt.UserRole, QVariant(data))
-                item.setText(list(data.values())[0])
+                if elementId == 'e22' or elementId == 'e29':
+                    item.setText(" - ".join(list(data.values())))
+                else:
+                    item.setText(list(data.values())[0])
                 listWidget.addItem(item)
 
         else:   # pojedyncze elementy np. lineEdit

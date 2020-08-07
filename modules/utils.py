@@ -9,6 +9,21 @@ from .models import FormElement
 from . import dictionaries
 import datetime
 
+def oldestQDateTime(qDateTimelist):
+    """zwraca najstarszą datę z listy dat QDateTime"""
+    if type(qDateTimelist) == list and len(qDateTimelist) > 0:
+        oldest = qDateTimelist[0]
+        for date in qDateTimelist:
+            if date > oldest:
+                oldest == date
+        return oldest
+
+def getKeyByValue(dictionary, value):
+    """Zwraca klucz słownika na podstawie wartości"""
+    for key, v in dictionary.items():
+        if v == value:
+            return key
+    return None
 
 def showPopup(title, text, icon=QMessageBox.Information):
     msg = QMessageBox()

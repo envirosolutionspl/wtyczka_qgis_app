@@ -17,6 +17,7 @@ import xml.etree.ElementTree as ET
 import random
 import ntpath
 from lxml import etree
+from .. import dictionaries
 
 
 class AppModule(BaseModule):
@@ -211,8 +212,17 @@ class AppModule(BaseModule):
 
         self.obrysLayer = self.wektorInstrukcjaDialog.layers_comboBox.currentLayer()
 
+        # Sprawdzanie CRS warstwy wejściowej
+        epsg = str(self.obrysLayer.crs().authid()).split(':')[1]
+        srsName = ''
+        # Układ współrzędnych
+        for crs in dictionaries.ukladyOdniesieniaPrzestrzennego.values():
+            if epsg in crs:
+                srsName = crs
+                break
+
         if not self.obrysLayer:   # brak wybranej warstwy
-            showPopup("Błąd warstwy obrysu", "Nie wskazano warstwy z obrysem")
+            showPopup("Błąd warstwy obrysu", "Nie wskazano warstwy z obrysem.")
         elif self.obrysLayer.featureCount() > 1:     # niepoprawna ilość obiektów w warstwie
 
             self.showPopupAggregate(title="Błąd warstwy obrysu", text="Wybrana warstwa posiada obiekty w liczbie: %d.\nObrys może składać się wyłącznie z 1 jednego obiektu.\nCzy chcesz utworzyć zagregowaną warstwę o nazwie: granice_app_aggregated?" % (
@@ -222,7 +232,10 @@ class AppModule(BaseModule):
                 self.obrysLayer.featureCount()))
         elif not isGeomValid():     # niepoprawna geometria
             showPopup("Błąd warstwy obrysu",
-                      "Niepoprawna geometria - obiekt musi leżeć w Polsce, sprawdź układ współrzędnych warstwy")
+                      "Niepoprawna geometria - obiekt musi leżeć w Polsce, sprawdź układ współrzędnych warstwy.")
+        elif srsName == '':
+            showPopup("Błąd warstwy obrysu",
+                      "Obrys posiada niezgodny układ współrzędnych - EPSG:%s.\nDostępne CRS:\n    - %s" % (epsg, ',\n    - '.join(['%s : %s' % (a, b) for a, b in zip(dictionaries.ukladyOdniesieniaPrzestrzennego.keys(), dictionaries.ukladyOdniesieniaPrzestrzennego.values())])))
         else:   # wszystko OK z warstwą
             # zasiegPrzestrzenny = utils.getWidgetByName(
             #     layout=self.wektorFormularzDialog,

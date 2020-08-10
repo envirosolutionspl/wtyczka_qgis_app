@@ -106,7 +106,10 @@ cI_DateTypeCode = {
     "publikacja": "publication",
     "przegląd": "revision"
 }
-
+languages = {
+    "polski": "pol",
+    "angielski": "eng"
+}
 licznoscMetadataFields = {
     "e1": '1',
     "e2": '1',
@@ -165,6 +168,6 @@ metadataListWidgetsDefaultItemsDisabled = {
 
 # domyślne zmienne wartości dla pól wielokrotnych
 metadataListWidgetsDefaultItemsEnabled = {
-    'e6': [{'e6_lineEdit': 'polski'}],
+    'e6': [{'e6_cmbbx': 'polski'}],
     'e20': [{'e20_lineEdit': 'Brak warunków dostępu i użytkowania'}],
 }

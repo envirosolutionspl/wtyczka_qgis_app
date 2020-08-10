@@ -31,8 +31,9 @@ def metadataElementDictToXml(metadataElementDict):
 
     """gmd:language"""
     language = ET.SubElement(root, 'gmd:language')
-    languageCode = ET.SubElement(language, 'gmd:LanguageCode', {'codeList': "http://www.loc.gov/standards/iso639-2/", 'codeListValue': "pol"})
-    languageCode.text = metadataElementDict['e31']['e31_lineEdit']
+    lang = metadataElementDict['e31']['e31_lineEdit']
+    languageCode = ET.SubElement(language, 'gmd:LanguageCode', {'codeList': "http://www.loc.gov/standards/iso639-2/", 'codeListValue': dictionaries.languages[lang]})
+    languageCode.text = lang
 
     """gmd:characterSet"""
     for listItem in metadataElementDict['e7']:

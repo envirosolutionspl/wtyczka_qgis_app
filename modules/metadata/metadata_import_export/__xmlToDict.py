@@ -1,7 +1,7 @@
 import xml.etree.ElementTree as ET
 from PyQt5.QtCore import QDateTime
 from . import translation
-from .. import utils
+from .. import utils, dictionaries
 
 def xmlToMetadataElementDict(xml):
     """słownik metadataElementDict na podstawie pliku XML"""
@@ -48,8 +48,8 @@ def xmlToMetadataElementDict(xml):
     itemsList = []
     for element in root.findall(
             '//gmd:MD_DataIdentification/gmd:language/gmd:LanguageCode', ns):
-        if element.text not in itemsList:
-            itemsList.append({'e6_lineEdit': element.text})
+        if element.text not in itemsList and element.text in dictionaries.languages:
+            itemsList.append({'e6_cmbbx': element.text})
     metadataElementDict['e6'] = itemsList
 
     # E7

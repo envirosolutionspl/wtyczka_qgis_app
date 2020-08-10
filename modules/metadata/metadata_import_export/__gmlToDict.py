@@ -2,6 +2,7 @@ from .. import dictionaries, utils
 import xml.etree.ElementTree as ET
 import re
 from PyQt5.QtCore import QDateTime
+from qgis.core import QgsVectorLayer
 
 def appGmlToMetadataElementDict(gmlPath):
     """słownik metadataElementDict na podstawie pliku zbioru APP"""
@@ -17,6 +18,11 @@ def appGmlToMetadataElementDict(gmlPath):
           }
 
     root = ET.parse(gmlPath)
+
+    # E1
+    element = root.find('//app:AktPlanowaniaPrzestrzennego/app:typPlanu', ns)
+    typPlanu = element.attrib['{%s}title' % ns['xlink']].replace('plan','planu')
+    metadataElementDict['e1'] = {'e1_lineEdit': "Zbiór danych przestrzennych dla %s <typ_jednostki> <nazwa_jednostki>" % typPlanu}
 
     # E5
     date = root.find('//app:AktPlanowaniaPrzestrzennego//app:przestrzenNazw', ns)
@@ -61,6 +67,11 @@ def appGmlToMetadataElementDict(gmlPath):
     itemsList.extend(dictionaries.metadataListWidgetsDefaultItemsDisabled['e9'])
     metadataElementDict['e9'] = itemsList
 
+    # E11
+    layer = QgsVectorLayer(gmlPath + '|layername=AktPlanowaniaPrzestrzennego', "gml",  'ogr')
+    if layer:
+        extent = layer.extent()
+        metadataElementDict['e11'] = [{'e11_lineEdit': '%s,%s,%s,%s' % (extent.yMinimum(), extent.yMaximum(), extent.xMinimum(), extent.xMaximum())}]
 
     # E12
     itemsList = []

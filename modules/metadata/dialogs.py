@@ -245,7 +245,7 @@ class MetadaneDialog(QDialogOverride, FORM_CLASS, ButtonsDialog):
                 extent = lineEdit.text()
                 if extent.count(',') == 3 and extent.count('.') <= 4:
                     return True
-            elif elementId == 'e7' or elementId == 'e12':
+            elif elementId == 'e7' or elementId == 'e12' or elementId == 'e6':
                 if cmbbx.currentText():
                     return True
             elif elementId == 'e24':

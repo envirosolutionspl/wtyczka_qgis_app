@@ -31,6 +31,13 @@ def validateMetadataForm(dlg):
             if listWidget.count() < int(licznosc[0]):
                 return False, "Pole '%s' jest obowiązkowe. Musisz je wypełnić aby wygenerować plik metadanych. Minimalna ilość wystąpień to %s" % (label.text().strip('*'), licznosc[0])
 
+        # E1 tytuł zbioru
+        if elementId == 'e9':
+            lineEdit = utils.getWidgetByName(dlg, QLineEdit, elementId + "_lineEdit")
+            text = lineEdit.text()
+            if '<' in text or '>' in text:
+                return False, "W polu '%s' musisz wprowadzić poprawną wartość" % (label.text().strip('*'))
+
         # E9 pole słów kluczowych
         if elementId == 'e9':
             keywords = []

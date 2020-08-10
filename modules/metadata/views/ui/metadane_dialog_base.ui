@@ -100,9 +100,9 @@
         <property name="geometry">
          <rect>
           <x>0</x>
-          <y>0</y>
-          <width>760</width>
-          <height>381</height>
+          <y>-319</y>
+          <width>743</width>
+          <height>1220</height>
          </rect>
         </property>
         <layout class="QGridLayout" name="gridLayout_2">
@@ -121,7 +121,7 @@
             <bool>false</bool>
            </property>
            <property name="collapsed">
-            <bool>true</bool>
+            <bool>false</bool>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_2">
             <property name="sizeConstraint">
@@ -138,6 +138,12 @@
               </item>
               <item>
                <widget class="QgsFilterLineEdit" name="e1_lineEdit">
+                <property name="text">
+                 <string>Zbiór danych przestrzennych dla &lt;typ_planu&gt; &lt;typ_jednostki&gt; &lt;nazwa_jednostki&gt;</string>
+                </property>
+                <property name="placeholderText">
+                 <string/>
+                </property>
                 <property name="qgisRelation" stdset="0">
                  <string notr="true"/>
                 </property>
@@ -378,10 +384,30 @@ Adres zbioru musi być wyspecyfikowany w formie adresu URI:
                   </widget>
                  </item>
                  <item>
-                  <widget class="QgsFilterLineEdit" name="e6_lineEdit">
-                   <property name="qgisRelation" stdset="0">
-                    <string notr="true"/>
+                  <spacer name="horizontalSpacer_10">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
                    </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>40</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                 <item>
+                  <widget class="QComboBox" name="e6_cmbbx">
+                   <item>
+                    <property name="text">
+                     <string>polski</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>angielski</string>
+                    </property>
+                   </item>
                   </widget>
                  </item>
                  <item>
@@ -1380,7 +1406,7 @@ Element metadanych zawsze przyjmuje wartości: wektor „Vector” oraz raster �
             <string>Zgodność*</string>
            </property>
            <property name="collapsed">
-            <bool>true</bool>
+            <bool>false</bool>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_2">
             <property name="sizeConstraint">

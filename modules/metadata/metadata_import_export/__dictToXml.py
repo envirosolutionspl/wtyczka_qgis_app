@@ -256,8 +256,11 @@ def metadataElementDictToXml(metadataElementDict):
     """gmd:language"""
     for listItem in metadataElementDict['e6']:
         language = ET.SubElement(mD_DataIdentification, 'gmd:language')
-        languageCode = ET.SubElement(language, 'gmd:LanguageCode', {'codeList': "http://www.loc.gov/standards/iso639-2/", 'codeListValue': 'pol'}) # TODO: dorobic codeListValue
-        languageCode.text = listItem['e6_lineEdit']
+        languageCode = ET.SubElement(language, 'gmd:LanguageCode', {
+            'codeList': "http://www.loc.gov/standards/iso639-2/",
+            'codeListValue': dictionaries.languages[listItem['e6_cmbbx']]
+        })
+        languageCode.text = listItem['e6_cmbbx']
 
     """gmd:topicCategory"""
     topicCategory = ET.SubElement(mD_DataIdentification, 'gmd:topicCategory')
@@ -333,13 +336,14 @@ def metadataElementDictToXml(metadataElementDict):
         specification = ET.SubElement(dQ_ConformanceResult, 'gmd:specification')
         cI_Citation = ET.SubElement(specification, 'gmd:CI_Citation')
         title = ET.SubElement(cI_Citation, 'gmd:title')
-        xlink = None    # TODO: dorobić xlink
-        if xlink is None:
+
+        if 'xlink' in listItem and listItem['xlink']:
+            anchor = ET.SubElement(title, 'gmx:Anchor', {'xlink:href': listItem['xlink']})
+            anchor.text = listItem['e18_lineEdit']
+        else:
             characterString = ET.SubElement(title, 'gco:CharacterString')
             characterString.text = listItem['e18_lineEdit']
-        else:
-            anchor = ET.SubElement(title, 'gmx:Anchor', {'xlink:href': xlink})
-            anchor.text = listItem['e18_lineEdit']
+
         date = ET.SubElement(cI_Citation, 'gmd:date')
         cI_Date = ET.SubElement(date, 'gmd:CI_Date')
         date2 = ET.SubElement(cI_Date, 'gmd:date')

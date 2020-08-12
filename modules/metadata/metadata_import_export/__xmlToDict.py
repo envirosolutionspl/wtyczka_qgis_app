@@ -142,6 +142,7 @@ def xmlToMetadataElementDict(xml):
             data['e18_lineEdit'] = title.text
         elif title_anchor is not None:
             data['e18_lineEdit'] = title_anchor.text
+            data['xlink'] = title_anchor.attrib['{%s}href' % ns['xlink']]
         else:
             data['e18_lineEdit'] = ""
         data['e18_dateTimeEdit'] = QDateTime.fromString(date.text, "yyyy-MM-dd")

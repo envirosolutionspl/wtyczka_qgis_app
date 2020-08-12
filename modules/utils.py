@@ -8,6 +8,12 @@ import xml.etree.ElementTree as ET
 from .models import FormElement
 from . import dictionaries
 import datetime
+import uuid
+import random
+
+def generateUUID():
+    rd = random.Random()
+    return str(uuid.UUID(int=rd.getrandbits(128)))
 
 
 def oldestQDateTime(qDateTimelist):

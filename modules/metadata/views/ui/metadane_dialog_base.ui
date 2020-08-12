@@ -2420,6 +2420,9 @@ Wartość elementu metadanych zawsze jest równa: polski.
               </item>
               <item>
                <widget class="QgsFilterLineEdit" name="e32_lineEdit">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
                 <property name="qgisRelation" stdset="0">
                  <string notr="true"/>
                 </property>

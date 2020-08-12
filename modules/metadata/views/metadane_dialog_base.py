@@ -1063,6 +1063,7 @@ class Ui_Dialog(object):
         self.e32_lbl.setObjectName("e32_lbl")
         self.hboxlayout46.addWidget(self.e32_lbl)
         self.e32_lineEdit = QgsFilterLineEdit(self.mGroupBox_12)
+        self.e32_lineEdit.setEnabled(False)
         self.e32_lineEdit.setProperty("qgisRelation", "")
         self.e32_lineEdit.setObjectName("e32_lineEdit")
         self.hboxlayout46.addWidget(self.e32_lineEdit)

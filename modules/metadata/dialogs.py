@@ -214,6 +214,12 @@ class MetadaneDialog(QDialogOverride, FORM_CLASS, ButtonsDialog):
 
                 label.setToolTip(
                     "<FONT COLOR=black>%s</FONT>" % label.toolTip())  # dodanie tooltip z documentation 'rich text' dla zawijania
+        self.e32_btn.clicked.connect(self.e32_btn_clicked)
+
+    def e32_btn_clicked(self):
+        """Generowanie UUID do formularza"""
+        uuid = utils.generateUUID()
+        self.e32_lineEdit.setText(uuid)
 
     def prepareListWidgets(self, listWidget):
         """Przygotowanie obsługi pól wielokrotnej liczności"""

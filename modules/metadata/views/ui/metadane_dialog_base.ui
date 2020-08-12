@@ -43,6 +43,9 @@
      </item>
      <item>
       <layout class="QGridLayout" name="gridLayout_5">
+       <item row="0" column="1">
+        <widget class="QgsFileWidget" name="chooseFile_widget"/>
+       </item>
        <item row="1" column="1">
         <widget class="QgsFileWidget" name="chooseSet_widget"/>
        </item>
@@ -60,8 +63,32 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="1">
-        <widget class="QgsFileWidget" name="chooseFile_widget"/>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayoukt">
+       <item>
+        <spacer name="horizontalSpacer_11">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QPushButton" name="clearForm_btn">
+         <property name="focusPolicy">
+          <enum>Qt::NoFocus</enum>
+         </property>
+         <property name="text">
+          <string>Wyczyść formularz</string>
+         </property>
+        </widget>
        </item>
       </layout>
      </item>
@@ -102,7 +129,7 @@
           <x>0</x>
           <y>0</y>
           <width>760</width>
-          <height>381</height>
+          <height>350</height>
          </rect>
         </property>
         <layout class="QGridLayout" name="gridLayout_2">

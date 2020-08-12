@@ -5,9 +5,9 @@ Okna dialogowe modułu Metadata
  ***************************************************************************/
 """
 from .. import QDialogOverride, ButtonsDialog, utils, dictionaries
-from . import mail, csw, metadataElementDictToForm
+from . import mail, csw, metadataElementDictToForm, formToMetadataElementDict
 
-import os
+import os, re
 
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
@@ -15,7 +15,7 @@ from qgis.PyQt.QtCore import Qt, QVariant, QRegExp, QDateTime
 from qgis.PyQt import uic, QtGui
 from qgis.PyQt import QtWidgets
 from qgis.core import QgsSettings
-from qgis.gui import QgisInterface
+from qgis.gui import QgisInterface, QgsFilterLineEdit
 
 
 
@@ -177,6 +177,11 @@ class MetadaneDialog(QDialogOverride, FORM_CLASS, ButtonsDialog):
         self.setWindowFlag(Qt.WindowMinMaxButtonsHint, True)
         ButtonsDialog.__init__(self)
         self.prepareLayout()
+        # zapisanie inicjalnego formularza do słownika
+        self.startFormState = formToMetadataElementDict(self)
+
+        self.e32_btn.clicked.connect(self.e32_btn_clicked)
+        self.clearForm_btn.clicked.connect(self.clearForm_btn_clicked)
 
     def prepareLayout(self):
         """Przygotowanie layoutu metadanych"""
@@ -214,12 +219,17 @@ class MetadaneDialog(QDialogOverride, FORM_CLASS, ButtonsDialog):
 
                 label.setToolTip(
                     "<FONT COLOR=black>%s</FONT>" % label.toolTip())  # dodanie tooltip z documentation 'rich text' dla zawijania
-        self.e32_btn.clicked.connect(self.e32_btn_clicked)
 
     def e32_btn_clicked(self):
         """Generowanie UUID do formularza"""
         uuid = utils.generateUUID()
         self.e32_lineEdit.setText(uuid)
+
+    def clearForm_btn_clicked(self):
+        """czyszczenie formularza"""
+        for lineEdit in utils.getWidgetsByType(self, QgsFilterLineEdit):
+            lineEdit.clear()
+        metadataElementDictToForm(self.startFormState, self)
 
     def prepareListWidgets(self, listWidget):
         """Przygotowanie obsługi pól wielokrotnej liczności"""

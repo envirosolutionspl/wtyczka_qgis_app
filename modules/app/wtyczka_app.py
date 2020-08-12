@@ -225,7 +225,7 @@ class AppModule(BaseModule):
             showPopup("Błąd warstwy obrysu", "Nie wskazano warstwy z obrysem.")
         elif self.obrysLayer.featureCount() > 1:     # niepoprawna ilość obiektów w warstwie
 
-            self.showPopupAggregate(title="Błąd warstwy obrysu", text="Wybrana warstwa posiada obiekty w liczbie: %d.\nObrys może składać się wyłącznie z 1 jednego obiektu.\nCzy chcesz utworzyć zagregowaną warstwę o nazwie: granice_app_aggregated?" % (
+            self.showPopupAggregate(title="Błąd warstwy obrysu", text="Wybrana warstwa posiada obiekty w liczbie: %d.\nObrys może składać się wyłącznie z jednego obiektu.\nCzy chcesz utworzyć zagregowaną warstwę o nazwie: granice_app_zagregowane?" % (
                 self.obrysLayer.featureCount()), layer=self.obrysLayer)
         elif self.obrysLayer.featureCount() == 0:
             showPopup("Błąd warstwy obrysu", "Wybrana warstwa posiada obiekty w liczbie: %d.\n" % (
@@ -688,7 +688,7 @@ class AppModule(BaseModule):
     """Popup windows"""
 
     def showPopupSaveForm(self):
-        if utils.isFormFilled(self.activeDlg):
+        if utils.isFormFilled(self.activeDlg) and utils.validate_form_dates(self.activeDlg.formElements):
             s = QgsSettings()
             defaultPath = s.value("qgis_app/settings/defaultPath", "/")
             self.fn = QFileDialog.getSaveFileName(directory=defaultPath,
@@ -741,8 +741,8 @@ class AppModule(BaseModule):
             'OUTPUT': QgsProcessing.TEMPORARY_OUTPUT
         }
         import processing
-        aggregated = processing.run('native:aggregate', alg_params)
-        aggregated['OUTPUT'].setName('granice_app_aggregated')
+        aggregated = processing.run('qgis:aggregate', alg_params)
+        aggregated['OUTPUT'].setName('granice_app_zagregowane')
         QgsProject.instance().addMapLayer(aggregated['OUTPUT'])
 
     def showPopupApp(self):

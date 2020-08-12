@@ -9,6 +9,7 @@ from .models import FormElement
 from . import dictionaries
 import datetime
 
+
 def oldestQDateTime(qDateTimelist):
     """zwraca najstarszą datę z listy dat QDateTime"""
     if type(qDateTimelist) == list and len(qDateTimelist) > 0:
@@ -18,12 +19,14 @@ def oldestQDateTime(qDateTimelist):
                 oldest == date
         return oldest
 
+
 def getKeyByValue(dictionary, value):
     """Zwraca klucz słownika na podstawie wartości"""
     for key, v in dictionary.items():
         if v == value:
             return key
     return None
+
 
 def showPopup(title, text, icon=QMessageBox.Information):
     msg = QMessageBox()
@@ -32,6 +35,64 @@ def showPopup(title, text, icon=QMessageBox.Information):
     msg.setIcon(icon)
     msg.setStandardButtons(QMessageBox.Ok)
     return msg.exec_()
+
+
+def validate_teryt_voivo(teryt):
+    if int(teryt) % 2 == 1 or int(teryt) == 0:
+        return False
+    return True
+
+
+def validate_teryt_county(teryt):
+    if validate_teryt_voivo(teryt[0:2]):
+        if 0 < int(teryt[2:4]) < 100:
+            return True
+    return False
+
+
+def validate_teryt(teryt):
+    # Walidacja terytu
+    if not teryt.isdigit():
+        return False
+    elif len(teryt) == 2 and validate_teryt_voivo(teryt):  # wojewodztwo
+        # if rodzaj != 'PZPW':
+        #     return False
+        return True  # sprawdzić, czy rodzaj zbioru poprawny
+    elif len(teryt) == 4 and validate_teryt_county(teryt):
+        # if rodzaj != 'RSZM':
+        #     return False
+        return True  # sprawdzić, czy rodzaj zbioru poprawny
+    elif len(teryt) == 7 and validate_teryt_county(teryt):
+        # if rodzaj != 'MPZP' or rodzaj != 'SUIKZP':
+        #     return False
+        rodzaj_jednostki = [1, 2, 3, 4, 5, 8, 9]
+        if 0 < int(teryt[4:6]) < 100:
+            if int(teryt[6:7]) in rodzaj_jednostki:
+                return True
+        return False
+    else:
+        return False
+
+
+def validate_IIP(przestrzenNazw):
+    """Walidacja idIIP pod kątem prawidłowej struktury przestrzeni nazw"""
+    if not przestrzenNazw.startswith('PL.ZIPPZP.'):
+        return False  # Brak wymaganej sekwencji - kod RP, kod dla zbioru
+    numer = przestrzenNazw.split('.')[2].split('/')[0]
+
+    if not numer.isdigit():
+        return False  # numer porządkowy nie jest liczbą całkowitą
+
+    rodzaj_list = ['PZPW', 'RSZM', 'SUIKZP', 'MPZP']
+    rodzaj = przestrzenNazw.split('-')[1]
+    if rodzaj not in rodzaj_list:
+        return False
+
+    teryt = przestrzenNazw.split('/')[1].split('-')[0]
+    if not validate_teryt(teryt):
+        return False
+
+    return True  # IIP prawidłowe
 
 
 def isAppOperative(gmlPath):
@@ -325,8 +386,10 @@ def make_polygon(polygons):
     # pierwszy poligon jest outerBoundary, kolejne innerBoundary
     for polygon in polygons:
         Boundary = ''
-        for x, y in polygon:
-            Boundary = ' '.join([Boundary, "{} {}".format(x, y)])
+        for point in polygon:
+
+            Boundary = ' '.join(
+                [Boundary, "{} {}".format(point.x(), point.y())])
         BoundaryList.append(Boundary[1:])
     return(BoundaryList)
 
@@ -555,13 +618,43 @@ def checkElement(fe, element):
     return True
 
 
+def getFormElementByName(formElements, name):
+    for fe in formElements:
+        if fe.name == name:
+            return fe
+    return None
+
+
+# walidacja poprawności dat - rozpoczęcie, zakończenie
+def validate_form_dates(formElements):
+    daty_powiazane = {
+        'poczatekWersjiObiektu': 'koniecWersjiObiektu',
+        'obowiazujeOd': 'obowiazujeDo',
+        'dataWejsciaWZycie': 'dataUchylenia'
+    }
+    for atrybut in daty_powiazane.keys():
+        dataOd = getFormElementByName(formElements, atrybut)
+        dataDo = getFormElementByName(formElements, daty_powiazane[atrybut])
+        if checkElement(dataOd, dataOd.refObject) and checkElement(dataDo, dataDo.refObject):
+            if dataOd.refObject.dateTime() > dataDo.refObject.dateTime():
+                showPopup(title='Błąd wartości atrybutu %s' % atrybut,
+                          text='Wartość atrybutu %s nie może być większa niż %s.' % (atrybut, daty_powiazane[atrybut]))
+                return False
+    return True
+
+
 def isFormFilled(dialog):
     for fe in dialog.formElements:
         if fe.isComplex() and fe.minOccurs > 0:
             for inner in fe.innerFormElements:
+                # Sprawdzanie poprawności przestrzeni nazw idIIP
+                if inner.name == 'przestrzenNazw' and not validate_IIP(inner.refObject.text()):
+                    showPopup(title='Błąd wartości atrybutu idIIP',
+                              text='Błędna wartość dla atrybutu idIIP.')
+                    return False
                 if checkElement(inner, inner.refObject) == False:
                     showPopup(title='Błąd formularza',
-                              text='Brak wartości dla atrybutu: %s' % fe.name)
+                              text='Brak wartości dla wymaganego atrybutu (*).')
                     return False
         if fe.name in dialog.pomijane:
             continue
@@ -570,7 +663,7 @@ def isFormFilled(dialog):
             for element in fe.refObject:
                 if checkElement(fe, element) == False:  # Brak wartości
                     showPopup(title='Błąd formularza',
-                              text='Brak wartości dla atrybutu: %s' % fe.name)
+                              text='Brak wartości dla wymaganego atrybutu (*).')
                     return False
 
         elif fe.refNilObject is not None:
@@ -580,13 +673,13 @@ def isFormFilled(dialog):
                     if type(widget).__name__ == 'QCheckBox':
                         if widget.isChecked() == False:  # Brak Nillable
                             showPopup(title='Błąd formularza',
-                                      text='Brak wartości dla atrybutu: %s' % fe.name)
+                                      text='Brak wartości dla wymaganego atrybutu (*).')
                             return False
 
         else:
             if checkElement(fe, fe.refObject) == False:  # Brak wartości
                 showPopup(title='Błąd formularza',
-                          text='Brak wartości dla atrybutu: %s' % fe.name)
+                          text='Brak wartości dla wymaganego atrybutu (*).')
                 return False
     return True  # Wszystko wypełnione
 

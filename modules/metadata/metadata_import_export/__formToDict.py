@@ -1,5 +1,5 @@
 from PyQt5.QtWidgets import *
-from PyQt5.QtCore import QRegExp, Qt
+from PyQt5.QtCore import QRegExp, Qt, QDateTime
 from collections import ChainMap
 from .. import dictionaries, utils
 
@@ -37,6 +37,9 @@ def formToMetadataElementDict(form):
                     tempList.append({input.objectName(): input.currentText()})
 
             metadataElementDict[elementId] = dict(ChainMap(*tempList))
+
+    # nadpisanie daty aktualną datą
+    metadataElementDict['e30']['e30_dateTimeEdit'] = QDateTime.currentDateTime()
 
     for k,v in metadataElementDict.items():
         print(k,dictionaries.licznoscMetadataFields[k],v)

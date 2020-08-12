@@ -100,9 +100,9 @@
         <property name="geometry">
          <rect>
           <x>0</x>
-          <y>-319</y>
-          <width>743</width>
-          <height>1220</height>
+          <y>0</y>
+          <width>760</width>
+          <height>381</height>
          </rect>
         </property>
         <layout class="QGridLayout" name="gridLayout_2">
@@ -121,7 +121,7 @@
             <bool>false</bool>
            </property>
            <property name="collapsed">
-            <bool>false</bool>
+            <bool>true</bool>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_2">
             <property name="sizeConstraint">
@@ -164,7 +164,7 @@ Nazwa zbioru danych przestrzennych musi być skonstruowana zgodnie ze wzorem dla
                  <string/>
                 </property>
                 <property name="pixmap">
-                 <pixmap>../../../../img/info1.png</pixmap>
+                 <pixmap>../../../../../../../../../../../../../../../img/info1.png</pixmap>
                 </property>
                </widget>
               </item>
@@ -195,7 +195,7 @@ Nazwa zbioru danych przestrzennych musi być skonstruowana zgodnie ze wzorem dla
                  <string/>
                 </property>
                 <property name="pixmap">
-                 <pixmap>../../../../img/info1.png</pixmap>
+                 <pixmap>../../../../../../../../../../../../../../../img/info1.png</pixmap>
                 </property>
                </widget>
               </item>
@@ -235,7 +235,7 @@ Wartości elementu metadanych zawsze jest równa: zbiór danych („dataset”).
                  <string/>
                 </property>
                 <property name="pixmap">
-                 <pixmap>../../../../img/info1.png</pixmap>
+                 <pixmap>../../../../../../../../../../../../../../../img/info1.png</pixmap>
                 </property>
                </widget>
               </item>
@@ -275,7 +275,7 @@ Adres zbioru musi być wyspecyfikowany w formie adresu URI:
                     <string/>
                    </property>
                    <property name="pixmap">
-                    <pixmap>../../../../img/info1.png</pixmap>
+                    <pixmap>../../../../../../../../../../../../../../../img/info1.png</pixmap>
                    </property>
                   </widget>
                  </item>
@@ -337,7 +337,7 @@ Adres zbioru musi być wyspecyfikowany w formie adresu URI:
                     <string/>
                    </property>
                    <property name="pixmap">
-                    <pixmap>../../../../img/info1.png</pixmap>
+                    <pixmap>../../../../../../../../../../../../../../../img/info1.png</pixmap>
                    </property>
                   </widget>
                  </item>
@@ -419,7 +419,7 @@ Adres zbioru musi być wyspecyfikowany w formie adresu URI:
                     <string/>
                    </property>
                    <property name="pixmap">
-                    <pixmap>../../../../img/info1.png</pixmap>
+                    <pixmap>../../../../../../../../../../../../../../../img/info1.png</pixmap>
                    </property>
                   </widget>
                  </item>
@@ -592,7 +592,7 @@ Adres zbioru musi być wyspecyfikowany w formie adresu URI:
                     <string/>
                    </property>
                    <property name="pixmap">
-                    <pixmap>../../../../img/info1.png</pixmap>
+                    <pixmap>../../../../../../../../../../../../../../../img/info1.png</pixmap>
                    </property>
                   </widget>
                  </item>
@@ -681,7 +681,7 @@ Wartość elementu metadanych zawsze jest równa: „Planowanie/Kataster” („
                  <string/>
                 </property>
                 <property name="pixmap">
-                 <pixmap>../../../../img/info1.png</pixmap>
+                 <pixmap>../../../../../../../../../../../../../../../img/info1.png</pixmap>
                 </property>
                </widget>
               </item>
@@ -743,7 +743,7 @@ Obowiązkowo należy podać  słowa kluczowe:
                     <string/>
                    </property>
                    <property name="pixmap">
-                    <pixmap>../../../../img/info1.png</pixmap>
+                    <pixmap>../../../../../../../../../../../../../../../img/info1.png</pixmap>
                    </property>
                   </widget>
                  </item>
@@ -806,7 +806,7 @@ Obowiązkowo należy podać  słowa kluczowe:
                     <string/>
                    </property>
                    <property name="pixmap">
-                    <pixmap>../../../../img/info1.png</pixmap>
+                    <pixmap>../../../../../../../../../../../../../../../img/info1.png</pixmap>
                    </property>
                   </widget>
                  </item>
@@ -900,7 +900,7 @@ Współrzędne należy podać w Światowym Systemie Geodezyjnym 1984 (WGS84).
                     <string/>
                    </property>
                    <property name="pixmap">
-                    <pixmap>../../../../img/info1.png</pixmap>
+                    <pixmap>../../../../../../../../../../../../../../../img/info1.png</pixmap>
                    </property>
                   </widget>
                  </item>
@@ -1005,7 +1005,7 @@ Należy podać identyfikator systemu odniesienia w EPSG Geodetic Parameter Regis
                     <string/>
                    </property>
                    <property name="pixmap">
-                    <pixmap>../../../../img/info1.png</pixmap>
+                    <pixmap>../../../../../../../../../../../../../../../img/info1.png</pixmap>
                    </property>
                   </widget>
                  </item>
@@ -1122,7 +1122,7 @@ Wartość elementu musi  wyrażać co najmniej datę dzienną, która  może by�
                  <string/>
                 </property>
                 <property name="pixmap">
-                 <pixmap>../../../../img/info1.png</pixmap>
+                 <pixmap>../../../../../../../../../../../../../../../img/info1.png</pixmap>
                 </property>
                </widget>
               </item>
@@ -1190,7 +1190,7 @@ Wartość elementu musi  wyrażać co najmniej datę dzienną, która  może by�
                  <string/>
                 </property>
                 <property name="pixmap">
-                 <pixmap>../../../../img/info1.png</pixmap>
+                 <pixmap>../../../../../../../../../../../../../../../img/info1.png</pixmap>
                 </property>
                </widget>
               </item>
@@ -1242,7 +1242,7 @@ Wartość elementu musi  wyrażać co najmniej datę dzienną, która  może by�
                  <string/>
                 </property>
                 <property name="pixmap">
-                 <pixmap>../../../../img/info1.png</pixmap>
+                 <pixmap>../../../../../../../../../../../../../../../img/info1.png</pixmap>
                 </property>
                </widget>
               </item>
@@ -1276,7 +1276,7 @@ Wartość elementu musi  wyrażać co najmniej datę dzienną, która  może by�
                     <string/>
                    </property>
                    <property name="pixmap">
-                    <pixmap>../../../../img/info1.png</pixmap>
+                    <pixmap>../../../../../../../../../../../../../../../img/info1.png</pixmap>
                    </property>
                   </widget>
                  </item>
@@ -1348,7 +1348,7 @@ Element metadanych zawsze przyjmuje wartości: wektor „Vector” oraz raster �
                     <string/>
                    </property>
                    <property name="pixmap">
-                    <pixmap>../../../../img/info1.png</pixmap>
+                    <pixmap>../../../../../../../../../../../../../../../img/info1.png</pixmap>
                    </property>
                   </widget>
                  </item>
@@ -1406,7 +1406,7 @@ Element metadanych zawsze przyjmuje wartości: wektor „Vector” oraz raster �
             <string>Zgodność*</string>
            </property>
            <property name="collapsed">
-            <bool>false</bool>
+            <bool>true</bool>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_2">
             <property name="sizeConstraint">
@@ -1493,7 +1493,7 @@ Oprócz przepisów wykonawczych przyjętych na podstawie art. 7 ust. 1 dyrektywy
                     <string/>
                    </property>
                    <property name="pixmap">
-                    <pixmap>../../../../img/info1.png</pixmap>
+                    <pixmap>../../../../../../../../../../../../../../../img/info1.png</pixmap>
                    </property>
                   </widget>
                  </item>
@@ -1544,7 +1544,7 @@ Oprócz przepisów wykonawczych przyjętych na podstawie art. 7 ust. 1 dyrektywy
                     <string/>
                    </property>
                    <property name="pixmap">
-                    <pixmap>../../../../img/info1.png</pixmap>
+                    <pixmap>../../../../../../../../../../../../../../../img/info1.png</pixmap>
                    </property>
                   </widget>
                  </item>
@@ -1627,7 +1627,7 @@ Oprócz przepisów wykonawczych przyjętych na podstawie art. 7 ust. 1 dyrektywy
                     <string/>
                    </property>
                    <property name="pixmap">
-                    <pixmap>../../../../img/info1.png</pixmap>
+                    <pixmap>../../../../../../../../../../../../../../../img/info1.png</pixmap>
                    </property>
                   </widget>
                  </item>
@@ -1695,7 +1695,7 @@ Wartość elementu metadanych zawsze jest równa: Brak ograniczeń w publicznym 
                  <string/>
                 </property>
                 <property name="pixmap">
-                 <pixmap>../../../../img/info1.png</pixmap>
+                 <pixmap>../../../../../../../../../../../../../../../img/info1.png</pixmap>
                 </property>
                </widget>
               </item>
@@ -1785,7 +1785,7 @@ Co najmniej należy wyspecyfikować jednostkę odpowiedzialną, pełniącą w st
                     <string/>
                    </property>
                    <property name="pixmap">
-                    <pixmap>../../../../img/info1.png</pixmap>
+                    <pixmap>../../../../../../../../../../../../../../../img/info1.png</pixmap>
                    </property>
                   </widget>
                  </item>
@@ -1881,7 +1881,7 @@ Co najmniej należy wyspecyfikować jednostkę odpowiedzialną, pełniącą w st
                     <string/>
                    </property>
                    <property name="pixmap">
-                    <pixmap>../../../../img/info1.png</pixmap>
+                    <pixmap>../../../../../../../../../../../../../../../img/info1.png</pixmap>
                    </property>
                   </widget>
                  </item>
@@ -1964,7 +1964,7 @@ Co najmniej należy wyspecyfikować jednostkę odpowiedzialną, pełniącą w st
                     <string/>
                    </property>
                    <property name="pixmap">
-                    <pixmap>../../../../img/info1.png</pixmap>
+                    <pixmap>../../../../../../../../../../../../../../../img/info1.png</pixmap>
                    </property>
                   </widget>
                  </item>
@@ -1995,7 +1995,7 @@ Co najmniej należy wyspecyfikować jednostkę odpowiedzialną, pełniącą w st
                     <string/>
                    </property>
                    <property name="pixmap">
-                    <pixmap>../../../../img/info1.png</pixmap>
+                    <pixmap>../../../../../../../../../../../../../../../img/info1.png</pixmap>
                    </property>
                   </widget>
                  </item>
@@ -2084,7 +2084,7 @@ Wartości elementu metadanych zawsze jest równa: według potrzeb („asNeeded�
                  <string/>
                 </property>
                 <property name="pixmap">
-                 <pixmap>../../../../img/info1.png</pixmap>
+                 <pixmap>../../../../../../../../../../../../../../../img/info1.png</pixmap>
                 </property>
                </widget>
               </item>
@@ -2118,7 +2118,7 @@ Wartości elementu metadanych zawsze jest równa: według potrzeb („asNeeded�
                     <string/>
                    </property>
                    <property name="pixmap">
-                    <pixmap>../../../../img/info1.png</pixmap>
+                    <pixmap>../../../../../../../../../../../../../../../img/info1.png</pixmap>
                    </property>
                   </widget>
                  </item>
@@ -2186,7 +2186,7 @@ Wartości elementu metadanych zawsze jest równa: zbiór danych („dataset”).
                  <string/>
                 </property>
                 <property name="pixmap">
-                 <pixmap>../../../../img/info1.png</pixmap>
+                 <pixmap>../../../../../../../../../../../../../../../img/info1.png</pixmap>
                 </property>
                </widget>
               </item>
@@ -2279,7 +2279,7 @@ Wartość elementu metadanych rola jednostki zawsze jest równa: punkt kontaktow
                     <string/>
                    </property>
                    <property name="pixmap">
-                    <pixmap>../../../../img/info1.png</pixmap>
+                    <pixmap>../../../../../../../../../../../../../../../img/info1.png</pixmap>
                    </property>
                   </widget>
                  </item>
@@ -2337,6 +2337,9 @@ Wartość elementu metadanych rola jednostki zawsze jest równa: punkt kontaktow
               </item>
               <item>
                <widget class="QgsDateTimeEdit" name="e30_dateTimeEdit">
+                <property name="enabled">
+                 <bool>false</bool>
+                </property>
                 <property name="minimumSize">
                  <size>
                   <width>150</width>
@@ -2360,7 +2363,7 @@ Wartość elementu należy podać z dokładnością dzienną (data dzienna).
                  <string/>
                 </property>
                 <property name="pixmap">
-                 <pixmap>../../../../img/info1.png</pixmap>
+                 <pixmap>../../../../../../../../../../../../../../../img/info1.png</pixmap>
                 </property>
                </widget>
               </item>
@@ -2400,7 +2403,7 @@ Wartość elementu metadanych zawsze jest równa: polski.
                  <string/>
                 </property>
                 <property name="pixmap">
-                 <pixmap>../../../../img/info1.png</pixmap>
+                 <pixmap>../../../../../../../../../../../../../../../img/info1.png</pixmap>
                 </property>
                </widget>
               </item>
@@ -2423,6 +2426,13 @@ Wartość elementu metadanych zawsze jest równa: polski.
                </widget>
               </item>
               <item>
+               <widget class="QPushButton" name="e32_btn">
+                <property name="text">
+                 <string>Generuj</string>
+                </property>
+               </widget>
+              </item>
+              <item>
                <widget class="QLabel" name="e32_tooltip">
                 <property name="toolTip">
                  <string>Wartość identyfikująca rekord metadanych w unikalny sposób.
@@ -2434,7 +2444,7 @@ Wartość elementu musi być równa identyfikatorowi UUID.
                  <string/>
                 </property>
                 <property name="pixmap">
-                 <pixmap>../../../../img/info1.png</pixmap>
+                 <pixmap>../../../../../../../../../../../../../../../img/info1.png</pixmap>
                 </property>
                </widget>
               </item>
@@ -2486,7 +2496,7 @@ Wartość elementu musi być równa identyfikatorowi UUID.
                     <string/>
                    </property>
                    <property name="pixmap">
-                    <pixmap>../../../../img/info1.png</pixmap>
+                    <pixmap>../../../../../../../../../../../../../../../img/info1.png</pixmap>
                    </property>
                   </widget>
                  </item>
@@ -2523,7 +2533,7 @@ Wartość elementu musi być równa identyfikatorowi UUID.
                     <string/>
                    </property>
                    <property name="pixmap">
-                    <pixmap>../../../../img/info1.png</pixmap>
+                    <pixmap>../../../../../../../../../../../../../../../img/info1.png</pixmap>
                    </property>
                   </widget>
                  </item>

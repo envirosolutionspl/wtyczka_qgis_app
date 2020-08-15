@@ -31,12 +31,33 @@ def validateMetadataForm(dlg):
             if listWidget.count() < int(licznosc[0]):
                 return False, "Pole '%s' jest obowiązkowe. Musisz je wypełnić aby wygenerować plik metadanych. Minimalna ilość wystąpień to %s" % (label.text().strip('*'), licznosc[0])
 
-        # E1 tytuł zbioru
+        # E1 tytuł zbioru i E5 Unikalny identyfikator zbioru danych przestrzennych
         if elementId == 'e1':
             lineEdit = utils.getWidgetByName(dlg, QLineEdit, elementId + "_lineEdit")
             text = lineEdit.text()
             if '<' in text or '>' in text:
                 return False, "W polu '%s' musisz wprowadzić poprawną wartość w miejsce <...>" % (label.text().strip('*'))
+
+        # E5 Unikalny identyfikator zbioru danych przestrzennych
+        if elementId == 'e5':
+            datasetIds = []
+            for i in range(listWidget.count()):
+                item = listWidget.item(i)
+                data = item.data(Qt.UserRole)
+                datasetIds.append(data['e5_lineEdit'])
+
+            if len(list(filter(utils.validateDatasetId, datasetIds))) == 0:
+                return False, "W polu '%s' musisz zdefiniować wartośc zgodnie z §4 rozporządzenia\n np.: 'http://zagospodarowanieprzestrzenne.gov.pl/app/AktPlanowaniaPrzestrzennego/PL.ZIPPZP.9999/14-PZPW/'" % (
+                    label.text().strip('*'))
+
+            # text = lineEdit.text().strip()
+            # if '<' in text or '>' in text:
+            #     return False, "W polu '%s' musisz wprowadzić poprawną wartość w miejsce <...>" % (
+            #         label.text().strip('*'))
+            # pattern = r'http://zagospodarowanieprzestrzenne.gov.pl/app/AktPlanowaniaPrzestrzennego/PL.ZIPPZP.\d{4}/[012]{1}[02468]{1}\d{0,4}-(PZPW)|(MPZP)|(SUIKZP)/'
+            # if not utils.validateDatasetId():
+            #     return False, "W polu '%s' musisz zdefiniować wartośc zgodnie z §4 rozporządzenia" % (
+            #         label.text().strip('*'))
 
         # E9 pole słów kluczowych
         if elementId == 'e9':

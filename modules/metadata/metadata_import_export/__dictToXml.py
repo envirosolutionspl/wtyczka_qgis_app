@@ -1,7 +1,7 @@
 import xml.etree.ElementTree as ET
 from xml.dom import minidom
 from . import translation
-from .. import dictionaries
+from .. import dictionaries, utils
 
 def metadataElementDictToXml(metadataElementDict):
     """tworzy XML na podstawie słownika metadataElementDict"""
@@ -93,8 +93,13 @@ def metadataElementDictToXml(metadataElementDict):
 
     """gmd:identificationInfo"""
     identificationInfo = ET.SubElement(root, 'gmd:identificationInfo')
-    # TODO: id na podstawie E5
-    mD_DataIdentification = ET.SubElement(identificationInfo, 'gmd:MD_DataIdentification', {'id': 'PZPW'})
+    # id na podstawie E5
+    typZbioru = ''
+    for listItem in metadataElementDict['e5']:
+        if utils.validateDatasetId(listItem['e5_lineEdit']):
+            typZbioru = metadataElementDict['e5']['e5_lineEdit'].strip('/').split("/")[-1].split('-')[-1]
+            break
+    mD_DataIdentification = ET.SubElement(identificationInfo, 'gmd:MD_DataIdentification', {'id': typZbioru})
 
     """gmd:citation"""
     citation = ET.SubElement(mD_DataIdentification, 'gmd:citation')

@@ -11,6 +11,7 @@ import datetime
 import uuid
 import random
 
+
 def generateUUID():
     rd = random.Random()
     return str(uuid.UUID(int=rd.getrandbits(128)))
@@ -568,8 +569,8 @@ def formSkippedElements(docName):
     """Zwraca listę atrybutów dla poszczególnego dokumentu, które nie występują w formularzu"""
     pomijane = []
     if docName == 'AktPlanowaniaPrzestrzennego':
-        pomijane = ['dokument', 'aktNormatywnyPrzystapienie', 'aktNormatywnyUchwalajacy',
-                    'aktNormatywnyZmieniajacy', 'aktNormatywnyUchylajacy', 'aktNormatywnyUniewazniajacy', 'rysunek']
+        pomijane = ['dokument', 'dokumentPrzystepujacy', 'dokumentUchwalajacy',
+                    'dokumentZmieniajacy', 'dokumentUchylajacy', 'dokumentUniewazniajacy', 'rysunek']
     elif docName == 'RysunekAktuPlanowniaPrzestrzenego':
         pomijane = ['plan']
     elif docName == 'DokumentFormalny':
@@ -583,7 +584,7 @@ def formSkippedObjects(docName):
     pomijane = []
     if docName == 'AktPlanowaniaPrzestrzennego':
         pomijane = ['mapaPodkladowa_lineEdit', 'referencja_lineEdit',
-                    'aktualnosc_dateTimeEdit', 'lacze_lineEdit', 'lacze_lineEdit_nilReason_chkbx']
+                    'data_dateTimeEdit', 'lacze_lineEdit', 'lacze_lineEdit_nilReason_chkbx']
     elif docName == 'RysunekAktuPlanowniaPrzestrzenego':
         pomijane = []
     elif docName == 'DokumentFormalny':
@@ -641,7 +642,12 @@ def validate_form_dates(formElements):
     for atrybut in daty_powiazane.keys():
         dataOd = getFormElementByName(formElements, atrybut)
         dataDo = getFormElementByName(formElements, daty_powiazane[atrybut])
-        if checkElement(dataOd, dataOd.refObject) and checkElement(dataDo, dataDo.refObject):
+        if dataOd is None or dataDo is None:
+            continue
+        print(dataOd.refObject.text(), dataDo.refObject.text())
+        print(checkElement(dataOd, dataOd.refObject))
+        print(checkElement(dataDo, dataDo.refObject))
+        if checkElement(dataOd, dataOd.refObject) and checkElement(dataDo, dataDo.refObject) and dataDo.refObject.text() != 'NULL':
             if dataOd.refObject.dateTime() > dataDo.refObject.dateTime():
                 showPopup(title='Błąd wartości atrybutu %s' % atrybut,
                           text='Wartość atrybutu %s nie może być większa niż %s.' % (atrybut, daty_powiazane[atrybut]))
@@ -1112,11 +1118,11 @@ def mergeDocsToAPP(docList):  # docList z getTableContent
     pomijane = {
         'AktPlanowaniaPrzestrzennego': {  # + zmiana
             "dokument": [],  # APP
-            "aktNormatywnyPrzystapienie": [],  # APP
-            "aktNormatywnyUchwalajacy": [],  # APP
-            "aktNormatywnyZmieniajacy": [],  # APP
-            "aktNormatywnyUchylajacy": [],  # APP
-            "aktNormatywnyUniewazniajacy": [],  # APP
+            "dokumentPrzystepujacy": [],  # APP
+            "dokumentUchwalajacy": [],  # APP
+            "dokumentZmieniajacy": [],  # APP
+            "dokumentUchylajacy": [],  # APP
+            "dokumentUniewazniajacy": [],  # APP
             "rysunek": []  # APP
         },
         'DokumentFormalny': {
@@ -1165,23 +1171,23 @@ def mergeDocsToAPP(docList):  # docList z getTableContent
             docType, IIP)
         if docType == 'DokumentFormalny':
             if relation == 'przystapienie':
-                pomijane['AktPlanowaniaPrzestrzennego']['aktNormatywnyPrzystapienie'].append(
+                pomijane['AktPlanowaniaPrzestrzennego']['dokumentPrzystepujacy'].append(
                     relLink)
                 pomijane[docType]['przystapienie'].append(root)
             if relation == 'uchwala':
-                pomijane['AktPlanowaniaPrzestrzennego']['aktNormatywnyUchwalajacy'].append(
+                pomijane['AktPlanowaniaPrzestrzennego']['dokumentUchwalajacy'].append(
                     relLink)
                 pomijane[docType]['uchwala'].append(root)
             if relation == 'zmienia':
-                pomijane['AktPlanowaniaPrzestrzennego']['aktNormatywnyZmieniajacy'].append(
+                pomijane['AktPlanowaniaPrzestrzennego']['dokumentZmieniajacy'].append(
                     relLink)
                 pomijane[docType]['zmienia'].append(root)
             if relation == 'uchyla':
-                pomijane['AktPlanowaniaPrzestrzennego']['aktNormatywnyUchylajacy'].append(
+                pomijane['AktPlanowaniaPrzestrzennego']['dokumentUchylajacy'].append(
                     relLink)
                 pomijane[docType]['uchyla'].append(root)
             if relation == 'uniewaznia':
-                pomijane['AktPlanowaniaPrzestrzennego']['aktNormatywnyUniewazniajacy'].append(
+                pomijane['AktPlanowaniaPrzestrzennego']['dokumentUniewazniajacy'].append(
                     relLink)
                 pomijane[docType]['uniewaznia'].append(root)
             if relation == 'dokument':
@@ -1231,7 +1237,7 @@ def mergeDocsToAPP(docList):  # docList z getTableContent
             APProot.append(root[0])
 
     zmiana_count = len(
-        pomijane['AktPlanowaniaPrzestrzennego']['aktNormatywnyZmieniajacy'])
+        pomijane['AktPlanowaniaPrzestrzennego']['dokumentZmieniajacy'])
     newElement = ET.Element("{%s}zmiana" % ns['app'])
     newElement.text = str(zmiana_count)
     print(zmiana_count)
@@ -1393,6 +1399,7 @@ def addToComboBox(formElement, value, formDict):
 
 
 def setValueToWidget(formElement, value):
+    """Dodawanie wartości do elementu w formularzu"""
     widgetType = type(formElement.refObject).__name__
     # print(formElement.name+' '+formElement.type+' '+widgetType)
     if widgetType == 'QgsFilterLineEdit':

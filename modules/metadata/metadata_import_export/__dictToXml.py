@@ -310,6 +310,20 @@ def metadataElementDictToXml(metadataElementDict):
         version = ET.SubElement(mD_Format, 'gmd:version')
         characterString = ET.SubElement(version, 'gco:CharacterString')
         characterString.text = listItem['e25_lineEdit']
+
+        if (listItem['e24_lineEdit'].split() == 'Schemat aplikacyjny GML Planowanie przestrzenne' and
+                listItem['e25_lineEdit'].split() == '1.0'
+        ):
+            specification = ET.SubElement(mD_Format, 'gmd:specification')
+            characterString = ET.SubElement(specification, 'gco:CharacterString')
+            characterString.text = 'Specyfikacja danych: Planowanie przestrzenne v1.0'
+        if (listItem['e24_lineEdit'].split() == 'Planned Land Use GML Application Schema' and
+                listItem['e25_lineEdit'].split() == '4.0'
+        ):
+            specification = ET.SubElement(mD_Format, 'gmd:specification')
+            characterString = ET.SubElement(specification, 'gco:CharacterString')
+            characterString.text = 'D2.8.III.4 Data Specification on Land Use – Technical Guidelines'
+
     """gmd:transferOptions"""
     for listItem in metadataElementDict['e4']:
         transferOptions = ET.SubElement(distributionInfo, 'gmd:transferOptions')

@@ -173,7 +173,16 @@ def xmlToMetadataElementDict(xml):
         })
     metadataElementDict['e22'] = itemsList
 
-    # TODO: E24/E25 - zależy czy na stałe czy nie
+    # E24/E25
+    itemsList = []
+    for distributionFormat in root.findall('//gmd:MD_Distribution/gmd:distributionFormat', ns):
+        name = distributionFormat.find('.//gmd:name/gco:CharacterString', ns)
+        version = distributionFormat.find('.//gmd:version/gco:CharacterString', ns)
+        itemsList.append({
+            'e24_lineEdit': name.text,
+            'e25_lineEdit': version.text,
+        })
+    metadataElementDict['e24'] = itemsList
 
     # E27
     itemsList = []

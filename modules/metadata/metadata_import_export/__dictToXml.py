@@ -353,9 +353,11 @@ def metadataElementDictToXml(metadataElementDict):
         ET.SubElement(dateType, 'gmd:CI_DateTypeCode',
                       {'codeList': 'http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#CI_DateTypeCode',
                        'codeListValue': translation[listItem['e18_cmbbx']]})
-        _pass = ET.SubElement(dQ_ConformanceResult, 'gmd:pass')
-        boolean = ET.SubElement(_pass, 'gco:Boolean')
-        boolean.text = translation[listItem['e19_cmbbx']]
+        explanation = ET.SubElement(dQ_ConformanceResult, 'gmd:explanation')
+        exp_anchor = ET.SubElement(explanation, 'gmx:Anchor', {'xlink:href': dictionaries.zgodnoscAnchors[listItem['e19_cmbbx']]})
+        exp_anchor.text = listItem['e19_cmbbx']
+
+        booleanElementFromConformancyLevel(conformancyLevel=listItem['e19_cmbbx'], dQ_ConformanceResult=dQ_ConformanceResult)
 
     """gmd:lineage"""
     lineage = ET.SubElement(dQ_DataQuality, 'gmd:lineage')
@@ -366,3 +368,17 @@ def metadataElementDictToXml(metadataElementDict):
 
     # print(minidom.parseString(tostring(root, encoding='utf-8', method='xml').decode('utf-8')).toprettyxml())
     return minidom.parseString(ET.tostring(root, encoding='utf-8', method='xml').decode('utf-8')).toprettyxml()
+
+def booleanElementFromConformancyLevel(conformancyLevel, dQ_ConformanceResult):
+    """definiuje tag 'pass' na podstawie stopnia zgodności"""
+    if conformancyLevel == 'Zgodny (conformant)':
+        _pass = ET.SubElement(dQ_ConformanceResult, 'gmd:pass')
+        boolean = ET.SubElement(_pass, 'gco:Boolean')
+        boolean.text = 'true'
+    elif conformancyLevel == 'Niezgodny (notConformant)':
+        _pass = ET.SubElement(dQ_ConformanceResult, 'gmd:pass')
+        boolean = ET.SubElement(_pass, 'gco:Boolean')
+        boolean.text = 'false'
+    elif conformancyLevel == 'Brak oceny zgodności (notEvaluated)':
+        _pass = ET.SubElement(dQ_ConformanceResult, 'gmd:pass')
+        boolean = ET.SubElement(_pass, 'gco:Boolean', {'gco:nilReason': "unknown"})

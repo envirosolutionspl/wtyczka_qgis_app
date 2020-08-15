@@ -64,6 +64,11 @@ metadataKeywordAnchors = {
     'zagospodarowanie przestrzenne': "http://inspire.ec.europa.eu/theme/lu",
     'Brak warunków dostępu i użytkowania': "http://inspire.ec.europa.eu/metadata-codelist/ConditionsApplyingToAccessAndUse/noConditionsApply"
 }
+zgodnoscAnchors = {
+    'Zgodny (conformant)': 'http://inspire.ec.europa.eu/metadata-codelist/DegreeOfConformity/conformant',
+    'Niezgodny (notConformant)': 'http://inspire.ec.europa.eu/metadata-codelist/DegreeOfConformity/notConformant',
+    'Brak oceny zgodności (notEvaluated)': 'http://inspire.ec.europa.eu/metadata-codelist/DegreeOfConformity/notEvaluated'
+}
 
 # słownik definiujący relacje między "typPlanu", a "poziomHierarchii"
 typyPlanuPoziomyHierarchii = dict(zip(typyPlanu.keys(), [
@@ -128,7 +133,7 @@ licznoscMetadataFields = {
     "e15": '1',
     "e16": '1+',
     "e17": '2',
-    "e18": '2+',
+    "e18": '4+',
     "e19": '1',
     "e20": '1+',
     "e21": '1',
@@ -151,7 +156,7 @@ metadataListWidgetsDefaultItemsDisabled = {
     'e9': [
         {
             'e9_lineEdit': 'Zagospodarowanie przestrzenne',
-            'e10_cmbbx': 'publikacja',
+            'e10_cmbbx': 'Data opublikowania',
             'e10_dateTimeEdit': QDateTime(2008, 6, 1, 0, 0),
             'e10_lineEdit': 'GEMET - INSPIRE themes, version 1.0',
             'xlink': "http://www.eionet.europa.eu/gemet/inspire_themes"

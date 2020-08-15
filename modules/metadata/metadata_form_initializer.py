@@ -12,18 +12,18 @@ def initializeMetadataForm(dlg):
         data = {
             'e22_name_lineEdit': name,
             'e22_mail_lineEdit': mail,
-            'e23_cmbbx': 'punkt kontaktowy'
+            'e23_cmbbx': 'Punkt kontaktowy (pointOfContact)'
         }
         item = QListWidgetItem()
         item.setData(Qt.UserRole, QVariant(data))
-        item.setText("%s - %s - %s" % (name, mail, 'punkt kontaktowy'))
+        item.setText("%s - %s - %s" % (name, mail, 'Punkt kontaktowy (pointOfContact)'))
         dlg.e22_listWidget.addItem(item)
         data = {
             'e29_name_lineEdit': name,
             'e29_mail_lineEdit': mail,
-            'e29_cmbbx': 'punkt kontaktowy'
+            'e29_cmbbx': 'Punkt kontaktowy (pointOfContact)'
         }
         item = QListWidgetItem()
         item.setData(Qt.UserRole, QVariant(data))
-        item.setText("%s - %s - %s" % (name, mail, 'punkt kontaktowy'))
+        item.setText("%s - %s - %s" % (name, mail, 'Punkt kontaktowy (pointOfContact)'))
         dlg.e29_listWidget.addItem(item)

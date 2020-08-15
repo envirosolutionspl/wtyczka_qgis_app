@@ -32,11 +32,11 @@ def validateMetadataForm(dlg):
                 return False, "Pole '%s' jest obowiązkowe. Musisz je wypełnić aby wygenerować plik metadanych. Minimalna ilość wystąpień to %s" % (label.text().strip('*'), licznosc[0])
 
         # E1 tytuł zbioru
-        if elementId == 'e9':
+        if elementId == 'e1':
             lineEdit = utils.getWidgetByName(dlg, QLineEdit, elementId + "_lineEdit")
             text = lineEdit.text()
             if '<' in text or '>' in text:
-                return False, "W polu '%s' musisz wprowadzić poprawną wartość" % (label.text().strip('*'))
+                return False, "W polu '%s' musisz wprowadzić poprawną wartość w miejsce <...>" % (label.text().strip('*'))
 
         # E9 pole słów kluczowych
         if elementId == 'e9':
@@ -56,11 +56,11 @@ def validateMetadataForm(dlg):
                     label.text().strip('*'), 'PlannedLandUse')
             # zakres przestrzenny
             if not ('Regionalnym' in keywords or 'Lokalne' in keywords):
-                return False, "W polu '%s' nie wprowadzono wszystkich wymaganych wartości.\nBrak klucza '%s', wymagane %s" % (
+                return False, "W polu '%s' nie wprowadzono wszystkich wymaganych wartości.\nBrak klucza '%s', wymagane słowo kluczowe %s" % (
                     label.text().strip('*'), 'zakres przestrzenny', '\'Regionalnym\' lub \'Lokalne\'')
             # Poziom planu zagospodarowania przestrzennego
             if not ('regionalny' in keywords or 'lokalny' in keywords):
-                return False, "W polu '%s' nie wprowadzono wszystkich wymaganych wartości.\nBrak klucza '%s', wymagane %s" % (
+                return False, "W polu '%s' nie wprowadzono wszystkich wymaganych wartości.\nBrak klucza '%s', wymagane słowo kluczowe %s" % (
                     label.text().strip('*'), 'Poziom planu zagospodarowania przestrzennego', '\'regionalny\' lub \'lokalny\'')
 
         # E11 prostokąt ograniczający
@@ -72,11 +72,15 @@ def validateMetadataForm(dlg):
                 bboxes.append(data['e11_lineEdit'])
             for bbox in bboxes:
                 # zła ilość kropek lub przecinków
-                if bbox.count(',') != 3 or bbox.count('.') > 4:
-                    return False, "Niepoprawna wartość w polu '%s'.\nZły format prostokąta ograniczającego.\nPodano: '%s'\nPoprawny format to: '<xmin>,<xmax>,<ymin>,<ymax>'" % (
+                if bbox.count(',') != 3 or bbox.count('.') != 4:
+                    return False, "Niepoprawna wartość w polu '%s'.\nZły format prostokąta ograniczającego.\nPodano: '%s'\nPoprawny format to: '<xmin>,<xmax>,<ymin>,<ymax>'.\nKażda współrzędna musi być zdefiniowana z dokładnoscią conajmniej 4 cyfr dziesiętnych" % (
                         label.text().strip('*'), bbox)
                 # sprawdzenie wartości
                 bboxList = bbox.strip().split(',')
+                for strValue in bboxList:
+                    if len(strValue.split('.')[1]) < 4:
+                        return False, "Niepoprawna wartość w polu '%s'.\nWspółrzędne powinny być zdefiniowane z dokładnością conajmniej 4 cyfr dziesiętnych.\nPodano: '%s'" % (
+                            label.text().strip('*'), strValue)
                 xmin = float(bboxList[0])
                 xmax = float(bboxList[1])
                 ymin = float(bboxList[2])
@@ -92,4 +96,13 @@ def validateMetadataForm(dlg):
                     return False, "Niepoprawna wartość w polu '%s'.\nZła wartość współrzędnych prostokąta ograniczającego.\nPodano: '%s'\nPoprawny format to: '<xmin>,<xmax>,<ymin>,<ymax>'\nx musi być w zakresie <-180;180>\ny musi być w zakresie <-90;90>" % (
                         label.text().strip('*'), bbox)
 
+            # E22 i E23 Jednostka odpowiedzialna
+            if elementId == 'e22':
+                roles = []
+                for i in range(listWidget.count()):
+                    item = listWidget.item(i)
+                    data = item.data(Qt.UserRole)
+                    roles.append(data['e23_cmbbx'])
+                if 'Administrator (custodian)' not in roles:
+                    return False, "Brak wymaganej definicji w polu '%s'.\nMusi być zdefiniowany przynajmniej 'Administrator (custodian)'" % label.text().strip('*')
     return [True]

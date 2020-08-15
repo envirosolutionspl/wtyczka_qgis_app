@@ -1,29 +1,26 @@
 translation = {
-    'dostawca zasobu': 'resourceProvider',
-    'opiekun (konserwator)': 'custodian',
-    'właściciel': 'owner',
-    'użytkownik': 'user',
-    'dystrybutor': 'distributor',
-    'twórca': 'originator',
-    'punkt kontaktowy': 'pointOfContact',
-    'główny badacz': 'principalInvestigator',
-    'przetwórca': 'processor',
-    'wydawca': 'publisher',
-    'autor': 'author',
+    'Dostawca zasobu (resourceProvider)': 'resourceProvider',
+    'Administrator (custodian)': 'custodian',
+    'Właściciel (owner)': 'owner',
+    'Użytkownik (user)': 'user',
+    'Dystrybutor (distributor)': 'distributor',
+    'Twórca (originator)': 'originator',
+    'Punkt kontaktowy (pointOfContact)': 'pointOfContact',
+    'Główny badacz (principalInvestigator)': 'principalInvestigator',
+    'Jednostka przetwarzająca (processor)': 'processor',
+    'Wydawca (publisher)': 'publisher',
+    'Autor (author)': 'author',
     # E26
     'według potrzeb': 'asNeeded',
     # E28
-    'zbiór danych': 'dataset',
+    'Zbiór danych przestrzennych (dataset)': 'dataset',
     # CI_DateTypeCode
-    'publikacja': 'publication',
-    'utworzenie': 'creation',
-    'przegląd': 'revision',
+    'Data opublikowania': 'publication',
+    'Data utworzenia': 'creation',
+    'Data ostatniej aktualizacji': 'revision',
     # E17
     'wektor': 'vector',
     'raster': 'grid',
     # E8
-    'Planowanie/Kataster': 'planningCadastre',
-    # E19
-    'prawda': 'true',
-    'fałsz': 'false'
+    'Planowanie/Kataster (planningCadastre)': 'planningCadastre'
 }

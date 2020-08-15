@@ -222,8 +222,26 @@ class MetadaneDialog(QDialogOverride, FORM_CLASS, ButtonsDialog):
 
     def e32_btn_clicked(self):
         """Generowanie UUID do formularza"""
-        uuid = utils.generateUUID()
-        self.e32_lineEdit.setText(uuid)
+        if self.e32_lineEdit.text():
+            msg = QMessageBox()
+            msg.setIcon(QtWidgets.QMessageBox.Question)
+            msg.setWindowTitle('Generowanie UUID')
+            msg.setText("Identyfikator już istnieje. Czy na pewno chcesz wygenerować nowy identyfikator dla pliku metadanych i tym samym nadpisać stary?")
+            yes = msg.addButton(
+                'Tak', QtWidgets.QMessageBox.AcceptRole)
+            no = msg.addButton(
+                'Nie', QtWidgets.QMessageBox.RejectRole)
+            msg.setDefaultButton(no)
+            msg.exec_()
+            msg.deleteLater()
+            if msg.clickedButton() is yes:
+                uuid = utils.generateUUID()
+                self.e32_lineEdit.setText(uuid)
+        else:
+            uuid = utils.generateUUID()
+            self.e32_lineEdit.setText(uuid)
+
+
 
     def clearForm_btn_clicked(self):
         """czyszczenie formularza"""

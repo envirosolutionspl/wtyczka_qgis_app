@@ -48,7 +48,7 @@ def appGmlToMetadataElementDict(gmlPath):
     #poziom administracyjny
     itemsList.append({
         'e9_lineEdit': tekst,
-        'e10_cmbbx': 'publikacja',
+        'e10_cmbbx': 'Data opublikowania',
         'e10_dateTimeEdit': QDateTime(2019, 5, 22, 0, 0),
         'e10_lineEdit': 'Zakres przestrzenny',
         'xlink': "http://inspire.ec.europa.eu/metadata-codelist/SpatialScope"
@@ -57,7 +57,7 @@ def appGmlToMetadataElementDict(gmlPath):
     # poziom jednostki
     itemsList.append({
         'e9_lineEdit': atrybut_title,
-        'e10_cmbbx': 'publikacja',
+        'e10_cmbbx': 'Data opublikowania',
         'e10_dateTimeEdit': QDateTime(2013, 12, 10, 0, 0),
         'e10_lineEdit': 'Poziom planu zagospodarowania przestrzennego',
         'xlink': "http://inspire.ec.europa.eu/codelist/LevelOfSpatialPlanValue"
@@ -121,31 +121,31 @@ def appGmlToMetadataElementDict(gmlPath):
     itemsList.append({
         'e18_lineEdit': inspire1,
         'e18_dateTimeEdit': QDateTime(2010, 12, 8, 0, 0),
-        'e18_cmbbx': 'publikacja',
-        'e19_cmbbx': 'prawda' if ifInspire else 'fałsz',
+        'e18_cmbbx': 'Data opublikowania',
+        'e19_cmbbx': 'Zgodny (conformant)' if ifInspire else 'Niezgodny (notConformant)',
         'xlink': "http://data.europa.eu/eli/reg/2010/1089"
     })
     # inspire2
     itemsList.append({
         'e18_lineEdit': inspire2,
         'e18_dateTimeEdit': QDateTime(2013, 12, 10, 0, 0),
-        'e18_cmbbx': 'publikacja',
-        'e19_cmbbx': 'prawda' if ifInspire else 'fałsz'
+        'e18_cmbbx': 'Data opublikowania',
+        'e19_cmbbx': 'Zgodny (conformant)' if ifInspire else 'Niezgodny (notConformant)'
     })
     # krajowy1
     itemsList.append({
         'e18_lineEdit': krajowy1,
         'e18_dateTimeEdit': QDateTime(2020, 12, 31, 0, 0),  #TODO: uaktualnić po publikacji
-        'e18_cmbbx': 'publikacja',
-        'e19_cmbbx': 'prawda' if ifKrajowy else 'fałsz',
+        'e18_cmbbx': 'Data opublikowania',
+        'e19_cmbbx': 'Zgodny (conformant)' if ifKrajowy else 'Niezgodny (notConformant)',
         'xlink': "http://anyURL/sejm"   # TODO: uaktualnić po publikacji
     })
     # krajowy2
     itemsList.append({
         'e18_lineEdit': krajowy2,
         'e18_dateTimeEdit': QDateTime(2020, 12, 31, 0, 0),  # TODO: uaktualnić po publikacji
-        'e18_cmbbx': 'publikacja',
-        'e19_cmbbx': 'prawda' if ifKrajowy else 'fałsz',
+        'e18_cmbbx': 'Data opublikowania',
+        'e19_cmbbx': 'Zgodny (conformant)' if ifKrajowy else 'Niezgodny (notConformant)',
         'xlink': "http://anyURL/sejm"   # TODO: uaktualnić po publikacji
     })
     metadataElementDict['e18'] = itemsList

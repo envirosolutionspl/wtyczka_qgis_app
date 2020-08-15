@@ -11,7 +11,15 @@ import datetime
 import uuid
 import random
 
+
+def validateEmailAddress(email):
+    """sprawdza czy adres email ma poprawną formę"""
+    pattern = r'[^@]+@[^@]+\.[^@]+'
+    return True if re.fullmatch(pattern, email) else False
+
+
 def generateUUID():
+    """generuje UUID"""
     rd = random.Random()
     return str(uuid.UUID(int=rd.getrandbits(128)))
 

@@ -242,7 +242,6 @@ class MetadaneDialog(QDialogOverride, FORM_CLASS, ButtonsDialog):
             self.e32_lineEdit.setText(uuid)
 
 
-
     def clearForm_btn_clicked(self):
         """czyszczenie formularza"""
         for lineEdit in utils.getWidgetsByType(self, QgsFilterLineEdit):

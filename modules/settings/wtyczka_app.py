@@ -41,8 +41,10 @@ class SettingsModule(BaseModule):
     def save_btn_clicked(self):
         s = QgsSettings()
         s.setValue("qgis_app/settings/defaultPath", self.ustawieniaDialog.folder_lbl.text())
-        s.setValue("qgis_app/settings/contactName", self.ustawieniaDialog.name_lineEdit.text())
-        s.setValue("qgis_app/settings/contactMail", self.ustawieniaDialog.mail_lineEdit.text())
+        s.setValue("qgis_app/settings/contactName", self.ustawieniaDialog.contactName_lineEdit.text())
+        s.setValue("qgis_app/settings/contactMail", self.ustawieniaDialog.contactMail_lineEdit.text())
+        s.setValue("qgis_app/settings/adminName", self.ustawieniaDialog.adminName_lineEdit.text())
+        s.setValue("qgis_app/settings/adminMail", self.ustawieniaDialog.adminMail_lineEdit.text())
 
     def smtp_btn_clicked(self):
         self.settingsSmtpDialog.show()
@@ -55,9 +57,10 @@ class SettingsModule(BaseModule):
     def readSettings(self):
         s = QgsSettings()
         self.ustawieniaDialog.folder_lbl.setText(s.value("qgis_app/settings/defaultPath", ""))
-        self.ustawieniaDialog.name_lineEdit.setText(s.value("qgis_app/settings/contactName", ""))
-        self.ustawieniaDialog.mail_lineEdit.setText(s.value("qgis_app/settings/contactMail", ""))
-
+        self.ustawieniaDialog.contactName_lineEdit.setText(s.value("qgis_app/settings/contactName", ""))
+        self.ustawieniaDialog.contactMail_lineEdit.setText(s.value("qgis_app/settings/contactMail", ""))
+        self.ustawieniaDialog.adminName_lineEdit.setText(s.value("qgis_app/settings/adminName", ""))
+        self.ustawieniaDialog.adminMail_lineEdit.setText(s.value("qgis_app/settings/adminMail", ""))
     """Helper methods"""
 
     """Popup windows"""

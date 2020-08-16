@@ -16,9 +16,8 @@ from PyQt5.QtGui import QRegExpValidator
 title_settings = 'Ustawienia'
 icon_settings = ':/plugins/wtyczka_app/img/ustawienia.png'
 
-# TODO zmienić ikonę helpa
 title_help = 'Pomoc'
-icon_help = ':/plugins/wtyczka_app/img/ustawienia.png'
+icon_help = ':/plugins/wtyczka_app/img/info2.png'
 
 # This loads your .ui file so that PyQt can populate your plugin with the elements from Qt Designer
 FORM_CLASS, _ = uic.loadUiType(os.path.join(

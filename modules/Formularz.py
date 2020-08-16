@@ -416,11 +416,15 @@ class Formularz:
         return input
 
     def __makeTooltip(self, formElement):
+        fullFormElementName = formElement.form + ":" + formElement.name
         tooltipImg = QLabel()
         p = QPixmap(':/plugins/wtyczka_app/img/info1.png')
         tooltipImg.setMaximumWidth(16)
         tooltipImg.setPixmap(p.scaled(16, 16, Qt.KeepAspectRatio))
+        placeholder = ""
+        if fullFormElementName in dictionaries.placeholders.keys():
+            placeholder = '<br><br>np.: ' + dictionaries.placeholders[fullFormElementName]
         tooltipImg.setToolTip(
-            "<FONT COLOR=black>%s</FONT>" % formElement.documentation)  # dodanie tooltip z documentation 'rich text' dla zawijania
+            "<FONT COLOR=black>%s</FONT><b>%s</b>" % (formElement.documentation, placeholder ))  # dodanie tooltip z documentation 'rich text' dla zawijania
         tooltipImg.setObjectName(formElement.name + '_tooltip')
         return tooltipImg

@@ -24,11 +24,11 @@ class NoScrollQgsDateTimeEdit(QgsDateTimeEdit):
 class Formularz:
     """Klasa reprezentująca formularz"""
 
-    pomijane = ["aktNormatywnyPrzystapienie",
-                "aktNormatywnyUchwalajacy",
-                "aktNormatywnyZmieniajacy",
-                "aktNormatywnyUchylajacy",
-                "aktNormatywnyUniewazniajacy",
+    pomijane = ["dokumentPrzystepujacy",
+                "dokumentUchwalajacy",
+                "dokumentZmieniajacy",
+                "dokumentUchylajacy",
+                "dokumentUniewazniajacy",
                 "przystapienie",
                 "uchwala",
                 "zmienia",
@@ -109,7 +109,7 @@ class Formularz:
                 if name == 'mapaPodkladowa':
                     if not referencja_lineEdit.text():
                         return False
-                    if not aktualnosc_dateTimeEdit.date():
+                    if not data_dateTimeEdit.date():
                         return False
                     # if (not lacze_lineEdit.text() and
                     #         not lacze_lineEdit_nilReason_chkbx.isChecked()):
@@ -132,7 +132,10 @@ class Formularz:
                     textList = []
                     for formItem in formItems:
                         if isinstance(formItem, QLineEdit):
-                            data[formItem.objectName()] = formItem.text()
+                            if formItem.text() == '':
+                                data[formItem.objectName()] = '<brak wartości>'
+                            else:
+                                data[formItem.objectName()] = formItem.text()
                             textList.append(formItem.text())
                         elif isinstance(formItem, QDateTimeEdit):
                             data[formItem.objectName()] = formItem.dateTime()
@@ -154,8 +157,7 @@ class Formularz:
                         utils.showPopup("Wypełnij formularz mapy podkładowej",
                                         'Musisz zdefiniować wartości dla obowiązkowych pól:\n'
                                         '- referencja,\n'
-                                        '- aktualnosc (aktualność),\n'
-                                        '- lacze (łącze) - lub zaznaczyć "brak wartości" i wzkazać powód.')
+                                        '- data')
                     else:
                         utils.showPopup("Wypełnij formularz",
                                         "Musisz wpisać wartość przed dodaniem")
@@ -187,8 +189,8 @@ class Formularz:
             if name == 'mapaPodkladowa':
                 referencja_lineEdit = utils.layout_widget_by_name(
                     vbox2, name="referencja_lineEdit")
-                aktualnosc_dateTimeEdit = utils.layout_widget_by_name(
-                    vbox2, name="aktualnosc_dateTimeEdit")
+                data_dateTimeEdit = utils.layout_widget_by_name(
+                    vbox2, name="data_dateTimeEdit")
                 lacze_lineEdit = utils.layout_widget_by_name(
                     vbox2, name="lacze_lineEdit")
                 # lacze_lineEdit_nilReason_chkbx = utils.layout_widget_by_name(
@@ -198,7 +200,7 @@ class Formularz:
                 # lacze_lineEdit_nilReason_chkbx.stateChanged.connect(
                 #     lambda: lacze_lineEdit.clear())
                 formItems = [referencja_lineEdit,
-                             aktualnosc_dateTimeEdit,
+                             data_dateTimeEdit,
                              lacze_lineEdit]  # , lacze_lineEdit_nilReason_chkbx, lacze_lineEdit_nilReason_cmbbx]
             elif formElement.name == 'lacze':
                 lacze_lineEdit = utils.layout_widget_by_name(

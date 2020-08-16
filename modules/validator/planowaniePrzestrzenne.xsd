@@ -3,13 +3,11 @@
 	<import namespace="http://www.isotc211.org/2005/gmd" schemaLocation="http://schemas.opengis.net/iso/19139/20070417/gmd/gmd.xsd"/>
 	<import namespace="http://www.opengis.net/gml/3.2" schemaLocation="http://schemas.opengis.net/gml/3.2.1/gml.xsd"/>
 	<import namespace="http://www.opengis.net/gml/3.3/exr" schemaLocation="http://schemas.opengis.net/gml/3.3/extdEncRule.xsd"/>
-	<import namespace="http://www.opengis.net/wfs/2.0" schemaLocation="http://schemas.opengis.net/wfs/2.0/wfs.xsd"/>
 	<!--XML Schema document created by ShapeChange - http://shapechange.net/-->
 	<element name="DokumentFormalny" type="app:DokumentFormalnyType" substitutionGroup="gml:AbstractFeature">
 		<annotation>
-			<documentation>Dokument formalny: Dokument sporządzony przez powołane do tego celu organy władzy publicznej i inne organy państwowe w zakresie ich działania. Szczególnym przypadkiem dokumentu formalnego jest akt prawny, będący rezultatem tworzenia prawa przez właściwy organ państwowy lub organ do tego upoważniony. Akt prawny rozumiany jest też jako działanie organu państwa lub podmiotu prawnego, zgodne z obowiązującymi przepisami w celu wywołania skutków prawnych w konkretnym stosunku prawnym (orzeczenie lub inna czynność prawna).
-
-</documentation>
+			<documentation>Dokument formalny: Dokument formalny powiązany z aktem planowania przestrzennego. 
+Szczególnym przypadkiem dokumentu formalnego jest akt prawny, będący rezultatem tworzenia prawa przez właściwy organ państwowy lub organ do tego upoważniony.</documentation>
 		</annotation>
 	</element>
 	<complexType name="DokumentFormalnyType">
@@ -18,12 +16,12 @@
 				<sequence>
 					<element name="idIIP" type="app:IdentyfikatorPropertyType">
 						<annotation>
-							<documentation>identyfikator: Zewnętrzny identyfikator obiektu dla obiektu.</documentation>
+							<documentation>identyfikator: Zewnętrzny identyfikator obiektu przestrzennego.</documentation>
 						</annotation>
 					</element>
 					<element name="tytul" type="string">
 						<annotation>
-							<documentation>tytuł: Oficjalny tytuł lub nazwa dokumentu formalnego.</documentation>
+							<documentation>tytuł: Oficjalny tytuł lub nazwa dokumentu.</documentation>
 						</annotation>
 					</element>
 					<element name="nazwaSkrocona" type="string" minOccurs="0">
@@ -36,42 +34,26 @@
 							<documentation>numer identyfikacyjny: Kod wykorzystywany do identyfikacji dokumentu.</documentation>
 						</annotation>
 					</element>
-					<element name="organUstanawiajacy" nillable="true">
+					<element name="organUstanawiajacy" type="string" minOccurs="0">
 						<annotation>
 							<documentation>organ ustanawiający: Organ ustanawiający (wydający) dokument formalny np. Sejm Rzeczypospolitej Polskiej, organ administracji rządowej lub organ jednostki samorządu terytorialnego.</documentation>
 						</annotation>
-						<complexType>
-							<simpleContent>
-								<extension base="string">
-									<attribute name="nilReason" type="gml:NilReasonType"/>
-								</extension>
-							</simpleContent>
-						</complexType>
 					</element>
 					<element name="data" type="gmd:CI_Date_PropertyType">
 						<annotation>
-							<documentation>data: Data utworzenia, publikacji lub zmiany dokumentu. 
-
-KOMENTARZ 1. Wartość atrybutu data oznacza datę dzienną odpowiadającą dacie ustanowienia statusu aktu prawnego np. status='projekt' to data oznacza wersję projektu aktu prawnego na dzień podany jako wartość atrybutu.</documentation>
+							<documentation>data: Data utworzenia, publikacji lub zmiany dokumentu.</documentation>
 						</annotation>
 					</element>
-					<element name="dataWejsciaWZycie" nillable="true">
+					<element name="dataWejsciaWZycie" type="date" minOccurs="0">
 						<annotation>
 							<documentation>data wejscia w życie: Data dzienna wejścia w życie dokumentu będącego aktem prawnym.
 
-KOMENTARZ 1. Atrybut ma zastosowanie tylko w przypadku dokumentów urzędowych będących aktami prawnymi.</documentation>
+KOMENTARZ 01. Atrybut ma zastosowanie tylko w przypadku dokumentów urzędowych będących aktami prawnymi.</documentation>
 						</annotation>
-						<complexType>
-							<simpleContent>
-								<extension base="date">
-									<attribute name="nilReason" type="gml:NilReasonType"/>
-								</extension>
-							</simpleContent>
-						</complexType>
 					</element>
 					<element name="dataUchylenia" type="date" minOccurs="0">
 						<annotation>
-							<documentation>data uchylenia: Data dzienna od której dokument przestaje obowiązywać.</documentation>
+							<documentation>data uchylenia: Data dzienna, od której dokument przestał obowiązywać.</documentation>
 						</annotation>
 					</element>
 					<element name="szczegoloweOdniesienie" type="string" minOccurs="0">
@@ -86,51 +68,51 @@ KOMENTARZ 1. Atrybut ma zastosowanie tylko w przypadku dokumentów urzędowych b
 					</element>
 					<element name="lacze" type="anyURI" minOccurs="0" maxOccurs="unbounded">
 						<annotation>
-							<documentation>łącze: Łącze (adres URL) pod którym dostępny jest tekst dokumentu formalnego.</documentation>
-						</annotation>
-					</element>
-					<element name="przystapienie" type="gml:ReferenceType" minOccurs="0" maxOccurs="unbounded">
-						<annotation>
-							<documentation>przystąpienie: Odniesienie do aktu planowania przestrzennego w stosunku, do którego akt prawny ustanawia przystąpienie do jego sporządzenia.</documentation>
-							<appinfo>
-								<targetElement xmlns="http://www.opengis.net/gml/3.2">app:AktPlanowaniaPrzestrzennego</targetElement>
-								<reversePropertyName xmlns="http://www.opengis.net/gml/3.2">app:aktNormatywnyPrzystapienie</reversePropertyName>
-							</appinfo>
+							<documentation>łącze: Łącze (adres URI), pod którym dostępny jest tekst dokumentu formalnego.</documentation>
 						</annotation>
 					</element>
 					<element name="uchwala" type="gml:ReferenceType" minOccurs="0" maxOccurs="unbounded">
 						<annotation>
-							<documentation>uchwala: Odniesienie do aktu planowania przestrzennego, który akt prawny uchwala.</documentation>
+							<documentation>uchwala: Odniesienie do aktu planowania przestrzennego, który dany akt prawny uchwala.</documentation>
 							<appinfo>
 								<targetElement xmlns="http://www.opengis.net/gml/3.2">app:AktPlanowaniaPrzestrzennego</targetElement>
-								<reversePropertyName xmlns="http://www.opengis.net/gml/3.2">app:aktNormatywnyUchwalajacy</reversePropertyName>
+								<reversePropertyName xmlns="http://www.opengis.net/gml/3.2">app:dokumentUchwalajacy</reversePropertyName>
+							</appinfo>
+						</annotation>
+					</element>
+					<element name="przystapienie" type="gml:ReferenceType" minOccurs="0" maxOccurs="unbounded">
+						<annotation>
+							<documentation>przystąpienie: Odniesienie do aktu planowania przestrzennego, w stosunku do którego dany akt prawny ustanawia przystąpienie do jego sporządzenia.</documentation>
+							<appinfo>
+								<targetElement xmlns="http://www.opengis.net/gml/3.2">app:AktPlanowaniaPrzestrzennego</targetElement>
+								<reversePropertyName xmlns="http://www.opengis.net/gml/3.2">app:dokumentPrzystepujacy</reversePropertyName>
 							</appinfo>
 						</annotation>
 					</element>
 					<element name="zmienia" type="gml:ReferenceType" minOccurs="0" maxOccurs="unbounded">
 						<annotation>
-							<documentation>zmienia: Odniesienie do aktu planowania przestrzennego, który akt prawny zmienia.</documentation>
+							<documentation>zmienia: Odniesienie do aktu planowania przestrzennego, który dany akt prawny zmienia.</documentation>
 							<appinfo>
 								<targetElement xmlns="http://www.opengis.net/gml/3.2">app:AktPlanowaniaPrzestrzennego</targetElement>
-								<reversePropertyName xmlns="http://www.opengis.net/gml/3.2">app:aktNormatywnyZmieniajacy</reversePropertyName>
+								<reversePropertyName xmlns="http://www.opengis.net/gml/3.2">app:dokumentZmieniajacy</reversePropertyName>
 							</appinfo>
 						</annotation>
 					</element>
 					<element name="uchyla" type="gml:ReferenceType" minOccurs="0" maxOccurs="unbounded">
 						<annotation>
-							<documentation>uchyla: Odniesienie do aktu planowania przestrzennego, który akt prawny uchyla.</documentation>
+							<documentation>uchyla: Odniesienie do aktu planowania przestrzennego, który dany dokument uchyla.</documentation>
 							<appinfo>
 								<targetElement xmlns="http://www.opengis.net/gml/3.2">app:AktPlanowaniaPrzestrzennego</targetElement>
-								<reversePropertyName xmlns="http://www.opengis.net/gml/3.2">app:aktNormatywnyUchylajacy</reversePropertyName>
+								<reversePropertyName xmlns="http://www.opengis.net/gml/3.2">app:dokumentUchylajacy</reversePropertyName>
 							</appinfo>
 						</annotation>
 					</element>
 					<element name="uniewaznia" type="gml:ReferenceType" minOccurs="0" maxOccurs="unbounded">
 						<annotation>
-							<documentation>uniewaznia: Odniesienie do aktu planowania przestrzennego, który akt prawny unieważnia.</documentation>
+							<documentation>uniewaznia: Odniesienie do aktu planowania przestrzennego, który dany dokument unieważnia.</documentation>
 							<appinfo>
 								<targetElement xmlns="http://www.opengis.net/gml/3.2">app:DokumentFormalny</targetElement>
-								<reversePropertyName xmlns="http://www.opengis.net/gml/3.2">app:aktNormatywnyUniewazniajacy</reversePropertyName>
+								<reversePropertyName xmlns="http://www.opengis.net/gml/3.2">app:dokumentUniewazniajacy</reversePropertyName>
 							</appinfo>
 						</annotation>
 					</element>
@@ -147,28 +129,30 @@ KOMENTARZ 1. Atrybut ma zastosowanie tylko w przypadku dokumentów urzędowych b
 	</complexType>
 	<element name="Identyfikator" type="app:IdentyfikatorType" substitutionGroup="gml:AbstractObject">
 		<annotation>
-			<documentation>identyfikator: Typ reprezentujący unikalny identyfikator obiektu nadawany przez dostawcę zbioru danych. Identyfikator ten może zostać wykorzystany przez zewnętrzne systemy/aplikacje do aby zbudować referencję do obiektu.</documentation>
+			<documentation>identyfikator: Zewnętrzny jednoznaczny, niezmienny identyfikator obiektu publikowany przez dostawcę zbioru danych przestrzennych. Identyfikator ten może zostać wykorzystany przez zewnętrzne systemy/aplikacje w celu odniesienia do obiektu.</documentation>
 		</annotation>
 	</element>
 	<complexType name="IdentyfikatorType">
 		<sequence>
-			<element name="lokalnyId" type="string">
-				<annotation>
-					<documentation>identyfikator lokalny: Lokalny identyfikator obiektu przypisany przez dostawcę danych, o którym mowa w §6 ust. 1 pkt 1 rozporządzenia.
-
-KOMENTARZ 01. Unikalność identyfikatora w przestrzeni nazw gwarantuje dostawca zbioru danych.</documentation>
-				</annotation>
-			</element>
 			<element name="przestrzenNazw" type="string">
 				<annotation>
-					<documentation>przestrzeń nazw: Przestrzeń nazw identyfikująca w sposób jednoznaczny źródło danych obiektu o którym mowa w §6 ust. 1 pkt 1 rozporządzenia.
+					<documentation>przestrzeń nazw: Przestrzeń nazw identyfikująca w sposób jednoznaczny źródło danych obiektu, o której mowa w § 5 ust. 2 pkt 1 rozporządzenia.
 
-KOMENTARZ 01. Wartość atrybutu przestrzeń nazw powinna zawierać unikalny identyfikator zbioru danych przestrzennych do którego należy instancja typu obiektu.</documentation>
+KOMENTARZ 01. Wartość atrybutu przestrzeń nazw powinna jednoznacznie identyfikować zbiór danych przestrzennych, do którego należy instancja typu obiektu.</documentation>
 				</annotation>
 			</element>
-			<element name="wersjaId" type="string">
+			<element name="lokalnyId" type="string">
 				<annotation>
-					<documentation>identyfikator wersji: Identyfikator poszczególnej wersji obiektu przestrzennego.</documentation>
+					<documentation>identyfikator lokalny: Lokalny identyfikator obiektu, o którym mowa w § 5 ust. 2 pkt 2 rozporządzenia,  przypisany przez dostawcę danych. 
+
+KOMENTARZ 01. Unikalność identyfikatora w przestrzeni nazw gwarantuje dostawca zbioru danych przestrzennych.</documentation>
+				</annotation>
+			</element>
+			<element name="wersjaId" type="string" minOccurs="0">
+				<annotation>
+					<documentation>identyfikator wersji: Identyfikator poszczególnej wersji obiektu przestrzennego.
+
+KOMENTARZ 01. W zestawie wszystkich wersji danego obiektu identyfikator wersji musi być unikalny.</documentation>
 				</annotation>
 			</element>
 		</sequence>
@@ -180,21 +164,15 @@ KOMENTARZ 01. Wartość atrybutu przestrzeń nazw powinna zawierać unikalny ide
 	</complexType>
 	<element name="AktPlanowaniaPrzestrzennego" type="app:AktPlanowaniaPrzestrzennegoType" substitutionGroup="gml:AbstractFeature">
 		<annotation>
-			<documentation>Akt planowania przestrzennego: Reprezentacja aktu ustanawiającego i kształtującego politykę przestrzenną na terenie kraju, województwa, miejskiego obszaru funkcjonalnego ośrodka wojewódzkiego, obszaru związku metropolitalnego oraz gminy, którego tryb tworzenia, uchwalenia, a także jego zawartość reguluje ustawa z dnia 27 marca 2003 r. o planowaniu i zagospodarowaniu przestrzennym (Dz. U. z 2017 r. poz. 1073 oraz …) oraz ustawa z dnia 11 sierpnia 2001 r. o szczególnych zasadach odbudowy, remontów i rozbiórek obiektów budowlanych zniszczonych lub uszkodzonych w wyniku działania żywiołu (Dz. U. z 2018 r. poz. 1345). Do ww. aktów planowania przestrzennego należą:
+			<documentation>Akt planowania przestrzennego: Reprezentacja aktu ustanawiającego i kształtującego politykę przestrzenną na terenie województwa oraz gminy, którego tryb tworzenia, uchwalenia, a także jego zawartość reguluje ustawa z dnia 27 marca 2003 r. o planowaniu i zagospodarowaniu przestrzennym (Dz. U. z 2020 r. poz. 293, z późn. zm.) oraz ustawa z dnia 11 sierpnia 2001 r. o szczególnych zasadach odbudowy, remontów i rozbiórek obiektów budowlanych zniszczonych lub uszkodzonych w wyniku działania żywiołu (Dz. U. z 2020 r. poz. 764, z późn. zm.). Do ww. aktów planowania przestrzennego należą:
 
-·	koncepcja przestrzennego zagospodarowania kraju;
+·	plan zagospodarowania przestrzennego województwa,
 
-·	plan zagospodarowania przestrzennego województwa;
+·	studium uwarunkowań i kierunków zagospodarowania przestrzennego gminy,
 
-·	plan zagospodarowania przestrzennego miejskiego obszaru funkcjonalnego ośrodka wojewódzkiego;
+·	miejscowy plan zagospodarowania przestrzennego,   
 
-·	ramowe studium uwarunkowań i kierunków zagospodarowania przestrzennego związku metropolitalnego;
-
-·	studium uwarunkowań i kierunków zagospodarowania przestrzennego gminy;
-
-·	miejscowy plan zagospodarowania przestrzennego;     
-
-·	miejscowy plan odbudowy; 
+·	miejscowy plan odbudowy, 
 
 ·	miejscowy plan rewitalizacji.
 
@@ -209,17 +187,17 @@ Zasięg przestrzenny obiektu reprezentuje granicę obszaru, który jest objęty 
 				<sequence>
 					<element name="idIIP" type="app:IdentyfikatorPropertyType">
 						<annotation>
-							<documentation>identyfikator: Zewnętrzny identyfikator obiektu dla obiektu przestrzennego.</documentation>
+							<documentation>identyfikator: Zewnętrzny identyfikator obiektu przestrzennego.</documentation>
 						</annotation>
 					</element>
 					<element name="poczatekWersjiObiektu" type="dateTime">
 						<annotation>
-							<documentation>początek wersji obiektu: Data i godzina, w której ta wersja obiektu została wprowadzona do zbioru lub zmieniona w tym zbiorze.</documentation>
+							<documentation>początek wersji obiektu: Data i godzina, w której ta wersja obiektu została wprowadzona do zbioru danych przestrzennych lub zmieniona w tym zbiorze danych przestrzennych.</documentation>
 						</annotation>
 					</element>
 					<element name="koniecWersjiObiektu" type="dateTime" minOccurs="0">
 						<annotation>
-							<documentation>koniec wersji obiektu: Data i godzina, w której ta wersja obiektu została zastąpiona w zbiorze lub wycofana z tego zbioru.</documentation>
+							<documentation>koniec wersji obiektu: Data i godzina, w której ta wersja obiektu została zastąpiona w zbiorze danych przestrzennych lub wycofana z tego zbioru danych przestrzennych.</documentation>
 						</annotation>
 					</element>
 					<element name="tytul" type="string">
@@ -240,20 +218,13 @@ Zasięg przestrzenny obiektu reprezentuje granicę obszaru, który jest objęty 
 					<element name="poziomHierarchii" type="gml:ReferenceType">
 						<annotation>
 							<documentation>poziom w hierarchii: Poziom w hierarchii terytorialnej kraju obszaru objętego aktem planowania przestrzennego.
-
-Komentarz 01. Dla poszczególnych typów aktu planowania przestrzennego atrybut przyjmuje następujące wartości:
-&lt;ul&gt;
-	&lt;li&gt;Koncepcja przestrzennego zagospodarowania kraju – krajowy (http://inspire.ec.europa.eu/codelist/LevelOfSpatialPlanValue/national)&lt;/li&gt;
-	&lt;li&gt;Plan zagospodarowania przestrzennego województwa - regionalny (http://inspire.ec.europa.eu/codelist/LevelOfSpatialPlanValue/regional)&lt;/li&gt;
-	&lt;li&gt;Plan zagospodarowania przestrzennego miejskiego obszaru funkcjonalnego ośrodka wojewódzkiego – subregionalny (http://inspire.ec.europa.eu/codelist/LevelOfSpatialPlanValue/infraRegional)&lt;/li&gt;
-	&lt;li&gt;Ramowe studium uwarunkowań i kierunków zagospodarowania przestrzennego związku metropolitalnego - ponadlokalny (http://inspire.ec.europa.eu/codelist/LevelOfSpatialPlanValue/supraLocal)&lt;/li&gt;
-	&lt;li&gt;Miejscowy plan zagospodarowania przestrzennego obejmujący obszar całej gminy - lokalny (http://inspire.ec.europa.eu/codelist/LevelOfSpatialPlanValue/local)&lt;/li&gt;
-	&lt;li&gt;Studium uwarunkowań i kierunków zagospodarowania przestrzennego - lokalny (http://inspire.ec.europa.eu/codelist/LevelOfSpatialPlanValue/local)&lt;/li&gt;
-	&lt;li&gt;Miejscowy plan zagospodarowania przestrzennego obejmujący obszar części gminy - sublokalny (http://inspire.ec.europa.eu/codelist/LevelOfSpatialPlanValue/infraLocal)&lt;/li&gt;
-	&lt;li&gt;Miejscowy plan odbudowy obiektów budowlanych - sublokalny (http://inspire.ec.europa.eu/codelist/LevelOfSpatialPlanValue/infraLocal)&lt;/li&gt;
-	&lt;li&gt;Miejscowy plan rewitalizacji - sublokalny (http://inspire.ec.europa.eu/codelist/LevelOfSpatialPlanValue/infraLocal) &lt;/li&gt;
-	&lt;li&gt;Uchwała w przedmiocie wyznaczenia obszaru zabudowanego – sublokalny (http://inspire.ec.europa.eu/codelist/LevelOfSpatialPlanValue/infraLocal).&lt;/li&gt;
-&lt;/ul&gt;</documentation>
+								Komentarz 01. Dla poszczególnych typów aktu planowania przestrzennego atrybut przyjmuje następujące wartości:
+								·	Plan zagospodarowania przestrzennego województwa – regionalny,
+								·	Studium uwarunkowań i kierunków zagospodarowania przestrzennego – lokalny,
+								·	Miejscowy plan zagospodarowania przestrzennego obejmujący obszar całej gminy – lokalny,
+								·	Miejscowy plan zagospodarowania przestrzennego obejmujący obszar części gminy – sublokalny,
+								·	Miejscowy plan odbudowy – sublokalny,
+								·	Miejscowy plan rewitalizacji – sublokalny.</documentation>
 							<appinfo>
 								<targetCodeList xmlns="http://www.opengis.net/gml/3.3/exr">LevelOfSpatialPlanValue</targetCodeList>
 								<defaultCodeSpace xmlns="http://www.opengis.net/gml/3.2">http://inspire.ec.europa.eu/codelist/</defaultCodeSpace>
@@ -262,91 +233,86 @@ Komentarz 01. Dla poszczególnych typów aktu planowania przestrzennego atrybut 
 					</element>
 					<element name="obowiazujeOd" type="date" minOccurs="0">
 						<annotation>
-							<documentation>obowiązuje od: Data, od której dany akt planowania przestrzennego obowiązuje.</documentation>
+							<documentation>obowiązuje od: Data, od której dana wersja aktu planowania przestrzennego obowiązuje.</documentation>
 						</annotation>
 					</element>
 					<element name="obowiazujeDo" type="date" minOccurs="0">
 						<annotation>
-							<documentation>obowiązuje do: Data, od której akt planowania przestrzennego przestaje obowiązywać.</documentation>
+							<documentation>obowiązuje do: Data, od której dana wersja aktu planowania przestrzennego przestała obowiązywać.</documentation>
 						</annotation>
 					</element>
 					<element name="status" type="gml:ReferenceType">
 						<annotation>
-							<documentation>status: Ogólne wskazanie etapu procedury planistycznej, na którym znajduje się akt planowania przestrzennego.</documentation>
+							<documentation>status: Ogólne wskazanie etapu procesu planowania, na którym znajduje się akt planowania przestrzennego.</documentation>
 							<appinfo>
 								<targetCodeList xmlns="http://www.opengis.net/gml/3.3/exr">ProcessStepGeneralValue</targetCodeList>
 								<defaultCodeSpace xmlns="http://www.opengis.net/gml/3.2">http://inspire.ec.europa.eu/codelist/</defaultCodeSpace>
 							</appinfo>
 						</annotation>
 					</element>
-					<element name="zmiana" type="integer">
+					<element name="zmiana" type="integer" minOccurs="0">
 						<annotation>
 							<documentation>zmiana: Informacja o ilości zmian aktu planowania przestrzennego lub wydanych dla niego rozstrzygnięć nadzorczych lub wyroków sądowych.</documentation>
 						</annotation>
 					</element>
-					<element name="mapaPodkladowa" type="app:MapaPodkladowaPropertyType"  minOccurs="0" maxOccurs="unbounded">
+					<element name="mapaPodkladowa" type="app:MapaPodkladowaPropertyType" minOccurs="0" maxOccurs="unbounded">
 						<annotation>
 							<documentation>mapa podkładowa: Odniesienie do mapy podkładowej użytej do sporządzenia danego aktu planowania przestrzennego.</documentation>
 						</annotation>
 					</element>
 					<element name="zasiegPrzestrzenny" type="gml:MultiSurfacePropertyType">
 						<annotation>
-							<documentation>zasięg przestrzenny: Granica obszaru objętego ustaleniami aktu planowania przestrzenego.
+							<documentation>zasięg przestrzenny: Granica obszaru objętego ustaleniami aktu planowania przestrzennego.
 
-KOMENTARZ 1. Wartość atrybutu jest wyznaczona poprzez granicę obrazu kartograficznego zawierającego informacje o zagospodarowaniu przestrzennym.</documentation>
+KOMENTARZ 01. Wartość atrybutu jest wyznaczona poprzez granicę obszaru, dla którego określone zostały informacje o zagospodarowaniu przestrzennym.
+</documentation>
 						</annotation>
 					</element>
 					<element name="dokument" type="gml:ReferenceType" minOccurs="0" maxOccurs="unbounded">
 						<annotation>
-							<documentation>dokument: Odnośnik do dokumentów:
- - inicjujących i przyjmujących akt planowania przestrzennego, rozstrzygnięć nadzorczych i wyroków dotyczących aktu,
- - powiązanych z aktem planowania przestrzennego, które obejmują: opracowanie ekofizjograficzne, prognozę oddziaływania na środowisko, prognozę skutków finansowych.
+							<documentation>dokument: Odniesienie do innego dokumentu powiązanego z aktem planowania przestrzennego, który jest istotny z punktu widzenia decyzji podjętych w procesie kreacji aktu planowania przestrzennego np. opracowanie ekofizjograficzne, prognoza oddziaływania na środowisko, prognoza skutków finansowych, decyzje o zmianie przeznaczenia gruntów rolnych na cele nierolnicze i leśnych na cele nieleśne wraz ze złożonymi wnioskami.
 
-KOMENTARZ 01. Dokumenty będące aktami normatywnymi wywołującymi określone skutki prawne w odniesieniu do aktu planowania przestrzennego np. uchwalenie lub zmiana należy wskazywać za pośrednictwem właściwej dla skutku roli asocjacyjnej. 
+KOMENTARZ 01. Dokumenty wywołujące określone skutki prawne w odniesieniu do aktu planowania przestrzennego, np. uchwalenie lub zmiana, należy wskazywać za pośrednictwem właściwej dla skutku roli asocjacyjnej.
 
-KOMENTARZ 02. Za pośrednictwem asocjacji dokument może wskazywać wszystkie inne dokumenty istotne z punktu widzenia decyzji podjętych w procesie kreacji aktu planowania przestrzennego i powiązane z tym aktem. Do dokumentów tych należą: opracowanie ekfizjograficzne, prognoza oddziaływania na środowisko, prognoza skutków finansowych.</documentation>
+KOMENTARZ 02. Za pośrednictwem asocjacji dokument może wskazywać wszystkie inne dokumenty istotne z punktu widzenia decyzji podjętych w procesie kreacji aktu planowania przestrzennego i powiązane z tym aktem.</documentation>
 							<appinfo>
 								<targetElement xmlns="http://www.opengis.net/gml/3.2">app:DokumentFormalny</targetElement>
 							</appinfo>
 						</annotation>
 					</element>
-					<element name="aktNormatywnyPrzystapienie" type="gml:ReferenceType" minOccurs="0">
+					<element name="dokumentPrzystepujacy" type="gml:ReferenceType" minOccurs="0" maxOccurs="unbounded">
 						<annotation>
-							<documentation>akt normatywny przystąpienie: Odniesienie do aktu prawnego ustanawiającego powstanie obowiązku wykonania aktu planowania przestrzennego.</documentation>
+							<documentation>dokument przystępujący: Odniesienie do aktu prawnego ustanawiającego powstanie obowiązku sporządzenia aktu planowania przestrzennego.</documentation>
 							<appinfo>
 								<targetElement xmlns="http://www.opengis.net/gml/3.2">app:DokumentFormalny</targetElement>
 								<reversePropertyName xmlns="http://www.opengis.net/gml/3.2">app:przystapienie</reversePropertyName>
 							</appinfo>
 						</annotation>
 					</element>
-					<element name="aktNormatywnyUchwalajacy" type="gml:ReferenceType" minOccurs="0">
+					<element name="dokumentUchwalajacy" type="gml:ReferenceType" minOccurs="0">
 						<annotation>
-							<documentation>akt normatywny uchwalający: Odniesienie do aktu prawnego na mocy którego następuje powstanie obowiązku stosowania regulacji zawartych w akcie planowania przestrzennego w następstwie podjęcia przez właściwy organ uchwały lub zarządzenia zastępczego o uchwaleniu aktu planowania przestrzennego.</documentation>
+							<documentation>dokument uchwalający: Odniesienie do aktu prawnego na mocy którego następuje powstanie obowiązku stosowania regulacji zawartych w akcie planowania przestrzennego w następstwie podjęcia przez właściwy organ uchwały o uchwaleniu lub wydania zarządzenia zastępczego w sprawie aktu planowania przestrzennego.</documentation>
 							<appinfo>
 								<targetElement xmlns="http://www.opengis.net/gml/3.2">app:DokumentFormalny</targetElement>
 								<reversePropertyName xmlns="http://www.opengis.net/gml/3.2">app:uchwala</reversePropertyName>
 							</appinfo>
 						</annotation>
 					</element>
-					<element name="aktNormatywnyZmieniajacy" type="gml:ReferenceType" minOccurs="0" maxOccurs="unbounded">
+					<element name="dokumentZmieniajacy" type="gml:ReferenceType" minOccurs="0" maxOccurs="unbounded">
 						<annotation>
-							<documentation>akt normatywny zmieniający: Odniesienie do aktu prawnego na mocy którego następuje powstanie obowiązku stosowania regulacji zawartych w akcie planowania przestrzennego w następstwie podjęcia przez właściwy organ uchwały o uchwaleniu zmiany aktu planowania przestrzennego.</documentation>
+							<documentation>dokument zmieniający: Odniesienie do aktu prawnego na mocy którego powstaje obowiązek stosowania regulacji zawartych w akcie planowania przestrzennego w następstwie podjęcia przez właściwy organ uchwały o uchwaleniu lub wydania zarządzenia zastępczego w sprawie zmiany aktu planowania przestrzennego.</documentation>
 							<appinfo>
 								<targetElement xmlns="http://www.opengis.net/gml/3.2">app:DokumentFormalny</targetElement>
 								<reversePropertyName xmlns="http://www.opengis.net/gml/3.2">app:zmienia</reversePropertyName>
 							</appinfo>
 						</annotation>
 					</element>
-					<element name="aktNormatywnyUchylajacy" type="gml:ReferenceType" minOccurs="0" maxOccurs="unbounded">
+					<element name="dokumentUchylajacy" type="gml:ReferenceType" minOccurs="0" maxOccurs="unbounded">
 						<annotation>
-							<documentation>akt normatywny uchylający: Odniesienie do aktu prawnego na mocy którego nastąpiło wygaśnięcie obowiązku stosowania regulacji zawartych w akcie planowania przestrzennego w następstwie:
-
-·	podjęcie przez właściwy organ uchwały o uchwaleniu nowego aktu planowania przestrzennego;
-
-·	wydania rozstrzygnięcia nadzorczego przez właściwego wojewodę;
-
+							<documentation>dokument uchylający: Odniesienie do dokumentu, na mocy którego wygasł obowiązek stosowania części albo całości regulacji zawartych w akcie planowania przestrzennego w następstwie:
+·	uchwalenia przez właściwy organ nowego aktu planowania przestrzennego,
+·	wydania rozstrzygnięcia nadzorczego przez właściwego wojewodę,
 ·	wydania wyroku przez właściwy sąd.
-
 </documentation>
 							<appinfo>
 								<targetElement xmlns="http://www.opengis.net/gml/3.2">app:DokumentFormalny</targetElement>
@@ -354,18 +320,18 @@ KOMENTARZ 02. Za pośrednictwem asocjacji dokument może wskazywać wszystkie in
 							</appinfo>
 						</annotation>
 					</element>
-					<element name="aktNormatywnyUniewazniajacy" type="gml:ReferenceType" minOccurs="0" maxOccurs="unbounded">
+					<element name="dokumentUniewazniajacy" type="gml:ReferenceType" minOccurs="0" maxOccurs="unbounded">
 						<annotation>
-							<documentation>akt normatywny unieważniający: Odniesienie do aktu prawnego na mocy którego nastąpiło stwierdzenie nieważności uchwały organu jednostki samorządu terytorialnego w wyniku rozstrzygnięcia nadzorczego lub wyroku sądu.</documentation>
+							<documentation>dokument unieważniający: Odniesienie do dokumentu, na mocy którego nastąpiło stwierdzenie nieważności części lub całości regulacji zawartych w uchwale organu jednostki samorządu terytorialnego w następstwie wydania rozstrzygnięcia nadzorczego albo  wyroku sądu.</documentation>
 							<appinfo>
 								<targetElement xmlns="http://www.opengis.net/gml/3.2">app:DokumentFormalny</targetElement>
 								<reversePropertyName xmlns="http://www.opengis.net/gml/3.2">app:uniewaznia</reversePropertyName>
 							</appinfo>
 						</annotation>
 					</element>
-					<element name="rysunek" maxOccurs="unbounded">
+					<element name="rysunek" minOccurs="0" maxOccurs="unbounded">
 						<annotation>
-							<documentation>rysunek: Odniesienie do cyfrowej reprezentacji graficznych części aktu planowania przestrzennego.</documentation>
+							<documentation>rysunek: Odniesienie do cyfrowej reprezentacji graficznych części aktu planowania przestrzennego z nadaną georeferencją.</documentation>
 							<appinfo>
 								<targetElement xmlns="http://www.opengis.net/gml/3.2">app:RysunekAktuPlanowniaPrzestrzenego</targetElement>
 								<reversePropertyName xmlns="http://www.opengis.net/gml/3.2">app:plan</reversePropertyName>
@@ -402,17 +368,17 @@ KOMENTARZ 02. Za pośrednictwem asocjacji dokument może wskazywać wszystkie in
 				<sequence>
 					<element name="idIIP" type="app:IdentyfikatorPropertyType">
 						<annotation>
-							<documentation>identyfikator: Zewnętrzny identyfikator obiektu dla obiektu.</documentation>
+							<documentation>identyfikator: Zewnętrzny identyfikator obiektu przestrzennego.</documentation>
 						</annotation>
 					</element>
 					<element name="poczatekWersjiObiektu" type="dateTime">
 						<annotation>
-							<documentation>początek wersji obiektu: Data i godzina, w której ta wersja obiektu została wprowadzona do zbioru lub zmieniona w tym zbiorze.</documentation>
+							<documentation>początek wersji obiektu: Data i godzina, w której ta wersja obiektu została wprowadzona do zbioru danych przestrzennych lub zmieniona w tym zbiorze danych przestrzennych.</documentation>
 						</annotation>
 					</element>
 					<element name="koniecWersjiObiektu" type="dateTime" minOccurs="0">
 						<annotation>
-							<documentation>koniec wersji obiektu: Data i godzina, w której ta wersja obiektu została zastąpiona w zbiorze lub wycofana z tego zbioru.</documentation>
+							<documentation>koniec wersji obiektu: Data i godzina, w której ta wersja obiektu została zastąpiona w zbiorze danych przestrzennych lub wycofana z tego zbioru danych przestrzennych.</documentation>
 						</annotation>
 					</element>
 					<element name="tytul" type="string">
@@ -422,44 +388,44 @@ KOMENTARZ 02. Za pośrednictwem asocjacji dokument może wskazywać wszystkie in
 					</element>
 					<element name="lacze" type="anyURI">
 						<annotation>
-							<documentation>łącze: Łącze (adres URL), pod którym dostępna jest cyfrowa reprezentacja rysunku aktu planowania przestrzennego z nadaną georeferencją.</documentation>
+							<documentation>łącze: Łącze (adres URI), pod którym dostępny jest rysunek aktu planowania przestrzennego.</documentation>
 						</annotation>
 					</element>
 					<element name="legenda" type="anyURI" minOccurs="0">
 						<annotation>
-							<documentation>legenda: Łącze (adres URL) pod którym dostępna jest legenda cyfrowej wersja rysunku aktu planownia przestrzennego.</documentation>
+							<documentation>legenda: Łącze (adres URI), pod którym dostępna jest legenda rysunku aktu planowania przestrzennego.</documentation>
 						</annotation>
 					</element>
 					<element name="ukladOdniesieniaPrzestrzennego" type="string">
 						<annotation>
-							<documentation>uklad odniesienia przestrzennego: Układ odniesienia przestrzennego dokumentu graficznego (georeferencja pliku).
-KOMENTARZ 01. Układ odniesienia przestrzennego musi zostać podany zgodnie z EPSG Geodetic Parameter Dataset w postaci identyfikatora URI np. http://www.opengis.net/def/crs/EPSG/0/2180. 
+							<documentation>uklad odniesienia przestrzennego: Układ odniesienia przestrzennego rysunku aktu planowania przestrzennego (georeferencja pliku).
+KOMENTARZ 01. Układ odniesienia przestrzennego musi zostać podany zgodnie z EPSG Geodetic Parameter Dataset w postaci identyfikatora URI np. http://www.opengis.net/def/crs/EPSG/0/2180.
 </documentation>
 						</annotation>
 					</element>
 					<element name="rozdzielczoscPrzestrzenna" type="integer">
 						<annotation>
-							<documentation>rozdzielczość przestrzenna: Informacja o rozdzielczości przestrzennej części graficznej aktu planowania przestrzennego wyrażona jako mianownik skali.Informacja o rozdzielczości przestrzennej części graficznej aktu planowania przestrzennego, odpowiadającej skali sporządzania danego aktu. Wielkość opisująca poziom szczegółowości części graficznej aktu planowania przestrzennego wyrażona za pomocą liczby całkowitej stanowiącej mianownik skali.</documentation>
+							<documentation>rozdzielczość przestrzenna: Informacja o rozdzielczości przestrzennej części graficznej aktu planowania przestrzennego, odpowiadającej skali sporządzania danego aktu. Wielkość wyrażona za pomocą liczby całkowitej stanowiącej mianownik skali.</documentation>
 						</annotation>
 					</element>
 					<element name="opis" type="string" minOccurs="0">
 						<annotation>
-							<documentation>opis: Krótka charakterystyka załącznika graficznego.</documentation>
+							<documentation>opis: Krótka charakterystyka rysunku aktu planowania przestrzennego.</documentation>
 						</annotation>
 					</element>
 					<element name="obowiazujeOd" type="date">
 						<annotation>
-							<documentation>obowizujeOd: Data, od której dany akt planowania przestrzennego obowiązuje.</documentation>
+							<documentation>obowiązuje od: Data, od której dana wersja aktu planowania przestrzennego obowiązuje.</documentation>
 						</annotation>
 					</element>
 					<element name="obowiazujeDo" type="date" minOccurs="0">
 						<annotation>
-							<documentation>obowiązuje do: Data, od której akt planowania przestrzennego przestaje obowiązywać.</documentation>
+							<documentation>obowiązuje do: Data, od której dana wersja aktu planowania przestrzennego przestała obowiązywać.</documentation>
 						</annotation>
 					</element>
 					<element name="plan" type="gml:ReferenceType">
 						<annotation>
-							<documentation>plan: Odniesienie do aktu planowania przestrzennego dla którego obiekt stanowi część graficzną.</documentation>
+							<documentation>plan: Odniesienie do aktu planowania przestrzennego dla którego obiekt stanowi rysunek aktu planowania przestrzennego.</documentation>
 							<appinfo>
 								<targetElement xmlns="http://www.opengis.net/gml/3.2">app:AktPlanowaniaPrzestrzennego</targetElement>
 								<reversePropertyName xmlns="http://www.opengis.net/gml/3.2">app:rysunek</reversePropertyName>
@@ -484,27 +450,22 @@ KOMENTARZ 01. Układ odniesienia przestrzennego musi zostać podany zgodnie z EP
 	</element>
 	<complexType name="MapaPodkladowaType">
 		<sequence>
+			<element name="data" type="date">
+				<annotation>
+					<documentation>data: Data aktualności lub opracowania użytej mapy podkładowej.
+
+KOMENTARZ 01. Należy podać datę aktualności użytej mapy podkładowej, a w przypadku jej braku, należy podać datę opracowania mapy podkładowej.</documentation>
+				</annotation>
+			</element>
 			<element name="referencja" type="string">
 				<annotation>
 					<documentation>referencja: Odniesienie do użytej mapy podkładowej.</documentation>
 				</annotation>
 			</element>
-			<element name="aktualnosc" type="dateTime">
+			<element name="lacze" type="anyURI" minOccurs="0">
 				<annotation>
-					<documentation>aktualność: Data aktualności użytej mapy podkładowej.</documentation>
+					<documentation>łącze: Łącze (adres URI), pod którym udostępniona jest mapa podkładowa.</documentation>
 				</annotation>
-			</element>
-			<element name="lacze" nillable="true">
-				<annotation>
-					<documentation>łącze: Łącze (adres URI) do serwisu, w którym udostępniona jest mapa podkładowa.</documentation>
-				</annotation>
-				<complexType>
-					<simpleContent>
-						<extension base="anyURI">
-							<attribute name="nilReason" type="gml:NilReasonType"/>
-						</extension>
-					</simpleContent>
-				</complexType>
 			</element>
 		</sequence>
 	</complexType>

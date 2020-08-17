@@ -17,16 +17,17 @@ def validateDatasetId(datasetId):
     pattern = r'PL.ZIPPZP.\d{4}/[012]{1}[02468]{1}\d{0,4}-(PZPW|MPZP|SUIKZP){1}'
     return True if re.fullmatch(pattern, datasetId) else False
 
+
 def validateDatasetUri(datasetUri):
     """sprawdza czy Uri ma poprawną formę"""
     pattern = r'http://zagospodarowanieprzestrzenne.gov.pl/app/AktPlanowaniaPrzestrzennego/PL.ZIPPZP.\d{4}/[012]{1}[02468]{1}\d{0,4}-(PZPW|MPZP|SUIKZP){1}/'
     return True if re.fullmatch(pattern, datasetUri) else False
 
+
 def validateEmailAddress(email):
     """sprawdza czy adres email ma poprawną formę"""
     pattern = r'[^@]+@[^@]+\.[^@]+'
     return True if re.fullmatch(pattern, email) else False
-
 
 
 def generateUUID():
@@ -87,13 +88,13 @@ def validate_teryt(teryt):
         # if rodzaj != 'RSZM':
         #     return False
         return True  # sprawdzić, czy rodzaj zbioru poprawny
-    elif len(teryt) == 7 and validate_teryt_county(teryt):
+    elif len(teryt) == 6 and validate_teryt_county(teryt):
         # if rodzaj != 'MPZP' or rodzaj != 'SUIKZP':
         #     return False
         rodzaj_jednostki = [1, 2, 3, 4, 5, 8, 9]
         if 0 < int(teryt[4:6]) < 100:
-            if int(teryt[6:7]) in rodzaj_jednostki:
-                return True
+            # if int(teryt[6:7]) in rodzaj_jednostki:
+            return True
         return False
     else:
         return False
@@ -186,7 +187,8 @@ def createFormElements(attribute):
     tree = ET.parse(xsd)
     root = tree.getroot()
 
-    complexType = root.find("glowny:complexType[@name='" + attribute + "']", ns)
+    complexType = root.find(
+        "glowny:complexType[@name='" + attribute + "']", ns)
     sequence = complexType[0][0][0]  # sekwencja z listą pól
     for element in sequence:
 
@@ -202,7 +204,6 @@ def createFormElements(attribute):
             type=elementType,
             form=attribute
         )
-
 
         if 'minOccurs' in element.attrib:
             formElement.setMinOccurs(element.attrib['minOccurs'])
@@ -237,9 +238,11 @@ def createFormElements(attribute):
                 )
 
                 if 'minOccurs' in complexElement.attrib:
-                    innerFormElement.setMinOccurs(complexElement.attrib['minOccurs'])
+                    innerFormElement.setMinOccurs(
+                        complexElement.attrib['minOccurs'])
                 if 'maxOccurs' in complexElement.attrib:
-                    innerFormElement.setMaxOccurs(complexElement.attrib['maxOccurs'])
+                    innerFormElement.setMaxOccurs(
+                        complexElement.attrib['maxOccurs'])
 
                 # complex documentation
                 complexDocumentation = complexElement.find(

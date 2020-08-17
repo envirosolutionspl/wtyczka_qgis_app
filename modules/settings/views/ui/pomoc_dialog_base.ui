@@ -209,7 +209,7 @@
           <item>
            <widget class="QLabel" name="label_11">
             <property name="text">
-             <string>&lt;a href=&quot;https://mr.gov.pl&quot;&gt;Ministerstwo Rozwoju&lt;/a&gt;</string>
+             <string>&lt;a href=&quot;https://www.gov.pl/web/rozwoj&quot;&gt;Ministerstwo Rozwoju&lt;/a&gt;</string>
             </property>
             <property name="openExternalLinks">
              <bool>true</bool>

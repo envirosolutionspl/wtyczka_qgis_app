@@ -207,7 +207,7 @@ class Ui_Dialog(object):
         self.label_8.setText(_translate("Dialog", "Twórca:"))
         self.label_9.setText(_translate("Dialog", "<a href=\"https://envirosolutions.pl\">EnviroSolutions Sp. z o.o.</a>"))
         self.label_10.setText(_translate("Dialog", "Właściciel:"))
-        self.label_11.setText(_translate("Dialog", "<a href=\"https://mr.gov.pl\">Ministerstwo Rozwoju</a>"))
+        self.label_11.setText(_translate("Dialog", "<a href=\"https://www.gov.pl/web/rozwoj\">Ministerstwo Rozwoju</a>"))
         self.verticalGroupBox1.setTitle(_translate("Dialog", "Podstawa prawna"))
         self.label_12.setText(_translate("Dialog", "Treść rozporządzenia:"))
         self.label_13.setText(_translate("Dialog", "<a href=\"https://envirosolutions.pl\">link</a>"))

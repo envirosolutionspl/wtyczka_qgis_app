@@ -848,15 +848,19 @@ class AppModule(BaseModule):
     def prepareIdIPP(self, formularz):
         """definuje autouzupełnianie idIPP na podstawie zagnieżdzonych pól"""
         def updateIdIPP():
+            idIPP_list = []
             przestrzenNazw = przestrzenNazw_lineEdit.text().replace("/", "_")
             lokalnyId = lokalnyId_lineEdit.text()
             wersjaId = wersjaId_lineEdit.text()
-            if przestrzenNazw == '' and lokalnyId == '' and wersjaId == '':
-                idIIP_lineEdit.setText('')
-            else:
-                idIIP_lineEdit.setText("%s_%s_%s" % (
-                    przestrzenNazw,
-                    lokalnyId, wersjaId))
+            if przestrzenNazw.strip():
+                idIPP_list.append(przestrzenNazw.strip())
+            if lokalnyId.strip():
+                idIPP_list.append(lokalnyId.strip())
+            if wersjaId.strip():
+                idIPP_list.append(wersjaId.strip())
+
+            idIIP_lineEdit.setText("_".join(idIPP_list))
+
 
         # pobranie dynamicznie utworzonych obiektów UI
         idIIP_lineEdit = utils.getWidgetByName(

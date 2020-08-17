@@ -185,26 +185,25 @@ def createFormElements(attribute):
     complexType = root.find("glowny:complexType[@name='" + attribute + "']", ns)
     sequence = complexType[0][0][0]  # sekwencja z listą pól
     for element in sequence:
-        attrib = element.attrib
 
-        if 'type' in attrib:
-            elementType = attrib['type']
+        if 'type' in element.attrib:
+            elementType = element.attrib['type']
         else:
             elementComplexType = element.find("glowny:complexType", ns)
             elementAttrib = elementComplexType[0][0].attrib
             elementType = elementAttrib['base']
 
         formElement = FormElement(
-            name=attrib['name'],
+            name=element.attrib['name'],
             type=elementType,
             form=attribute
         )
 
 
-        if 'minOccurs' in attrib:
-            formElement.setMinOccurs(attrib['minOccurs'])
-        if 'maxOccurs' in attrib:
-            formElement.setMaxOccurs(attrib['maxOccurs'])
+        if 'minOccurs' in element.attrib:
+            formElement.setMinOccurs(element.attrib['minOccurs'])
+        if 'maxOccurs' in element.attrib:
+            formElement.setMaxOccurs(element.attrib['maxOccurs'])
 
         # documentation
         documentation = element.find("glowny:annotation", ns).find(
@@ -232,6 +231,11 @@ def createFormElements(attribute):
                     type=_formType,
                     form=attribute
                 )
+
+                if 'minOccurs' in complexElement.attrib:
+                    innerFormElement.setMinOccurs(complexElement.attrib['minOccurs'])
+                if 'maxOccurs' in complexElement.attrib:
+                    innerFormElement.setMaxOccurs(complexElement.attrib['maxOccurs'])
 
                 # complex documentation
                 complexDocumentation = complexElement.find(

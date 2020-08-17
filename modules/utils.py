@@ -1247,8 +1247,6 @@ def mergeDocsToAPP(docList):  # docList z getTableContent
     # docList[0] - ścieżka
     # docList[0] - relacja dokumentu / '' dla APP, Rysunek
     # Dodać liczbę zwracanych obiektów 'numberReturned': str(len(docList))
-    numberReturned = str(len(docList))
-    timeStamp = datetime.datetime.utcnow().isoformat()+'Z'
 
     ns = {
         'xsi': "http://www.w3.org/2001/XMLSchema",
@@ -1391,6 +1389,8 @@ def mergeDocsToAPP(docList):  # docList z getTableContent
     aktRoot = APProot.find(aktPath, ns)
     putElementBelow(element=aktRoot, subElementName='status',
                     newElement=newElement)
+    numberReturned = str(len(docList))
+    timeStamp = datetime.datetime.utcnow().isoformat()+'Z'
     APProot.attrib['timeStamp'] = timeStamp
     APProot.attrib['numberReturned'] = numberReturned
     # eksport APP
@@ -1499,6 +1499,10 @@ def mergeAppToCollection(AppFiles, set={}):
                 member[0].append(element)
         rootMain.append(member)
 
+    numberReturned = str(len(AppFiles))
+    timeStamp = datetime.datetime.utcnow().isoformat()+'Z'
+    rootMain.attrib['timeStamp'] = timeStamp
+    rootMain.attrib['numberReturned'] = numberReturned
     # eksport APP
     mydata = ET.tostring(rootMain)  # .replace(b'><', b'>\n\t<')
     from lxml import etree

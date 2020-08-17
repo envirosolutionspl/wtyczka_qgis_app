@@ -17,14 +17,6 @@ class Ui_Dialog(object):
         self.gridLayout_3.setObjectName("gridLayout_3")
         self.verticalLayout = QtWidgets.QVBoxLayout()
         self.verticalLayout.setObjectName("verticalLayout")
-        self.title_lbl = QtWidgets.QLabel(Dialog)
-        font = QtGui.QFont()
-        font.setBold(True)
-        font.setWeight(75)
-        self.title_lbl.setFont(font)
-        self.title_lbl.setAlignment(QtCore.Qt.AlignCenter)
-        self.title_lbl.setObjectName("title_lbl")
-        self.verticalLayout.addWidget(self.title_lbl)
         self.verticalGroupBox = QtWidgets.QGroupBox(Dialog)
         self.verticalGroupBox.setObjectName("verticalGroupBox")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.verticalGroupBox)
@@ -194,7 +186,6 @@ class Ui_Dialog(object):
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
-        self.title_lbl.setText(_translate("Dialog", "Okno pomocy"))
         self.verticalGroupBox.setTitle(_translate("Dialog", "Informacje o wtyczce"))
         self.label_3.setText(_translate("Dialog", "Wersja wtyczki:"))
         self.version_lbl.setText(_translate("Dialog", "0.0"))

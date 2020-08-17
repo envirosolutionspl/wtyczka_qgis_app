@@ -82,4 +82,3 @@ class Ui_Dialog(object):
         self.zbior_btn.setText(_translate("Dialog", "Zbiór APP"))
         self.app_btn.setText(_translate("Dialog", "APP"))
 
-from . import resources_rc

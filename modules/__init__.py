@@ -6,7 +6,7 @@ from qgis.PyQt import QtWidgets
 from .base import BaseModule
 from .Formularz import Formularz
 from .settings import UstawieniaDialog,PomocDialog, ustawieniaDialog, pomocDialog
-
+from .. import PLUGIN_VERSION
 
 class QDialogOverride(QtWidgets.QDialog):
     def closeEvent(self, event):

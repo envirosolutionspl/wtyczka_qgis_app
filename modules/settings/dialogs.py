@@ -5,7 +5,7 @@ Okna dialogowe modułu Settings
  ***************************************************************************/
 """
 import os
-
+from wtyczka_qgis_app import PLUGIN_VERSION
 from PyQt5.QtWidgets import QMessageBox
 from qgis.PyQt.QtCore import Qt, QRegExp
 from qgis.PyQt import uic, QtGui
@@ -48,4 +48,5 @@ class PomocDialog(QtWidgets.QDialog, FORM_CLASS1):
         self.setWindowTitle(title_help)
         self.setWindowIcon(QtGui.QIcon(icon_help))
         self.setWindowFlag(Qt.WindowMinMaxButtonsHint, True)
+        self.version_lbl.setText(PLUGIN_VERSION)
         self.cancel_btn.clicked.connect(self.reject)

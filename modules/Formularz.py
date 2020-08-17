@@ -252,7 +252,7 @@ class Formularz:
             formElement.refObject = input
             tooltipImg = self.__makeTooltip(formElement)
 
-            if formElement.maxOccurs == "unbounded":
+            if formElement.maxOccurs == "unbounded":    #mapaPodkladowa
 
                 groupbox = QGroupBox(formElement.name)
                 vbox2 = QVBoxLayout()
@@ -293,49 +293,49 @@ class Formularz:
                     self.__loopFormElements(
                         formElement.innerFormElements, vbox, '  - ')
 
-            if formElement.isNillable:  # dodaj dodatkowo checkbox i powód
-                nilHbox = self.__makeNilHbox(input)
-                formElement.refNilObject = nilHbox
-                vbox.addLayout(nilHbox)
-
-    def __makeNilHbox(self, nillableWidget):
-        """tworzy zestaw widgetów do obługi typu "nillable"""
-        def changeState():
-            currentState = chckBox.isChecked()
-            if currentState:
-                nilLbl2.setEnabled(True)
-                nillableWidget.setEnabled(False)
-                comboBox.setEnabled(True)
-            else:
-                nilLbl2.setEnabled(False)
-                nillableWidget.setEnabled(True)
-                comboBox.setEnabled(False)
-
-        nilHbox = QHBoxLayout()
-        nilLbl1 = QLabel(text='    ')
-        nilLbl2 = QLabel(text='wskaż powód: ')
-        nilLbl2.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
-        nilLbl2.setObjectName(
-            nillableWidget.objectName() + 'nilReason' + '_lbl')
-        nilLbl2.setEnabled(False)
-        chckBox = QCheckBox(text='brak wartości')
-        chckBox.setObjectName(
-            nillableWidget.objectName() + '_nilReason' + '_chkbx')
-        chckBox.stateChanged.connect(lambda: changeState())
-        comboBox = QComboBox()
-        comboBox.setObjectName(
-            nillableWidget.objectName() + '_nilReason' + '_cmbbx')
-        comboBox.addItems(dictionaries.nilReasons.keys())
-        comboBox.setEnabled(False)
-        tooltipImg = QLabel()
-        tooltipImg.setMaximumWidth(16)
-
-        nilHbox.addWidget(nilLbl1)
-        nilHbox.addWidget(chckBox)
-        nilHbox.addWidget(nilLbl2)
-        nilHbox.addWidget(comboBox)
-        nilHbox.addWidget(tooltipImg)
-        return nilHbox
+    #         if formElement.isNillable:  # dodaj dodatkowo checkbox i powód
+    #             nilHbox = self.__makeNilHbox(input)
+    #             formElement.refNilObject = nilHbox
+    #             vbox.addLayout(nilHbox)
+    #
+    # def __makeNilHbox(self, nillableWidget):
+    #     """tworzy zestaw widgetów do obługi typu "nillable"""
+    #     def changeState():
+    #         currentState = chckBox.isChecked()
+    #         if currentState:
+    #             nilLbl2.setEnabled(True)
+    #             nillableWidget.setEnabled(False)
+    #             comboBox.setEnabled(True)
+    #         else:
+    #             nilLbl2.setEnabled(False)
+    #             nillableWidget.setEnabled(True)
+    #             comboBox.setEnabled(False)
+    #
+    #     nilHbox = QHBoxLayout()
+    #     nilLbl1 = QLabel(text='    ')
+    #     nilLbl2 = QLabel(text='wskaż powód: ')
+    #     nilLbl2.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+    #     nilLbl2.setObjectName(
+    #         nillableWidget.objectName() + 'nilReason' + '_lbl')
+    #     nilLbl2.setEnabled(False)
+    #     chckBox = QCheckBox(text='brak wartości')
+    #     chckBox.setObjectName(
+    #         nillableWidget.objectName() + '_nilReason' + '_chkbx')
+    #     chckBox.stateChanged.connect(lambda: changeState())
+    #     comboBox = QComboBox()
+    #     comboBox.setObjectName(
+    #         nillableWidget.objectName() + '_nilReason' + '_cmbbx')
+    #     comboBox.addItems(dictionaries.nilReasons.keys())
+    #     comboBox.setEnabled(False)
+    #     tooltipImg = QLabel()
+    #     tooltipImg.setMaximumWidth(16)
+    #
+    #     nilHbox.addWidget(nilLbl1)
+    #     nilHbox.addWidget(chckBox)
+    #     nilHbox.addWidget(nilLbl2)
+    #     nilHbox.addWidget(comboBox)
+    #     nilHbox.addWidget(tooltipImg)
+    #     return nilHbox
 
     def __makeInput(self, formElement):
         # pole wprowadzania

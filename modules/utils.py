@@ -182,75 +182,57 @@ def createFormElements(attribute):
     tree = ET.parse(xsd)
     root = tree.getroot()
 
-    complexType = root.find(
-        "glowny:complexType[@name='" + attribute + "']", ns)
+    complexType = root.find("glowny:complexType[@name='" + attribute + "']", ns)
     sequence = complexType[0][0][0]  # sekwencja z listą pól
     for element in sequence:
         attrib = element.attrib
 
-        try:
+        if 'type' in attrib:
             elementType = attrib['type']
-            formElement = FormElement(
-                name=attrib['name'],
-                type=elementType,
-                form=attribute
-            )
-        except KeyError:
+        else:
             elementComplexType = element.find("glowny:complexType", ns)
             elementAttrib = elementComplexType[0][0].attrib
             elementType = elementAttrib['base']
-            formElement = FormElement(
-                name=attrib['name'],
-                type=elementType,
-                form=attribute
-            )
-            try:  # gdy jest nillable
-                if element.attrib['nillable'] == 'true':
-                    formElement.setNillable()
-            except KeyError:  # gdyby nie bylo rowniez nillable
-                pass
 
-        # na wypadek braku 'minOccurs'
-        try:
+        formElement = FormElement(
+            name=attrib['name'],
+            type=elementType,
+            form=attribute
+        )
+
+
+        if 'minOccurs' in attrib:
             formElement.setMinOccurs(attrib['minOccurs'])
-        except KeyError:
-            pass
-        # na wypadek braku 'maxOccurs'
-        try:
+        if 'maxOccurs' in attrib:
             formElement.setMaxOccurs(attrib['maxOccurs'])
-        except KeyError:
-            pass
+
         # documentation
         documentation = element.find("glowny:annotation", ns).find(
             "glowny:documentation", ns)
         formElement.setDocumentation(documentation.text)
 
         # zdefiniowany w app complextype
-        # if elementType == 'app:IdentyfikatorPropertyType':
         if elementType[:4] == 'app:':
             formElement.markAsComplex()  # ustawia .isComplex = True
             name = str(elementType).replace('Property', '').split(':')[-1]
 
             complexSequence = root.find(
                 "glowny:complexType[@name='%s']" % name, ns)[0]
+
             for complexElement in complexSequence:
-                try:    # jeżeli jest atrybut 'type'
-                    innerFormElement = FormElement(
-                        name=complexElement.attrib['name'],
-                        type=complexElement.attrib['type'],
-                        form=attribute
-                    )
-                except KeyError:    # jeżeli nie ma atrybutu 'type'
-                    innerFormElement = FormElement(
-                        name=complexElement.attrib['name'],
-                        type="anyURI",
-                        form=attribute
-                    )
-                    try:  # gdy jest nillable
-                        if complexElement.attrib['nillable'] == 'true':
-                            innerFormElement.setNillable()
-                    except KeyError:  # gdyby nie bylo rowniez nillable
-                        pass
+                if 'type' in complexElement.attrib:
+                    # jeżeli jest atrybut 'type'
+                    _formType = complexElement.attrib['type']
+                else:
+                    # jeżeli nie ma atrybutu 'type'
+                    _formType = "anyURI"
+
+                innerFormElement = FormElement(
+                    name=complexElement.attrib['name'],
+                    type=_formType,
+                    form=attribute
+                )
+
                 # complex documentation
                 complexDocumentation = complexElement.find(
                     "glowny:annotation", ns).find("glowny:documentation", ns)

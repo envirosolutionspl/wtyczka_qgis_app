@@ -213,38 +213,62 @@ class AppModule(BaseModule):
                     srsName = crs
                     break
 
-            if self.obrysLayer.featureCount() > 1:     # niepoprawna ilość obiektów w warstwie
-                self.showPopupAggregate(title="Błąd warstwy obrysu", text="Wybrana warstwa posiada obiekty w liczbie: %d.\nObrys może składać się wyłącznie z jednego obiektu.\nCzy chcesz utworzyć zagregowaną warstwę o nazwie: granice_app_zagregowane?" % (
-                    self.obrysLayer.featureCount()), layer=self.obrysLayer)
-            elif self.obrysLayer.featureCount() == 0:
-                showPopup("Błąd warstwy obrysu", "Wybrana warstwa posiada obiekty w liczbie: %d.\n" % (
-                    self.obrysLayer.featureCount()))
-            elif not isLayerInPoland(self.obrysLayer):     # niepoprawna geometria
-                showPopup("Błąd warstwy obrysu",
-                          "Niepoprawna geometria - obiekt musi leżeć w Polsce, sprawdź układ współrzędnych warstwy.")
-            elif srsName == '':
-                showPopup("Błąd warstwy obrysu",
-                          "Obrys posiada niezgodny układ współrzędnych - EPSG:%s.\nDostępne CRS:\n    - %s" % (epsg, ',\n    - '.join(['%s : %s' % (a, b) for a, b in zip(dictionaries.ukladyOdniesieniaPrzestrzennego.keys(), dictionaries.ukladyOdniesieniaPrzestrzennego.values())])))
-            else:   # wszystko OK z warstwą
-                # zasiegPrzestrzenny = utils.getWidgetByName(
-                #     layout=self.wektorFormularzDialog,
-                #     searchObjectType=QgsFilterLineEdit,
-                #     name="zasiegPrzestrzenny_lineEdit")
-                # zasiegPrzestrzenny.setText(str(self.obrysLayer.sourceExtent()))
-                # print(zasiegPrzestrzenny)
-                self.openNewDialog(self.wektorFormularzDialog)
-                self.obrysLayer = self.wektorInstrukcjaDialog.layers_comboBox.currentLayer()
-                formElements = self.wektorFormularzDialog.formElements
-                obrys = self.obrysLayer.getFeature(1)
-                attrs = obrys.attributes()
+        if not self.obrysLayer:   # brak wybranej warstwy
+            showPopup("Błąd warstwy obrysu", "Nie wskazano warstwy z obrysem.")
+        elif self.obrysLayer.featureCount() > 1:     # niepoprawna ilość obiektów w warstwie
 
-                fields = obrys.fields()
+            self.showPopupAggregate(title="Błąd warstwy obrysu", text="Wybrana warstwa posiada obiekty w liczbie: %d.\nObrys może składać się wyłącznie z jednego obiektu.\nCzy chcesz utworzyć zagregowaną warstwę o nazwie: granice_app_zagregowane?" % (
+                self.obrysLayer.featureCount()), layer=self.obrysLayer)
+        elif self.obrysLayer.featureCount() == 0:
+            showPopup("Błąd warstwy obrysu", "Wybrana warstwa posiada obiekty w liczbie: %d.\n" % (
+                self.obrysLayer.featureCount()))
+        elif not next(self.obrysLayer.getFeatures()).geometry().isGeosValid():
+            showPopup("Błąd warstwy obrysu",
+                      "Niepoprawna geometria w warstwie obrysu - sprawdź czy częsci obiektu na siebie nie nachodzą.")
+        elif not isLayerInPoland(self.obrysLayer):     # niepoprawna geometria
+            showPopup("Błąd warstwy obrysu",
+                      "Niepoprawna geometria - obiekt musi leżeć w Polsce, sprawdź układ współrzędnych warstwy.")
+        elif srsName == '':
+            showPopup("Błąd warstwy obrysu",
+                      "Obrys posiada niezgodny układ współrzędnych - EPSG:%s.\nDostępne CRS:\n    - %s" % (epsg, ',\n    - '.join(['%s : %s' % (a, b) for a, b in zip(dictionaries.ukladyOdniesieniaPrzestrzennego.keys(), dictionaries.ukladyOdniesieniaPrzestrzennego.values())])))
+        else:   # wszystko OK z warstwą
+            # zasiegPrzestrzenny = utils.getWidgetByName(
+            #     layout=self.wektorFormularzDialog,
+            #     searchObjectType=QgsFilterLineEdit,
+            #     name="zasiegPrzestrzenny_lineEdit")
+            # zasiegPrzestrzenny.setText(str(self.obrysLayer.sourceExtent()))
+            # print(zasiegPrzestrzenny)
+            self.openNewDialog(self.wektorFormularzDialog)
+            self.obrysLayer = self.wektorInstrukcjaDialog.layers_comboBox.currentLayer()
+            formElements = self.wektorFormularzDialog.formElements
+            obrys = self.obrysLayer.getFeature(1)
+            attrs = obrys.attributes()
 
-                for formElement in formElements:
-                    if formElement.name in fields.names():
-                        idx = fields.indexFromName(formElement.name)
+            fields = obrys.fields()
+
+            for formElement in formElements:
+                if formElement.name in fields.names():
+                    idx = fields.indexFromName(formElement.name)
+                    value = attrs[idx]
+                    formItem = formElement.refObject
+                    try:
+                        if isinstance(formItem, QLineEdit):
+                            formItem.setText(value)
+                        elif isinstance(formItem, QDateTimeEdit):
+                            formItem.setDateTime(value)
+                        elif isinstance(formItem, QDateEdit):
+                            formItem.setDate(value)
+                        elif isinstance(formItem, QCheckBox):
+                            formItem.setChecked(value)
+                        elif isinstance(formItem, QComboBox):
+                            formItem.setCurrentIndex(value)
+                    except:
+                        pass
+                for inner in formElement.innerFormElements:
+                    if inner.name in fields.names():
+                        idx = fields.indexFromName(inner.name)
                         value = attrs[idx]
-                        formItem = formElement.refObject
+                        formItem = inner.refObject
                         try:
                             if isinstance(formItem, QLineEdit):
                                 formItem.setText(value)
@@ -258,25 +282,7 @@ class AppModule(BaseModule):
                                 formItem.setCurrentIndex(value)
                         except:
                             pass
-                    for inner in formElement.innerFormElements:
-                        if inner.name in fields.names():
-                            idx = fields.indexFromName(inner.name)
-                            value = attrs[idx]
-                            formItem = inner.refObject
-                            try:
-                                if isinstance(formItem, QLineEdit):
-                                    formItem.setText(value)
-                                elif isinstance(formItem, QDateTimeEdit):
-                                    formItem.setDateTime(value)
-                                elif isinstance(formItem, QDateEdit):
-                                    formItem.setDate(value)
-                                elif isinstance(formItem, QCheckBox):
-                                    formItem.setChecked(value)
-                                elif isinstance(formItem, QComboBox):
-                                    formItem.setCurrentIndex(value)
-                            except:
-                                pass
-                self.listaOkienek.append(self.wektorInstrukcjaDialog)
+            self.listaOkienek.append(self.wektorInstrukcjaDialog)
 
     def wektorInstrukcjaDialog_prev_btn_clicked(self):
         self.openNewDialog(self.listaOkienek.pop())

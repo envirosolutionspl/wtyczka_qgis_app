@@ -40,8 +40,10 @@ def xmlToMetadataElementDict(xml):
     # E5
     itemsList = []
     for element in root.findall('//gmd:MD_DataIdentification/gmd:citation/gmd:CI_Citation/gmd:identifier//gco:CharacterString', ns):
-        if element.text not in itemsList:
-            itemsList.append({'e5_lineEdit': element.text})
+        idIppUri = element.text
+        idIpp = '/'.join(idIppUri.strip().strip('/').split('/')[-2:])
+        if idIpp not in itemsList:
+            itemsList.append({'e5_lineEdit': idIpp})
     metadataElementDict['e5'] = itemsList
 
     # E6

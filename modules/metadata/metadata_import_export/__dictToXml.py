@@ -97,7 +97,7 @@ def metadataElementDictToXml(metadataElementDict):
     typZbioru = ''
     for listItem in metadataElementDict['e5']:
         if utils.validateDatasetId(listItem['e5_lineEdit']):
-            typZbioru = metadataElementDict['e5']['e5_lineEdit'].strip('/').split("/")[-1].split('-')[-1]
+            typZbioru = listItem['e5_lineEdit'].strip('/').split("/")[-1].split('-')[-1]
             break
     mD_DataIdentification = ET.SubElement(identificationInfo, 'gmd:MD_DataIdentification', {'id': typZbioru})
 
@@ -131,7 +131,9 @@ def metadataElementDictToXml(metadataElementDict):
         mD_Identifier = ET.SubElement(identifier, 'gmd:MD_Identifier')
         code = ET.SubElement(mD_Identifier, 'gmd:code')
         characterString = ET.SubElement(code, 'gco:CharacterString')
-        characterString.text = listItem['e5_lineEdit']
+        idIpp = listItem['e5_lineEdit']
+        idIppUri = 'http://zagospodarowanieprzestrzenne.gov.pl/app/AktPlanowaniaPrzestrzennego/%s/' % idIpp
+        characterString.text = idIppUri
 
     """gmd:abstract"""
     abstract = ET.SubElement(mD_DataIdentification, 'gmd:abstract')

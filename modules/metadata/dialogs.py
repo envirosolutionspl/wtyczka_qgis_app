@@ -201,8 +201,15 @@ class MetadaneDialog(QDialogOverride, FORM_CLASS, ButtonsDialog):
             input = utils.getWidgetByName(self, QLineEdit, objectName)
             input.setValidator(QRegExpValidator(QRegExp(r"[0-9a-zA-Z.\-\_\@\+]*")))
 
+        # unikalny identyfikator danych przestrzennych:
+        input = utils.getWidgetByName(self, QLineEdit, "e5_lineEdit")
+        input.setValidator(QRegExpValidator(QRegExp(r"[0-9A-Z.\-/]*")))
+
+        # prostokat ograniczajacy
         input = utils.getWidgetByName(self, QLineEdit, "e11_lineEdit")
         input.setValidator(QRegExpValidator(QRegExp("[0-9.,]*")))
+
+        # rozdzielczość przestrzenna
         input = utils.getWidgetByName(self, QLineEdit, "e16_lineEdit")
         input.setValidator(QRegExpValidator(QRegExp("[0-9]*")))
 

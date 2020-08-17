@@ -171,3 +171,21 @@ metadataListWidgetsDefaultItemsEnabled = {
     'e6': [{'e6_cmbbx': 'polski'}],
     'e20': [{'e20_lineEdit': 'Brak warunków dostępu i użytkowania'}],
 }
+
+relacjeDokumentu = {
+    'przystąpienie': 'przystapienie',
+    'uchwala': 'uchwala',
+    'zmienia': 'zmienia',
+    'uchyla': 'uchyla',
+    'unieważnia': 'uniewaznia',
+    'inna': ''
+}
+
+relacjeDokumentuZApp = {
+    'przystapienie': 'dokumentPrzystepujacy',
+    'uchwala': 'dokumentUchwalajacy',
+    'zmienia': 'dokumentZmieniajacy',
+    'uchyla': 'dokumentUchylajacy',
+    'uniewaznia': 'dokumentUniewazniajacy',
+    '': 'dokument'
+}

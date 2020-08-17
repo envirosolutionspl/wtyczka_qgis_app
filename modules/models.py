@@ -1,7 +1,7 @@
 class FormElement:
     """ reprezentuje element definicji formularza zdefiniowany w XSD"""
 
-    def __init__(self, name, form, type='', minOccurs=1, documentation='', value=None, attributes={}):
+    def __init__(self, name, form, type='', minOccurs=1, documentation='', value=[], attributes={}):
         self.setName(name)
         self.setType(type)
         self.setMinOccurs(minOccurs)
@@ -9,7 +9,7 @@ class FormElement:
         self.__isComplex = False
         self.innerFormElements = []
         self.isNillable = False
-        self.setValue(value)  # wartość elementu w formularzu
+        self.setValue(value)  # obiekt ET.Element w XML
         self.attributes = {}  # atrybuty przyjmowane przez element
         self.refObject = None  # referencja na obiekt
         self.refNilObject = None  # referencja na obiekt

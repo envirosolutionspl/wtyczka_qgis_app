@@ -467,7 +467,7 @@ def makeXML(docName, elements, formData, obrysLayer=None):
     # Strefa czasowa timezone jest ustawiona na sztywno
     root_data = {
         'timeStamp': datetime.datetime.utcnow().isoformat()+'Z',
-        'numberReturned': "1000000",
+        'numberReturned': "1",
         'numberMatched': "unknown",
     }
     # Przestrzenie nazw ustawione na sztywno
@@ -644,9 +644,6 @@ def validate_form_dates(formElements):
         dataDo = getFormElementByName(formElements, daty_powiazane[atrybut])
         if dataOd is None or dataDo is None:
             continue
-        print(dataOd.refObject.text(), dataDo.refObject.text())
-        print(checkElement(dataOd, dataOd.refObject))
-        print(checkElement(dataDo, dataDo.refObject))
         if checkElement(dataOd, dataOd.refObject) and checkElement(dataDo, dataDo.refObject) and dataDo.refObject.text() != 'NULL':
             if dataOd.refObject.dateTime() > dataDo.refObject.dateTime():
                 showPopup(title='Błąd wartości atrybutu %s' % atrybut,
@@ -850,7 +847,7 @@ def createXmlData(dialog, obrysLayer):  # NOWE
     # Strefa czasowa timezone jest ustawiona na sztywno
     root_data = {
         'timeStamp': datetime.datetime.utcnow().isoformat()+'Z',
-        'numberReturned': "1000000",
+        'numberReturned': "1",
         'numberMatched': "unknown",
     }
 
@@ -1096,14 +1093,163 @@ def getDocIIP(rootDoc, IIP=''):
 
 
 def newItem(root, name, link, ns):
+    """nowy obiekt typu gml:ReferenceType"""
     newElement = ET.SubElement(root, "{%s}%s" % (ns['app'], name))
     newElement.set('xlink:href', link)
     return newElement
 
 
+def mergeDocsToAPP2(docList):  # Nowa wersja tworzenia APP - do dokończenia
+    def initializeMember(data, docType, root, ns):
+        # Inicjalizacja dokumentu
+        dataMember = ET.SubElement(data, 'wfs:member')
+        dataDoc = ET.SubElement(dataMember, 'app:%s' % docType)
+        elementPath = 'wfs:member/app:%s' % (docType)
+        idIIP = root.find(
+            elementPath, ns).attrib['{http://www.opengis.net/gml/3.2}id']
+        dataDoc.set('gml:id', idIIP)
+        gmlIdentifier = ET.SubElement(dataDoc, 'gml:identifier')
+        gmlIdentifier.set(
+            'codeSpace', "http://zagospodarowanieprzestrzenne.gov.pl/app")
+        gmlIdentifier.text = 'http://zagospodarowanieprzestrzenne.gov.pl/app/%s/%s' % (
+            docType, idIIP.replace('_', '/'))
+        return dataDoc
+
+    def addElements(formElements, root, dataDoc, docType, relations=[]):
+        for fe in formElements:
+            elementPath = 'wfs:member/app:%s/app:%s' % (docType, fe.name)
+            elements = root.findall(elementPath, ns)
+            for element in elements:
+                dataDoc.append(element)
+
+    ns = {
+        'xsi': "http://www.w3.org/2001/XMLSchema",
+        'app': "http://zagospodarowanieprzestrzenne.gov.pl/schemas/app/1.0",
+        'gmd': "http://www.isotc211.org/2005/gmd",
+        'gco': 'http://www.isotc211.org/2005/gco',
+        'xlink': 'http://www.w3.org/1999/xlink',
+        'gml': "http://www.opengis.net/gml/3.2",
+        'wfs': 'http://www.opengis.net/wfs/2.0',
+        'gmlexr': "http://www.opengis.net/gml/3.3/exr"
+    }
+
+    # Strefa czasowa timezone jest ustawiona na sztywno
+    root_data = {
+        'timeStamp': datetime.datetime.utcnow().isoformat()+'Z',
+        # liczba memberów w wfs:FeatureCollection
+        'numberReturned': str(len(docList)),
+        'numberMatched': "unknown",
+    }
+
+    for prefix, uri in ns.items():
+        ET.register_namespace(prefix, uri)
+
+    # Przestrzenie nazw ustawione na sztywno
+    namespaces = {
+        'xmlns:gco': "http://www.isotc211.org/2005/gco",
+        'xmlns:gmd': "http://www.isotc211.org/2005/gmd",
+        'xmlns:gml': "http://www.opengis.net/gml/3.2",
+        'xmlns:wfs': "http://www.opengis.net/wfs/2.0",
+        'xmlns:xlink': "http://www.w3.org/1999/xlink",
+        'xmlns:xsi': "http://www.w3.org/2001/XMLSchema-instance",
+        'xmlns:app': "http://zagospodarowanieprzestrzenne.gov.pl/schemas/app/1.0",
+        'xsi:schemaLocation': "http://zagospodarowanieprzestrzenne.gov.pl/schemas/app/1.0 ../appSchema/appSchema_app_v0_0_1/planowaniePrzestrzenne.xsd http://www.opengis.net/gml/3.2 http://schemas.opengis.net/gml/3.2.1/gml.xsd http://www.opengis.net/wfs/2.0 http://schemas.opengis.net/wfs/2.0/wfs.xsd"
+    }
+
+    # create the file structure
+    data = ET.Element('wfs:FeatureCollection')
+
+    for attr, value in root_data.items():
+        data.set(attr, value)
+
+    for tag, uri in namespaces.items():
+        data.set(tag, uri)
+
+    docRoots = []
+    docRelations = []
+    rysRoots = []
+    rysIIP = []
+
+    for doc, relation in docList:
+        docType = getDocType(doc)
+        root = ET.parse(doc).getroot()
+        formType = docType + 'Type'
+        formElements = createFormElements(
+            formType)  # odczytywanie atrybutów z xsd
+        elementPath = 'wfs:member/app:%s' % (docType)
+        idIIP = root.find(
+            elementPath, ns).attrib['{http://www.opengis.net/gml/3.2}id']
+
+        if docType == 'AktPlanowaniaPrzestrzennego':
+            aktForm = formElements
+            aktRoot = root
+
+        if docType == 'RysunekAktuPlanowniaPrzestrzenego':
+            rysForm = formElements
+            rysIIP.append(idIIP)
+            rysRoots.append(root)
+
+        if docType == 'DokumentFormalny':
+            if relation not in dictionaries.relacjeDokumentu.keys():
+                return ''
+            else:
+                docForm = formElements
+                docRelations.append(
+                    {'id': idIIP, 'relation': dictionaries.relacjeDokumentu[relation]})
+                docRoots.append(root)
+
+    # Wypełnianie APP
+    elementPath = 'wfs:member/app:AktPlanowaniaPrzestrzennego'
+    aktIdIIP = aktRoot.find(
+        elementPath, ns).attrib['{http://www.opengis.net/gml/3.2}id']
+    docType = 'AktPlanowaniaPrzestrzennego'
+    dataDoc = initializeMember(
+        data, docType, aktRoot, ns)
+    addElements(aktForm, aktRoot, dataDoc, docType)
+
+    # Wypełnianie Rysunków APP
+    for root in rysRoots:
+        docType = 'RysunekAktuPlanowniaPrzestrzenego'
+        dataDoc = initializeMember(
+            data, docType, root, ns)
+        addElements(rysForm, root, dataDoc, docType, relations=aktIdIIP)
+
+    # Wypełnianie Dokumentów Formalnych
+    for root in docRoots:
+        docType = 'DokumentFormalny'
+        dataDoc = initializeMember(
+            data, docType, root, ns)
+        addElements(docForm, root, dataDoc, docType, relations=aktIdIIP)
+
+        # if fe.isComplex():
+        #     for inner in fe.innerFormElements:
+        #         innerElementPath = 'wfs:member/app:%s/app:%s/app:%s' % (
+        #             docType, fe.name, inner.name)
+        # if fe.maxOccurs == 'unbounded':
+
+        # for elem in app_form:
+        #     print(elem.name, elem.minOccurs, elem.maxOccurs, elem.value)
+
+    # eksport APP
+    # .replace(b'><', b'>\n\t<')
+    mydata = ET.tostring(data, encoding="unicode")
+    # from lxml import etree
+    # root = etree.XML(mydata)
+    # xml_string = etree.tostring(
+    #     root,
+    #     xml_declaration=True,
+    #     encoding='utf-8',
+    #     pretty_print=True).decode('utf-8')
+    return mydata
+
+
 def mergeDocsToAPP(docList):  # docList z getTableContent
     # docList[0] - ścieżka
     # docList[0] - relacja dokumentu / '' dla APP, Rysunek
+    # Dodać liczbę zwracanych obiektów 'numberReturned': str(len(docList))
+    numberReturned = str(len(docList))
+    timeStamp = datetime.datetime.utcnow().isoformat()+'Z'
+
     ns = {
         'xsi': "http://www.w3.org/2001/XMLSchema",
         'app': "http://zagospodarowanieprzestrzenne.gov.pl/schemas/app/1.0",
@@ -1205,7 +1351,7 @@ def mergeDocsToAPP(docList):  # docList z getTableContent
     if suma > 2 or suma == 0:
         # Wymagany jest co najmniej 1 dokument
         showPopup(title='Błąd liczności Dokumentów',
-                  text='Nieprawidłowa liczba dokumentów.\n Przystąpienie: %i (0..1)\nUchwala: %i (0..1)' % (l_przystapienie, l_uchwala))
+                  text='Nieprawidłowa liczba dokumentów.\n Przystąpienie: %i (0..*)\nUchwala: %i (0..1)' % (l_przystapienie, l_uchwala))
         return ''
     if len(docRoots['AktPlanowaniaPrzestrzennego']) != 1:
         showPopup(title='Błąd liczności dokumentu',
@@ -1215,10 +1361,10 @@ def mergeDocsToAPP(docList):  # docList z getTableContent
         showPopup(title='Błąd liczności dokumentu',
                   text='Liczba Dokumentów Formalnych: %i\nWymagana liczba: 1+' % len(docRoots['DokumentFormalny']))
         return ''
-    if len(docRoots['RysunekAktuPlanowniaPrzestrzenego']) < 1:
-        showPopup(title='Błąd liczności dokumentu',
-                  text='Liczba Rysunków: %i\nWymagana liczba: 1+' % len(docRoots['RysunekAktuPlanowniaPrzestrzenego']))
-        return ''
+    # if len(docRoots['RysunekAktuPlanowniaPrzestrzenego']) < 1:
+    #     showPopup(title='Błąd liczności dokumentu',
+    #               text='Liczba Rysunków: %i\nWymagana liczba: 1+' % len(docRoots['RysunekAktuPlanowniaPrzestrzenego']))
+    #     return ''
 
     # Dodawanie atrybutów do APP
     for atr in pomijane['AktPlanowaniaPrzestrzennego']:
@@ -1240,12 +1386,13 @@ def mergeDocsToAPP(docList):  # docList z getTableContent
         pomijane['AktPlanowaniaPrzestrzennego']['dokumentZmieniajacy'])
     newElement = ET.Element("{%s}zmiana" % ns['app'])
     newElement.text = str(zmiana_count)
-    print(zmiana_count)
+    # print(zmiana_count)
     aktPath = 'wfs:member/app:AktPlanowaniaPrzestrzennego'
     aktRoot = APProot.find(aktPath, ns)
-    print(putElementBelow(element=aktRoot, subElementName='status',
-                          newElement=newElement))
-
+    putElementBelow(element=aktRoot, subElementName='status',
+                    newElement=newElement)
+    APProot.attrib['timeStamp'] = timeStamp
+    APProot.attrib['numberReturned'] = numberReturned
     # eksport APP
     mydata = ET.tostring(APProot)  # .replace(b'><', b'>\n\t<')
     from lxml import etree
@@ -1291,6 +1438,9 @@ def sortDocRelations(relationList):
 
 
 def mergeAppToCollection(AppFiles, set={}):
+    app_form = createFormElementsAktPlanowaniaPrzestrzennego()
+    for elem in app_form:
+        print(elem.name)
     ns = {
         'xsi': "http://www.w3.org/2001/XMLSchema",
         'app': 'http://zagospodarowanieprzestrzenne.gov.pl/schemas/app/1.0',

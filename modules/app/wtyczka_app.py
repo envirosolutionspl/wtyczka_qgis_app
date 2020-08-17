@@ -212,68 +212,50 @@ class AppModule(BaseModule):
 
         self.obrysLayer = self.wektorInstrukcjaDialog.layers_comboBox.currentLayer()
 
-        # Sprawdzanie CRS warstwy wejściowej
-        epsg = str(self.obrysLayer.crs().authid()).split(':')[1]
-        srsName = ''
-        # Układ współrzędnych
-        for crs in dictionaries.ukladyOdniesieniaPrzestrzennego.values():
-            if epsg in crs:
-                srsName = crs
-                break
-
         if not self.obrysLayer:   # brak wybranej warstwy
             showPopup("Błąd warstwy obrysu", "Nie wskazano warstwy z obrysem.")
-        elif self.obrysLayer.featureCount() > 1:     # niepoprawna ilość obiektów w warstwie
+        else:
+            # Sprawdzanie CRS warstwy wejściowej
+            epsg = str(self.obrysLayer.crs().authid()).split(':')[1]
+            srsName = ''
+            # Układ współrzędnych
+            for crs in dictionaries.ukladyOdniesieniaPrzestrzennego.values():
+                if epsg in crs:
+                    srsName = crs
+                    break
 
-            self.showPopupAggregate(title="Błąd warstwy obrysu", text="Wybrana warstwa posiada obiekty w liczbie: %d.\nObrys może składać się wyłącznie z jednego obiektu.\nCzy chcesz utworzyć zagregowaną warstwę o nazwie: granice_app_zagregowane?" % (
-                self.obrysLayer.featureCount()), layer=self.obrysLayer)
-        elif self.obrysLayer.featureCount() == 0:
-            showPopup("Błąd warstwy obrysu", "Wybrana warstwa posiada obiekty w liczbie: %d.\n" % (
-                self.obrysLayer.featureCount()))
-        elif not isGeomValid():     # niepoprawna geometria
-            showPopup("Błąd warstwy obrysu",
-                      "Niepoprawna geometria - obiekt musi leżeć w Polsce, sprawdź układ współrzędnych warstwy.")
-        elif srsName == '':
-            showPopup("Błąd warstwy obrysu",
-                      "Obrys posiada niezgodny układ współrzędnych - EPSG:%s.\nDostępne CRS:\n    - %s" % (epsg, ',\n    - '.join(['%s : %s' % (a, b) for a, b in zip(dictionaries.ukladyOdniesieniaPrzestrzennego.keys(), dictionaries.ukladyOdniesieniaPrzestrzennego.values())])))
-        else:   # wszystko OK z warstwą
-            # zasiegPrzestrzenny = utils.getWidgetByName(
-            #     layout=self.wektorFormularzDialog,
-            #     searchObjectType=QgsFilterLineEdit,
-            #     name="zasiegPrzestrzenny_lineEdit")
-            # zasiegPrzestrzenny.setText(str(self.obrysLayer.sourceExtent()))
-            # print(zasiegPrzestrzenny)
-            self.openNewDialog(self.wektorFormularzDialog)
-            self.obrysLayer = self.wektorInstrukcjaDialog.layers_comboBox.currentLayer()
-            formElements = self.wektorFormularzDialog.formElements
-            obrys = self.obrysLayer.getFeature(1)
-            attrs = obrys.attributes()
+            if self.obrysLayer.featureCount() > 1:     # niepoprawna ilość obiektów w warstwie
+                self.showPopupAggregate(title="Błąd warstwy obrysu", text="Wybrana warstwa posiada obiekty w liczbie: %d.\nObrys może składać się wyłącznie z jednego obiektu.\nCzy chcesz utworzyć zagregowaną warstwę o nazwie: granice_app_zagregowane?" % (
+                    self.obrysLayer.featureCount()), layer=self.obrysLayer)
+            elif self.obrysLayer.featureCount() == 0:
+                showPopup("Błąd warstwy obrysu", "Wybrana warstwa posiada obiekty w liczbie: %d.\n" % (
+                    self.obrysLayer.featureCount()))
+            elif not isGeomValid():     # niepoprawna geometria
+                showPopup("Błąd warstwy obrysu",
+                          "Niepoprawna geometria - obiekt musi leżeć w Polsce, sprawdź układ współrzędnych warstwy.")
+            elif srsName == '':
+                showPopup("Błąd warstwy obrysu",
+                          "Obrys posiada niezgodny układ współrzędnych - EPSG:%s.\nDostępne CRS:\n    - %s" % (epsg, ',\n    - '.join(['%s : %s' % (a, b) for a, b in zip(dictionaries.ukladyOdniesieniaPrzestrzennego.keys(), dictionaries.ukladyOdniesieniaPrzestrzennego.values())])))
+            else:   # wszystko OK z warstwą
+                # zasiegPrzestrzenny = utils.getWidgetByName(
+                #     layout=self.wektorFormularzDialog,
+                #     searchObjectType=QgsFilterLineEdit,
+                #     name="zasiegPrzestrzenny_lineEdit")
+                # zasiegPrzestrzenny.setText(str(self.obrysLayer.sourceExtent()))
+                # print(zasiegPrzestrzenny)
+                self.openNewDialog(self.wektorFormularzDialog)
+                self.obrysLayer = self.wektorInstrukcjaDialog.layers_comboBox.currentLayer()
+                formElements = self.wektorFormularzDialog.formElements
+                obrys = self.obrysLayer.getFeature(1)
+                attrs = obrys.attributes()
 
-            fields = obrys.fields()
+                fields = obrys.fields()
 
-            for formElement in formElements:
-                if formElement.name in fields.names():
-                    idx = fields.indexFromName(formElement.name)
-                    value = attrs[idx]
-                    formItem = formElement.refObject
-                    try:
-                        if isinstance(formItem, QLineEdit):
-                            formItem.setText(value)
-                        elif isinstance(formItem, QDateTimeEdit):
-                            formItem.setDateTime(value)
-                        elif isinstance(formItem, QDateEdit):
-                            formItem.setDate(value)
-                        elif isinstance(formItem, QCheckBox):
-                            formItem.setChecked(value)
-                        elif isinstance(formItem, QComboBox):
-                            formItem.setCurrentIndex(value)
-                    except:
-                        pass
-                for inner in formElement.innerFormElements:
-                    if inner.name in fields.names():
-                        idx = fields.indexFromName(inner.name)
+                for formElement in formElements:
+                    if formElement.name in fields.names():
+                        idx = fields.indexFromName(formElement.name)
                         value = attrs[idx]
-                        formItem = inner.refObject
+                        formItem = formElement.refObject
                         try:
                             if isinstance(formItem, QLineEdit):
                                 formItem.setText(value)
@@ -287,7 +269,25 @@ class AppModule(BaseModule):
                                 formItem.setCurrentIndex(value)
                         except:
                             pass
-            self.listaOkienek.append(self.wektorInstrukcjaDialog)
+                    for inner in formElement.innerFormElements:
+                        if inner.name in fields.names():
+                            idx = fields.indexFromName(inner.name)
+                            value = attrs[idx]
+                            formItem = inner.refObject
+                            try:
+                                if isinstance(formItem, QLineEdit):
+                                    formItem.setText(value)
+                                elif isinstance(formItem, QDateTimeEdit):
+                                    formItem.setDateTime(value)
+                                elif isinstance(formItem, QDateEdit):
+                                    formItem.setDate(value)
+                                elif isinstance(formItem, QCheckBox):
+                                    formItem.setChecked(value)
+                                elif isinstance(formItem, QComboBox):
+                                    formItem.setCurrentIndex(value)
+                            except:
+                                pass
+                self.listaOkienek.append(self.wektorInstrukcjaDialog)
 
     def wektorInstrukcjaDialog_prev_btn_clicked(self):
         self.openNewDialog(self.listaOkienek.pop())
@@ -507,8 +507,7 @@ class AppModule(BaseModule):
         # relacja z APP
         if self.generowanieGMLDialog.filesTable_widget.item(rows, 1).text() == 'Dokument Formalny':
             c = QComboBox()
-            c.addItems(['przystąpienie', 'uchwala', 'zmienia',
-                        'uchyla', 'unieważnia', 'inna'])
+            c.addItems(dictionaries.relacjeDokumentu.keys())
             i = self.generowanieGMLDialog.filesTable_widget.model().index(rows, 3)
             self.generowanieGMLDialog.filesTable_widget.setCellWidget(
                 rows, 3, c)
@@ -546,16 +545,31 @@ class AppModule(BaseModule):
             utils.showPopup(title='Brak Dokumentów',
                             text='Do tabeli nie zostały dodane żadne dokumenty.')
         else:
-            s = QgsSettings()
-            defaultPath = s.value("qgis_app/settings/defaultPath", "/")
-            self.fn = QFileDialog.getSaveFileName(
-                directory=defaultPath, filter="XML Files (*.xml)")[0]
-            if self.fn:
-                xml_string = utils.mergeDocsToAPP(docList)
-                if xml_string != '':
-                    myfile = open(self.fn, "w", encoding='utf-8')
-                    myfile.write(xml_string)
-                    self.showPopupApp()
+            uchwala_count = 0
+            przystapienie_count = 0
+            for doc, rel in docList:
+                if rel == 'uchwala':
+                    uchwala_count += 1
+                if rel == 'przystąpienie':
+                    przystapienie_count += 1
+            uchwala_przystapienie_count = przystapienie_count + uchwala_count
+            if uchwala_przystapienie_count == 0:
+                utils.showPopup(
+                    title='Błąd relacji dokumentów', text='Wymagany jest co najmniej jeden dokument z relacją "przystąpienie" lub "uchwala".')
+            elif uchwala_count > 1:
+                utils.showPopup(
+                    title='Błąd relacji dokumentów', text='W APP dozwolony jest tylko jeden dokument z relacją "uchwala".')
+            else:
+                s = QgsSettings()
+                defaultPath = s.value("qgis_app/settings/defaultPath", "/")
+                self.fn = QFileDialog.getSaveFileName(
+                    directory=defaultPath, filter="XML Files (*.xml)")[0]
+                if self.fn:
+                    xml_string = utils.mergeDocsToAPP(docList)
+                    if xml_string != '':
+                        myfile = open(self.fn, "w", encoding='utf-8')
+                        myfile.write(xml_string)
+                        self.showPopupApp()
 # Zbiór
 
     def loadSet(self):

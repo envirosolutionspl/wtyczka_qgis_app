@@ -3,6 +3,7 @@ from PyQt5.QtCore import QRegExp, Qt, QDateTime
 from collections import ChainMap
 from .. import dictionaries, utils
 
+
 def formToMetadataElementDict(form):
     """pobiera wartości formularza do słownika metadataElementDict"""
     listWidgets = form.findChildren(QListWidget, QRegExp(r'.*'))
@@ -15,11 +16,12 @@ def formToMetadataElementDict(form):
 
         if not (licznosc == '01' or licznosc == '1'):   # pola wielokrotnego wyboru
             # pobierz listWidget
-            listWidget = utils.getWidgetByName(layout=form, searchObjectType=QListWidget, name=elementId + '_listWidget')
+            listWidget = utils.getWidgetByName(
+                layout=form, searchObjectType=QListWidget, name=elementId + '_listWidget')
             dataList = []
             for i in range(listWidget.count()):
                 listWidgetItem = listWidget.item(i)
-                data = listWidgetItem.data(Qt.UserRole) # slownik
+                data = listWidgetItem.data(Qt.UserRole)  # slownik
                 # if data is None:
                 #     data = listWidgetItem.text()
                 dataList.append(data)
@@ -41,6 +43,6 @@ def formToMetadataElementDict(form):
     # nadpisanie daty aktualną datą
     metadataElementDict['e30']['e30_dateTimeEdit'] = QDateTime.currentDateTime()
 
-    for k,v in metadataElementDict.items():
-        print(k,dictionaries.licznoscMetadataFields[k],v)
+    # for k,v in metadataElementDict.items():
+    #     print(k,dictionaries.licznoscMetadataFields[k],v)
     return metadataElementDict

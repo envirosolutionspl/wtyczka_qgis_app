@@ -132,10 +132,7 @@ class Formularz:
                     textList = []
                     for formItem in formItems:
                         if isinstance(formItem, QLineEdit):
-                            if formItem.text() == '':
-                                data[formItem.objectName()] = '<brak wartości>'
-                            else:
-                                data[formItem.objectName()] = formItem.text()
+                            data[formItem.objectName()] = formItem.text()
                             textList.append(formItem.text())
                         elif isinstance(formItem, QDateTimeEdit):
                             data[formItem.objectName()] = formItem.dateTime()

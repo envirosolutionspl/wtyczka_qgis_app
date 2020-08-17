@@ -21,7 +21,7 @@ def appGmlToMetadataElementDict(gmlPath):
 
     # E1
     element = root.find('//app:AktPlanowaniaPrzestrzennego/app:typPlanu', ns)
-    typPlanu = element.attrib['{%s}title' % ns['xlink']].replace('plan','planu')
+    typPlanu = element.attrib['{%s}title' % ns['xlink']].replace('plan', 'planu')
     metadataElementDict['e1'] = {'e1_lineEdit': "Zbiór danych przestrzennych dla %s <typ_jednostki> <nazwa_jednostki>" % typPlanu}
 
     # E5
@@ -48,7 +48,7 @@ def appGmlToMetadataElementDict(gmlPath):
     #poziom administracyjny
     itemsList.append({
         'e9_lineEdit': tekst,
-        'e10_cmbbx': 'publikacja',
+        'e10_cmbbx': 'Data opublikowania',
         'e10_dateTimeEdit': QDateTime(2019, 5, 22, 0, 0),
         'e10_lineEdit': 'Zakres przestrzenny',
         'xlink': "http://inspire.ec.europa.eu/metadata-codelist/SpatialScope"
@@ -57,7 +57,7 @@ def appGmlToMetadataElementDict(gmlPath):
     # poziom jednostki
     itemsList.append({
         'e9_lineEdit': atrybut_title,
-        'e10_cmbbx': 'publikacja',
+        'e10_cmbbx': 'Data opublikowania',
         'e10_dateTimeEdit': QDateTime(2013, 12, 10, 0, 0),
         'e10_lineEdit': 'Poziom planu zagospodarowania przestrzennego',
         'xlink': "http://inspire.ec.europa.eu/codelist/LevelOfSpatialPlanValue"
@@ -96,7 +96,7 @@ def appGmlToMetadataElementDict(gmlPath):
     metadataElementDict['e16'] = itemsList
 
 
-    # E18 i E19
+    # E18 i E19 i E24 i E25
     itemsList = []
     inspire1 = "Rozporządzenie Komisji (UE) Nr 1089/2010 z dnia 23 listopada 2010 r. w sprawie wykonania dyrektywy 2007/2/WE Parlamentu Europejskiego i Rady w zakresie interoperacyjności zbiorów i usług danych przestrzennych"
     inspire2 = "D2.8.III.4 Data Specification on Land Use – Technical Guidelines"
@@ -110,45 +110,58 @@ def appGmlToMetadataElementDict(gmlPath):
     for v in namespaces.values():
         if 'zagospodarowanieprzestrzenne.gov.pl' in v:
             ifKrajowy = True
-            ifInspire = False
+            # ifInspire = False
             break
         if 'http://inspire.ec.europa.eu/schemas/plu/4.0/PlannedLandUse.xsd' in v:
-            ifKrajowy = False
+            # ifKrajowy = False
             ifInspire = True
             break
 
-    # inspire1
+    # E18 i E19 inspire1
     itemsList.append({
         'e18_lineEdit': inspire1,
         'e18_dateTimeEdit': QDateTime(2010, 12, 8, 0, 0),
-        'e18_cmbbx': 'publikacja',
-        'e19_cmbbx': 'prawda' if ifInspire else 'fałsz',
+        'e18_cmbbx': 'Data opublikowania',
+        'e19_cmbbx': 'Zgodny (conformant)' if ifInspire else 'Niezgodny (notConformant)',
         'xlink': "http://data.europa.eu/eli/reg/2010/1089"
     })
-    # inspire2
+    # E18 i E19 inspire2
     itemsList.append({
         'e18_lineEdit': inspire2,
         'e18_dateTimeEdit': QDateTime(2013, 12, 10, 0, 0),
-        'e18_cmbbx': 'publikacja',
-        'e19_cmbbx': 'prawda' if ifInspire else 'fałsz'
+        'e18_cmbbx': 'Data opublikowania',
+        'e19_cmbbx': 'Zgodny (conformant)' if ifInspire else 'Niezgodny (notConformant)'
     })
-    # krajowy1
+    # E18 i E19 krajowy1
     itemsList.append({
         'e18_lineEdit': krajowy1,
         'e18_dateTimeEdit': QDateTime(2020, 12, 31, 0, 0),  #TODO: uaktualnić po publikacji
-        'e18_cmbbx': 'publikacja',
-        'e19_cmbbx': 'prawda' if ifKrajowy else 'fałsz',
+        'e18_cmbbx': 'Data opublikowania',
+        'e19_cmbbx': 'Zgodny (conformant)' if ifKrajowy else 'Niezgodny (notConformant)',
         'xlink': "http://anyURL/sejm"   # TODO: uaktualnić po publikacji
     })
-    # krajowy2
+    # E18 i E19 krajowy2
     itemsList.append({
         'e18_lineEdit': krajowy2,
         'e18_dateTimeEdit': QDateTime(2020, 12, 31, 0, 0),  # TODO: uaktualnić po publikacji
-        'e18_cmbbx': 'publikacja',
-        'e19_cmbbx': 'prawda' if ifKrajowy else 'fałsz',
+        'e18_cmbbx': 'Data opublikowania',
+        'e19_cmbbx': 'Zgodny (conformant)' if ifKrajowy else 'Niezgodny (notConformant)',
         'xlink': "http://anyURL/sejm"   # TODO: uaktualnić po publikacji
     })
     metadataElementDict['e18'] = itemsList
 
+    # E24 i E25 krajowy
+    itemsList = []
+    if ifKrajowy:
+        itemsList.append({
+            'e24_lineEdit': "Schemat aplikacyjny GML Planowanie przestrzenne",
+            'e25_lineEdit': "1.0"
+        })
+    if ifInspire:
+        itemsList.append({
+            'e24_lineEdit': "Planned Land Use GML Application Schema",
+            'e25_lineEdit': "4.0"
+        })
+    metadataElementDict['e24'] = itemsList
 
     return metadataElementDict

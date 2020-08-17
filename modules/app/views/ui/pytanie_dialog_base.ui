@@ -67,13 +67,13 @@
         <property name="geometry">
          <rect>
           <x>0</x>
-          <y>0</y>
-          <width>564</width>
-          <height>300</height>
+          <y>-131</y>
+          <width>573</width>
+          <height>372</height>
          </rect>
         </property>
-        <layout class="QGridLayout" name="gridLayout">
-         <item row="0" column="0">
+        <layout class="QVBoxLayout" name="verticalLayout_2">
+         <item>
           <widget class="QLabel" name="instruction_lbl">
            <property name="text">
             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;APP – obejmuje dane przestrzenne dla jednego aktu planowania przestrzennego np. dla wybranego miejscowego planu zagospodarowania przestrzennego. &lt;/p&gt;&lt;p&gt;Zbiór APP – obejmuje zestaw danych przestrzennych dla wielu (co najmniej jednego) aktów planowania przestrzennego tego samego rodzaju, występujących w danej jednostce podziału terytorialnego np. miejscowe plany zagospodarowania przestrzennego gminy XXX. &lt;/p&gt;&lt;p&gt;Szczegółowe informacje nt. zakresu danych ujętych w zbiorze znajdziesz w specyfikacji danych.  &lt;/p&gt;&lt;p&gt;Aby utworzyć zbiór APP, należy wcześniej przygotować pojedyncze pliki GML dla każdego APP, który zostanie włączony do tego zbioru.   &lt;/p&gt;&lt;p&gt;Dane przestrzenne dla jednego APP obejmują: &lt;br/&gt;&lt;span style=&quot; font-family:'Symbol';&quot;&gt;· &lt;/span&gt;rysunek lub rysunki APP, w postaci plików rastrowych z nadaną georeferencją, w formacie GeoTIFF, wraz z informacją o adresie internetowym pod którym jest on opublikowany, &lt;br/&gt;&lt;span style=&quot; font-family:'Symbol';&quot;&gt;· &lt;/span&gt;granicę obszaru objętego APP określoną w układzie PL-1992 lub PL-2000, posiadającą reprezentację geometryczną w postaci jednego poligonu lub multipoligonu (w przypadku obiektów wieloczęściowych), &lt;br/&gt;&lt;span style=&quot; font-family:'Symbol';&quot;&gt;· &lt;/span&gt;informacje nt. dokumentów powiązanych z danym APP (np. uchwała o przystąpieniu do sporządzenia APP, czy uchwała uchwalająca APP). &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -83,6 +83,22 @@
            </property>
            <property name="wordWrap">
             <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="label">
+           <property name="text">
+            <string/>
+           </property>
+           <property name="pixmap">
+            <pixmap resource="../../../../resources.qrc">:/plugins/wtyczka_app/img/baner_wtyczka.png</pixmap>
+           </property>
+           <property name="scaledContents">
+            <bool>false</bool>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
            </property>
           </widget>
          </item>
@@ -128,6 +144,5 @@
    </item>
   </layout>
  </widget>
- <resources/>
  <connections/>
 </ui>

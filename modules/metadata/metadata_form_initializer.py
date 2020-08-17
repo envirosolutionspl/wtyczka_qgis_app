@@ -4,26 +4,42 @@ from PyQt5.QtWidgets import *
 
 
 def initializeMetadataForm(dlg):
+    """Inicjalizuje formularz metadanych na podstawie ustawień"""
     s = QgsSettings()
 
-    name = s.value("qgis_app/settings/contactName", "")
-    mail = s.value("qgis_app/settings/contactMail", "")
-    if name and mail:
+    # Punkt kontaktowy
+    contactName = s.value("qgis_app/settings/contactName", "")
+    contactMail = s.value("qgis_app/settings/contactMail", "")
+    if contactName and contactMail:
         data = {
-            'e22_name_lineEdit': name,
-            'e22_mail_lineEdit': mail,
-            'e23_cmbbx': 'punkt kontaktowy'
+            'e22_name_lineEdit': contactName,
+            'e22_mail_lineEdit': contactMail,
+            'e23_cmbbx': 'Punkt kontaktowy (pointOfContact)'
         }
         item = QListWidgetItem()
         item.setData(Qt.UserRole, QVariant(data))
-        item.setText("%s - %s - %s" % (name, mail, 'punkt kontaktowy'))
+        item.setText("%s - %s - %s" % (contactName, contactMail, 'Punkt kontaktowy (pointOfContact)'))
         dlg.e22_listWidget.addItem(item)
         data = {
-            'e29_name_lineEdit': name,
-            'e29_mail_lineEdit': mail,
-            'e29_cmbbx': 'punkt kontaktowy'
+            'e29_name_lineEdit': contactName,
+            'e29_mail_lineEdit': contactMail,
+            'e29_cmbbx': 'Punkt kontaktowy (pointOfContact)'
         }
         item = QListWidgetItem()
         item.setData(Qt.UserRole, QVariant(data))
-        item.setText("%s - %s - %s" % (name, mail, 'punkt kontaktowy'))
+        item.setText("%s - %s - %s" % (contactName, contactMail, 'Punkt kontaktowy (pointOfContact)'))
         dlg.e29_listWidget.addItem(item)
+
+    # Administrator danych
+    adminName = s.value("qgis_app/settings/adminName", "")
+    adminMail = s.value("qgis_app/settings/adminMail", "")
+    if adminName and adminMail:
+        data = {
+            'e22_name_lineEdit': adminName,
+            'e22_mail_lineEdit': adminMail,
+            'e23_cmbbx': 'Administrator (custodian)'
+        }
+        item = QListWidgetItem()
+        item.setData(Qt.UserRole, QVariant(data))
+        item.setText("%s - %s - %s" % (adminName, adminMail, 'Administrator (custodian)'))
+        dlg.e22_listWidget.addItem(item)

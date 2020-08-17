@@ -183,6 +183,7 @@ class Formularz:
                     elif isinstance(formItem, QComboBox):
                         formItem.setCurrentIndex(data[formItem.objectName()])
 
+
             if name == 'mapaPodkladowa':
                 referencja_lineEdit = utils.layout_widget_by_name(
                     vbox2, name="referencja_lineEdit")
@@ -190,15 +191,10 @@ class Formularz:
                     vbox2, name="data_dateTimeEdit")
                 lacze_lineEdit = utils.layout_widget_by_name(
                     vbox2, name="lacze_lineEdit")
-                # lacze_lineEdit_nilReason_chkbx = utils.layout_widget_by_name(
-                #     vbox2, name="lacze_lineEdit_nilReason_chkbx")
-                # lacze_lineEdit_nilReason_cmbbx = utils.layout_widget_by_name(
-                #     vbox2, name="lacze_lineEdit_nilReason_cmbbx")
-                # lacze_lineEdit_nilReason_chkbx.stateChanged.connect(
-                #     lambda: lacze_lineEdit.clear())
+
                 formItems = [referencja_lineEdit,
                              data_dateTimeEdit,
-                             lacze_lineEdit]  # , lacze_lineEdit_nilReason_chkbx, lacze_lineEdit_nilReason_cmbbx]
+                             lacze_lineEdit]
             elif formElement.name == 'lacze':
                 lacze_lineEdit = utils.layout_widget_by_name(
                     vbox2, name="lacze_lineEdit")
@@ -249,7 +245,7 @@ class Formularz:
             formElement.refObject = input
             tooltipImg = self.__makeTooltip(formElement)
 
-            if formElement.maxOccurs == "unbounded":
+            if formElement.maxOccurs == "unbounded":    # pola wielokrotne np: mapaPodkladowa
 
                 groupbox = QGroupBox(formElement.name)
                 vbox2 = QVBoxLayout()
@@ -261,7 +257,6 @@ class Formularz:
                 vbox.addWidget(groupbox)
 
                 if formElement.isComplex():  # zawiera podrzędne elementy typu complex
-                    # input.setEnabled(False)
                     input.setVisible(False)
                     # rekurencja dla obiektów wewntrznych
                     self.__loopFormElements(
@@ -269,7 +264,7 @@ class Formularz:
 
                 createListWidget(formElement.name)
 
-            else:
+            else:   # pola pojedyncze
                 hbox.addWidget(input)
                 if formElement.type == 'gmd:CI_Date_PropertyType':
                     input2 = NoScrollQComboBox()
@@ -281,58 +276,12 @@ class Formularz:
 
                 hbox.addWidget(tooltipImg)
                 vbox.addLayout(hbox)
-                # if formElement.name == 'zmiana':
-                #     input.setEnabled(False)
-                #     input.setText('0')
+
                 if formElement.isComplex():  # zawiera podrzędne elementy typu complex
                     input.setEnabled(False)
                     # rekurencja dla obiektów wewntrznych
                     self.__loopFormElements(
                         formElement.innerFormElements, vbox, '  - ')
-
-            if formElement.isNillable:  # dodaj dodatkowo checkbox i powód
-                nilHbox = self.__makeNilHbox(input)
-                formElement.refNilObject = nilHbox
-                vbox.addLayout(nilHbox)
-
-    def __makeNilHbox(self, nillableWidget):
-        """tworzy zestaw widgetów do obługi typu "nillable"""
-        def changeState():
-            currentState = chckBox.isChecked()
-            if currentState:
-                nilLbl2.setEnabled(True)
-                nillableWidget.setEnabled(False)
-                comboBox.setEnabled(True)
-            else:
-                nilLbl2.setEnabled(False)
-                nillableWidget.setEnabled(True)
-                comboBox.setEnabled(False)
-
-        nilHbox = QHBoxLayout()
-        nilLbl1 = QLabel(text='    ')
-        nilLbl2 = QLabel(text='wskaż powód: ')
-        nilLbl2.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
-        nilLbl2.setObjectName(
-            nillableWidget.objectName() + 'nilReason' + '_lbl')
-        nilLbl2.setEnabled(False)
-        chckBox = QCheckBox(text='brak wartości')
-        chckBox.setObjectName(
-            nillableWidget.objectName() + '_nilReason' + '_chkbx')
-        chckBox.stateChanged.connect(lambda: changeState())
-        comboBox = QComboBox()
-        comboBox.setObjectName(
-            nillableWidget.objectName() + '_nilReason' + '_cmbbx')
-        comboBox.addItems(dictionaries.nilReasons.keys())
-        comboBox.setEnabled(False)
-        tooltipImg = QLabel()
-        tooltipImg.setMaximumWidth(16)
-
-        nilHbox.addWidget(nilLbl1)
-        nilHbox.addWidget(chckBox)
-        nilHbox.addWidget(nilLbl2)
-        nilHbox.addWidget(comboBox)
-        nilHbox.addWidget(tooltipImg)
-        return nilHbox
 
     def __makeInput(self, formElement):
         # pole wprowadzania
@@ -413,11 +362,15 @@ class Formularz:
         return input
 
     def __makeTooltip(self, formElement):
+        fullFormElementName = formElement.form + ":" + formElement.name
         tooltipImg = QLabel()
         p = QPixmap(':/plugins/wtyczka_app/img/info1.png')
         tooltipImg.setMaximumWidth(16)
         tooltipImg.setPixmap(p.scaled(16, 16, Qt.KeepAspectRatio))
+        placeholder = ""
+        if fullFormElementName in dictionaries.placeholders.keys():
+            placeholder = '<br><br>np.: ' + dictionaries.placeholders[fullFormElementName]
         tooltipImg.setToolTip(
-            "<FONT COLOR=black>%s</FONT>" % formElement.documentation)  # dodanie tooltip z documentation 'rich text' dla zawijania
+            "<FONT COLOR=black>%s</FONT><b>%s</b>" % (formElement.documentation, placeholder))  # dodanie tooltip z documentation 'rich text' dla zawijania
         tooltipImg.setObjectName(formElement.name + '_tooltip')
         return tooltipImg

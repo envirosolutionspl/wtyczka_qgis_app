@@ -135,6 +135,11 @@ class DokumentyFormularzDialog(QDialogOverride, FORM_CLASS4, Formularz, ButtonsD
         self.formElements = utils.createFormElementsDokumentFormalny()
         self.createForm(container=self.form_scrollArea,
                         formElements=self.formElements)
+
+        # schowanie WersjaId dla dokumentu formalnego
+        wersjaId_lineEdit = utils.layout_widget_by_name(self.form_scrollArea.widget().layout(), name="wersjaId_lineEdit")
+        wersjaId_lineEdit.setEnabled(False)
+
         # self.returnFormElements(self.formElements)
         ButtonsDialog.__init__(self)
 

@@ -687,6 +687,7 @@ class Ui_Dialog(object):
         self.e19_cmbbx.setObjectName("e19_cmbbx")
         self.e19_cmbbx.addItem("")
         self.e19_cmbbx.addItem("")
+        self.e19_cmbbx.addItem("")
         self.hboxlayout27.addWidget(self.e19_cmbbx)
         self.e19_tooltip = QtWidgets.QLabel(self.verticalGroupBox9)
         self.e19_tooltip.setText("")
@@ -1006,6 +1007,7 @@ class Ui_Dialog(object):
         self.hboxlayout42.addWidget(self.e29_name_lineEdit)
         self.e29_cmbbx = QtWidgets.QComboBox(self.verticalGroupBox14)
         self.e29_cmbbx.setEnabled(False)
+        self.e29_cmbbx.setEditable(False)
         self.e29_cmbbx.setObjectName("e29_cmbbx")
         self.e29_cmbbx.addItem("")
         self.hboxlayout42.addWidget(self.e29_cmbbx)
@@ -1184,47 +1186,47 @@ class Ui_Dialog(object):
         Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
         self.title_lbl.setText(_translate("Dialog", "Metadane"))
         self.addSet_lbl.setText(_translate("Dialog", "Wybierz plik GML dla zbioru APP (opcjonalne)"))
-        self.existingMetadata_lbl.setText(_translate("Dialog", "Aktualizuj plik z metadanymi (opcjonalne)    "))
+        self.existingMetadata_lbl.setText(_translate("Dialog", "Wczytaj istniejący plik z metadanymi (opcjonalne)    "))
         self.clearForm_btn.setText(_translate("Dialog", "Wyczyść formularz"))
         self.titleForm_lbl.setText(_translate("Dialog", "Formularz metadanych:"))
         self.mGroupBox.setTitle(_translate("Dialog", "Identyfikacja*"))
         self.e1_lbl.setText(_translate("Dialog", "Tytuł zbioru*"))
         self.e1_lineEdit.setText(_translate("Dialog", "Zbiór danych przestrzennych dla <typ_planu> <typ_jednostki> <nazwa_jednostki>"))
         self.e1_tooltip.setToolTip(_translate("Dialog", "Nazwa zbioru danych przestrzennych. \n"
-"\n"
+"<br>\n"
 "Nazwa zbioru danych przestrzennych musi być skonstruowana zgodnie ze wzorem dla:\n"
-"1)    planu zagospodarowania przestrzennego województwa: „Zbiór danych dla planu zagospodarowania przestrzennego województwa <nazwa jednostki podziału administracyjnego kraju>”;\n"
-"2)    studium uwarunkowań i kierunków zagospodarowania przestrzennego: „Zbiór danych dla studium uwarunkowań i kierunków zagospodarowania przestrzennego <typ jednostki podziału administracyjnego kraju> <nazwa jednostki podziału administracyjnego kraju>”,\n"
-"3)    miejscowych planów, w tym miejscowych planów zagospodarowania przestrzennego, miejscowych planów odbudowy oraz miejscowych planów rewitalizacji: „Zbiór danych dla miejscowych planów <typ jednostki podziału administracyjnego kraju> <nazwa jednostki podziału administracyjnego kraju>”.\n"
+"<br>1)    planu zagospodarowania przestrzennego województwa: „Zbiór danych przestrzennych dla planu zagospodarowania przestrzennego województwa &lt;nazwa jednostki podziału administracyjnego kraju&gt;”;\n"
+"<br>2)    studium uwarunkowań i kierunków zagospodarowania przestrzennego: „Zbiór danych przestrzennych dla studium uwarunkowań i kierunków zagospodarowania przestrzennego &lt;typ jednostki podziału administracyjnego kraju&gt; &lt;nazwa jednostki podziału administracyjnego kraju&gt;”,\n"
+"<br>3)    miejscowych planów, w tym miejscowych planów zagospodarowania przestrzennego, miejscowych planów odbudowy oraz miejscowych planów rewitalizacji: „Zbiór danych przestrzennych dla miejscowych planów &lt;typ jednostki podziału administracyjnego kraju&gt; &lt;nazwa jednostki podziału administracyjnego kraju&gt;”.\n"
 ""))
         self.e2_lbl.setText(_translate("Dialog", "Streszczenie*"))
-        self.e2_tooltip.setToolTip(_translate("Dialog", "Zwięzły opis zawartości zbioru danych."))
-        self.e3_lbl.setText(_translate("Dialog", "Typ zbioru*"))
+        self.e2_tooltip.setToolTip(_translate("Dialog", "Zwięzły opis zawartości zbioru danych przestrzennych."))
+        self.e3_lbl.setText(_translate("Dialog", "Typ zbioru danych przestrzennych*"))
         self.e3_lineEdit.setText(_translate("Dialog", "dataset"))
-        self.e3_tooltip.setToolTip(_translate("Dialog", "Typ zbioru danych opisywanego przez metadane. \n"
+        self.e3_tooltip.setToolTip(_translate("Dialog", "Typ zbioru danych przestrzennych opisywanego przez metadane. \n"
 "\n"
-"Wartości elementu metadanych zawsze jest równa: zbiór danych („dataset”).\n"
+"Wartości elementu metadanych zawsze jest równa: zbiór danych przestrzennych („dataset”).\n"
 ""))
-        self.e4_lbl.setText(_translate("Dialog", "Adres zbioru"))
-        self.e4_tooltip.setToolTip(_translate("Dialog", "Adres zbioru danych określa odnośnik (odnośniki) do tego zbioru lub odnośnik do dodatkowych informacji na jego temat.\n"
+        self.e4_lbl.setText(_translate("Dialog", "Adres zbioru danych przestrzennych"))
+        self.e4_tooltip.setToolTip(_translate("Dialog", "Adres zbioru danych przestrzennych określa odnośnik (odnośniki) do tego zbioru lub odnośnik do dodatkowych informacji na jego temat.\n"
 "\n"
-"Adres zbioru musi być wyspecyfikowany w formie adresu URI:\n"
-"1)    usługi sieciowej udostępniającej zbiór danych;\n"
-"2)    strony internetowej zawierającej dodatkowe informacje na temat zbioru danych, lub jeżeli jest on niedostępny;\n"
-"3)    strony internetowej organizacji odpowiedzialnej za zbiór danych.\n"
+"Adres zbioru danych przestrzennych  musi być wyspecyfikowany w formie adresu URI:\n"
+"1)    usługi sieciowej udostępniającej zbiór danych przestrzennych;\n"
+"2)    strony internetowej zawierającej dodatkowe informacje na temat zbioru danych przestrzennych, lub jeżeli jest on niedostępny\n"
+"3)    strony internetowej organizacji odpowiedzialnej za zbiór danych przestrzennych.\n"
 ""))
         self.e4_add_btn.setText(_translate("Dialog", "Dodaj"))
         self.e4_remove_btn.setText(_translate("Dialog", "Usuń"))
         self.e4_listWidget.setSortingEnabled(False)
-        self.e5_lbl.setText(_translate("Dialog", "Unikalny identyfikator zbioru*"))
-        self.e5_tooltip.setToolTip(_translate("Dialog", "Wartość, o której mowa w §4 rozporządzenia, identyfikująca dany zbiór danych w unikalny sposób."))
+        self.e5_lbl.setText(_translate("Dialog", "Unikalny identyfikator zbioru danych przestrzennych*"))
+        self.e5_tooltip.setToolTip(_translate("Dialog", "Wartość, o której mowa w §4 rozporządzenia, identyfikująca dany zbiór danych przestrzennych w unikalny sposób."))
         self.e5_add_btn.setText(_translate("Dialog", "Dodaj"))
         self.e5_remove_btn.setText(_translate("Dialog", "Usuń"))
         self.e5_listWidget.setSortingEnabled(False)
-        self.e6_lbl.setText(_translate("Dialog", "Język zbioru*"))
+        self.e6_lbl.setText(_translate("Dialog", "Język zbioru danych przestrzennych*"))
         self.e6_cmbbx.setItemText(0, _translate("Dialog", "polski"))
         self.e6_cmbbx.setItemText(1, _translate("Dialog", "angielski"))
-        self.e6_tooltip.setToolTip(_translate("Dialog", "Język stosowany w zbiorze danych."))
+        self.e6_tooltip.setToolTip(_translate("Dialog", "Język stosowany w zbiorze danych przestrzennych."))
         self.e6_add_btn.setText(_translate("Dialog", "Dodaj"))
         self.e6_remove_btn.setText(_translate("Dialog", "Usuń"))
         self.e6_listWidget.setSortingEnabled(False)
@@ -1247,13 +1249,13 @@ class Ui_Dialog(object):
         self.e7_cmbbx.setItemText(16, _translate("Dialog", "8859część16"))
         self.e7_cmbbx.setItemText(17, _translate("Dialog", "usAscii"))
         self.e7_cmbbx.setItemText(18, _translate("Dialog", "ebcdic"))
-        self.e7_tooltip.setToolTip(_translate("Dialog", "Nazwa sposobu kodowania znaków (informacji tekstowej) użytego w zbiorze danych."))
+        self.e7_tooltip.setToolTip(_translate("Dialog", "Nazwa sposobu kodowania znaków (informacji tekstowej) użytego w zbiorze danych przestrzennych."))
         self.e7_add_btn.setText(_translate("Dialog", "Dodaj"))
         self.e7_remove_btn.setText(_translate("Dialog", "Usuń"))
         self.e7_listWidget.setSortingEnabled(False)
         self.mGroupBox_2.setTitle(_translate("Dialog", "Klasyfikacja danych przestrzennych*"))
         self.e8_lbl.setText(_translate("Dialog", "Kategoria tematyczna*"))
-        self.e8_lineEdit.setText(_translate("Dialog", "Planowanie/Kataster"))
+        self.e8_lineEdit.setText(_translate("Dialog", "Planowanie/Kataster (planningCadastre)"))
         self.e8_tooltip.setToolTip(_translate("Dialog", "Klasyfikacja zbioru danych przestrzennych, opisana z użyciem wysokiego poziomu schematu klasyfikacyjnego wspomagającego grupowanie i ukierunkowane tematycznie wyszukiwanie dostępnych zbiorów danych przestrzennych.\n"
 "\n"
 "Wartość elementu metadanych zawsze jest równa: „Planowanie/Kataster” („planningCadastre”).\n"
@@ -1264,15 +1266,15 @@ class Ui_Dialog(object):
 "\n"
 "Obowiązkowo należy podać  słowa kluczowe:\n"
 "•    opisujące odpowiedni temat danych przestrzennych i pozyskane z ogólnego wielojęzycznego tezaurusa środowiskowego (GEMET). Słowo to musi być równe: „Zagospodarowanie przestrzenne”,\n"
-"•    opisujące poziom administracyjny, który zbiór danych obejmuje (zakres przestrzenny),\n"
-"•    opisujące typ zbioru danych, w formie neutralnego językowo słowa równego: „PlannedLandUse”.\n"
+"•    opisujące poziom administracyjny, który zbiór danych przestrzennych obejmuje (zakres przestrzenny),\n"
+"•    opisujące typ zbioru danych przestrzennych, w formie neutralnego językowo słowa równego: „PlannedLandUse”.\n"
 "•    opisujące poziom jednostki administracyjnej objętej aktem planowania przestrzennego. Słowo to musi być równe zdefiniowanym w liście kodowej „Poziom planu zagospodarowania przestrzennego” zdefiniowanej w tabeli 2.7 w załączniku nr 1 do rozporządzenia.\n"
 ""))
         self.e10_lbl.setText(_translate("Dialog", "Standardowy słownik źródłowy"))
         self.e10_dateTimeEdit.setDisplayFormat(_translate("Dialog", "dd.MM.yyyy"))
-        self.e10_cmbbx.setItemText(0, _translate("Dialog", "utworzenie"))
-        self.e10_cmbbx.setItemText(1, _translate("Dialog", "aktualizacja"))
-        self.e10_cmbbx.setItemText(2, _translate("Dialog", "przegląd"))
+        self.e10_cmbbx.setItemText(0, _translate("Dialog", "Data utworzenia"))
+        self.e10_cmbbx.setItemText(1, _translate("Dialog", "Data ostatniej aktualizacji"))
+        self.e10_cmbbx.setItemText(2, _translate("Dialog", "Data opublikowania"))
         self.e10_tooltip.setToolTip(_translate("Dialog", "Nazwa sposobu kodowania znaków (informacji tekstowej) użytego w zbiorze danych."))
         self.e9_add_btn.setText(_translate("Dialog", "Dodaj"))
         self.e9_remove_btn.setText(_translate("Dialog", "Usuń"))
@@ -1281,7 +1283,7 @@ class Ui_Dialog(object):
         self.e11_lbl.setText(_translate("Dialog", "Geograficzny prostokąt ograniczający*"))
         self.e11_lineEdit.setToolTip(_translate("Dialog", "Prostokąt zdefiniowany jako <xmin>,<xmax>,<ymin>,<ymax> np.: 13.9000,23.9000,49.2300,54.7000"))
         self.e11_lineEdit.setPlaceholderText(_translate("Dialog", "np.: 13.9000,23.9000,49.2300,54.7000"))
-        self.e11_tooltip.setToolTip(_translate("Dialog", "Zasięg zbioru w przestrzeni geograficznej, wyrażony za pomocą prostokąta ograniczającego, opisanego za pomocą południków granicy zachodniej i granicy wschodniej obszaru oraz równoleżników granicy południowej i granicy północnej wyrażonych w częściach dziesiętnych stopnia, z dokładnością do co najmniej czterech cyfr dziesiętnych.\n"
+        self.e11_tooltip.setToolTip(_translate("Dialog", "Zasięg zbioru danych przestrzennych w przestrzeni geograficznej, wyrażony za pomocą prostokąta ograniczającego, opisanego za pomocą południków granicy zachodniej i granicy wschodniej obszaru oraz równoleżników granicy południowej i granicy północnej wyrażonych w częściach dziesiętnych stopnia, z dokładnością do co najmniej czterech cyfr dziesiętnych.\n"
 "\n"
 "Jeżeli zbiór danych charakteryzuje się brakiem ciągłości przestrzennej, można określić więcej niż jeden prostokąt ograniczający.\n"
 "\n"
@@ -1297,7 +1299,7 @@ class Ui_Dialog(object):
         self.e12_cmbbx.setItemText(3, _translate("Dialog", "http://www.opengis.net/def/crs/EPSG/0/2178"))
         self.e12_cmbbx.setItemText(4, _translate("Dialog", "http://www.opengis.net/def/crs/EPSG/0/2179"))
         self.e12_cmbbx.setItemText(5, _translate("Dialog", "http://www.opengis.net/def/crs/EPSG/0/4258"))
-        self.e12_tooltip.setToolTip(_translate("Dialog", "System odniesienia za pomocą współrzędnych zastosowany dla zbioru danych.\n"
+        self.e12_tooltip.setToolTip(_translate("Dialog", "System odniesienia za pomocą współrzędnych zastosowany dla zbioru danych przestrzennych.\n"
 "\n"
 "Należy podać identyfikator systemu odniesienia w EPSG Geodetic Parameter Registry.\n"
 ""))
@@ -1306,29 +1308,28 @@ class Ui_Dialog(object):
         self.e12_listWidget.setSortingEnabled(False)
         self.mGroupBox_5.setTitle(_translate("Dialog", "Odniesienie czasowe*"))
         self.e13_lbl.setText(_translate("Dialog", "Data utworzenia*"))
-        self.e13_cmbbx.setItemText(0, _translate("Dialog", "utworzenie"))
-        self.e13_tooltip.setToolTip(_translate("Dialog", "Data utworzenia zbioru.\n"
+        self.e13_cmbbx.setItemText(0, _translate("Dialog", "Data utworzenia"))
+        self.e13_tooltip.setToolTip(_translate("Dialog", "Data utworzenia zbioru danych przestrzennych.\n"
 "\n"
 "Wartość elementu musi  wyrażać co najmniej datę dzienną, która  może być rozszerzona o wskazanie czasu (godzina, minuta, sekunda).\n"
 ""))
         self.e14_lbl.setText(_translate("Dialog", "Data opublikowania"))
-        self.e14_cmbbx.setItemText(0, _translate("Dialog", "publikacja"))
-        self.e14_tooltip.setToolTip(_translate("Dialog", "Data udostępnienia zbioru danych za pośrednictwem usług sieciowych.\n"
+        self.e14_cmbbx.setItemText(0, _translate("Dialog", "Data opublikowania"))
+        self.e14_tooltip.setToolTip(_translate("Dialog", "Data udostępnienia zbioru danych przestrzennych za pośrednictwem usług sieciowych.\n"
 "Wartość elementu musi  wyrażać co najmniej datę dzienną, która  może być rozszerzona o wskazanie czasu (godzina, minuta, sekunda).\n"
 ""))
         self.mGroupBox_6.setTitle(_translate("Dialog", "Jakość i ważność*"))
         self.e15_lbl.setText(_translate("Dialog", "Pochodzenie*"))
-        self.e15_tooltip.setToolTip(_translate("Dialog", "Opis historii procesu tworzenia lub ogólnej jakości zbioru danych przestrzennych. W stosownych przypadkach może zawierać stwierdzenie, czy zbiór danych był przedmiotem procesu kontroli lub oceny jakości, czy stanowi wersję urzędową i czy posiada moc prawną."))
+        self.e15_tooltip.setToolTip(_translate("Dialog", "Opis historii procesu tworzenia lub ogólnej jakości zbioru danych przestrzennych. W stosownych przypadkach może zawierać stwierdzenie, czy zbiór danych przestrzennych był przedmiotem procesu kontroli lub oceny jakości, czy stanowi wersję urzędową i czy posiada moc prawną."))
         self.e16_lbl.setText(_translate("Dialog", "Rozdzielczość przestrzenna*"))
-        self.e16_tooltip.setToolTip(_translate("Dialog", "Wielkość opisująca poziom szczegółowości zbioru danych, podawana jako skala równorzędna, wyrażona za pomocą liczby całkowitej stanowiącej mianownik skali."))
+        self.e16_tooltip.setToolTip(_translate("Dialog", "Wielkość opisująca poziom szczegółowości zbioru danych przestrzennych, podawana jako skala równorzędna, wyrażona za pomocą liczby całkowitej stanowiącej mianownik skali."))
         self.e16_add_btn.setText(_translate("Dialog", "Dodaj"))
         self.e16_remove_btn.setText(_translate("Dialog", "Usuń"))
         self.e16_listWidget.setSortingEnabled(False)
         self.e17_lbl.setText(_translate("Dialog", "Typ reprezentacji przestrzennej*"))
-        self.e17_tooltip.setToolTip(_translate("Dialog", "Metoda przestrzennej reprezentacji danych zbioru.\n"
+        self.e17_tooltip.setToolTip(_translate("Dialog", "Metoda przestrzennej reprezentacji danych zbioru danych przestrzennych.\n"
 "\n"
-"Element metadanych zawsze przyjmuje wartości: wektor „Vector” oraz raster „Grid”.\n"
-"\n"
+"Element metadanych zawsze przyjmuje wartości: wektor („Vector”) oraz siatka („Grid”).\n"
 ""))
         self.e17_add_btn.setText(_translate("Dialog", "Dodaj"))
         self.e17_remove_btn.setText(_translate("Dialog", "Usuń"))
@@ -1336,33 +1337,41 @@ class Ui_Dialog(object):
         self.mGroupBox_7.setTitle(_translate("Dialog", "Zgodność*"))
         self.e18_lbl.setText(_translate("Dialog", "Specyfikacja*"))
         self.e18_dateTimeEdit.setDisplayFormat(_translate("Dialog", "dd.MM.yyyy"))
-        self.e18_cmbbx.setItemText(0, _translate("Dialog", "utworzenie"))
-        self.e18_cmbbx.setItemText(1, _translate("Dialog", "publikacja"))
-        self.e18_cmbbx.setItemText(2, _translate("Dialog", "przegląd"))
-        self.e18_tooltip.setToolTip(_translate("Dialog", "Przytoczenie przepisów wykonawczych przyjętych na podstawie art. 7 ust. 1 dyrektywy 2007/2/WE Parlamentu Europejskiego i Rady z dnia 14 marca 2007 r. ustanawiającej infrastrukturę informacji przestrzennej we Wspólnocie Europejskiej, zwanej dyrektywą INSPIRE (Dz.U. L 108 z 25.4.2007, str. 1—14) lub innej specyfikacji, której odpowiada konkretny zbiór planistyczny.\n"
-"\n"
+        self.e18_cmbbx.setItemText(0, _translate("Dialog", "Data utworzenia"))
+        self.e18_cmbbx.setItemText(1, _translate("Dialog", "Data opublikowania"))
+        self.e18_cmbbx.setItemText(2, _translate("Dialog", "Data ostatniej aktualizacji"))
+        self.e18_tooltip.setToolTip(_translate("Dialog", "Przytoczenie przepisów lub innej specyfikacji, której odpowiada zbiór danych przestrzennych. \n"
+"<br>\n"
 "Przytoczenie powinno obejmować co najmniej:\n"
-"•    tytuł,\n"
-"•    datę odniesienia.\n"
-"\n"
-"Oprócz przepisów wykonawczych przyjętych na podstawie art. 7 ust. 1 dyrektywy INSPIRE należy przytoczyć Rozporządzenie Ministra Rozwoju w sprawie zbiorów danych przestrzennych oraz metadanych w zakresie zagospodarowania przestrzennego.\n"
+"<br>•    tytuł,\n"
+"<br>•    datę odniesienia.\n"
+"<br>\n"
+"<br>Należy przytoczyć co najmniej: \n"
+"<br>1.    Rozporządzenie Komisji (UE) Nr 1089/2010 z dnia 23 listopada 2010 r. w sprawie wykonania dyrektywy 2007/2/WE Parlamentu Europejskiego i Rady w zakresie interoperacyjności zbiorów i usług danych przestrzennych z późn. zm.\n"
+"<br>2.    Specyfikację danych dla tematu „zagospodarowanie przestrzenne” - D2.8.III.4 Data Specification on Land Use – Technical Guidelines\n"
+"<br>3.    Rozporządzenie Ministra Rozwoju w sprawie zbiorów danych przestrzennych oraz metadanych w zakresie zagospodarowania przestrzennego.\n"
+"<br>4.    Specyfikację danych „Planowanie przestrzenne”\n"
 ""))
         self.e19_lbl.setText(_translate("Dialog", "Stopień*"))
-        self.e19_cmbbx.setItemText(0, _translate("Dialog", "prawda"))
-        self.e19_cmbbx.setItemText(1, _translate("Dialog", "fałsz"))
-        self.e19_tooltip.setToolTip(_translate("Dialog", "Stopień zgodności zbioru danych z przepisami wykonawczymi przyjętymi na podstawie art. 7 ust. 1 dyrektywy INSPIRE lub z inną specyfikacją."))
+        self.e19_cmbbx.setItemText(0, _translate("Dialog", "Zgodny (conformant)"))
+        self.e19_cmbbx.setItemText(1, _translate("Dialog", "Niezgodny (notConformant)"))
+        self.e19_cmbbx.setItemText(2, _translate("Dialog", "Brak oceny zgodności (notEvaluated)"))
+        self.e19_tooltip.setToolTip(_translate("Dialog", "Stopień zgodności zbioru danych przestrzennych z przepisami przytoczonymi w ramach elementu E18 (specyfikacja)."))
         self.e18_add_btn.setText(_translate("Dialog", "Dodaj"))
         self.e18_remove_btn.setText(_translate("Dialog", "Usuń"))
         self.e18_listWidget.setSortingEnabled(False)
         self.mGroupBox_8.setTitle(_translate("Dialog", "Wymogi dotyczące dostępu i użytkowania*"))
         self.e20_lbl.setText(_translate("Dialog", "Warunki dotyczące dostępu i użytkowania*"))
-        self.e20_tooltip.setToolTip(_translate("Dialog", "Warunki dostępu do zbiorów danych przestrzennych i usług danych przestrzennych i ich użytkowania, a w stosownych przypadkach -również informacje o odpowiednich opłatach."))
+        self.e20_tooltip.setToolTip(_translate("Dialog", "Warunki dostępu do zbiorów danych przestrzennych, a w stosownych przypadkach - również informacje o odpowiednich opłatach.\n"
+"\n"
+"Wartość elementu metadanych zawsze jest równa: Brak warunków dostępu i użytkowania.\n"
+""))
         self.e20_add_btn.setText(_translate("Dialog", "Dodaj"))
         self.e20_remove_btn.setText(_translate("Dialog", "Usuń"))
         self.e20_listWidget.setSortingEnabled(False)
         self.e21_lbl_2.setText(_translate("Dialog", "Ograniczenia w publicznym dostępie*"))
         self.e21_lineEdit.setText(_translate("Dialog", "Brak ograniczeń w publicznym dostępie"))
-        self.e20_tooltip_2.setToolTip(_translate("Dialog", "Informacje dotyczące ograniczeń publicznego dostępu do zbioru danych ustanowionych na podstawie art. 13 dyrektywy INSPIRE.\n"
+        self.e20_tooltip_2.setToolTip(_translate("Dialog", "Informacje dotyczące ograniczeń publicznego dostępu do zbioru danych przestrzennych.\n"
 "\n"
 "Wartość elementu metadanych zawsze jest równa: Brak ograniczeń w publicznym dostępie.\n"
 ""))
@@ -1372,61 +1381,61 @@ class Ui_Dialog(object):
         self.e22_name_lineEdit.setPlaceholderText(_translate("Dialog", "nazwa jednostki"))
         self.e22_mail_lineEdit.setToolTip(_translate("Dialog", "adres email"))
         self.e22_mail_lineEdit.setPlaceholderText(_translate("Dialog", "adres email"))
-        self.e22_tooltip.setToolTip(_translate("Dialog", "Opis organizacji odpowiedzialnej za tworzenie, przechowywanie, rozpowszechnianie zbioru danych oraz zarządzanie nim, pozwalający na identyfikację, nawiązanie kontaktu i komunikację z organizacją lub osobami związanymi ze zbiorem.\n"
+        self.e22_tooltip.setToolTip(_translate("Dialog", "Opis organizacji odpowiedzialnej za tworzenie, przechowywanie, rozpowszechnianie zbioru danych przestrzennych oraz zarządzanie nim, pozwalający na identyfikację, nawiązanie kontaktu i komunikację z organizacją lub osobami związanymi ze zbiorem danych przestrzennych.\n"
 "\n"
 "Opis powinien obejmować co najmniej:\n"
 "•    nazwę organizacji,\n"
 "•    dane kontaktowe (adres poczty elektronicznej).\n"
 "\n"
-"Co najmniej należy wyspecyfikować jednostkę odpowiedzialną, pełniącą w stosunku do zbioru danych rolę „opiekun (konserwator)” o której mowa w punkcie 13.5.\n"
+"Co najmniej należy wyspecyfikować jednostkę odpowiedzialną, pełniącą w stosunku do zbioru danych przestrzennych rolę „Administrator”, o której mowa w punkcie 13.5.\n"
 ""))
         self.e23_lbl.setText(_translate("Dialog", "Rola jednostki odpowiedzialnej*"))
-        self.e23_cmbbx.setItemText(0, _translate("Dialog", "dostawca zasobu"))
-        self.e23_cmbbx.setItemText(1, _translate("Dialog", "opiekun (konserwator)"))
-        self.e23_cmbbx.setItemText(2, _translate("Dialog", "właściciel"))
-        self.e23_cmbbx.setItemText(3, _translate("Dialog", "użytkownik"))
-        self.e23_cmbbx.setItemText(4, _translate("Dialog", "dystrybutor"))
-        self.e23_cmbbx.setItemText(5, _translate("Dialog", "twórca"))
-        self.e23_cmbbx.setItemText(6, _translate("Dialog", "punkt kontaktowy"))
-        self.e23_cmbbx.setItemText(7, _translate("Dialog", "główny badacz"))
-        self.e23_cmbbx.setItemText(8, _translate("Dialog", "przetwórca"))
-        self.e23_cmbbx.setItemText(9, _translate("Dialog", "wydawca"))
-        self.e23_cmbbx.setItemText(10, _translate("Dialog", "autor"))
-        self.e23_tooltip.setToolTip(_translate("Dialog", "Rola pełniona przez jednostkę odpowiedzialną w stosunku do zbioru danych."))
+        self.e23_cmbbx.setItemText(0, _translate("Dialog", "Administrator (custodian)"))
+        self.e23_cmbbx.setItemText(1, _translate("Dialog", "Dostawca zasobu (resourceProvider)"))
+        self.e23_cmbbx.setItemText(2, _translate("Dialog", "Właściciel (owner)"))
+        self.e23_cmbbx.setItemText(3, _translate("Dialog", "Użytkownik (user)"))
+        self.e23_cmbbx.setItemText(4, _translate("Dialog", "Dystrybutor (distributor)"))
+        self.e23_cmbbx.setItemText(5, _translate("Dialog", "Twórca (originator)"))
+        self.e23_cmbbx.setItemText(6, _translate("Dialog", "Punkt kontaktowy (pointOfContact)"))
+        self.e23_cmbbx.setItemText(7, _translate("Dialog", "Główny badacz (principalInvestigator)"))
+        self.e23_cmbbx.setItemText(8, _translate("Dialog", "Jednostka przetwarzająca (processor)"))
+        self.e23_cmbbx.setItemText(9, _translate("Dialog", "Wydawca (publisher)"))
+        self.e23_cmbbx.setItemText(10, _translate("Dialog", "Autor (author)"))
+        self.e23_tooltip.setToolTip(_translate("Dialog", "Rola pełniona przez jednostkę odpowiedzialną w stosunku do zbioru danych przestrzennych."))
         self.e22_add_btn.setText(_translate("Dialog", "Dodaj"))
         self.e22_remove_btn.setText(_translate("Dialog", "Usuń"))
         self.e22_listWidget.setSortingEnabled(False)
         self.mGroupBox_10.setTitle(_translate("Dialog", "Kodowanie*"))
         self.e24_lbl.setText(_translate("Dialog", "Nazwa formatu*"))
-        self.e24_tooltip.setToolTip(_translate("Dialog", "Nazwa formatu danych, w jakim dokonuje się dystrybucji zbioru danych."))
+        self.e24_tooltip.setToolTip(_translate("Dialog", "Nazwa formatu danych, w jakim dokonuje się dystrybucji zbioru danych przestrzennych."))
         self.e25_lbl.setText(_translate("Dialog", "Wersja formatu*"))
-        self.e25_tooltip.setToolTip(_translate("Dialog", "Wersja formatu danych, w jakim dokonuje się dystrybucji zbioru danych."))
+        self.e25_tooltip.setToolTip(_translate("Dialog", "Wersja formatu danych, w jakim dokonuje się dystrybucji zbioru danych przestrzennych."))
         self.e24_add_btn.setText(_translate("Dialog", "Dodaj"))
         self.e24_remove_btn.setText(_translate("Dialog", "Usuń"))
         self.e24_listWidget.setSortingEnabled(False)
         self.mGroupBox_11.setTitle(_translate("Dialog", "Informacje o utrzymaniu zbioru*"))
         self.e26_lbl.setText(_translate("Dialog", "Częstotliwość aktualizacji*"))
         self.e26_lineEdit.setText(_translate("Dialog", "według potrzeb"))
-        self.e26_tooltip.setToolTip(_translate("Dialog", "Częstotliwość, z jaką dokonywane są zmiany w zbiorze, po tym jak zbiór został skompletowany.\n"
+        self.e26_tooltip.setToolTip(_translate("Dialog", "Częstotliwość, z jaką dokonywane są zmiany w zbiorze danych przestrzennych, po tym jak zbiór danych przestrzennych został skompletowany.\n"
 "\n"
 "Wartości elementu metadanych zawsze jest równa: według potrzeb („asNeeded”).\n"
 ""))
         self.e27_lbl.setText(_translate("Dialog", "Informacja o szczegółowych wymaganiach dotyczących utrzymania*"))
-        self.e27_tooltip.setToolTip(_translate("Dialog", "Szczegółowe informacje dotyczące sposobu przeprowadzania aktualizacji zbioru danych. "))
+        self.e27_tooltip.setToolTip(_translate("Dialog", "Szczegółowe informacje dotyczące sposobu przeprowadzania aktualizacji zbioru danych przestrzennych. "))
         self.e27_add_btn.setText(_translate("Dialog", "Dodaj"))
         self.e27_remove_btn.setText(_translate("Dialog", "Usuń"))
         self.e27_listWidget.setSortingEnabled(False)
         self.e28_lbl.setText(_translate("Dialog", "Zakres danych*"))
-        self.e28_lineEdit.setText(_translate("Dialog", "zbiór danych"))
+        self.e28_lineEdit.setText(_translate("Dialog", "Zbiór danych przestrzennych (dataset)"))
         self.e28_tooltip.setToolTip(_translate("Dialog", "Zakres danych, wobec których stosowana jest aktualizacja.\n"
 "\n"
-"Wartości elementu metadanych zawsze jest równa: zbiór danych („dataset”).\n"
+"Wartości elementu metadanych zawsze jest równa: zbiór danych przestrzennych („dataset”).\n"
 ""))
         self.mGroupBox_12.setTitle(_translate("Dialog", "Metadane na temat metadanych*"))
         self.e29_lbl.setText(_translate("Dialog", "Punkt kontaktowy metadanych*"))
         self.e29_name_lineEdit.setToolTip(_translate("Dialog", "nazwa organizacji"))
         self.e29_name_lineEdit.setPlaceholderText(_translate("Dialog", "nazwa organizacji"))
-        self.e29_cmbbx.setItemText(0, _translate("Dialog", "punkt kontaktowy"))
+        self.e29_cmbbx.setItemText(0, _translate("Dialog", "Punkt kontaktowy (pointOfContact)"))
         self.e29_mail_lineEdit.setToolTip(_translate("Dialog", "adres email"))
         self.e29_mail_lineEdit.setPlaceholderText(_translate("Dialog", "adres email"))
         self.e29_tooltip.setToolTip(_translate("Dialog", "Opis organizacji odpowiedzialnej za tworzenie i przechowywanie metadanych.\n"
@@ -1453,7 +1462,8 @@ class Ui_Dialog(object):
 "Wartość elementu metadanych zawsze jest równa: polski.\n"
 ""))
         self.e32_lbl.setText(_translate("Dialog", "Unikalny identyfikator rekordu (pliku) metadanych*"))
-        self.e32_btn.setText(_translate("Dialog", "Generuj"))
+        self.e32_btn.setToolTip(_translate("Dialog", "W przypadku nadpisywania (edycji) istniejącego pliku metadanych należy zostawić automatycznie zaczytany identyfikator"))
+        self.e32_btn.setText(_translate("Dialog", "Generuj nowy (tylko dla nowych plików)"))
         self.e32_tooltip.setToolTip(_translate("Dialog", "Wartość identyfikująca rekord metadanych w unikalny sposób.\n"
 "\n"
 "Wartość elementu musi być równa identyfikatorowi UUID.\n"
@@ -1461,7 +1471,7 @@ class Ui_Dialog(object):
         self.mGroupBox_12_5.setTitle(_translate("Dialog", "Standard metadanych*"))
         self.e33_lbl.setText(_translate("Dialog", "Nazwa standardu metadanych*"))
         self.e33_lineEdit.setText(_translate("Dialog", "ISO 19115"))
-        self.e33_tooltip.setToolTip(_translate("Dialog", "Nazwa standardu metadanych użytego do opisu zbioru."))
+        self.e33_tooltip.setToolTip(_translate("Dialog", "Nazwa standardu metadanych użytego do opisu zbioru danych przestrzennych."))
         self.e34_lbl.setText(_translate("Dialog", "Wersja standardu metadanych*"))
         self.e34_lineEdit.setText(_translate("Dialog", "2005/Amd 1:2008"))
         self.e34_tooltip.setToolTip(_translate("Dialog", "Wersja standardu metadanych użytego do opisu zbioru."))

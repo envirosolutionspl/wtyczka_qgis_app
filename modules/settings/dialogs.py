@@ -5,7 +5,7 @@ Okna dialogowe modułu Settings
  ***************************************************************************/
 """
 import os
-
+from wtyczka_qgis_app import PLUGIN_VERSION
 from PyQt5.QtWidgets import QMessageBox
 from qgis.PyQt.QtCore import Qt, QRegExp
 from qgis.PyQt import uic, QtGui
@@ -16,9 +16,8 @@ from PyQt5.QtGui import QRegExpValidator
 title_settings = 'Ustawienia'
 icon_settings = ':/plugins/wtyczka_app/img/ustawienia.png'
 
-# TODO zmienić ikonę helpa
 title_help = 'Pomoc'
-icon_help = ':/plugins/wtyczka_app/img/ustawienia.png'
+icon_help = ':/plugins/wtyczka_app/img/info2.png'
 
 # This loads your .ui file so that PyQt can populate your plugin with the elements from Qt Designer
 FORM_CLASS, _ = uic.loadUiType(os.path.join(
@@ -37,7 +36,8 @@ class UstawieniaDialog(QtWidgets.QDialog, FORM_CLASS):
         self.setWindowIcon(QtGui.QIcon(icon_settings))
         self.setWindowFlag(Qt.WindowMinMaxButtonsHint, True)
         self.exit_btn.clicked.connect(self.reject)
-        self.mail_lineEdit.setValidator(QRegExpValidator(QRegExp(r"[0-9a-zA-Z.\-\_\@\+]*")))
+        self.contactMail_lineEdit.setValidator(QRegExpValidator(QRegExp(r"[0-9a-zA-Z.\-\_\@\+]*")))
+        self.adminMail_lineEdit.setValidator(QRegExpValidator(QRegExp(r"[0-9a-zA-Z.\-\_\@\+]*")))
 
 
 class PomocDialog(QtWidgets.QDialog, FORM_CLASS1):
@@ -48,4 +48,5 @@ class PomocDialog(QtWidgets.QDialog, FORM_CLASS1):
         self.setWindowTitle(title_help)
         self.setWindowIcon(QtGui.QIcon(icon_help))
         self.setWindowFlag(Qt.WindowMinMaxButtonsHint, True)
+        self.version_lbl.setText(PLUGIN_VERSION)
         self.cancel_btn.clicked.connect(self.reject)

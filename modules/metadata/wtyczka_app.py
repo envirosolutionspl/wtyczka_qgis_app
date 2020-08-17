@@ -133,10 +133,6 @@ class MetadataModule(BaseModule):
                 return False
         return False
 
-    # def openMetaFile(self):
-    #     self.plik = QFileDialog.getOpenFileName(filter="*.xml")[0]
-    #     if self.plik != '':
-    #         self.metadaneDialog.file_lbl.setText(self.plik)
 
     """Popup windows"""
     def showPopupValidateAndSave(self):

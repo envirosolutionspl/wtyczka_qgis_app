@@ -12,7 +12,25 @@ import uuid
 import random
 
 
+def validateDatasetId(datasetId):
+    """sprawdza czy id ma poprawną formę"""
+    pattern = r'PL.ZIPPZP.\d{4}/[012]{1}[02468]{1}\d{0,4}-(PZPW|MPZP|SUIKZP){1}'
+    return True if re.fullmatch(pattern, datasetId) else False
+
+def validateDatasetUri(datasetUri):
+    """sprawdza czy Uri ma poprawną formę"""
+    pattern = r'http://zagospodarowanieprzestrzenne.gov.pl/app/AktPlanowaniaPrzestrzennego/PL.ZIPPZP.\d{4}/[012]{1}[02468]{1}\d{0,4}-(PZPW|MPZP|SUIKZP){1}/'
+    return True if re.fullmatch(pattern, datasetUri) else False
+
+def validateEmailAddress(email):
+    """sprawdza czy adres email ma poprawną formę"""
+    pattern = r'[^@]+@[^@]+\.[^@]+'
+    return True if re.fullmatch(pattern, email) else False
+
+
+
 def generateUUID():
+    """generuje UUID"""
     rd = random.Random()
     return str(uuid.UUID(int=rd.getrandbits(128)))
 
@@ -168,75 +186,61 @@ def createFormElements(attribute):
     tree = ET.parse(xsd)
     root = tree.getroot()
 
-    complexType = root.find(
-        "glowny:complexType[@name='" + attribute + "']", ns)
+    complexType = root.find("glowny:complexType[@name='" + attribute + "']", ns)
     sequence = complexType[0][0][0]  # sekwencja z listą pól
     for element in sequence:
-        attrib = element.attrib
 
-        try:
-            elementType = attrib['type']
-            formElement = FormElement(
-                name=attrib['name'],
-                type=elementType,
-                form=attribute
-            )
-        except KeyError:
+        if 'type' in element.attrib:
+            elementType = element.attrib['type']
+        else:
             elementComplexType = element.find("glowny:complexType", ns)
             elementAttrib = elementComplexType[0][0].attrib
             elementType = elementAttrib['base']
-            formElement = FormElement(
-                name=attrib['name'],
-                type=elementType,
-                form=attribute
-            )
-            try:  # gdy jest nillable
-                if element.attrib['nillable'] == 'true':
-                    formElement.setNillable()
-            except KeyError:  # gdyby nie bylo rowniez nillable
-                pass
 
-        # na wypadek braku 'minOccurs'
-        try:
-            formElement.setMinOccurs(attrib['minOccurs'])
-        except KeyError:
-            pass
-        # na wypadek braku 'maxOccurs'
-        try:
-            formElement.setMaxOccurs(attrib['maxOccurs'])
-        except KeyError:
-            pass
+        formElement = FormElement(
+            name=element.attrib['name'],
+            type=elementType,
+            form=attribute
+        )
+
+
+        if 'minOccurs' in element.attrib:
+            formElement.setMinOccurs(element.attrib['minOccurs'])
+        if 'maxOccurs' in element.attrib:
+            formElement.setMaxOccurs(element.attrib['maxOccurs'])
+
         # documentation
         documentation = element.find("glowny:annotation", ns).find(
             "glowny:documentation", ns)
         formElement.setDocumentation(documentation.text)
 
         # zdefiniowany w app complextype
-        # if elementType == 'app:IdentyfikatorPropertyType':
         if elementType[:4] == 'app:':
             formElement.markAsComplex()  # ustawia .isComplex = True
             name = str(elementType).replace('Property', '').split(':')[-1]
 
             complexSequence = root.find(
                 "glowny:complexType[@name='%s']" % name, ns)[0]
+
             for complexElement in complexSequence:
-                try:    # jeżeli jest atrybut 'type'
-                    innerFormElement = FormElement(
-                        name=complexElement.attrib['name'],
-                        type=complexElement.attrib['type'],
-                        form=attribute
-                    )
-                except KeyError:    # jeżeli nie ma atrybutu 'type'
-                    innerFormElement = FormElement(
-                        name=complexElement.attrib['name'],
-                        type="anyURI",
-                        form=attribute
-                    )
-                    try:  # gdy jest nillable
-                        if complexElement.attrib['nillable'] == 'true':
-                            innerFormElement.setNillable()
-                    except KeyError:  # gdyby nie bylo rowniez nillable
-                        pass
+                if 'type' in complexElement.attrib:
+                    # jeżeli jest atrybut 'type'
+                    _formType = complexElement.attrib['type']
+                else:
+                    # jeżeli nie ma atrybutu 'type'
+                    _formType = "anyURI"
+
+                innerFormElement = FormElement(
+                    name=complexElement.attrib['name'],
+                    type=_formType,
+                    form=attribute
+                )
+
+                if 'minOccurs' in complexElement.attrib:
+                    innerFormElement.setMinOccurs(complexElement.attrib['minOccurs'])
+                if 'maxOccurs' in complexElement.attrib:
+                    innerFormElement.setMaxOccurs(complexElement.attrib['maxOccurs'])
+
                 # complex documentation
                 complexDocumentation = complexElement.find(
                     "glowny:annotation", ns).find("glowny:documentation", ns)

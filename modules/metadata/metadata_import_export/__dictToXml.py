@@ -1,7 +1,7 @@
 import xml.etree.ElementTree as ET
 from xml.dom import minidom
 from . import translation
-from .. import dictionaries
+from .. import dictionaries, utils
 
 def metadataElementDictToXml(metadataElementDict):
     """tworzy XML na podstawie słownika metadataElementDict"""
@@ -93,8 +93,13 @@ def metadataElementDictToXml(metadataElementDict):
 
     """gmd:identificationInfo"""
     identificationInfo = ET.SubElement(root, 'gmd:identificationInfo')
-    # TODO: id na podstawie E5
-    mD_DataIdentification = ET.SubElement(identificationInfo, 'gmd:MD_DataIdentification', {'id': 'PZPW'})
+    # id na podstawie E5
+    typZbioru = ''
+    for listItem in metadataElementDict['e5']:
+        if utils.validateDatasetId(listItem['e5_lineEdit']):
+            typZbioru = listItem['e5_lineEdit'].strip('/').split("/")[-1].split('-')[-1]
+            break
+    mD_DataIdentification = ET.SubElement(identificationInfo, 'gmd:MD_DataIdentification', {'id': typZbioru})
 
     """gmd:citation"""
     citation = ET.SubElement(mD_DataIdentification, 'gmd:citation')
@@ -126,7 +131,9 @@ def metadataElementDictToXml(metadataElementDict):
         mD_Identifier = ET.SubElement(identifier, 'gmd:MD_Identifier')
         code = ET.SubElement(mD_Identifier, 'gmd:code')
         characterString = ET.SubElement(code, 'gco:CharacterString')
-        characterString.text = listItem['e5_lineEdit']
+        idIpp = listItem['e5_lineEdit']
+        idIppUri = 'http://zagospodarowanieprzestrzenne.gov.pl/app/AktPlanowaniaPrzestrzennego/%s/' % idIpp
+        characterString.text = idIppUri
 
     """gmd:abstract"""
     abstract = ET.SubElement(mD_DataIdentification, 'gmd:abstract')
@@ -305,6 +312,20 @@ def metadataElementDictToXml(metadataElementDict):
         version = ET.SubElement(mD_Format, 'gmd:version')
         characterString = ET.SubElement(version, 'gco:CharacterString')
         characterString.text = listItem['e25_lineEdit']
+
+        if (listItem['e24_lineEdit'].split() == 'Schemat aplikacyjny GML Planowanie przestrzenne' and
+                listItem['e25_lineEdit'].split() == '1.0'
+        ):
+            specification = ET.SubElement(mD_Format, 'gmd:specification')
+            characterString = ET.SubElement(specification, 'gco:CharacterString')
+            characterString.text = 'Specyfikacja danych: Planowanie przestrzenne v1.0'
+        if (listItem['e24_lineEdit'].split() == 'Planned Land Use GML Application Schema' and
+                listItem['e25_lineEdit'].split() == '4.0'
+        ):
+            specification = ET.SubElement(mD_Format, 'gmd:specification')
+            characterString = ET.SubElement(specification, 'gco:CharacterString')
+            characterString.text = 'D2.8.III.4 Data Specification on Land Use – Technical Guidelines'
+
     """gmd:transferOptions"""
     for listItem in metadataElementDict['e4']:
         transferOptions = ET.SubElement(distributionInfo, 'gmd:transferOptions')
@@ -353,9 +374,11 @@ def metadataElementDictToXml(metadataElementDict):
         ET.SubElement(dateType, 'gmd:CI_DateTypeCode',
                       {'codeList': 'http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#CI_DateTypeCode',
                        'codeListValue': translation[listItem['e18_cmbbx']]})
-        _pass = ET.SubElement(dQ_ConformanceResult, 'gmd:pass')
-        boolean = ET.SubElement(_pass, 'gco:Boolean')
-        boolean.text = translation[listItem['e19_cmbbx']]
+        explanation = ET.SubElement(dQ_ConformanceResult, 'gmd:explanation')
+        exp_anchor = ET.SubElement(explanation, 'gmx:Anchor', {'xlink:href': dictionaries.zgodnoscAnchors[listItem['e19_cmbbx']]})
+        exp_anchor.text = listItem['e19_cmbbx']
+
+        booleanElementFromConformancyLevel(conformancyLevel=listItem['e19_cmbbx'], dQ_ConformanceResult=dQ_ConformanceResult)
 
     """gmd:lineage"""
     lineage = ET.SubElement(dQ_DataQuality, 'gmd:lineage')
@@ -366,3 +389,17 @@ def metadataElementDictToXml(metadataElementDict):
 
     # print(minidom.parseString(tostring(root, encoding='utf-8', method='xml').decode('utf-8')).toprettyxml())
     return minidom.parseString(ET.tostring(root, encoding='utf-8', method='xml').decode('utf-8')).toprettyxml()
+
+def booleanElementFromConformancyLevel(conformancyLevel, dQ_ConformanceResult):
+    """definiuje tag 'pass' na podstawie stopnia zgodności"""
+    if conformancyLevel == 'Zgodny (conformant)':
+        _pass = ET.SubElement(dQ_ConformanceResult, 'gmd:pass')
+        boolean = ET.SubElement(_pass, 'gco:Boolean')
+        boolean.text = 'true'
+    elif conformancyLevel == 'Niezgodny (notConformant)':
+        _pass = ET.SubElement(dQ_ConformanceResult, 'gmd:pass')
+        boolean = ET.SubElement(_pass, 'gco:Boolean')
+        boolean.text = 'false'
+    elif conformancyLevel == 'Brak oceny zgodności (notEvaluated)':
+        _pass = ET.SubElement(dQ_ConformanceResult, 'gmd:pass')
+        boolean = ET.SubElement(_pass, 'gco:Boolean', {'gco:nilReason': "unknown"})

@@ -1,6 +1,7 @@
 from qgis.utils import iface
 from . import (PytanieAppDialog, ZbiorPrzygotowanieDialog, RasterInstrukcjaDialog, RasterFormularzDialog,
                WektorFormularzDialog, DokumentyFormularzDialog, WektorInstrukcjaDialog, GenerowanieGMLDialog)
+from .app_utils import isLayerInPoland
 from .. import BaseModule, utils, Formularz
 from ..utils import showPopup
 from ..models import AppTableModel
@@ -197,18 +198,6 @@ class AppModule(BaseModule):
     # region wektorInstrukcjaDialog
 
     def wektorInstrukcjaDialog_next_btn_clicked(self):
-        def isGeomValid():
-            """sprawdza czy geometria obrysu jest poprawna"""
-            crs4326 = QgsCoordinateReferenceSystem(4326)  # WGS84
-            layerCrs = self.obrysLayer.sourceCrs()  # z warstwy
-            transform = QgsCoordinateTransform(
-                layerCrs, crs4326, QgsProject.instance())
-
-            layerExtent = self.obrysLayer.sourceExtent()
-            layerExtent4326 = transform.transform(layerExtent)
-            polandExtent4326 = QgsRectangle(
-                14.0745211117, 49.0273953314, 24.0299857927, 54.8515359564)
-            return polandExtent4326.intersects(layerExtent4326)
 
         self.obrysLayer = self.wektorInstrukcjaDialog.layers_comboBox.currentLayer()
 
@@ -230,7 +219,7 @@ class AppModule(BaseModule):
             elif self.obrysLayer.featureCount() == 0:
                 showPopup("Błąd warstwy obrysu", "Wybrana warstwa posiada obiekty w liczbie: %d.\n" % (
                     self.obrysLayer.featureCount()))
-            elif not isGeomValid():     # niepoprawna geometria
+            elif not isLayerInPoland(self.obrysLayer):     # niepoprawna geometria
                 showPopup("Błąd warstwy obrysu",
                           "Niepoprawna geometria - obiekt musi leżeć w Polsce, sprawdź układ współrzędnych warstwy.")
             elif srsName == '':
@@ -872,15 +861,18 @@ class AppModule(BaseModule):
     def prepareIdIPP(self, formularz):
         """definuje autouzupełnianie idIPP na podstawie zagnieżdzonych pól"""
         def updateIdIPP():
+            idIPP_list = []
             przestrzenNazw = przestrzenNazw_lineEdit.text().replace("/", "_")
             lokalnyId = lokalnyId_lineEdit.text()
             wersjaId = wersjaId_lineEdit.text()
-            if przestrzenNazw == '' and lokalnyId == '' and wersjaId == '':
-                idIIP_lineEdit.setText('')
-            else:
-                idIIP_lineEdit.setText("%s_%s_%s" % (
-                    przestrzenNazw,
-                    lokalnyId, wersjaId))
+            if przestrzenNazw.strip():
+                idIPP_list.append(przestrzenNazw.strip())
+            if lokalnyId.strip():
+                idIPP_list.append(lokalnyId.strip())
+            if wersjaId.strip():
+                idIPP_list.append(wersjaId.strip())
+
+            idIIP_lineEdit.setText("_".join(idIPP_list))
 
         # pobranie dynamicznie utworzonych obiektów UI
         idIIP_lineEdit = utils.getWidgetByName(

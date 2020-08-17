@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>500</width>
-    <height>600</height>
+    <width>487</width>
+    <height>508</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -54,13 +54,13 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>476</width>
-            <height>474</height>
+            <width>463</width>
+            <height>382</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_2">
            <item>
-            <widget class="QGroupBox" name="verticalGroupBox">
+            <widget class="QgsCollapsibleGroupBox" name="verticalGroupBox">
              <property name="title">
               <string>Domyślna ścieżka zapisu plików</string>
              </property>
@@ -89,53 +89,86 @@
             </widget>
            </item>
            <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_5">
-             <item>
-              <widget class="QGroupBox" name="verticalGroupBox">
-               <property name="title">
-                <string>Domyślny punkt kontaktowy</string>
-               </property>
-               <layout class="QVBoxLayout" name="verticalLayout_3">
-                <item>
-                 <layout class="QHBoxLayout" name="horizontalLayout_7">
-                  <item>
-                   <widget class="QLabel" name="name_lbl">
-                    <property name="text">
-                     <string>Nazwa       </string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QgsFilterLineEdit" name="name_lineEdit">
-                    <property name="qgisRelation" stdset="0">
-                     <string notr="true"/>
-                    </property>
-                   </widget>
-                  </item>
-                 </layout>
+            <widget class="QgsCollapsibleGroupBox" name="verticalGroupBox">
+             <property name="title">
+              <string>Domyślny punkt kontaktowy</string>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_3">
+              <item>
+               <layout class="QGridLayout" name="gridLayout_2">
+                <item row="1" column="1">
+                 <widget class="QgsFilterLineEdit" name="contactMail_lineEdit">
+                  <property name="qgisRelation" stdset="0">
+                   <string notr="true"/>
+                  </property>
+                 </widget>
                 </item>
-                <item>
-                 <layout class="QHBoxLayout" name="horizontalLayout_6">
-                  <item>
-                   <widget class="QLabel" name="mail_lbl">
-                    <property name="text">
-                     <string>Adres email</string>
-                    </property>
-                   </widget>
-                  </item>
-                  <item>
-                   <widget class="QgsFilterLineEdit" name="mail_lineEdit">
-                    <property name="qgisRelation" stdset="0">
-                     <string notr="true"/>
-                    </property>
-                   </widget>
-                  </item>
-                 </layout>
+                <item row="1" column="0">
+                 <widget class="QLabel" name="contactMail_lbl">
+                  <property name="text">
+                   <string>Adres email</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="0">
+                 <widget class="QLabel" name="contactName_lbl">
+                  <property name="text">
+                   <string>Nazwa       </string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="1">
+                 <widget class="QgsFilterLineEdit" name="contactName_lineEdit">
+                  <property name="qgisRelation" stdset="0">
+                   <string notr="true"/>
+                  </property>
+                 </widget>
                 </item>
                </layout>
-              </widget>
-             </item>
-            </layout>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QgsCollapsibleGroupBox" name="verticalGroupBox">
+             <property name="title">
+              <string>Administrator danych</string>
+             </property>
+             <layout class="QVBoxLayout" name="verticalLayout_3">
+              <item>
+               <layout class="QGridLayout" name="gridLayout_2">
+                <item row="1" column="1">
+                 <widget class="QgsFilterLineEdit" name="adminMail_lineEdit">
+                  <property name="qgisRelation" stdset="0">
+                   <string notr="true"/>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="0">
+                 <widget class="QLabel" name="adminMail_lbl">
+                  <property name="text">
+                   <string>Adres email</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="0">
+                 <widget class="QLabel" name="adminName_lbl">
+                  <property name="text">
+                   <string>Nazwa       </string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="1">
+                 <widget class="QgsFilterLineEdit" name="adminName_lineEdit">
+                  <property name="qgisRelation" stdset="0">
+                   <string notr="true"/>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </widget>
            </item>
            <item>
             <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -156,7 +189,7 @@
             </layout>
            </item>
            <item>
-            <spacer name="verticalSpacer_2">
+            <spacer name="verticalSpacer">
              <property name="orientation">
               <enum>Qt::Vertical</enum>
              </property>
@@ -220,6 +253,12 @@
   </layout>
  </widget>
  <customwidgets>
+  <customwidget>
+   <class>QgsCollapsibleGroupBox</class>
+   <extends>QGroupBox</extends>
+   <header>qgscollapsiblegroupbox.h</header>
+   <container>1</container>
+  </customwidget>
   <customwidget>
    <class>QgsFilterLineEdit</class>
    <extends>QLineEdit</extends>

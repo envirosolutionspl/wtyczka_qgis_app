@@ -20,25 +20,6 @@
    <item row="0" column="0">
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
-      <widget class="QLabel" name="title_lbl">
-       <property name="font">
-        <font>
-         <weight>75</weight>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="text">
-        <string>Okno pomocy</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-       <property name="margin">
-        <number>7</number>
-       </property>
-      </widget>
-     </item>
-     <item>
       <widget class="QGroupBox" name="verticalGroupBox">
        <property name="title">
         <string>Informacje o wtyczce</string>
@@ -50,7 +31,7 @@
            <widget class="QLabel" name="label_3">
             <property name="font">
              <font>
-              <underline>true</underline>
+              <underline>false</underline>
              </font>
             </property>
             <property name="text">
@@ -63,6 +44,9 @@
             <property name="text">
              <string>0.0</string>
             </property>
+            <property name="openExternalLinks">
+             <bool>false</bool>
+            </property>
            </widget>
           </item>
          </layout>
@@ -73,7 +57,7 @@
            <widget class="QLabel" name="label_4">
             <property name="font">
              <font>
-              <underline>true</underline>
+              <underline>false</underline>
              </font>
             </property>
             <property name="text">
@@ -84,10 +68,16 @@
           <item>
            <widget class="QLabel" name="label_2">
             <property name="text">
-             <string>&lt;a href=&quot;https://www.gnu.org/licenses/gpl-3.0.html&quot;&gt;GNU General Public License v3.0&lt;/a&gt;</string>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;a href=&quot;https://www.gnu.org/licenses/gpl-3.0.html&quot;&gt;GNU General Public License v3.0&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="textFormat">
              <enum>Qt::RichText</enum>
+            </property>
+            <property name="openExternalLinks">
+             <bool>true</bool>
+            </property>
+            <property name="textInteractionFlags">
+             <set>Qt::TextBrowserInteraction</set>
             </property>
            </widget>
           </item>
@@ -99,7 +89,7 @@
            <widget class="QLabel" name="label">
             <property name="font">
              <font>
-              <underline>true</underline>
+              <underline>false</underline>
              </font>
             </property>
             <property name="text">
@@ -115,6 +105,12 @@
             <property name="textFormat">
              <enum>Qt::RichText</enum>
             </property>
+            <property name="openExternalLinks">
+             <bool>true</bool>
+            </property>
+            <property name="textInteractionFlags">
+             <set>Qt::TextBrowserInteraction</set>
+            </property>
            </widget>
           </item>
          </layout>
@@ -125,7 +121,7 @@
            <widget class="QLabel" name="label_7">
             <property name="font">
              <font>
-              <underline>true</underline>
+              <underline>false</underline>
              </font>
             </property>
             <property name="text">
@@ -138,6 +134,12 @@
             <property name="text">
              <string>&lt;a href=&quot;https://github.com/envirosolutionspl/wtyczka_qgis_app/issues&quot;&gt;issue tracker&lt;/a&gt;</string>
             </property>
+            <property name="openExternalLinks">
+             <bool>true</bool>
+            </property>
+            <property name="textInteractionFlags">
+             <set>Qt::TextBrowserInteraction</set>
+            </property>
            </widget>
           </item>
          </layout>
@@ -148,7 +150,7 @@
            <widget class="QLabel" name="label_8">
             <property name="font">
              <font>
-              <underline>true</underline>
+              <underline>false</underline>
              </font>
             </property>
             <property name="text">
@@ -161,6 +163,12 @@
             <property name="text">
              <string>&lt;a href=&quot;https://envirosolutions.pl&quot;&gt;EnviroSolutions Sp. z o.o.&lt;/a&gt;</string>
             </property>
+            <property name="openExternalLinks">
+             <bool>true</bool>
+            </property>
+            <property name="textInteractionFlags">
+             <set>Qt::TextBrowserInteraction</set>
+            </property>
            </widget>
           </item>
          </layout>
@@ -171,7 +179,7 @@
            <widget class="QLabel" name="label_10">
             <property name="font">
              <font>
-              <underline>true</underline>
+              <underline>false</underline>
              </font>
             </property>
             <property name="text">
@@ -182,7 +190,13 @@
           <item>
            <widget class="QLabel" name="label_11">
             <property name="text">
-             <string>&lt;a href=&quot;https://mr.gov.pl&quot;&gt;Ministerstwo Rozwoju&lt;/a&gt;</string>
+             <string>&lt;a href=&quot;https://www.gov.pl/web/rozwoj&quot;&gt;Ministerstwo Rozwoju&lt;/a&gt;</string>
+            </property>
+            <property name="openExternalLinks">
+             <bool>true</bool>
+            </property>
+            <property name="textInteractionFlags">
+             <set>Qt::TextBrowserInteraction</set>
             </property>
            </widget>
           </item>
@@ -203,7 +217,7 @@
            <widget class="QLabel" name="label_12">
             <property name="font">
              <font>
-              <underline>true</underline>
+              <underline>false</underline>
              </font>
             </property>
             <property name="text">
@@ -216,6 +230,12 @@
             <property name="text">
              <string>&lt;a href=&quot;https://envirosolutions.pl&quot;&gt;link&lt;/a&gt;</string>
             </property>
+            <property name="openExternalLinks">
+             <bool>true</bool>
+            </property>
+            <property name="textInteractionFlags">
+             <set>Qt::TextBrowserInteraction</set>
+            </property>
            </widget>
           </item>
          </layout>
@@ -226,7 +246,7 @@
            <widget class="QLabel" name="label_15">
             <property name="font">
              <font>
-              <underline>true</underline>
+              <underline>false</underline>
              </font>
             </property>
             <property name="text">
@@ -238,6 +258,12 @@
            <widget class="QLabel" name="label_14">
             <property name="text">
              <string>&lt;a href=&quot;https://envirosolutions.pl&quot;&gt;link&lt;/a&gt;</string>
+            </property>
+            <property name="openExternalLinks">
+             <bool>true</bool>
+            </property>
+            <property name="textInteractionFlags">
+             <set>Qt::TextBrowserInteraction</set>
             </property>
            </widget>
           </item>
@@ -266,6 +292,12 @@
             <property name="text">
              <string>&lt;a href=&quot;https://envirosolutions.pl&quot;&gt;link&lt;/a&gt;</string>
             </property>
+            <property name="openExternalLinks">
+             <bool>true</bool>
+            </property>
+            <property name="textInteractionFlags">
+             <set>Qt::TextBrowserInteraction</set>
+            </property>
            </widget>
           </item>
          </layout>
@@ -283,6 +315,12 @@
            <widget class="QLabel" name="label_18">
             <property name="text">
              <string>&lt;a href=&quot;https://envirosolutions.pl&quot;&gt;link&lt;/a&gt;</string>
+            </property>
+            <property name="openExternalLinks">
+             <bool>true</bool>
+            </property>
+            <property name="textInteractionFlags">
+             <set>Qt::TextBrowserInteraction</set>
             </property>
            </widget>
           </item>

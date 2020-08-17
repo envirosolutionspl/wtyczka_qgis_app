@@ -201,8 +201,15 @@ class MetadaneDialog(QDialogOverride, FORM_CLASS, ButtonsDialog):
             input = utils.getWidgetByName(self, QLineEdit, objectName)
             input.setValidator(QRegExpValidator(QRegExp(r"[0-9a-zA-Z.\-\_\@\+]*")))
 
+        # unikalny identyfikator danych przestrzennych:
+        input = utils.getWidgetByName(self, QLineEdit, "e5_lineEdit")
+        input.setValidator(QRegExpValidator(QRegExp(r"[0-9A-Z.\-/]*")))
+
+        # prostokat ograniczajacy
         input = utils.getWidgetByName(self, QLineEdit, "e11_lineEdit")
         input.setValidator(QRegExpValidator(QRegExp("[0-9.,]*")))
+
+        # rozdzielczość przestrzenna
         input = utils.getWidgetByName(self, QLineEdit, "e16_lineEdit")
         input.setValidator(QRegExpValidator(QRegExp("[0-9]*")))
 
@@ -222,8 +229,25 @@ class MetadaneDialog(QDialogOverride, FORM_CLASS, ButtonsDialog):
 
     def e32_btn_clicked(self):
         """Generowanie UUID do formularza"""
-        uuid = utils.generateUUID()
-        self.e32_lineEdit.setText(uuid)
+        if self.e32_lineEdit.text():
+            msg = QMessageBox()
+            msg.setIcon(QtWidgets.QMessageBox.Question)
+            msg.setWindowTitle('Generowanie UUID')
+            msg.setText("Identyfikator już istnieje. Czy na pewno chcesz wygenerować nowy identyfikator dla pliku metadanych i tym samym nadpisać stary?")
+            yes = msg.addButton(
+                'Tak', QtWidgets.QMessageBox.AcceptRole)
+            no = msg.addButton(
+                'Nie', QtWidgets.QMessageBox.RejectRole)
+            msg.setDefaultButton(no)
+            msg.exec_()
+            msg.deleteLater()
+            if msg.clickedButton() is yes:
+                uuid = utils.generateUUID()
+                self.e32_lineEdit.setText(uuid)
+        else:
+            uuid = utils.generateUUID()
+            self.e32_lineEdit.setText(uuid)
+
 
     def clearForm_btn_clicked(self):
         """czyszczenie formularza"""

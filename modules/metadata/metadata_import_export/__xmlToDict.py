@@ -40,8 +40,10 @@ def xmlToMetadataElementDict(xml):
     # E5
     itemsList = []
     for element in root.findall('//gmd:MD_DataIdentification/gmd:citation/gmd:CI_Citation/gmd:identifier//gco:CharacterString', ns):
-        if element.text not in itemsList:
-            itemsList.append({'e5_lineEdit': element.text})
+        idIppUri = element.text
+        idIpp = '/'.join(idIppUri.strip().strip('/').split('/')[-2:])
+        if idIpp not in itemsList:
+            itemsList.append({'e5_lineEdit': idIpp})
     metadataElementDict['e5'] = itemsList
 
     # E6
@@ -137,6 +139,7 @@ def xmlToMetadataElementDict(xml):
         title_anchor = report.find('.//gmd:specification/gmd:CI_Citation/gmd:title/gmx:Anchor', ns)
         date = report.find('.//gmd:specification/gmd:CI_Citation/gmd:date//gco:Date', ns)
         dateType = report.find('.//gmd:specification/gmd:CI_Citation//gmd:dateType/gmd:CI_DateTypeCode', ns)
+        exp_anchor = report.find('.//gmd:explanation/gmx:Anchor', ns)
         _pass = report.find('.//gmd:pass/gco:Boolean', ns)
         if title is not None:
             data['e18_lineEdit'] = title.text
@@ -147,7 +150,7 @@ def xmlToMetadataElementDict(xml):
             data['e18_lineEdit'] = ""
         data['e18_dateTimeEdit'] = QDateTime.fromString(date.text, "yyyy-MM-dd")
         data['e18_cmbbx'] = utils.getKeyByValue(translation, dateType.attrib['codeListValue'])
-        data['e19_cmbbx'] = utils.getKeyByValue(translation, _pass.text)
+        data['e19_cmbbx'] = utils.getKeyByValue(dictionaries.zgodnoscAnchors, exp_anchor.attrib['{%s}href' % ns['xlink']])
         itemsList.append(data)
     metadataElementDict['e18'] = itemsList
 
@@ -172,7 +175,16 @@ def xmlToMetadataElementDict(xml):
         })
     metadataElementDict['e22'] = itemsList
 
-    # TODO: E24/E25 - zależy czy na stałe czy nie
+    # E24/E25
+    itemsList = []
+    for distributionFormat in root.findall('//gmd:MD_Distribution/gmd:distributionFormat', ns):
+        name = distributionFormat.find('.//gmd:name/gco:CharacterString', ns)
+        version = distributionFormat.find('.//gmd:version/gco:CharacterString', ns)
+        itemsList.append({
+            'e24_lineEdit': name.text,
+            'e25_lineEdit': version.text,
+        })
+    metadataElementDict['e24'] = itemsList
 
     # E27
     itemsList = []
@@ -190,7 +202,7 @@ def xmlToMetadataElementDict(xml):
         itemsList.append({
             'e29_name_lineEdit': organisationName.text,
             'e29_mail_lineEdit': mail.text,
-            'e29_cmbbx': 'punkt kontaktowy'
+            'e29_cmbbx': 'Punkt kontaktowy (pointOfContact)'
         })
     metadataElementDict['e29'] = itemsList
 

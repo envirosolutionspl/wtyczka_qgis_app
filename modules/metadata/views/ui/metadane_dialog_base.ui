@@ -59,7 +59,7 @@
        <item row="0" column="0">
         <widget class="QLabel" name="existingMetadata_lbl">
          <property name="text">
-          <string>Aktualizuj plik z metadanymi (opcjonalne)    </string>
+          <string>Wczytaj istniejący plik z metadanymi (opcjonalne)    </string>
          </property>
         </widget>
        </item>
@@ -180,11 +180,11 @@
                <widget class="QLabel" name="e1_tooltip">
                 <property name="toolTip">
                  <string>Nazwa zbioru danych przestrzennych. 
-
+&lt;br&gt;
 Nazwa zbioru danych przestrzennych musi być skonstruowana zgodnie ze wzorem dla:
-1)	planu zagospodarowania przestrzennego województwa: „Zbiór danych dla planu zagospodarowania przestrzennego województwa &lt;nazwa jednostki podziału administracyjnego kraju&gt;”;
-2)	studium uwarunkowań i kierunków zagospodarowania przestrzennego: „Zbiór danych dla studium uwarunkowań i kierunków zagospodarowania przestrzennego &lt;typ jednostki podziału administracyjnego kraju&gt; &lt;nazwa jednostki podziału administracyjnego kraju&gt;”,
-3)	miejscowych planów, w tym miejscowych planów zagospodarowania przestrzennego, miejscowych planów odbudowy oraz miejscowych planów rewitalizacji: „Zbiór danych dla miejscowych planów &lt;typ jednostki podziału administracyjnego kraju&gt; &lt;nazwa jednostki podziału administracyjnego kraju&gt;”.
+&lt;br&gt;1)	planu zagospodarowania przestrzennego województwa: „Zbiór danych przestrzennych dla planu zagospodarowania przestrzennego województwa &amp;lt;nazwa jednostki podziału administracyjnego kraju&amp;gt;”;
+&lt;br&gt;2)	studium uwarunkowań i kierunków zagospodarowania przestrzennego: „Zbiór danych przestrzennych dla studium uwarunkowań i kierunków zagospodarowania przestrzennego &amp;lt;typ jednostki podziału administracyjnego kraju&amp;gt; &amp;lt;nazwa jednostki podziału administracyjnego kraju&amp;gt;”,
+&lt;br&gt;3)	miejscowych planów, w tym miejscowych planów zagospodarowania przestrzennego, miejscowych planów odbudowy oraz miejscowych planów rewitalizacji: „Zbiór danych przestrzennych dla miejscowych planów &amp;lt;typ jednostki podziału administracyjnego kraju&amp;gt; &amp;lt;nazwa jednostki podziału administracyjnego kraju&amp;gt;”.
 </string>
                 </property>
                 <property name="text">
@@ -216,7 +216,7 @@ Nazwa zbioru danych przestrzennych musi być skonstruowana zgodnie ze wzorem dla
               <item>
                <widget class="QLabel" name="e2_tooltip">
                 <property name="toolTip">
-                 <string>Zwięzły opis zawartości zbioru danych.</string>
+                 <string>Zwięzły opis zawartości zbioru danych przestrzennych.</string>
                 </property>
                 <property name="text">
                  <string/>
@@ -233,7 +233,7 @@ Nazwa zbioru danych przestrzennych musi być skonstruowana zgodnie ze wzorem dla
               <item>
                <widget class="QLabel" name="e3_lbl">
                 <property name="text">
-                 <string>Typ zbioru*</string>
+                 <string>Typ zbioru danych przestrzennych*</string>
                 </property>
                </widget>
               </item>
@@ -253,9 +253,9 @@ Nazwa zbioru danych przestrzennych musi być skonstruowana zgodnie ze wzorem dla
               <item>
                <widget class="QLabel" name="e3_tooltip">
                 <property name="toolTip">
-                 <string>Typ zbioru danych opisywanego przez metadane. 
+                 <string>Typ zbioru danych przestrzennych opisywanego przez metadane. 
 
-Wartości elementu metadanych zawsze jest równa: zbiór danych („dataset”).
+Wartości elementu metadanych zawsze jest równa: zbiór danych przestrzennych („dataset”).
 </string>
                 </property>
                 <property name="text">
@@ -276,7 +276,7 @@ Wartości elementu metadanych zawsze jest równa: zbiór danych („dataset”).
                  <item>
                   <widget class="QLabel" name="e4_lbl">
                    <property name="text">
-                    <string>Adres zbioru</string>
+                    <string>Adres zbioru danych przestrzennych</string>
                    </property>
                   </widget>
                  </item>
@@ -290,12 +290,12 @@ Wartości elementu metadanych zawsze jest równa: zbiór danych („dataset”).
                  <item>
                   <widget class="QLabel" name="e4_tooltip">
                    <property name="toolTip">
-                    <string>Adres zbioru danych określa odnośnik (odnośniki) do tego zbioru lub odnośnik do dodatkowych informacji na jego temat.
+                    <string>Adres zbioru danych przestrzennych określa odnośnik (odnośniki) do tego zbioru lub odnośnik do dodatkowych informacji na jego temat.
 
-Adres zbioru musi być wyspecyfikowany w formie adresu URI:
-1)	usługi sieciowej udostępniającej zbiór danych;
-2)	strony internetowej zawierającej dodatkowe informacje na temat zbioru danych, lub jeżeli jest on niedostępny;
-3)	strony internetowej organizacji odpowiedzialnej za zbiór danych.
+Adres zbioru danych przestrzennych  musi być wyspecyfikowany w formie adresu URI:
+1)	usługi sieciowej udostępniającej zbiór danych przestrzennych;
+2)	strony internetowej zawierającej dodatkowe informacje na temat zbioru danych przestrzennych, lub jeżeli jest on niedostępny
+3)	strony internetowej organizacji odpowiedzialnej za zbiór danych przestrzennych.
 </string>
                    </property>
                    <property name="text">
@@ -344,7 +344,7 @@ Adres zbioru musi być wyspecyfikowany w formie adresu URI:
                  <item>
                   <widget class="QLabel" name="e5_lbl">
                    <property name="text">
-                    <string>Unikalny identyfikator zbioru*</string>
+                    <string>Unikalny identyfikator zbioru danych przestrzennych*</string>
                    </property>
                   </widget>
                  </item>
@@ -358,7 +358,7 @@ Adres zbioru musi być wyspecyfikowany w formie adresu URI:
                  <item>
                   <widget class="QLabel" name="e5_tooltip">
                    <property name="toolTip">
-                    <string>Wartość, o której mowa w §4 rozporządzenia, identyfikująca dany zbiór danych w unikalny sposób.</string>
+                    <string>Wartość, o której mowa w §4 rozporządzenia, identyfikująca dany zbiór danych przestrzennych w unikalny sposób.</string>
                    </property>
                    <property name="text">
                     <string/>
@@ -406,7 +406,7 @@ Adres zbioru musi być wyspecyfikowany w formie adresu URI:
                  <item>
                   <widget class="QLabel" name="e6_lbl">
                    <property name="text">
-                    <string>Język zbioru*</string>
+                    <string>Język zbioru danych przestrzennych*</string>
                    </property>
                   </widget>
                  </item>
@@ -440,7 +440,7 @@ Adres zbioru musi być wyspecyfikowany w formie adresu URI:
                  <item>
                   <widget class="QLabel" name="e6_tooltip">
                    <property name="toolTip">
-                    <string>Język stosowany w zbiorze danych.</string>
+                    <string>Język stosowany w zbiorze danych przestrzennych.</string>
                    </property>
                    <property name="text">
                     <string/>
@@ -613,7 +613,7 @@ Adres zbioru musi być wyspecyfikowany w formie adresu URI:
                  <item>
                   <widget class="QLabel" name="e7_tooltip">
                    <property name="toolTip">
-                    <string>Nazwa sposobu kodowania znaków (informacji tekstowej) użytego w zbiorze danych.</string>
+                    <string>Nazwa sposobu kodowania znaków (informacji tekstowej) użytego w zbiorze danych przestrzennych.</string>
                    </property>
                    <property name="text">
                     <string/>
@@ -689,7 +689,7 @@ Adres zbioru musi być wyspecyfikowany w formie adresu URI:
                  <bool>false</bool>
                 </property>
                 <property name="text">
-                 <string>Planowanie/Kataster</string>
+                 <string>Planowanie/Kataster (planningCadastre)</string>
                 </property>
                 <property name="qgisRelation" stdset="0">
                  <string notr="true"/>
@@ -761,8 +761,8 @@ Wartość elementu metadanych zawsze jest równa: „Planowanie/Kataster” („
 
 Obowiązkowo należy podać  słowa kluczowe:
 •	opisujące odpowiedni temat danych przestrzennych i pozyskane z ogólnego wielojęzycznego tezaurusa środowiskowego (GEMET). Słowo to musi być równe: „Zagospodarowanie przestrzenne”,
-•	opisujące poziom administracyjny, który zbiór danych obejmuje (zakres przestrzenny),
-•	opisujące typ zbioru danych, w formie neutralnego językowo słowa równego: „PlannedLandUse”.
+•	opisujące poziom administracyjny, który zbiór danych przestrzennych obejmuje (zakres przestrzenny),
+•	opisujące typ zbioru danych przestrzennych, w formie neutralnego językowo słowa równego: „PlannedLandUse”.
 •	opisujące poziom jednostki administracyjnej objętej aktem planowania przestrzennego. Słowo to musi być równe zdefiniowanym w liście kodowej „Poziom planu zagospodarowania przestrzennego” zdefiniowanej w tabeli 2.7 w załączniku nr 1 do rozporządzenia.
 </string>
                    </property>
@@ -809,17 +809,17 @@ Obowiązkowo należy podać  słowa kluczowe:
                   <widget class="QComboBox" name="e10_cmbbx">
                    <item>
                     <property name="text">
-                     <string>utworzenie</string>
+                     <string>Data utworzenia</string>
                     </property>
                    </item>
                    <item>
                     <property name="text">
-                     <string>aktualizacja</string>
+                     <string>Data ostatniej aktualizacji</string>
                     </property>
                    </item>
                    <item>
                     <property name="text">
-                     <string>przegląd</string>
+                     <string>Data opublikowania</string>
                     </property>
                    </item>
                   </widget>
@@ -916,7 +916,7 @@ Obowiązkowo należy podać  słowa kluczowe:
                  <item>
                   <widget class="QLabel" name="e11_tooltip">
                    <property name="toolTip">
-                    <string>Zasięg zbioru w przestrzeni geograficznej, wyrażony za pomocą prostokąta ograniczającego, opisanego za pomocą południków granicy zachodniej i granicy wschodniej obszaru oraz równoleżników granicy południowej i granicy północnej wyrażonych w częściach dziesiętnych stopnia, z dokładnością do co najmniej czterech cyfr dziesiętnych.
+                    <string>Zasięg zbioru danych przestrzennych w przestrzeni geograficznej, wyrażony za pomocą prostokąta ograniczającego, opisanego za pomocą południków granicy zachodniej i granicy wschodniej obszaru oraz równoleżników granicy południowej i granicy północnej wyrażonych w częściach dziesiętnych stopnia, z dokładnością do co najmniej czterech cyfr dziesiętnych.
 
 Jeżeli zbiór danych charakteryzuje się brakiem ciągłości przestrzennej, można określić więcej niż jeden prostokąt ograniczający.
 
@@ -1023,7 +1023,7 @@ Współrzędne należy podać w Światowym Systemie Geodezyjnym 1984 (WGS84).
                  <item>
                   <widget class="QLabel" name="e12_tooltip">
                    <property name="toolTip">
-                    <string>System odniesienia za pomocą współrzędnych zastosowany dla zbioru danych.
+                    <string>System odniesienia za pomocą współrzędnych zastosowany dla zbioru danych przestrzennych.
 
 Należy podać identyfikator systemu odniesienia w EPSG Geodetic Parameter Registry.
 </string>
@@ -1132,7 +1132,7 @@ Należy podać identyfikator systemu odniesienia w EPSG Geodetic Parameter Regis
                 </property>
                 <item>
                  <property name="text">
-                  <string>utworzenie</string>
+                  <string>Data utworzenia</string>
                  </property>
                 </item>
                </widget>
@@ -1140,7 +1140,7 @@ Należy podać identyfikator systemu odniesienia w EPSG Geodetic Parameter Regis
               <item>
                <widget class="QLabel" name="e13_tooltip">
                 <property name="toolTip">
-                 <string>Data utworzenia zbioru.
+                 <string>Data utworzenia zbioru danych przestrzennych.
 
 Wartość elementu musi  wyrażać co najmniej datę dzienną, która  może być rozszerzona o wskazanie czasu (godzina, minuta, sekunda).
 </string>
@@ -1201,7 +1201,7 @@ Wartość elementu musi  wyrażać co najmniej datę dzienną, która  może by�
                 </property>
                 <item>
                  <property name="text">
-                  <string>publikacja</string>
+                  <string>Data opublikowania</string>
                  </property>
                 </item>
                </widget>
@@ -1209,7 +1209,7 @@ Wartość elementu musi  wyrażać co najmniej datę dzienną, która  może by�
               <item>
                <widget class="QLabel" name="e14_tooltip">
                 <property name="toolTip">
-                 <string>Data udostępnienia zbioru danych za pośrednictwem usług sieciowych.
+                 <string>Data udostępnienia zbioru danych przestrzennych za pośrednictwem usług sieciowych.
 Wartość elementu musi  wyrażać co najmniej datę dzienną, która  może być rozszerzona o wskazanie czasu (godzina, minuta, sekunda).
 </string>
                 </property>
@@ -1263,7 +1263,7 @@ Wartość elementu musi  wyrażać co najmniej datę dzienną, która  może by�
               <item>
                <widget class="QLabel" name="e15_tooltip">
                 <property name="toolTip">
-                 <string>Opis historii procesu tworzenia lub ogólnej jakości zbioru danych przestrzennych. W stosownych przypadkach może zawierać stwierdzenie, czy zbiór danych był przedmiotem procesu kontroli lub oceny jakości, czy stanowi wersję urzędową i czy posiada moc prawną.</string>
+                 <string>Opis historii procesu tworzenia lub ogólnej jakości zbioru danych przestrzennych. W stosownych przypadkach może zawierać stwierdzenie, czy zbiór danych przestrzennych był przedmiotem procesu kontroli lub oceny jakości, czy stanowi wersję urzędową i czy posiada moc prawną.</string>
                 </property>
                 <property name="text">
                  <string/>
@@ -1297,7 +1297,7 @@ Wartość elementu musi  wyrażać co najmniej datę dzienną, która  może by�
                  <item>
                   <widget class="QLabel" name="e16_tooltip">
                    <property name="toolTip">
-                    <string>Wielkość opisująca poziom szczegółowości zbioru danych, podawana jako skala równorzędna, wyrażona za pomocą liczby całkowitej stanowiącej mianownik skali.</string>
+                    <string>Wielkość opisująca poziom szczegółowości zbioru danych przestrzennych, podawana jako skala równorzędna, wyrażona za pomocą liczby całkowitej stanowiącej mianownik skali.</string>
                    </property>
                    <property name="text">
                     <string/>
@@ -1365,10 +1365,9 @@ Wartość elementu musi  wyrażać co najmniej datę dzienną, która  może by�
                  <item>
                   <widget class="QLabel" name="e17_tooltip">
                    <property name="toolTip">
-                    <string>Metoda przestrzennej reprezentacji danych zbioru.
+                    <string>Metoda przestrzennej reprezentacji danych zbioru danych przestrzennych.
 
-Element metadanych zawsze przyjmuje wartości: wektor „Vector” oraz raster „Grid”.
-
+Element metadanych zawsze przyjmuje wartości: wektor („Vector”) oraz siatka („Grid”).
 </string>
                    </property>
                    <property name="text">
@@ -1489,17 +1488,17 @@ Element metadanych zawsze przyjmuje wartości: wektor „Vector” oraz raster �
                   <widget class="QComboBox" name="e18_cmbbx">
                    <item>
                     <property name="text">
-                     <string>utworzenie</string>
+                     <string>Data utworzenia</string>
                     </property>
                    </item>
                    <item>
                     <property name="text">
-                     <string>publikacja</string>
+                     <string>Data opublikowania</string>
                     </property>
                    </item>
                    <item>
                     <property name="text">
-                     <string>przegląd</string>
+                     <string>Data ostatniej aktualizacji</string>
                     </property>
                    </item>
                   </widget>
@@ -1507,13 +1506,17 @@ Element metadanych zawsze przyjmuje wartości: wektor „Vector” oraz raster �
                  <item>
                   <widget class="QLabel" name="e18_tooltip">
                    <property name="toolTip">
-                    <string>Przytoczenie przepisów wykonawczych przyjętych na podstawie art. 7 ust. 1 dyrektywy 2007/2/WE Parlamentu Europejskiego i Rady z dnia 14 marca 2007 r. ustanawiającej infrastrukturę informacji przestrzennej we Wspólnocie Europejskiej, zwanej dyrektywą INSPIRE (Dz.U. L 108 z 25.4.2007, str. 1—14) lub innej specyfikacji, której odpowiada konkretny zbiór planistyczny.
-
+                    <string>Przytoczenie przepisów lub innej specyfikacji, której odpowiada zbiór danych przestrzennych. 
+&lt;br&gt;
 Przytoczenie powinno obejmować co najmniej:
-•	tytuł,
-•	datę odniesienia.
-
-Oprócz przepisów wykonawczych przyjętych na podstawie art. 7 ust. 1 dyrektywy INSPIRE należy przytoczyć Rozporządzenie Ministra Rozwoju w sprawie zbiorów danych przestrzennych oraz metadanych w zakresie zagospodarowania przestrzennego.
+&lt;br&gt;•	tytuł,
+&lt;br&gt;•	datę odniesienia.
+&lt;br&gt;
+&lt;br&gt;Należy przytoczyć co najmniej: 
+&lt;br&gt;1.	Rozporządzenie Komisji (UE) Nr 1089/2010 z dnia 23 listopada 2010 r. w sprawie wykonania dyrektywy 2007/2/WE Parlamentu Europejskiego i Rady w zakresie interoperacyjności zbiorów i usług danych przestrzennych z późn. zm.
+&lt;br&gt;2.	Specyfikację danych dla tematu „zagospodarowanie przestrzenne” - D2.8.III.4 Data Specification on Land Use – Technical Guidelines
+&lt;br&gt;3.	Rozporządzenie Ministra Rozwoju w sprawie zbiorów danych przestrzennych oraz metadanych w zakresie zagospodarowania przestrzennego.
+&lt;br&gt;4.	Specyfikację danych „Planowanie przestrzenne”
 </string>
                    </property>
                    <property name="text">
@@ -1552,12 +1555,17 @@ Oprócz przepisów wykonawczych przyjętych na podstawie art. 7 ust. 1 dyrektywy
                   <widget class="QComboBox" name="e19_cmbbx">
                    <item>
                     <property name="text">
-                     <string>prawda</string>
+                     <string>Zgodny (conformant)</string>
                     </property>
                    </item>
                    <item>
                     <property name="text">
-                     <string>fałsz</string>
+                     <string>Niezgodny (notConformant)</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Brak oceny zgodności (notEvaluated)</string>
                     </property>
                    </item>
                   </widget>
@@ -1565,7 +1573,7 @@ Oprócz przepisów wykonawczych przyjętych na podstawie art. 7 ust. 1 dyrektywy
                  <item>
                   <widget class="QLabel" name="e19_tooltip">
                    <property name="toolTip">
-                    <string>Stopień zgodności zbioru danych z przepisami wykonawczymi przyjętymi na podstawie art. 7 ust. 1 dyrektywy INSPIRE lub z inną specyfikacją.</string>
+                    <string>Stopień zgodności zbioru danych przestrzennych z przepisami przytoczonymi w ramach elementu E18 (specyfikacja).</string>
                    </property>
                    <property name="text">
                     <string/>
@@ -1648,7 +1656,10 @@ Oprócz przepisów wykonawczych przyjętych na podstawie art. 7 ust. 1 dyrektywy
                  <item>
                   <widget class="QLabel" name="e20_tooltip">
                    <property name="toolTip">
-                    <string>Warunki dostępu do zbiorów danych przestrzennych i usług danych przestrzennych i ich użytkowania, a w stosownych przypadkach -również informacje o odpowiednich opłatach.</string>
+                    <string>Warunki dostępu do zbiorów danych przestrzennych, a w stosownych przypadkach - również informacje o odpowiednich opłatach.
+
+Wartość elementu metadanych zawsze jest równa: Brak warunków dostępu i użytkowania.
+</string>
                    </property>
                    <property name="text">
                     <string/>
@@ -1713,7 +1724,7 @@ Oprócz przepisów wykonawczych przyjętych na podstawie art. 7 ust. 1 dyrektywy
               <item>
                <widget class="QLabel" name="e20_tooltip_2">
                 <property name="toolTip">
-                 <string>Informacje dotyczące ograniczeń publicznego dostępu do zbioru danych ustanowionych na podstawie art. 13 dyrektywy INSPIRE.
+                 <string>Informacje dotyczące ograniczeń publicznego dostępu do zbioru danych przestrzennych.
 
 Wartość elementu metadanych zawsze jest równa: Brak ograniczeń w publicznym dostępie.
 </string>
@@ -1799,13 +1810,13 @@ Wartość elementu metadanych zawsze jest równa: Brak ograniczeń w publicznym 
                  <item>
                   <widget class="QLabel" name="e22_tooltip">
                    <property name="toolTip">
-                    <string>Opis organizacji odpowiedzialnej za tworzenie, przechowywanie, rozpowszechnianie zbioru danych oraz zarządzanie nim, pozwalający na identyfikację, nawiązanie kontaktu i komunikację z organizacją lub osobami związanymi ze zbiorem.
+                    <string>Opis organizacji odpowiedzialnej za tworzenie, przechowywanie, rozpowszechnianie zbioru danych przestrzennych oraz zarządzanie nim, pozwalający na identyfikację, nawiązanie kontaktu i komunikację z organizacją lub osobami związanymi ze zbiorem danych przestrzennych.
 
 Opis powinien obejmować co najmniej:
 •	nazwę organizacji,
 •	dane kontaktowe (adres poczty elektronicznej).
 
-Co najmniej należy wyspecyfikować jednostkę odpowiedzialną, pełniącą w stosunku do zbioru danych rolę „opiekun (konserwator)” o której mowa w punkcie 13.5.
+Co najmniej należy wyspecyfikować jednostkę odpowiedzialną, pełniącą w stosunku do zbioru danych przestrzennych rolę „Administrator”, o której mowa w punkcie 13.5.
 </string>
                    </property>
                    <property name="text">
@@ -1844,57 +1855,57 @@ Co najmniej należy wyspecyfikować jednostkę odpowiedzialną, pełniącą w st
                   <widget class="QComboBox" name="e23_cmbbx">
                    <item>
                     <property name="text">
-                     <string>dostawca zasobu</string>
+                     <string>Administrator (custodian)</string>
                     </property>
                    </item>
                    <item>
                     <property name="text">
-                     <string>opiekun (konserwator)</string>
+                     <string>Dostawca zasobu (resourceProvider)</string>
                     </property>
                    </item>
                    <item>
                     <property name="text">
-                     <string>właściciel</string>
+                     <string>Właściciel (owner)</string>
                     </property>
                    </item>
                    <item>
                     <property name="text">
-                     <string>użytkownik</string>
+                     <string>Użytkownik (user)</string>
                     </property>
                    </item>
                    <item>
                     <property name="text">
-                     <string>dystrybutor</string>
+                     <string>Dystrybutor (distributor)</string>
                     </property>
                    </item>
                    <item>
                     <property name="text">
-                     <string>twórca</string>
+                     <string>Twórca (originator)</string>
                     </property>
                    </item>
                    <item>
                     <property name="text">
-                     <string>punkt kontaktowy</string>
+                     <string>Punkt kontaktowy (pointOfContact)</string>
                     </property>
                    </item>
                    <item>
                     <property name="text">
-                     <string>główny badacz</string>
+                     <string>Główny badacz (principalInvestigator)</string>
                     </property>
                    </item>
                    <item>
                     <property name="text">
-                     <string>przetwórca</string>
+                     <string>Jednostka przetwarzająca (processor)</string>
                     </property>
                    </item>
                    <item>
                     <property name="text">
-                     <string>wydawca</string>
+                     <string>Wydawca (publisher)</string>
                     </property>
                    </item>
                    <item>
                     <property name="text">
-                     <string>autor</string>
+                     <string>Autor (author)</string>
                     </property>
                    </item>
                   </widget>
@@ -1902,7 +1913,7 @@ Co najmniej należy wyspecyfikować jednostkę odpowiedzialną, pełniącą w st
                  <item>
                   <widget class="QLabel" name="e23_tooltip">
                    <property name="toolTip">
-                    <string>Rola pełniona przez jednostkę odpowiedzialną w stosunku do zbioru danych.</string>
+                    <string>Rola pełniona przez jednostkę odpowiedzialną w stosunku do zbioru danych przestrzennych.</string>
                    </property>
                    <property name="text">
                     <string/>
@@ -1985,7 +1996,7 @@ Co najmniej należy wyspecyfikować jednostkę odpowiedzialną, pełniącą w st
                  <item>
                   <widget class="QLabel" name="e24_tooltip">
                    <property name="toolTip">
-                    <string>Nazwa formatu danych, w jakim dokonuje się dystrybucji zbioru danych.</string>
+                    <string>Nazwa formatu danych, w jakim dokonuje się dystrybucji zbioru danych przestrzennych.</string>
                    </property>
                    <property name="text">
                     <string/>
@@ -2016,7 +2027,7 @@ Co najmniej należy wyspecyfikować jednostkę odpowiedzialną, pełniącą w st
                  <item>
                   <widget class="QLabel" name="e25_tooltip">
                    <property name="toolTip">
-                    <string>Wersja formatu danych, w jakim dokonuje się dystrybucji zbioru danych.</string>
+                    <string>Wersja formatu danych, w jakim dokonuje się dystrybucji zbioru danych przestrzennych.</string>
                    </property>
                    <property name="text">
                     <string/>
@@ -2102,7 +2113,7 @@ Co najmniej należy wyspecyfikować jednostkę odpowiedzialną, pełniącą w st
               <item>
                <widget class="QLabel" name="e26_tooltip">
                 <property name="toolTip">
-                 <string>Częstotliwość, z jaką dokonywane są zmiany w zbiorze, po tym jak zbiór został skompletowany.
+                 <string>Częstotliwość, z jaką dokonywane są zmiany w zbiorze danych przestrzennych, po tym jak zbiór danych przestrzennych został skompletowany.
 
 Wartości elementu metadanych zawsze jest równa: według potrzeb („asNeeded”).
 </string>
@@ -2139,7 +2150,7 @@ Wartości elementu metadanych zawsze jest równa: według potrzeb („asNeeded�
                  <item>
                   <widget class="QLabel" name="e27_tooltip">
                    <property name="toolTip">
-                    <string>Szczegółowe informacje dotyczące sposobu przeprowadzania aktualizacji zbioru danych. </string>
+                    <string>Szczegółowe informacje dotyczące sposobu przeprowadzania aktualizacji zbioru danych przestrzennych. </string>
                    </property>
                    <property name="text">
                     <string/>
@@ -2194,7 +2205,7 @@ Wartości elementu metadanych zawsze jest równa: według potrzeb („asNeeded�
                  <bool>false</bool>
                 </property>
                 <property name="text">
-                 <string>zbiór danych</string>
+                 <string>Zbiór danych przestrzennych (dataset)</string>
                 </property>
                 <property name="qgisRelation" stdset="0">
                  <string notr="true"/>
@@ -2206,7 +2217,7 @@ Wartości elementu metadanych zawsze jest równa: według potrzeb („asNeeded�
                 <property name="toolTip">
                  <string>Zakres danych, wobec których stosowana jest aktualizacja.
 
-Wartości elementu metadanych zawsze jest równa: zbiór danych („dataset”).
+Wartości elementu metadanych zawsze jest równa: zbiór danych przestrzennych („dataset”).
 </string>
                 </property>
                 <property name="text">
@@ -2270,9 +2281,12 @@ Wartości elementu metadanych zawsze jest równa: zbiór danych („dataset”).
                    <property name="enabled">
                     <bool>false</bool>
                    </property>
+                   <property name="editable">
+                    <bool>false</bool>
+                   </property>
                    <item>
                     <property name="text">
-                     <string>punkt kontaktowy</string>
+                     <string>Punkt kontaktowy (pointOfContact)</string>
                     </property>
                    </item>
                   </widget>
@@ -2457,8 +2471,11 @@ Wartość elementu metadanych zawsze jest równa: polski.
               </item>
               <item>
                <widget class="QPushButton" name="e32_btn">
+                <property name="toolTip">
+                 <string>W przypadku nadpisywania (edycji) istniejącego pliku metadanych należy zostawić automatycznie zaczytany identyfikator</string>
+                </property>
                 <property name="text">
-                 <string>Generuj</string>
+                 <string>Generuj nowy (tylko dla nowych plików)</string>
                 </property>
                </widget>
               </item>
@@ -2520,7 +2537,7 @@ Wartość elementu musi być równa identyfikatorowi UUID.
                  <item>
                   <widget class="QLabel" name="e33_tooltip">
                    <property name="toolTip">
-                    <string>Nazwa standardu metadanych użytego do opisu zbioru.</string>
+                    <string>Nazwa standardu metadanych użytego do opisu zbioru danych przestrzennych.</string>
                    </property>
                    <property name="text">
                     <string/>

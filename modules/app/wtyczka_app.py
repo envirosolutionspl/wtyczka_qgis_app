@@ -220,6 +220,9 @@ class AppModule(BaseModule):
         elif self.obrysLayer.featureCount() == 0:
             showPopup("Błąd warstwy obrysu", "Wybrana warstwa posiada obiekty w liczbie: %d.\n" % (
                 self.obrysLayer.featureCount()))
+        elif not next(self.obrysLayer.getFeatures()).geometry().isGeosValid():
+            showPopup("Błąd warstwy obrysu",
+                      "Niepoprawna geometria w warstwie obrysu - sprawdź czy częsci obiektu na siebie nie nachodzą.")
         elif not isLayerInPoland(self.obrysLayer):     # niepoprawna geometria
             showPopup("Błąd warstwy obrysu",
                       "Niepoprawna geometria - obiekt musi leżeć w Polsce, sprawdź układ współrzędnych warstwy.")

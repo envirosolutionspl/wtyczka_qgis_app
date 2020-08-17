@@ -253,6 +253,7 @@ class MetadaneDialog(QDialogOverride, FORM_CLASS, ButtonsDialog):
         """czyszczenie formularza"""
         for lineEdit in utils.getWidgetsByType(self, QgsFilterLineEdit):
             lineEdit.clear()
+        print ('startformStae\n', self.startFormState)
         metadataElementDictToForm(self.startFormState, self)
 
     def prepareListWidgets(self, listWidget):

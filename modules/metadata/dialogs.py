@@ -378,6 +378,12 @@ class MetadaneDialog(QDialogOverride, FORM_CLASS, ButtonsDialog):
                     data[input2.objectName()] = input2.currentText()
                     data['xlink'] = None
 
+                currentDatas = [listWidget.item(i).data(Qt.UserRole) for i in range(listWidget.count())]
+                if data in currentDatas:
+                    utils.showPopup("Próba ponownego wpisania istniejącej wartości",
+                                    'Wprowadzana wartość już znajduje się na liście!')
+                    return
+
                 newItem.setData(Qt.UserRole, QVariant(data))
                 newItem.setText(" - ".join(textList))
                 listWidget.addItem(newItem)

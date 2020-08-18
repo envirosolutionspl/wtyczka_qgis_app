@@ -5,7 +5,7 @@ from . import (xmlToMetadataElementDict,
                appGmlToMetadataElementDict,
                metadataElementDictToForm)
 from .metadata_form_validator import validateMetadataForm
-from .metadata_form_initializer import initializeMetadataForm
+
 from .. import BaseModule
 from ..utils import showPopup
 from .. import utils
@@ -31,7 +31,7 @@ class MetadataModule(BaseModule):
         # region okno moduł metadata
         self.metadaneDialog = MetadaneDialog()
 
-        initializeMetadataForm(self.metadaneDialog)
+
 
         # endregion
         self.smtpDialog = SmtpDialog(iface=self.iface)

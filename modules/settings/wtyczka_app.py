@@ -27,24 +27,34 @@ class SettingsModule(BaseModule):
 
         self.readSettings()
 
-        self.ustawieniaDialog.folder_btn.clicked.connect(self.folder_btn_clicked)
+        self.ustawieniaDialog.folder_btn.clicked.connect(
+            self.folder_btn_clicked)
         self.ustawieniaDialog.save_btn.clicked.connect(self.save_btn_clicked)
         self.ustawieniaDialog.smtp_btn.clicked.connect(self.smtp_btn_clicked)
         self.ustawieniaDialog.csw_btn.clicked.connect(self.csw_btn_clicked)
 
     """Event handlers"""
+
     def folder_btn_clicked(self):
-        path = QFileDialog.getExistingDirectory(self.ustawieniaDialog, "Wskaż domyślny folder zapisu", "/", QFileDialog.ShowDirsOnly)
+        path = QFileDialog.getExistingDirectory(
+            self.ustawieniaDialog, "Wskaż domyślny folder zapisu", "/", QFileDialog.ShowDirsOnly)
         if path:
             self.ustawieniaDialog.folder_lbl.setText(path)
 
     def save_btn_clicked(self):
         s = QgsSettings()
-        s.setValue("qgis_app/settings/defaultPath", self.ustawieniaDialog.folder_lbl.text())
-        s.setValue("qgis_app/settings/contactName", self.ustawieniaDialog.contactName_lineEdit.text())
-        s.setValue("qgis_app/settings/contactMail", self.ustawieniaDialog.contactMail_lineEdit.text())
-        s.setValue("qgis_app/settings/adminName", self.ustawieniaDialog.adminName_lineEdit.text())
-        s.setValue("qgis_app/settings/adminMail", self.ustawieniaDialog.adminMail_lineEdit.text())
+        s.setValue("qgis_app/settings/defaultPath",
+                   self.ustawieniaDialog.folder_lbl.text())
+        s.setValue("qgis_app/settings/contactName",
+                   self.ustawieniaDialog.contactName_lineEdit.text())
+        s.setValue("qgis_app/settings/contactMail",
+                   self.ustawieniaDialog.contactMail_lineEdit.text())
+        s.setValue("qgis_app/settings/adminName",
+                   self.ustawieniaDialog.adminName_lineEdit.text())
+        s.setValue("qgis_app/settings/adminMail",
+                   self.ustawieniaDialog.adminMail_lineEdit.text())
+        s.setValue("qgis_app/settings/przestrzenNazw",
+                   self.ustawieniaDialog.przestrzenNazw_lineEdit.text())
 
     def smtp_btn_clicked(self):
         self.settingsSmtpDialog.show()
@@ -56,11 +66,18 @@ class SettingsModule(BaseModule):
 
     def readSettings(self):
         s = QgsSettings()
-        self.ustawieniaDialog.folder_lbl.setText(s.value("qgis_app/settings/defaultPath", ""))
-        self.ustawieniaDialog.contactName_lineEdit.setText(s.value("qgis_app/settings/contactName", ""))
-        self.ustawieniaDialog.contactMail_lineEdit.setText(s.value("qgis_app/settings/contactMail", ""))
-        self.ustawieniaDialog.adminName_lineEdit.setText(s.value("qgis_app/settings/adminName", ""))
-        self.ustawieniaDialog.adminMail_lineEdit.setText(s.value("qgis_app/settings/adminMail", ""))
+        self.ustawieniaDialog.folder_lbl.setText(
+            s.value("qgis_app/settings/defaultPath", ""))
+        self.ustawieniaDialog.contactName_lineEdit.setText(
+            s.value("qgis_app/settings/contactName", ""))
+        self.ustawieniaDialog.contactMail_lineEdit.setText(
+            s.value("qgis_app/settings/contactMail", ""))
+        self.ustawieniaDialog.adminName_lineEdit.setText(
+            s.value("qgis_app/settings/adminName", ""))
+        self.ustawieniaDialog.adminMail_lineEdit.setText(
+            s.value("qgis_app/settings/adminMail", ""))
+        self.ustawieniaDialog.przestrzenNazw_lineEdit.setText(
+            s.value("qgis_app/settings/przestrzenNazw", "PL.ZIPPZP."))
     """Helper methods"""
 
     """Popup windows"""

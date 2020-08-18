@@ -19,6 +19,7 @@ import random
 import ntpath
 from lxml import etree
 from .. import dictionaries
+from qgis.core import QgsSettings
 
 
 class AppModule(BaseModule):
@@ -69,6 +70,7 @@ class AppModule(BaseModule):
             self.showPopupSaveForm)
         # zdarenia dynamicznie utworzonych obiektów UI związanych z IdIPP
         self.prepareIdIPP(formularz=self.rasterFormularzDialog)
+        self.setDefaultValues(formularz=self.rasterFormularzDialog)
         self.rasterFormularzDialog.clear_btn.clicked.connect(
             self.rasterFormularzDialog_clear_btn_clicked)
         self.rasterFormularzDialog.getValues_btn.clicked.connect(
@@ -99,6 +101,7 @@ class AppModule(BaseModule):
             self.wektorFormularzDialog_clear_btn_clicked)
         # zdarenia dynamicznie utworzonych obiektów UI związanych z IdIPP i mapapodkladowa
         self.prepareIdIPP(formularz=self.wektorFormularzDialog)
+        self.setDefaultValues(formularz=self.wektorFormularzDialog)
     # endregion
     # region dokumentyFormularzDialog
         self.dokumentyFormularzDialog.prev_btn.clicked.connect(
@@ -113,6 +116,7 @@ class AppModule(BaseModule):
             self.getFormValues)
         # zdarenia dynamicznie utworzonych obiektów UI związanych z IdIPP
         self.prepareIdIPP(formularz=self.dokumentyFormularzDialog)
+        self.setDefaultValues(formularz=self.dokumentyFormularzDialog)
     # endregion
     # region generowanieGMLDialog
         self.generowanieGMLDialog.prev_btn.clicked.connect(
@@ -192,6 +196,7 @@ class AppModule(BaseModule):
         # print(self.rasterFormularzDialog.form_scrollArea)
         self.rasterFormularzDialog.clearForm(
             self.rasterFormularzDialog.form_scrollArea)
+        self.setDefaultValues(formularz=self.rasterFormularzDialog)
 
     # endregion
 
@@ -304,6 +309,7 @@ class AppModule(BaseModule):
     def wektorFormularzDialog_clear_btn_clicked(self):
         self.wektorFormularzDialog.clearForm(
             self.wektorFormularzDialog.form_scrollArea)
+        self.setDefaultValues(formularz=self.wektorFormularzDialog)
 
     # endregion
 
@@ -318,6 +324,7 @@ class AppModule(BaseModule):
     def dokumentyFormularzDialog_clear_btn_clicked(self):
         self.dokumentyFormularzDialog.clearForm(
             self.dokumentyFormularzDialog.form_scrollArea)
+        self.setDefaultValues(formularz=self.dokumentyFormularzDialog)
 
     # endregion
 
@@ -902,3 +909,21 @@ class AppModule(BaseModule):
         lokalnyId_lineEdit.textChanged.connect(lambda: updateIdIPP())
         przestrzenNazw_lineEdit.textChanged.connect(lambda: updateIdIPP())
         wersjaId_lineEdit.textChanged.connect(lambda: updateIdIPP())
+
+    def setDefaultValues(self, formularz):
+        s = QgsSettings()
+
+        for fe in formularz.formElements:
+            try:
+                valuePath = "qgis_app/settings/%s" % fe.name
+                feValue = s.value(valuePath, "PL.ZIPPZP.")
+                utils.setValueToWidget(fe, feValue)
+            except:
+                pass
+            for inner in fe.innerFormElements:
+                try:
+                    valuePath = "qgis_app/settings/%s" % inner.name
+                    feValue = s.value(valuePath, "")
+                    utils.setValueToWidget(inner, feValue)
+                except:
+                    pass

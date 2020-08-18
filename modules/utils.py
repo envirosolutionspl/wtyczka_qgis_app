@@ -91,6 +91,7 @@ def validate_teryt(teryt):
     elif len(teryt) == 6 and validate_teryt_county(teryt):
         # if rodzaj != 'MPZP' or rodzaj != 'SUIKZP':
         #     return False
+        # Rodzaj jednostki poza walidacją
         rodzaj_jednostki = [1, 2, 3, 4, 5, 8, 9]
         if 0 < int(teryt[4:6]) < 100:
             # if int(teryt[6:7]) in rodzaj_jednostki:
@@ -112,6 +113,7 @@ def validate_IIP(przestrzenNazw):
     rodzaj_list = ['PZPW', 'RSZM', 'SUIKZP', 'MPZP']
     rodzaj = przestrzenNazw.split('-')[1]
     if rodzaj not in rodzaj_list:
+        # showPopup('Błąd identyfikatora', '')
         return False
 
     teryt = przestrzenNazw.split('/')[1].split('-')[0]

@@ -64,7 +64,7 @@ def appGmlToMetadataElementDict(gmlPath):
     })
 
     # dodanie domyslnych wartosci kluczowych
-    itemsList.extend(dictionaries.metadataListWidgetsDefaultItemsDisabled['e9'])
+    itemsList.extend(dictionaries.metadataListWidgetsDefaultItems['e9'])
     metadataElementDict['e9'] = itemsList
 
     # E11

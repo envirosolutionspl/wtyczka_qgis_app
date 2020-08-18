@@ -6,7 +6,7 @@ Okna dialogowe modułu Metadata
 """
 from .. import QDialogOverride, ButtonsDialog, utils, dictionaries
 from . import mail, csw, metadataElementDictToForm, formToMetadataElementDict
-
+from .metadata_form_initializer import initializeMetadataForm
 import os, re
 
 from PyQt5.QtWidgets import *
@@ -188,6 +188,12 @@ class MetadaneDialog(QDialogOverride, FORM_CLASS, ButtonsDialog):
         for listWidget in utils.getWidgetsByType(self, QListWidget):
             self.prepareListWidgets(listWidget)
 
+        # pola z ustawień
+        initializeMetadataForm(self)
+        # pola edytowalne
+        metadataElementDictToForm(metadataElementDict=dictionaries.metadataListWidgetsDefaultItems,
+                                  targetForm=self)
+
         p = QPixmap(':/plugins/wtyczka_app/img/info1.png')
 
         # Ograniczenia Pól QLineEdit
@@ -332,7 +338,8 @@ class MetadaneDialog(QDialogOverride, FORM_CLASS, ButtonsDialog):
                     input2.clear()
                 input2 = utils.getWidgetByName(layout=self, searchObjectType=QDateTimeEdit, name='e10_dateTimeEdit')
                 if input2.objectName() in data:
-                    input2.setDateTime(QDateTime() if data[input2.objectName()] is None else data[input2.objectName()])
+                    date = data[input2.objectName()]
+                    input2.setDateTime(QDateTime() if (date is None or type(date) == QVariant) else data[input2.objectName()])
                 else:
                     input2.clear()
                 input2 = utils.getWidgetByName(layout=self, searchObjectType=QComboBox, name='e10_cmbbx')
@@ -396,18 +403,8 @@ class MetadaneDialog(QDialogOverride, FORM_CLASS, ButtonsDialog):
 
         def setDefaultValues(elementId, listWidget):
             """ustawia domyślne wartości dla listWidget na podstawie słownika"""
-            # pola zablokowane
-            if elementId in dictionaries.metadataListWidgetsDefaultItemsDisabled.keys():
-                dataList = dictionaries.metadataListWidgetsDefaultItemsDisabled[elementId]
-                for data in dataList:
-                    newItem = QListWidgetItem()
-                    newItem.setData(Qt.UserRole, QVariant(data))
-                    newItem.setText(list(data.values())[0])
-                    newItem.setFlags(Qt.NoItemFlags)
-                    listWidget.addItem(newItem)
-            # pola edytowalne
-            metadataElementDictToForm(metadataElementDict=dictionaries.metadataListWidgetsDefaultItemsEnabled,
-                                      targetForm=self)
+
+
 
 
         elementId = listWidget.objectName().split('_')[0]

@@ -549,31 +549,36 @@ class AppModule(BaseModule):
             utils.showPopup(title='Brak Dokumentów',
                             text='Do tabeli nie zostały dodane żadne dokumenty.')
         else:
-            uchwala_count = 0
-            przystapienie_count = 0
-            for doc, rel in docList:
-                if rel == 'uchwala':
-                    uchwala_count += 1
-                if rel == 'przystąpienie':
-                    przystapienie_count += 1
-            uchwala_przystapienie_count = przystapienie_count + uchwala_count
-            if uchwala_przystapienie_count == 0:
-                utils.showPopup(
-                    title='Błąd relacji dokumentów', text='Wymagany jest co najmniej jeden dokument z relacją "przystąpienie" lub "uchwala".')
-            elif uchwala_count > 1:
-                utils.showPopup(
-                    title='Błąd relacji dokumentów', text='W APP dozwolony jest tylko jeden dokument z relacją "uchwala".')
+            if not utils.validateDokumentFormalnyDate(files=docList):
+                utils.showPopup('Błąd relacji dokumentów',
+                                'Dokument z relacją uchwala nie może być starszy od dokumentu z relacją przystąpienie.')
             else:
-                s = QgsSettings()
-                defaultPath = s.value("qgis_app/settings/defaultPath", "/")
-                self.fn = QFileDialog.getSaveFileName(
-                    directory=defaultPath, filter="XML Files (*.xml)")[0]
-                if self.fn:
-                    xml_string = utils.mergeDocsToAPP(docList)
-                    if xml_string != '':
-                        myfile = open(self.fn, "w", encoding='utf-8')
-                        myfile.write(xml_string)
-                        self.showPopupApp()
+                uchwala_count = 0
+                przystapienie_count = 0
+                for doc, rel in docList:
+                    if rel == 'uchwala':
+                        uchwala_count += 1
+
+                    if rel == 'przystąpienie':
+                        przystapienie_count += 1
+                uchwala_przystapienie_count = przystapienie_count + uchwala_count
+                if uchwala_przystapienie_count == 0:
+                    utils.showPopup(
+                        title='Błąd relacji dokumentów', text='Wymagany jest co najmniej jeden dokument z relacją "przystąpienie" lub "uchwala".')
+                elif uchwala_count > 1:
+                    utils.showPopup(
+                        title='Błąd relacji dokumentów', text='W APP dozwolony jest tylko jeden dokument z relacją "uchwala".')
+                else:
+                    s = QgsSettings()
+                    defaultPath = s.value("qgis_app/settings/defaultPath", "/")
+                    self.fn = QFileDialog.getSaveFileName(
+                        directory=defaultPath, filter="XML Files (*.xml)")[0]
+                    if self.fn:
+                        xml_string = utils.mergeDocsToAPP(docList)
+                        if xml_string != '':
+                            myfile = open(self.fn, "w", encoding='utf-8')
+                            myfile.write(xml_string)
+                            self.showPopupApp()
 # Zbiór
 
     def loadSet(self):

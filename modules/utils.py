@@ -1719,3 +1719,43 @@ def setAppId(setPath):
         idIIPList.append(app.attrib['{http://www.opengis.net/gml/3.2}id'])
 
     return idIIPList
+
+
+def findElementInXmlFile(file, docName, elementName):
+    ns = {
+        'xsi': "http://www.w3.org/2001/XMLSchema",
+        'app': "http://zagospodarowanieprzestrzenne.gov.pl/schemas/app/1.0",
+        'gmd': "http://www.isotc211.org/2005/gmd",
+        'gco': 'http://www.isotc211.org/2005/gco',
+        'xlink': 'http://www.w3.org/1999/xlink',
+        'gml': "http://www.opengis.net/gml/3.2",
+        'wfs': 'http://www.opengis.net/wfs/2.0',
+        'gmlexr': "http://www.opengis.net/gml/3.3/exr"
+    }
+    root = ET.parse(file).getroot()
+    elementPath = 'wfs:member/app:%s/app:%s' % (docName, elementName)
+    element = root.find(elementPath, ns)
+    return element
+
+
+def validateDokumentFormalnyDate(files):
+    uchwala_dataWejsciaWZycie = None
+    przystapienie_dataWejsciaWZycie = None
+    for doc, relation in files:
+        element = findElementInXmlFile(
+            file=doc, docName='DokumentFormalny', elementName='dataWejsciaWZycie')
+        if element is not None:
+            data = datetime.datetime.strptime(element.text, '%Y-%m-%d')
+            if relation == 'uchwala':
+                if uchwala_dataWejsciaWZycie is None:
+                    uchwala_dataWejsciaWZycie = data
+                elif uchwala_dataWejsciaWZycie < data:
+                    uchwala_dataWejsciaWZycie = data
+            if relation == 'przystąpienie':
+                if przystapienie_dataWejsciaWZycie is None:
+                    przystapienie_dataWejsciaWZycie = data
+                elif przystapienie_dataWejsciaWZycie < data:
+                    przystapienie_dataWejsciaWZycie = data
+    if uchwala_dataWejsciaWZycie is not None and przystapienie_dataWejsciaWZycie is not None and uchwala_dataWejsciaWZycie < przystapienie_dataWejsciaWZycie:
+        return False
+    return True

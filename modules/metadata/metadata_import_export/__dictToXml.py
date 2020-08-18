@@ -207,7 +207,7 @@ def metadataElementDictToXml(metadataElementDict):
             cI_Date = ET.SubElement(date, 'gmd:CI_Date')
             date2 = ET.SubElement(cI_Date, 'gmd:date')
             date3 = ET.SubElement(date2, 'gco:Date')
-            date3.text = metadataElementDict['e10']['e10_dateTimeEdit'].toString("yyyy-MM-dd")
+            date3.text = listItem['e10_dateTimeEdit'].toString("yyyy-MM-dd")
             dateType = ET.SubElement(cI_Date, 'gmd:dateType')
             ET.SubElement(dateType, 'gmd:CI_DateTypeCode',
                           {'codeList': 'http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#CI_DateTypeCode',
@@ -302,9 +302,11 @@ def metadataElementDictToXml(metadataElementDict):
 
     """gmd:distributionInfo"""
     distributionInfo = ET.SubElement(root, 'gmd:distributionInfo')
+    mD_Distribution = ET.SubElement(distributionInfo, 'gmd:MD_Distribution')
     """gmd:distributionFormat"""
     for listItem in metadataElementDict['e24']:
-        distributionFormat = ET.SubElement(distributionInfo, 'gmd:distributionFormat')
+
+        distributionFormat = ET.SubElement(mD_Distribution, 'gmd:distributionFormat')
         mD_Format = ET.SubElement(distributionFormat, 'gmd:MD_Format')
         name = ET.SubElement(mD_Format, 'gmd:name')
         characterString = ET.SubElement(name, 'gco:CharacterString')
@@ -328,7 +330,7 @@ def metadataElementDictToXml(metadataElementDict):
 
     """gmd:transferOptions"""
     for listItem in metadataElementDict['e4']:
-        transferOptions = ET.SubElement(distributionInfo, 'gmd:transferOptions')
+        transferOptions = ET.SubElement(mD_Distribution, 'gmd:transferOptions')
         mD_DigitalTransferOptions = ET.SubElement(transferOptions, 'gmd:MD_DigitalTransferOptions')
         onLine = ET.SubElement(mD_DigitalTransferOptions, 'gmd:onLine')
         cI_OnlineResource = ET.SubElement(onLine, 'gmd:CI_OnlineResource')
@@ -387,8 +389,8 @@ def metadataElementDictToXml(metadataElementDict):
     characterString = ET.SubElement(statement, 'gco:CharacterString')
     characterString.text = metadataElementDict['e15']['e15_lineEdit']
 
-    # print(minidom.parseString(tostring(root, encoding='utf-8', method='xml').decode('utf-8')).toprettyxml())
-    return minidom.parseString(ET.tostring(root, encoding='utf-8', method='xml').decode('utf-8')).toprettyxml()
+
+    return minidom.parseString(ET.tostring(root, encoding='utf-8', method='xml').decode('utf-8')).toprettyxml(encoding='utf-8').decode('UTF-8')
 
 def booleanElementFromConformancyLevel(conformancyLevel, dQ_ConformanceResult):
     """definiuje tag 'pass' na podstawie stopnia zgodności"""

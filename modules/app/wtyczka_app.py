@@ -437,41 +437,43 @@ class AppModule(BaseModule):
             pass
 
     def addTableContentGML(self):
-        plik = str(QFileDialog.getOpenFileName(
-            filter="pliki XML/GML (*.xml *.gml)")[0])
-        param = True
-        docNames = {
-            'AktPlanowaniaPrzestrzennego': 'APP',
-            'RysunekAktuPlanowniaPrzestrzenego': 'Rysunek APP',
-            'DokumentFormalny': 'Dokument Formalny'
-        }
-        try:
-            docName = utils.getDocType(plik)
-        except:
-            docName = ''
-        # if docName == '':
-        #     utils.showPopup(title='Błędny plik',
-        #                     text='Wczytano błędny plik: %s' % plik)
-        # elif docName in docNames.keys():
-        if plik:
-            if docName == '':
-                utils.showPopup(title='Błędny plik',
-                                text='Wczytano błędny plik: %s' % plik)
-            elif docName in docNames.keys():
-                rows = self.generowanieGMLDialog.filesTable_widget.rowCount()
-                if rows > 0:
-                    for i in range(rows):
-                        item = self.generowanieGMLDialog.filesTable_widget.item(
-                            i, 0).toolTip()
-                        if plik == item:
-                            param = False
-                            showPopup("Błąd tabeli",
-                                      "Wybrany plik znajduje się już w tabeli")
-                            break
-                    if param:
+        files = QFileDialog.getOpenFileNames(
+            filter="pliki XML/GML (*.xml *.gml)")[0]
+        for file in files:
+            plik = str(file)
+            param = True
+            docNames = {
+                'AktPlanowaniaPrzestrzennego': 'APP',
+                'RysunekAktuPlanowniaPrzestrzenego': 'Rysunek APP',
+                'DokumentFormalny': 'Dokument Formalny'
+            }
+            try:
+                docName = utils.getDocType(plik)
+            except:
+                docName = ''
+            # if docName == '':
+            #     utils.showPopup(title='Błędny plik',
+            #                     text='Wczytano błędny plik: %s' % plik)
+            # elif docName in docNames.keys():
+            if plik:
+                if docName == '':
+                    utils.showPopup(title='Błędny plik',
+                                    text='Wczytano błędny plik: %s' % plik)
+                elif docName in docNames.keys():
+                    rows = self.generowanieGMLDialog.filesTable_widget.rowCount()
+                    if rows > 0:
+                        for i in range(rows):
+                            item = self.generowanieGMLDialog.filesTable_widget.item(
+                                i, 0).toolTip()
+                            if plik == item:
+                                param = False
+                                showPopup("Błąd tabeli",
+                                          "Wybrany plik znajduje się już w tabeli")
+                                break
+                        if param:
+                            self.tableContentGML(plik, rows)
+                    else:
                         self.tableContentGML(plik, rows)
-                else:
-                    self.tableContentGML(plik, rows)
 
     def tableContentGML(self, file, rows):
         # data modyfikacji
@@ -598,24 +600,26 @@ class AppModule(BaseModule):
                     self.tableContentAddSet(iip+' (Zbiór)', setPath, rows)
 
     def addTableContentSet(self):
-        plik = str(QFileDialog.getOpenFileName(
-            filter="pliki XML/GML (*.xml *.gml)")[0])
-        param = True
-        if plik:
-            rows = self.zbiorPrzygotowanieDialog.appTable_widget.rowCount()
-            if rows > 0:
-                for i in range(rows):
-                    item = self.zbiorPrzygotowanieDialog.appTable_widget.item(
-                        i, 1).text()
-                    if plik == item:
-                        param = False
-                        showPopup("Błąd tabeli",
-                                  "Wybrany plik znajduje się już w tabeli")
-                        break
-                if param:
+        files = QFileDialog.getOpenFileNames(
+            filter="pliki XML/GML (*.xml *.gml)")[0]
+        for file in files:
+            plik = str(file)
+            param = True
+            if plik:
+                rows = self.zbiorPrzygotowanieDialog.appTable_widget.rowCount()
+                if rows > 0:
+                    for i in range(rows):
+                        item = self.zbiorPrzygotowanieDialog.appTable_widget.item(
+                            i, 1).text()
+                        if plik == item:
+                            param = False
+                            showPopup("Błąd tabeli",
+                                      "Wybrany plik znajduje się już w tabeli")
+                            break
+                    if param:
+                        self.tableContentSet(plik, rows)
+                else:
                     self.tableContentSet(plik, rows)
-            else:
-                self.tableContentSet(plik, rows)
 
     def tableContentAddSet(self, iip, file, rows):
         """Dodanie zbioru do tabeli zbioru"""

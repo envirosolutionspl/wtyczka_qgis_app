@@ -691,7 +691,7 @@ class AppModule(BaseModule):
                     fieldDef += '&field=%s:%s' % (
                         fieldElements.name, fieldElements.type.replace('gml:ReferenceType', 'string').replace('anyURI', 'string'))
                 continue
-            print(field.type)
+            # print(field.type)
             if 'gml' not in field.type or 'gml:ReferenceType' in field.type:
                 fieldDef += '&field=%s:%s' % (field.name,
                                               field.type.replace('gml:ReferenceType', 'string').replace('anyURI', 'string'))
@@ -726,11 +726,11 @@ class AppModule(BaseModule):
                     self.obrysLayer = None
                 data = utils.createXmlData(self.activeDlg, self.obrysLayer)
 
-                mydata = ET.tostring(data)
-                root = etree.XML(mydata)
+                xml_string = ET.tostring(data, 'unicode')
+                # root = etree.XML(mydata)
 
-                xml_string = etree.tostring(root, xml_declaration=True,
-                                            encoding='utf-8', pretty_print=True).decode('utf-8')  # TODO Sprawdzić bez pretty_print
+                # xml_string = etree.tostring(root, xml_declaration=True,
+                #                             encoding='utf-8', pretty_print=True).decode('utf-8')  # TODO Sprawdzić bez pretty_print
                 myfile = open(self.fn, "w", encoding='utf-8')
                 myfile.write(xml_string)
 

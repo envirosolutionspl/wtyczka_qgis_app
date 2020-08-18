@@ -105,18 +105,25 @@ def validate_IIP(przestrzenNazw):
     """Walidacja idIIP pod kątem prawidłowej struktury przestrzeni nazw"""
     if not przestrzenNazw.startswith('PL.ZIPPZP.'):
         return False  # Brak wymaganej sekwencji - kod RP, kod dla zbioru
-    numer = przestrzenNazw.split('.')[2].split('/')[0]
-
+    try:
+        numer = przestrzenNazw.split('.')[2].split('/')[0]
+    except:
+        return False
     if not numer.isdigit():
         return False  # numer porządkowy nie jest liczbą całkowitą
 
     rodzaj_list = ['PZPW', 'RSZM', 'SUIKZP', 'MPZP']
-    rodzaj = przestrzenNazw.split('-')[1]
+    try:
+        rodzaj = przestrzenNazw.split('-')[1]
+    except:
+        return False
     if rodzaj not in rodzaj_list:
         # showPopup('Błąd identyfikatora', '')
         return False
-
-    teryt = przestrzenNazw.split('/')[1].split('-')[0]
+    try:
+        teryt = przestrzenNazw.split('/')[1].split('-')[0]
+    except:
+        return False
     if not validate_teryt(teryt):
         return False
 
@@ -355,8 +362,9 @@ def makeXmlComplex(tag, item, element):
     ComplexItem = ET.SubElement(
         item, element.type.replace('PropertyType', ''))
     for inner in element.innerFormElements:
-        subItem = ET.SubElement(ComplexItem, tag + inner.name)
-        subItem.text = inner.refObject.text()
+        if inner.refObject.text() != '':
+            subItem = ET.SubElement(ComplexItem, tag + inner.name)
+            subItem.text = inner.refObject.text()
 
 
 def makeXmlListElements(tag, item, element, formData, slownik={}):
@@ -368,19 +376,19 @@ def makeXmlListElements(tag, item, element, formData, slownik={}):
             ComplexItem = ET.SubElement(
                 subItem, element.type.replace('PropertyType', ''))
             for innerElement in element.innerFormElements:
-                innerItem = ET.SubElement(
-                    ComplexItem, tag+innerElement.name)
                 for fd in fee.keys():
 
-                    try:  # Sprawdzanie Nil == True
-                        if fee[innerElement.name+'_lineEdit_nilReason_chkbx']:
-                            makeNil(
-                                innerItem, innerElement, nilReason[fee[innerElement.name+'_lineEdit_nilReason_cmbbx']])  # fee[innerElement.name+'_lineEdit_nilReason_cmbbx'])
-                    except:
-                        pass
-
+                    # try:  # Sprawdzanie Nil == True
+                    #     if fee[innerElement.name+'_lineEdit_nilReason_chkbx']:
+                    #         makeNil(
+                    #             innerItem, innerElement, nilReason[fee[innerElement.name+'_lineEdit_nilReason_cmbbx']])  # fee[innerElement.name+'_lineEdit_nilReason_cmbbx'])
+                    # except:
+                    #     pass
                     if innerElement.name in fd:
-                        innerItem.text = fee[fd]
+                        if fee[fd] != '':
+                            innerItem = ET.SubElement(
+                                ComplexItem, tag+innerElement.name)
+                            innerItem.text = fee[fd]
                         break
         else:
             multiItem = ET.SubElement(
@@ -1256,7 +1264,6 @@ def mergeDocsToAPP(docList):  # docList z getTableContent
     # docList[0] - ścieżka
     # docList[0] - relacja dokumentu / '' dla APP, Rysunek
     # Dodać liczbę zwracanych obiektów 'numberReturned': str(len(docList))
-
     ns = {
         'xsi': "http://www.w3.org/2001/XMLSchema",
         'app': "http://zagospodarowanieprzestrzenne.gov.pl/schemas/app/1.0",
@@ -1267,6 +1274,50 @@ def mergeDocsToAPP(docList):  # docList z getTableContent
         'wfs': 'http://www.opengis.net/wfs/2.0',
         'gmlexr': "http://www.opengis.net/gml/3.3/exr"
     }
+
+    # Strefa czasowa timezone jest ustawiona na sztywno
+    root_data = {
+        'timeStamp': datetime.datetime.utcnow().isoformat()+'Z',
+        # liczba memberów w wfs:FeatureCollection
+        'numberReturned': str(len(docList)),
+        'numberMatched': "unknown",
+    }
+
+    for prefix, uri in ns.items():
+        ET.register_namespace(prefix, uri)
+
+    # Przestrzenie nazw ustawione na sztywno
+    namespaces = {
+        'xmlns:gco': "http://www.isotc211.org/2005/gco",
+        'xmlns:gmd': "http://www.isotc211.org/2005/gmd",
+        'xmlns:gml': "http://www.opengis.net/gml/3.2",
+        'xmlns:wfs': "http://www.opengis.net/wfs/2.0",
+        'xmlns:xlink': "http://www.w3.org/1999/xlink",
+        'xmlns:xsi': "http://www.w3.org/2001/XMLSchema-instance",
+        'xmlns:app': "http://zagospodarowanieprzestrzenne.gov.pl/schemas/app/1.0",
+        'xsi:schemaLocation': "http://zagospodarowanieprzestrzenne.gov.pl/schemas/app/1.0 ../appSchema/appSchema_app_v0_0_1/planowaniePrzestrzenne.xsd http://www.opengis.net/gml/3.2 http://schemas.opengis.net/gml/3.2.1/gml.xsd http://www.opengis.net/wfs/2.0 http://schemas.opengis.net/wfs/2.0/wfs.xsd"
+    }
+
+    # create the file structure
+    data = ET.Element('wfs:FeatureCollection')
+
+    # for attr, value in root_data.items():
+    #     data.set(attr, value)
+
+    # for tag, uri in namespaces.items():
+    #     data.set(tag, uri)
+
+    ##############################
+    # ns = {
+    #     'xsi': "http://www.w3.org/2001/XMLSchema",
+    #     'app': "http://zagospodarowanieprzestrzenne.gov.pl/schemas/app/1.0",
+    #     'gmd': "http://www.isotc211.org/2005/gmd",
+    #     'gco': 'http://www.isotc211.org/2005/gco',
+    #     'xlink': 'http://www.w3.org/1999/xlink',
+    #     'gml': "http://www.opengis.net/gml/3.2",
+    #     'wfs': 'http://www.opengis.net/wfs/2.0',
+    #     'gmlexr': "http://www.opengis.net/gml/3.3/exr"
+    # }
     # Przechowywanie elementów referencyjnych
     pomijane = {
         'AktPlanowaniaPrzestrzennego': {  # + zmiana
@@ -1295,8 +1346,8 @@ def mergeDocsToAPP(docList):  # docList z getTableContent
         'RysunekAktuPlanowniaPrzestrzenego': []
     }
 
-    for prefix, uri in ns.items():
-        ET.register_namespace(prefix, uri)
+    # for prefix, uri in ns.items():
+    #     ET.register_namespace(prefix, uri)
 
     # Pozyskiwanie APP
     for doc, relation in docList:
@@ -1400,18 +1451,23 @@ def mergeDocsToAPP(docList):  # docList z getTableContent
                     newElement=newElement)
     numberReturned = str(len(docList))
     timeStamp = datetime.datetime.utcnow().isoformat()+'Z'
-    APProot.attrib['timeStamp'] = timeStamp
-    APProot.attrib['numberReturned'] = numberReturned
+    # APProot.attrib['timeStamp'] = timeStamp
+    # APProot.attrib['numberReturned'] = numberReturned
     # eksport APP
-    mydata = ET.tostring(APProot)  # .replace(b'><', b'>\n\t<')
-    from lxml import etree
-    root = etree.XML(mydata)
-    xml_string = etree.tostring(
-        root,
-        xml_declaration=True,
-        encoding='utf-8',
-        pretty_print=True).decode('utf-8')
-    return xml_string
+    # .replace(b'><', b'>\n\t<')
+    for prefix, uri in ns.items():
+        ET.register_namespace(prefix, uri)
+    mydata = ET.tostring(APProot, encoding='unicode').replace(
+        'ns1', 'xsi')  # xsi quickfix - do zweryfikowania
+    return mydata
+    # from lxml import etree
+    # root = etree.XML(mydata)
+    # xml_string = etree.tostring(
+    #     root,
+    #     xml_declaration=True,
+    #     encoding='utf-8',
+    #     pretty_print=True).decode('utf-8')
+    # return xml_string
 
 
 def mergeFormalDocuments(root, elements=[]):
@@ -1448,8 +1504,8 @@ def sortDocRelations(relationList):
 
 def mergeAppToCollection(AppFiles, set={}):
     app_form = createFormElementsAktPlanowaniaPrzestrzennego()
-    for elem in app_form:
-        print(elem.name)
+    # for elem in app_form:
+    #     print(elem.name)
     ns = {
         'xsi': "http://www.w3.org/2001/XMLSchema",
         'app': 'http://zagospodarowanieprzestrzenne.gov.pl/schemas/app/1.0',

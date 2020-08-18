@@ -183,7 +183,6 @@ class Formularz:
                     elif isinstance(formItem, QComboBox):
                         formItem.setCurrentIndex(data[formItem.objectName()])
 
-
             if name == 'mapaPodkladowa':
                 referencja_lineEdit = utils.layout_widget_by_name(
                     vbox2, name="referencja_lineEdit")
@@ -327,7 +326,11 @@ class Formularz:
         elif formElement.type == 'integer':
             input = QgsFilterLineEdit()
             # tylko liczby calkowite
-            input.setValidator(QRegExpValidator(QRegExp("[0-9]*")))
+            if formElement.name == 'rozdzielczoscPrzestrzenna':
+                input.setValidator(QRegExpValidator(
+                    QRegExp("^[\d]{0,10}")))
+            else:
+                input.setValidator(QRegExpValidator(QRegExp("[0-9]*")))
             input.setObjectName(formElement.name + '_lineEdit')
         elif formElement.type == 'anyURI':
             input = QgsFilterLineEdit()
@@ -336,6 +339,9 @@ class Formularz:
             input.setObjectName(formElement.name + '_lineEdit')
         else:
             input = QgsFilterLineEdit()
+            if formElement.name == 'opis':
+                input.setValidator(QRegExpValidator(
+                    QRegExp("^[\d\D\s\S\w\W]{0,1000}")))
             input.setObjectName(formElement.name + '_lineEdit')
 
         # ustawienie podpowiedzi inputa (typ)
@@ -369,7 +375,8 @@ class Formularz:
         tooltipImg.setPixmap(p.scaled(16, 16, Qt.KeepAspectRatio))
         placeholder = ""
         if fullFormElementName in dictionaries.placeholders.keys():
-            placeholder = '<br><br>np.: ' + dictionaries.placeholders[fullFormElementName]
+            placeholder = '<br><br>np.: ' + \
+                dictionaries.placeholders[fullFormElementName]
         tooltipImg.setToolTip(
             "<FONT COLOR=black>%s</FONT><b>%s</b>" % (formElement.documentation, placeholder))  # dodanie tooltip z documentation 'rich text' dla zawijania
         tooltipImg.setObjectName(formElement.name + '_tooltip')

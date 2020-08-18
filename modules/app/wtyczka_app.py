@@ -912,15 +912,18 @@ class AppModule(BaseModule):
 
     def setDefaultValues(self, formularz):
         s = QgsSettings()
-
         for fe in formularz.formElements:
             try:
                 valuePath = "qgis_app/settings/%s" % fe.name
-                feValue = s.value(valuePath, "PL.ZIPPZP.")
+                feValue = s.value(valuePath, "")
                 utils.setValueToWidget(fe, feValue)
             except:
                 pass
             for inner in fe.innerFormElements:
+                # if inner.name == 'przestrzenNazw':
+                #     print('tak')
+                #     valuePath = "qgis_app/settings/%s" % inner.name
+                #     utils.setValueToWidget(inner, s.value(valuePath, ""))
                 try:
                     valuePath = "qgis_app/settings/%s" % inner.name
                     feValue = s.value(valuePath, "")

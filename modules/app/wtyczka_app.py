@@ -817,6 +817,38 @@ class AppModule(BaseModule):
             self.generowanieGMLDialog.close()
 
     def checkSaveForms(self):
+        def findElement(formElements, name):
+            for formElement in formElements:
+                if formElement.name == name:
+                    return formElement
+                for inner in formElement.innerFormElements:
+                    if inner.name == name:
+                        return inner
+            return None
+
+        def setValue(formElement1, formElement2):
+            if formElement1 is None or formElement2 is None:
+                return
+            if formElement1.type == 'string':
+                utils.setValueToWidget(
+                    formElement2, formElement1.refObject.text())
+            elif formElement1.type == 'date':
+                if utils.checkForNoDateValue(formElement1.refObject):
+                    return
+                dateValue = formElement1.refObject.text()
+                date_time_obj = datetime.datetime.strptime(
+                    dateValue, '%d.%m.%Y')
+                str_date = date_time_obj.strftime("%Y-%m-%d")
+                utils.setValueToWidget(formElement2, str_date)
+            elif formElement1.type == 'dateTime':
+                if utils.checkForNoDateValue(formElement1.refObject):
+                    return
+                dateValue = formElement1.refObject.text()
+                date_time_obj = datetime.datetime.strptime(
+                    dateValue, '%d.%m.%Y %H:%M')
+                str_date = date_time_obj.strftime("%Y-%m-%dT%H:%M")+':00'
+                utils.setValueToWidget(formElement2, str_date)
+
         if self.saved:
             if self.activeDlg == self.rasterFormularzDialog:
                 self.openNewDialog(self.wektorInstrukcjaDialog)
@@ -830,6 +862,13 @@ class AppModule(BaseModule):
             self.saved = False
         else:
             self.showPopupSaveForms()
+
+        setValue(findElement(self.rasterFormularzDialog.formElements, 'przestrzenNazw'),
+                 findElement(self.wektorFormularzDialog.formElements, 'przestrzenNazw'))
+        setValue(findElement(self.rasterFormularzDialog.formElements, 'poczatekWersjiObiektu'),
+                 findElement(self.wektorFormularzDialog.formElements, 'poczatekWersjiObiektu'))
+        setValue(findElement(self.rasterFormularzDialog.formElements, 'obowiazujeOd'),
+                 findElement(self.wektorFormularzDialog.formElements, 'obowiazujeOd'))
         return self.saved
 
     def showPopupSaveForms(self):

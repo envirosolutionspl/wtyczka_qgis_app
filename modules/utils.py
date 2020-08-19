@@ -807,17 +807,21 @@ def checkForNoValue(element):
         # print(element.text())
     except:
         try:
-            if element.currentText() == '':
+            if element.dateTime().toString() == '' or element.text() == 'NULL' or element.text() == None:
                 return True
-            # print(element.currentText())
         except:
             try:
-                params = getListWidgetItems(element)
-                if params == []:
+                if element.currentText() == '':
                     return True
+                # print(element.currentText())
             except:
-                # print(element)
-                pass
+                try:
+                    params = getListWidgetItems(element)
+                    if params == []:
+                        return True
+                except:
+                    # print(element)
+                    pass
     return False  # jest wartość
 
 

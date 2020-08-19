@@ -1445,17 +1445,17 @@ def mergeDocsToAPP(docList):  # docList z getTableContent
 
     zmiana_count = len(
         pomijane['AktPlanowaniaPrzestrzennego']['dokumentZmieniajacy'])
-    newElement = ET.Element("{%s}zmiana" % ns['app'])
-    newElement.text = str(zmiana_count)
-    # print(zmiana_count)
-    aktPath = 'wfs:member/app:AktPlanowaniaPrzestrzennego'
-    aktRoot = APProot.find(aktPath, ns)
-    putElementBelow(element=aktRoot, subElementName='status',
-                    newElement=newElement)
+    if zmiana_count > 0:
+        newElement = ET.Element("{%s}zmiana" % ns['app'])
+        newElement.text = str(zmiana_count)
+        aktPath = 'wfs:member/app:AktPlanowaniaPrzestrzennego'
+        aktRoot = APProot.find(aktPath, ns)
+        putElementBelow(element=aktRoot, subElementName='status',
+                        newElement=newElement)
     numberReturned = str(len(docList))
     timeStamp = datetime.datetime.utcnow().isoformat()+'Z'
-    # APProot.attrib['timeStamp'] = timeStamp
-    # APProot.attrib['numberReturned'] = numberReturned
+    APProot.attrib['timeStamp'] = timeStamp
+    APProot.attrib['numberReturned'] = numberReturned
     # eksport APP
     # .replace(b'><', b'>\n\t<')
     for prefix, uri in ns.items():
@@ -1527,11 +1527,12 @@ def mergeAppToCollection(AppFiles, set={}):
 
     main = True
     memberList = []
-
+    numberReturned = 0
     for file in AppFiles:
         path = file.path
         root = ET.parse(path).getroot()  # APP
         for member in root:
+            numberReturned = numberReturned + 1
             if 'DokumentFormalny' in member[0].tag:
                 docAttributes = mergeFormalDocuments(
                     member[0], [])  # Lista atrybutów dokumentu
@@ -1567,20 +1568,22 @@ def mergeAppToCollection(AppFiles, set={}):
                 member[0].append(element)
         rootMain.append(member)
 
-    numberReturned = str(len(AppFiles))
     timeStamp = datetime.datetime.utcnow().isoformat()+'Z'
     rootMain.attrib['timeStamp'] = timeStamp
-    rootMain.attrib['numberReturned'] = numberReturned
+    rootMain.attrib['numberReturned'] = str(numberReturned)
     # eksport APP
-    mydata = ET.tostring(rootMain)  # .replace(b'><', b'>\n\t<')
-    from lxml import etree
-    root = etree.XML(mydata)
-    xml_string = etree.tostring(
-        root,
-        xml_declaration=True,
-        encoding='utf-8',
-        pretty_print=True).decode('utf-8')
-    return xml_string
+    # mydata = ET.tostring(rootMain)  # .replace(b'><', b'>\n\t<')
+    mydata = '<?xml version="1.0" encoding="utf-8"?>'+ET.tostring(rootMain, encoding='unicode').replace(
+        'ns1', 'xsi')  # xsi quickfix - do zweryfikowania
+    return mydata
+    # from lxml import etree
+    # root = etree.XML(mydata)
+    # xml_string = etree.tostring(
+    #     root,
+    #     xml_declaration=True,
+    #     encoding='utf-8',
+    #     pretty_print=True).decode('utf-8')
+    # return xml_string
 
 
 def getIPPapp(filePath):

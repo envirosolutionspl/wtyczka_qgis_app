@@ -380,7 +380,20 @@ def metadataElementDictToXml(metadataElementDict):
         exp_anchor = ET.SubElement(explanation, 'gmx:Anchor', {'xlink:href': dictionaries.zgodnoscAnchors[listItem['e19_cmbbx']]})
         exp_anchor.text = listItem['e19_cmbbx']
 
-        booleanElementFromConformancyLevel(conformancyLevel=listItem['e19_cmbbx'], dQ_ConformanceResult=dQ_ConformanceResult)
+        conformancyLevel = listItem['e19_cmbbx']
+
+        if conformancyLevel == 'Zgodny (conformant)':
+            _pass = ET.SubElement(dQ_ConformanceResult, 'gmd:pass')
+            boolean = ET.SubElement(_pass, 'gco:Boolean')
+            boolean.text = 'true'
+        elif conformancyLevel == 'Niezgodny (notConformant)':
+            _pass = ET.SubElement(dQ_ConformanceResult, 'gmd:pass')
+            boolean = ET.SubElement(_pass, 'gco:Boolean')
+            boolean.text = 'false'
+        elif conformancyLevel == 'Brak oceny zgodności (notEvaluated)':
+            _pass = ET.SubElement(dQ_ConformanceResult, 'gmd:pass', {'gco:nilReason': "unknown"})
+
+
 
     """gmd:lineage"""
     lineage = ET.SubElement(dQ_DataQuality, 'gmd:lineage')
@@ -391,17 +404,3 @@ def metadataElementDictToXml(metadataElementDict):
 
 
     return minidom.parseString(ET.tostring(root, encoding='utf-8', method='xml').decode('utf-8')).toprettyxml(encoding='utf-8').decode('UTF-8')
-
-def booleanElementFromConformancyLevel(conformancyLevel, dQ_ConformanceResult):
-    """definiuje tag 'pass' na podstawie stopnia zgodności"""
-    if conformancyLevel == 'Zgodny (conformant)':
-        _pass = ET.SubElement(dQ_ConformanceResult, 'gmd:pass')
-        boolean = ET.SubElement(_pass, 'gco:Boolean')
-        boolean.text = 'true'
-    elif conformancyLevel == 'Niezgodny (notConformant)':
-        _pass = ET.SubElement(dQ_ConformanceResult, 'gmd:pass')
-        boolean = ET.SubElement(_pass, 'gco:Boolean')
-        boolean.text = 'false'
-    elif conformancyLevel == 'Brak oceny zgodności (notEvaluated)':
-        _pass = ET.SubElement(dQ_ConformanceResult, 'gmd:pass')
-        boolean = ET.SubElement(_pass, 'gco:Boolean', {'gco:nilReason': "unknown"})

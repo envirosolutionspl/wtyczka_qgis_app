@@ -140,7 +140,7 @@ def xmlToMetadataElementDict(xml):
         date = report.find('.//gmd:specification/gmd:CI_Citation/gmd:date//gco:Date', ns)
         dateType = report.find('.//gmd:specification/gmd:CI_Citation//gmd:dateType/gmd:CI_DateTypeCode', ns)
         exp_anchor = report.find('.//gmd:explanation/gmx:Anchor', ns)
-        _pass = report.find('.//gmd:pass/gco:Boolean', ns)
+        # _pass = report.find('.//gmd:pass/gco:Boolean', ns)
         if title is not None:
             data['e18_lineEdit'] = title.text
         elif title_anchor is not None:

@@ -66,10 +66,12 @@ class SendFileDialog:
     def validateForm(self):
         """walidacja formularza"""
         for lineEdit in utils.getWidgetsByType(self, QLineEdit):
+            elementId = lineEdit.objectName().split("_")[0]
+            label = utils.getWidgetByName(self, QLabel, elementId + "_lbl")
             if not lineEdit.text().strip():
-                elementId = lineEdit.objectName().split("_")[0]
-                label = utils.getWidgetByName(self, QLabel, elementId + "_lbl")
                 return (False, "Musisz wypełnić pole %s" % label.text())
+            if ('user_lineEdit' == lineEdit.objectName() or 'receiver_lineEdit' == lineEdit.objectName()) and not utils.validateEmailAddress(lineEdit.text().strip()):
+                return (False, "Wprowadź poprawny adres email w polu %s" % label.text())
         return [True]
 
 
@@ -134,10 +136,10 @@ class SmtpDialog(QtWidgets.QDialog, FORM_CLASS2, SendFileDialog):
 
     def prepareLayout(self):
         """Przygotowanie layoutu SMTP"""
-
         self.port_lineEdit.setValidator(QRegExpValidator(QRegExp("[0-9]*")))
         self.host_lineEdit.setValidator(QRegExpValidator(QRegExp(r"\S*")))
-        self.receiver_lineEdit.setValidator(QRegExpValidator(QRegExp(r"\S*")))
+        self.receiver_lineEdit.setValidator(QRegExpValidator(QRegExp(r"[0-9a-zA-Z.\-\_\@\+]*")))
+        self.user_lineEdit.setValidator(QRegExpValidator(QRegExp(r"[0-9a-zA-Z.\-\_\@\+]*")))
         self.readSettings("smtp")   # wczytaj zapisane wartości
         self.cancel_btn.clicked.connect(self.close)
         self.send_btn.clicked.connect(self.send_btn_clicked)

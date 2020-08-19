@@ -179,7 +179,6 @@ class MetadaneDialog(QDialogOverride, FORM_CLASS, ButtonsDialog):
         self.prepareLayout()
         # zapisanie inicjalnego formularza do słownika
         self.startFormState = formToMetadataElementDict(self)
-
         self.e32_btn.clicked.connect(self.e32_btn_clicked)
         self.clearForm_btn.clicked.connect(self.clearForm_btn_clicked)
 
@@ -259,7 +258,6 @@ class MetadaneDialog(QDialogOverride, FORM_CLASS, ButtonsDialog):
         """czyszczenie formularza"""
         for lineEdit in utils.getWidgetsByType(self, QgsFilterLineEdit):
             lineEdit.clear()
-        print ('startformStae\n', self.startFormState)
         metadataElementDictToForm(self.startFormState, self)
 
     def prepareListWidgets(self, listWidget):

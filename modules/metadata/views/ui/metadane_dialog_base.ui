@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>782</width>
+    <width>748</width>
     <height>642</height>
    </rect>
   </property>
@@ -36,6 +36,26 @@
      </item>
      <item>
       <widget class="QLabel" name="empty3_lbl">
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Uwaga! Przed wczytaniem poniższych plików upewnij się, że są one poprawne. Możesz to zrobić np. za pomocą walidatora wtyczki APP. Wczytanie niezwalidowanego pliku może powodować niepoprawe wygenerowanie pliku XML metadanych.</string>
+       </property>
+       <property name="textFormat">
+        <enum>Qt::RichText</enum>
+       </property>
+       <property name="wordWrap">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_2">
        <property name="text">
         <string/>
        </property>
@@ -128,8 +148,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>760</width>
-          <height>350</height>
+          <width>709</width>
+          <height>300</height>
          </rect>
         </property>
         <layout class="QGridLayout" name="gridLayout_2">

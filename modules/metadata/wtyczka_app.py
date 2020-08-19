@@ -60,7 +60,7 @@ class MetadataModule(BaseModule):
         if path:
             # utworzenie słownika na podstawie pliku zbioru APP
             metadataElementDict = appGmlToMetadataElementDict(path)
-            print(metadataElementDict)
+            # print(metadataElementDict)
 
             # zapisanie słownika do formularza
             metadataElementDictToForm(metadataElementDict, self.metadaneDialog)
@@ -71,7 +71,7 @@ class MetadataModule(BaseModule):
         if path:
             # utworzenie słownika na podstawie pliku metadanych
             metadataElementDict = xmlToMetadataElementDict(path)
-            print(metadataElementDict)
+            # print(metadataElementDict)
 
             # zapisanie słownika do formularza
             metadataElementDictToForm(metadataElementDict, self.metadaneDialog)

@@ -14,7 +14,11 @@ def metadataElementDictToForm(metadataElementDict, targetForm):
                 if elementId == 'e22' or elementId == 'e29':
                     item.setText(" - ".join(list(data.values())))
                 else:
-                    item.setText(list(data.values())[0])
+                    # item.setText(list(data.values())[0])
+                    objectName = elementId + '_lineEdit'
+                    if objectName not in data:
+                        objectName = elementId + '_cmbbx'
+                    item.setText(data[objectName])
                 listWidget.addItem(item)
 
         else:   # pojedyncze elementy np. lineEdit

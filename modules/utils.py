@@ -382,7 +382,11 @@ def makeXmlListElements(tag, item, element, formData, slownik={}):
                         if fee[fd] != '':
                             innerItem = ET.SubElement(
                                 ComplexItem, tag+innerElement.name)
-                            innerItem.text = fee[fd]
+                            if innerElement.type == 'date':
+                                innerItem.text = fee[fd].replace(
+                                    'T00:00:00', '')
+                            else:
+                                innerItem.text = fee[fd]
                         break
         else:
             multiItem = ET.SubElement(
@@ -758,6 +762,7 @@ def getListWidgetItems(listWidget):
             elif type(item[key]) == bool:
                 continue
             else:
+                # Uwaga - dla atrybutów typu date należy usuwać "Thh:mm:ss"
                 item[key] = item[key].toString("yyyy-MM-ddThh:mm:ss")
         itemList.append(item)
     return(itemList)

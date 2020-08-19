@@ -221,9 +221,8 @@ class AppModule(BaseModule):
                     break
 
         if not self.obrysLayer:   # brak wybranej warstwy
-            showPopup("Błąd warstwy obrysu", "Nie wskazano warstwy z obrysem.")
+            pass
         elif self.obrysLayer.featureCount() > 1:     # niepoprawna ilość obiektów w warstwie
-
             self.showPopupAggregate(title="Błąd warstwy obrysu", text="Wybrana warstwa posiada obiekty w liczbie: %d.\nObrys może składać się wyłącznie z jednego obiektu.\nCzy chcesz utworzyć zagregowaną warstwę o nazwie: granice_app_zagregowane?" % (
                 self.obrysLayer.featureCount()), layer=self.obrysLayer)
         elif self.obrysLayer.featureCount() == 0:
@@ -863,6 +862,7 @@ class AppModule(BaseModule):
         else:
             self.showPopupSaveForms()
 
+        # Przenoszenie wartości między formularzami.
         setValue(findElement(self.rasterFormularzDialog.formElements, 'przestrzenNazw'),
                  findElement(self.wektorFormularzDialog.formElements, 'przestrzenNazw'))
         setValue(findElement(self.rasterFormularzDialog.formElements, 'poczatekWersjiObiektu'),

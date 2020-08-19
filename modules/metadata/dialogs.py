@@ -85,7 +85,7 @@ class CswDialog(QtWidgets.QDialog, FORM_CLASS3, SendFileDialog):
         self.setupUi(self)
         # self.setWindowTitle(title_metadata)
         self.setWindowIcon(QtGui.QIcon(icon_metadata))
-        self.setWindowFlag(Qt.WindowMinMaxButtonsHint, True)
+        self.setWindowFlags(Qt.WindowMinMaxButtonsHint|Qt.WindowMinimizeButtonHint)
         self.prepareLayout()
 
     def prepareLayout(self):
@@ -129,7 +129,7 @@ class SmtpDialog(QtWidgets.QDialog, FORM_CLASS2, SendFileDialog):
         self.setupUi(self)
         # self.setWindowTitle(title_metadata)
         self.setWindowIcon(QtGui.QIcon(icon_metadata))
-        self.setWindowFlag(Qt.WindowMinMaxButtonsHint, True)
+        self.setWindowFlags(Qt.WindowMinMaxButtonsHint|Qt.WindowMinimizeButtonHint)
         self.prepareLayout()
 
     def prepareLayout(self):
@@ -174,7 +174,7 @@ class MetadaneDialog(QDialogOverride, FORM_CLASS, ButtonsDialog):
         self.setupUi(self)
         self.setWindowTitle(title_metadata)
         self.setWindowIcon(QtGui.QIcon(icon_metadata))
-        self.setWindowFlag(Qt.WindowMinMaxButtonsHint, True)
+        self.setWindowFlags(Qt.WindowMinMaxButtonsHint|Qt.WindowMinimizeButtonHint)
         ButtonsDialog.__init__(self)
         self.prepareLayout()
         # zapisanie inicjalnego formularza do słownika

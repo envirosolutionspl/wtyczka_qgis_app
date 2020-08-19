@@ -45,8 +45,9 @@ def validateMetadataForm(dlg):
                 item = listWidget.item(i)
                 data = item.data(Qt.UserRole)
                 datasetIds.append(data['e5_lineEdit'])
-
-            if len(list(filter(utils.validateDatasetId, datasetIds))) == len(datasetIds):
+            print('------>', len(list(filter(utils.validateDatasetId, datasetIds))))
+            print('------>', len(datasetIds))
+            if len(list(filter(utils.validateDatasetId, datasetIds))) != len(datasetIds):
                 return False, "W polu '%s' musisz zdefiniować wartośc zgodnie z §4 rozporządzenia\n np.: 'PL.ZIPPZP.9999/146501-MPZP'" % (
                     label.text().strip('*'))
 

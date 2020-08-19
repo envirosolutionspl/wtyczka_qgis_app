@@ -50,8 +50,7 @@ class PytanieAppDialog(QDialogOverride, FORM_CLASS, ButtonsDialog):
         self.setupUi(self)
         self.setWindowTitle(title_question)
         self.setWindowIcon(QtGui.QIcon(':/plugins/wtyczka_app/img/logo.png'))
-        self.setWindowFlag(Qt.WindowMinMaxButtonsHint, True)
-        self.setWindowFlag(Qt.WindowMinimizeButtonHint, True)
+        self.setWindowFlags(Qt.WindowMinimizeButtonHint | Qt.WindowSystemMenuHint | Qt.WindowMinMaxButtonsHint | Qt.WindowCloseButtonHint)
         ButtonsDialog.__init__(self)
 
         # self.zbior_btn.clicked.connect(self.close)
@@ -65,8 +64,8 @@ class ZbiorPrzygotowanieDialog(QDialogOverride, FORM_CLASS1, ButtonsDialog):
         self.setupUi(self)
         self.setWindowTitle('Tworzenie zbioru APP')
         self.setWindowIcon(QtGui.QIcon(icon_path))
-        self.setWindowFlag(Qt.WindowMinMaxButtonsHint, True)
-        self.setWindowFlag(Qt.WindowMinimizeButtonHint, True)
+        self.setWindowFlags(
+            Qt.WindowMinimizeButtonHint | Qt.WindowSystemMenuHint | Qt.WindowMinMaxButtonsHint | Qt.WindowCloseButtonHint)
         ButtonsDialog.__init__(self)
 
 
@@ -77,8 +76,7 @@ class RasterInstrukcjaDialog(QDialogOverride, FORM_CLASS2, ButtonsDialog):
         self.setupUi(self)
         self.setWindowTitle('%s (krok 1 z 6)' % title_app)
         self.setWindowIcon(QtGui.QIcon(icon_path))
-        self.setWindowFlag(Qt.WindowMinMaxButtonsHint, True)
-        self.setWindowFlag(Qt.WindowMinimizeButtonHint, True)
+        self.setWindowFlags(Qt.WindowMinimizeButtonHint | Qt.WindowSystemMenuHint | Qt.WindowMinMaxButtonsHint | Qt.WindowCloseButtonHint)
         ButtonsDialog.__init__(self)
 
 
@@ -89,8 +87,7 @@ class RasterFormularzDialog(QDialogOverride, FORM_CLASS3, Formularz, ButtonsDial
         self.setupUi(self)
         self.setWindowTitle('%s (krok 2 z 6)' % title_app)
         self.setWindowIcon(QtGui.QIcon(icon_path))
-        self.setWindowFlag(Qt.WindowMinMaxButtonsHint, True)
-        self.setWindowFlag(Qt.WindowMinimizeButtonHint, True)
+        self.setWindowFlags(Qt.WindowMinimizeButtonHint | Qt.WindowSystemMenuHint | Qt.WindowMinMaxButtonsHint | Qt.WindowCloseButtonHint)
         self.removeForm(container=self.form_scrollArea)
         self.formElements = utils.createFormElementsRysunekAPP()
         self.createForm(container=self.form_scrollArea,
@@ -106,8 +103,7 @@ class WektorInstrukcjaDialog(QDialogOverride, FORM_CLASS7, ButtonsDialog):
         self.setupUi(self)
         self.setWindowTitle('%s (krok 3 z 6)' % title_app)
         self.setWindowIcon(QtGui.QIcon(icon_path))
-        self.setWindowFlag(Qt.WindowMinMaxButtonsHint, True)
-        self.setWindowFlag(Qt.WindowMinimizeButtonHint, True)
+        self.setWindowFlags(Qt.WindowMinimizeButtonHint | Qt.WindowSystemMenuHint | Qt.WindowMinMaxButtonsHint | Qt.WindowCloseButtonHint)
         self.layers_comboBox.setAllowEmptyLayer(True)
         ButtonsDialog.__init__(self)
 
@@ -119,8 +115,7 @@ class WektorFormularzDialog(QDialogOverride, FORM_CLASS5, Formularz, ButtonsDial
         self.setupUi(self)
         self.setWindowTitle('%s (krok 4 z 6)' % title_app)
         self.setWindowIcon(QtGui.QIcon(icon_path))
-        self.setWindowFlag(Qt.WindowMinMaxButtonsHint, True)
-        self.setWindowFlag(Qt.WindowMinimizeButtonHint, True)
+        self.setWindowFlags(Qt.WindowMinimizeButtonHint | Qt.WindowSystemMenuHint | Qt.WindowMinMaxButtonsHint | Qt.WindowCloseButtonHint)
         self.removeForm(container=self.form_scrollArea)
         self.formElements = utils.createFormElementsAktPlanowaniaPrzestrzennego()
         self.createForm(container=self.form_scrollArea,
@@ -136,8 +131,7 @@ class DokumentyFormularzDialog(QDialogOverride, FORM_CLASS4, Formularz, ButtonsD
         self.setupUi(self)
         self.setWindowTitle('%s (krok 5 z 6)' % title_app)
         self.setWindowIcon(QtGui.QIcon(icon_path))
-        self.setWindowFlag(Qt.WindowMinMaxButtonsHint, True)
-        self.setWindowFlag(Qt.WindowMinimizeButtonHint, True)
+        self.setWindowFlags(Qt.WindowMinimizeButtonHint | Qt.WindowSystemMenuHint | Qt.WindowMinMaxButtonsHint | Qt.WindowCloseButtonHint)
         self.removeForm(container=self.form_scrollArea)
         self.formElements = utils.createFormElementsDokumentFormalny()
         self.createForm(container=self.form_scrollArea,
@@ -158,6 +152,5 @@ class GenerowanieGMLDialog(QDialogOverride, FORM_CLASS6, ButtonsDialog):
         self.setupUi(self)
         self.setWindowTitle('%s (krok 6 z 6)' % title_app)
         self.setWindowIcon(QtGui.QIcon(icon_path))
-        self.setWindowFlag(Qt.WindowMinMaxButtonsHint, True)
-        self.setWindowFlag(Qt.WindowMinimizeButtonHint, True)
+        self.setWindowFlags(Qt.WindowMinimizeButtonHint | Qt.WindowSystemMenuHint | Qt.WindowMinMaxButtonsHint | Qt.WindowCloseButtonHint)
         ButtonsDialog.__init__(self)

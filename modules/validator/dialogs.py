@@ -29,6 +29,5 @@ class WalidacjaDialog(QDialogOverride, FORM_CLASS, ButtonsDialog):
         self.setupUi(self)
         self.setWindowTitle(title_validator)
         self.setWindowIcon(QtGui.QIcon(icon_validator))
-        self.setWindowFlag(Qt.WindowMinMaxButtonsHint, True)
-        self.setWindowFlag(Qt.WindowMinimizeButtonHint, True)
+        self.setWindowFlags(Qt.WindowMinimizeButtonHint | Qt.WindowSystemMenuHint | Qt.WindowMinMaxButtonsHint | Qt.WindowCloseButtonHint)
         ButtonsDialog.__init__(self)

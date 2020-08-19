@@ -136,7 +136,8 @@ class Formularz:
                             textList.append(formItem.text())
                         elif isinstance(formItem, QDateTimeEdit):
                             data[formItem.objectName()] = formItem.dateTime()
-                            textList.append(formItem.dateTime().toString())
+                            textList.append(
+                                formItem.dateTime().date().toString())
                         elif isinstance(formItem, QCheckBox):
                             data[formItem.objectName()] = formItem.isChecked()
                         elif isinstance(formItem, QComboBox):
@@ -191,8 +192,8 @@ class Formularz:
                 lacze_lineEdit = utils.layout_widget_by_name(
                     vbox2, name="lacze_lineEdit")
 
-                formItems = [referencja_lineEdit,
-                             data_dateTimeEdit,
+                formItems = [data_dateTimeEdit,
+                             referencja_lineEdit,
                              lacze_lineEdit]
             elif formElement.name == 'lacze':
                 lacze_lineEdit = utils.layout_widget_by_name(

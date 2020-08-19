@@ -45,8 +45,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>484</width>
-          <height>228</height>
+          <width>453</width>
+          <height>250</height>
          </rect>
         </property>
         <layout class="QGridLayout" name="gridLayout">
@@ -75,17 +75,14 @@
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_2">
        <item>
-        <spacer name="horizontalSpacer_2">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
+        <widget class="QPushButton" name="getValues_btn">
+         <property name="text">
+          <string>Pobierz wartości z istniejącego formularza</string>
          </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
+         <property name="autoDefault">
+          <bool>false</bool>
          </property>
-        </spacer>
+        </widget>
        </item>
        <item>
         <widget class="QPushButton" name="clear_btn">
@@ -128,8 +125,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>484</width>
-          <height>228</height>
+          <width>453</width>
+          <height>155</height>
          </rect>
         </property>
         <layout class="QGridLayout" name="gridLayout_2">

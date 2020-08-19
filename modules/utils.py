@@ -76,21 +76,21 @@ def validate_teryt_county(teryt):
     return False
 
 
-def validate_teryt(teryt):
+def validate_teryt(teryt, rodzaj):
     # Walidacja terytu
     if not teryt.isdigit():
         return False
     elif len(teryt) == 2 and validate_teryt_voivo(teryt):  # wojewodztwo
-        # if rodzaj != 'PZPW':
-        #     return False
+        if rodzaj != 'PZPW':
+            return False
         return True  # sprawdzić, czy rodzaj zbioru poprawny
     elif len(teryt) == 4 and validate_teryt_county(teryt):
         # if rodzaj != 'RSZM':
         #     return False
         return True  # sprawdzić, czy rodzaj zbioru poprawny
     elif len(teryt) == 6 and validate_teryt_county(teryt):
-        # if rodzaj != 'MPZP' or rodzaj != 'SUIKZP':
-        #     return False
+        if rodzaj != 'MPZP' or rodzaj != 'SUIKZP':
+            return False
         # Rodzaj jednostki poza walidacją
         rodzaj_jednostki = [1, 2, 3, 4, 5, 8, 9]
         if 0 < int(teryt[4:6]) < 100:
@@ -107,24 +107,18 @@ def validate_IIP(przestrzenNazw):
         return False  # Brak wymaganej sekwencji - kod RP, kod dla zbioru
     try:
         numer = przestrzenNazw.split('.')[2].split('/')[0]
+        rodzaj = przestrzenNazw.split('-')[1]
+        teryt = przestrzenNazw.split('/')[1].split('-')[0]
     except:
         return False
     if not numer.isdigit():
         return False  # numer porządkowy nie jest liczbą całkowitą
 
-    rodzaj_list = ['PZPW', 'RSZM', 'SUIKZP', 'MPZP']
-    try:
-        rodzaj = przestrzenNazw.split('-')[1]
-    except:
-        return False
+    rodzaj_list = ['PZPW', 'SUIKZP', 'MPZP']
     if rodzaj not in rodzaj_list:
         # showPopup('Błąd identyfikatora', '')
         return False
-    try:
-        teryt = przestrzenNazw.split('/')[1].split('-')[0]
-    except:
-        return False
-    if not validate_teryt(teryt):
+    if not validate_teryt(teryt, rodzaj):
         return False
 
     return True  # IIP prawidłowe
@@ -1457,7 +1451,7 @@ def mergeDocsToAPP(docList):  # docList z getTableContent
     # .replace(b'><', b'>\n\t<')
     for prefix, uri in ns.items():
         ET.register_namespace(prefix, uri)
-    mydata = ET.tostring(APProot, encoding='unicode').replace(
+    mydata = '<?xml version="1.0" encoding="utf-8"?>'+ET.tostring(APProot, encoding='unicode').replace(
         'ns1', 'xsi')  # xsi quickfix - do zweryfikowania
     return mydata
     # from lxml import etree
@@ -1656,24 +1650,41 @@ def setValueToWidget(formElement, value):
             addToComboBox(formElement, value, feDict)
 
 
-def setValueToListWidget(formElement, value):
+def setValueToListWidget(formElement, objVal):
+    """Dodawanie elementów do obiektu ListWidget"""
+    def addElement(formElement, objVal):
+        listWidget = formElement.refObject
+        newListWidgetItem = QListWidgetItem()
+        data = {}
+        textList = []
+
+        for objName, objVal in objVal.items():
+            # print(objName, objVal)
+            if objName == 'data_dateTimeEdit':
+                data[objVal.objectName()] = objVal.dateTime()
+                textList.append(objVal.dateTime().date().toString())
+                objValue = objVal.dateTime().date().toString()
+                textList.append(objValue)
+            else:
+                data[objName] = objVal
+                textList.append(objVal)
+
+        newListWidgetItem.setData(
+            Qt.UserRole,
+            QVariant(data)
+        )
+        newListWidgetItem.setText(" - ".join(textList))
+        listWidget.addItem(newListWidgetItem)
+
     if formElement.name == 'lacze':
-        objectName = 'lacze_lineEdit'
-
-    listWidget = formElement.refObject
-    newListWidgetItem = QListWidgetItem()
-    data = {}
-    textList = []
-
-    data[objectName] = value
-    textList.append(value)
-
-    newListWidgetItem.setData(
-        Qt.UserRole,
-        QVariant(data)
-    )
-    newListWidgetItem.setText(" - ".join(textList))
-    listWidget.addItem(newListWidgetItem)
+        addElement(formElement, objVal)
+    elif formElement.name == 'tytulAlternatywny':
+        addElement(formElement, objVal)
+    elif formElement.name == 'mapaPodkladowa':
+        addElement(formElement, objVal)
+    else:
+        print(formElement.name)  # Nieobsłużone atrybuty
+        return
 
 
 def loadItemsToForm(filePath, formElements):
@@ -1742,17 +1753,49 @@ def loadItemsToForm(filePath, formElements):
                 if elements != []:
                     break
             for elem in elements:
-                setValueToListWidget(fe, elem.text)
+                if fe.name == 'mapaPodkladowa':
+                    val = []
+                    objValues = {'data_dateTimeEdit': '',
+                                 'referencja_lineEdit': '', 'lacze_lineEdit': ''}
+                    for el in elem[0]:
+
+                        objName = (el.tag.replace(
+                            '{http://zagospodarowanieprzestrzenne.gov.pl/schemas/app/1.0}', ''))
+
+                        for inner in fe.innerFormElements:
+                            if inner.name == objName:
+                                refObj = inner.refObject
+                        if objName == 'data':
+                            objValue = datetime.datetime.strptime(
+                                el.text, '%Y-%m-%d')
+                            refObj.setDateTime(objValue)
+                            # objValue = input.dateTime().date().toString()
+                            objValue = refObj
+                            objName = objName+'_dateTimeEdit'
+
+                        else:
+                            objValue = el.text
+                            objName = objName+'_lineEdit'
+                        objValues[objName] = objValue
+                        # print(objName)
+                    setValueToListWidget(fe, objValues)
+                else:
+                    objName = (elem.tag.replace(
+                        '{http://zagospodarowanieprzestrzenne.gov.pl/schemas/app/1.0}', ''))+'_lineEdit'
+                    objValue = elem.text
+                    setValueToListWidget(fe, {objName: objValue})
 
         else:
             setValueToWidget(fe, value)
-        for inner in fe.innerFormElements:
-            try:
-                innerElement = findElementByTag(element, inner.name, None)
-                value = innerElement.text
-                setValueToWidget(inner, value)
-            except:
-                print('\t Nieobsługiwany atrybut: '+inner.name+' '+inner.type)
+        if fe.name == 'idIIP':
+            for inner in fe.innerFormElements:
+                try:
+                    innerElement = findElementByTag(element, inner.name, None)
+                    value = innerElement.text
+                    setValueToWidget(inner, value)
+                except:
+                    print('\t Nieobsługiwany atrybut: ' +
+                          inner.name+' '+inner.type)
 
 
 def setAppId(setPath):

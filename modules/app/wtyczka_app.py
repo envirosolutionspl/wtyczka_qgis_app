@@ -99,6 +99,8 @@ class AppModule(BaseModule):
             self.showPopupSaveForm)
         self.wektorFormularzDialog.clear_btn.clicked.connect(
             self.wektorFormularzDialog_clear_btn_clicked)
+        self.wektorFormularzDialog.getValues_btn.clicked.connect(
+            self.getFormValues)
         # zdarenia dynamicznie utworzonych obiektów UI związanych z IdIPP i mapapodkladowa
         self.prepareIdIPP(formularz=self.wektorFormularzDialog)
         self.setDefaultValues(formularz=self.wektorFormularzDialog)

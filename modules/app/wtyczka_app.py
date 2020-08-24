@@ -148,16 +148,16 @@ class AppModule(BaseModule):
             self.addTableContentSet)
         self.zbiorPrzygotowanieDialog.deleteElement_btn.clicked.connect(
             self.deleteTableContentSet)
-        self.zbiorPrzygotowanieDialog.addFile_widget.fileChanged.connect(
-            self.loadSet)
+        # self.zbiorPrzygotowanieDialog.addFile_widget.fileChanged.connect(
+        #     self.loadSet) # Modyfikacja zbioru
         # auto resize kolumn
         header_zbior = self.zbiorPrzygotowanieDialog.appTable_widget.horizontalHeader()
         for i in range(header_zbior.count()):
             header_zbior.setSectionResizeMode(
                 i, QtWidgets.QHeaderView.ResizeToContents)
 
-        self.zbiorPrzygotowanieDialog.addFile_widget.setFilter(
-            filter="pliki XML/GML (*.xml *.gml)")
+        # self.zbiorPrzygotowanieDialog.addFile_widget.setFilter(
+        #     filter="pliki XML/GML (*.xml *.gml)")
 
     # endregion
 
@@ -613,19 +613,23 @@ class AppModule(BaseModule):
             param = True
             if plik:
                 rows = self.zbiorPrzygotowanieDialog.appTable_widget.rowCount()
-                if rows > 0:
-                    for i in range(rows):
-                        item = self.zbiorPrzygotowanieDialog.appTable_widget.item(
-                            i, 1).text()
-                        if plik == item:
-                            param = False
-                            showPopup("Błąd tabeli",
-                                      "Wybrany plik znajduje się już w tabeli")
-                            break
-                    if param:
+                if utils.checkIfAPP(plik):
+                    if rows > 0:
+                        for i in range(rows):
+                            item = self.zbiorPrzygotowanieDialog.appTable_widget.item(
+                                i, 1).text()
+                            if plik == item:
+                                param = False
+                                showPopup("Błąd tabeli",
+                                          "Wybrany plik znajduje się już w tabeli")
+                                break
+                        if param:
+                            self.tableContentSet(plik, rows)
+                    else:
                         self.tableContentSet(plik, rows)
                 else:
-                    self.tableContentSet(plik, rows)
+                    utils.showPopup(
+                        'Błąd wczytanego pliku', 'Wczytany plik: \n%s\nnie jest aktem planowania przestrzennego.' % plik)
 
     def tableContentAddSet(self, iip, file, rows):
         """Dodanie zbioru do tabeli zbioru"""

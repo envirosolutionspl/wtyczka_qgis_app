@@ -1872,3 +1872,22 @@ def validateDokumentFormalnyDate(files):
     if uchwala_dataWejsciaWZycie is not None and przystapienie_dataWejsciaWZycie is not None and uchwala_dataWejsciaWZycie < przystapienie_dataWejsciaWZycie:
         return False
     return True
+
+
+def checkIfAPP(file):
+    ns = {
+        'xsi': "http://www.w3.org/2001/XMLSchema",
+        'app': "http://zagospodarowanieprzestrzenne.gov.pl/schemas/app/1.0",
+        'gmd': "http://www.isotc211.org/2005/gmd",
+        'gco': 'http://www.isotc211.org/2005/gco',
+        'xlink': 'http://www.w3.org/1999/xlink',
+        'gml': "http://www.opengis.net/gml/3.2",
+        'wfs': 'http://www.opengis.net/wfs/2.0',
+        'gmlexr': "http://www.opengis.net/gml/3.3/exr"
+    }
+    root = ET.parse(file).getroot()
+    appPath = 'wfs:member/app:AktPlanowaniaPrzestrzennego'
+    appList = root.findall(appPath, ns)
+    if len(appList) != 1:
+        return False
+    return True

@@ -1,6 +1,6 @@
 from . import (UstawieniaDialog, PomocDialog, ustawieniaDialog, PLUGIN_VERSION)
-from .. import BaseModule
-from ..utils import showPopup
+from .. import BaseModule, dictionaries
+from ..utils import showPopup, getWidgetByName
 from ..metadata import SmtpDialog, CswDialog
 from qgis.PyQt import QtWidgets
 from PyQt5.QtWidgets import QFileDialog, QTableWidgetItem
@@ -24,8 +24,10 @@ class SettingsModule(BaseModule):
         # print('kkkkk', PLUGIN_VERSION)
 
         # endregion
-
+        self.add_rodzajZbioru_values()
         self.readSettings()
+
+        self.preparePrzestrzenNazw()
 
         self.ustawieniaDialog.folder_btn.clicked.connect(
             self.folder_btn_clicked)
@@ -34,6 +36,11 @@ class SettingsModule(BaseModule):
         self.ustawieniaDialog.csw_btn.clicked.connect(self.csw_btn_clicked)
 
     """Event handlers"""
+
+    def add_rodzajZbioru_values(self):
+        values = ['PZPW', 'SUIKZP', 'MPZP']
+        values = dictionaries.rodzajeZbiorow.keys()
+        self.ustawieniaDialog.rodzajZbioru_comboBox.addItems(values)
 
     def folder_btn_clicked(self):
         path = QFileDialog.getExistingDirectory(
@@ -55,6 +62,42 @@ class SettingsModule(BaseModule):
                    self.ustawieniaDialog.adminMail_lineEdit.text())
         s.setValue("qgis_app/settings/przestrzenNazw",
                    self.ustawieniaDialog.przestrzenNazw_lineEdit.text())
+        s.setValue("qgis_app/settings/numerZbioru",
+                   self.ustawieniaDialog.numerZbioru_lineEdit.text())
+        s.setValue("qgis_app/settings/jpt",
+                   self.ustawieniaDialog.jpt_lineEdit.text())
+        s.setValue("qgis_app/settings/rodzajZbioru",
+                   self.ustawieniaDialog.rodzajZbioru_comboBox.currentText())  # COMBOBOX
+
+    def preparePrzestrzenNazw(self):
+        def updatePrzestrzenNazw():
+            przestrzenNazw_list = []
+            przestrzenNazw_lineEdit = self.ustawieniaDialog.przestrzenNazw_lineEdit
+            numerZbioru_lineEdit = self.ustawieniaDialog.numerZbioru_lineEdit.text()
+            jpt_lineEdit = self.ustawieniaDialog.jpt_lineEdit.text()
+            rodzajZbioru_comboBox = self.ustawieniaDialog.rodzajZbioru_comboBox.currentText()
+            if numerZbioru_lineEdit.strip():
+                przestrzenNazw_list.append(numerZbioru_lineEdit.strip()+'/')
+            if jpt_lineEdit.strip():
+                przestrzenNazw_list.append(jpt_lineEdit.strip())
+            if rodzajZbioru_comboBox.strip():
+                przestrzenNazw_list.append('-'+rodzajZbioru_comboBox.strip())
+            przestrzenNazw_lineEdit.setText(
+                'PL.ZIPPZP.'+"".join(przestrzenNazw_list))
+
+        # pobranie dynamicznie utworzonych obiektów UI
+        przestrzenNazw_lineEdit = self.ustawieniaDialog.przestrzenNazw_lineEdit
+        numerZbioru_lineEdit = self.ustawieniaDialog.numerZbioru_lineEdit
+        jpt_lineEdit = self.ustawieniaDialog.jpt_lineEdit
+        rodzajZbioru_comboBox = self.ustawieniaDialog.rodzajZbioru_comboBox
+
+        # definicja Eventów dynamicznych obiektów UI
+        numerZbioru_lineEdit.textChanged.connect(
+            lambda: updatePrzestrzenNazw())
+        jpt_lineEdit.textChanged.connect(
+            lambda: updatePrzestrzenNazw())
+        rodzajZbioru_comboBox.currentTextChanged.connect(
+            lambda: updatePrzestrzenNazw())
 
     def smtp_btn_clicked(self):
         self.settingsSmtpDialog.show()
@@ -78,6 +121,12 @@ class SettingsModule(BaseModule):
             s.value("qgis_app/settings/adminMail", ""))
         self.ustawieniaDialog.przestrzenNazw_lineEdit.setText(
             s.value("qgis_app/settings/przestrzenNazw", "PL.ZIPPZP."))
+        self.ustawieniaDialog.numerZbioru_lineEdit.setText(
+            s.value("qgis_app/settings/numerZbioru", ""))
+        self.ustawieniaDialog.jpt_lineEdit.setText(
+            s.value("qgis_app/settings/jpt", ""))
+        self.ustawieniaDialog.rodzajZbioru_comboBox.setCurrentIndex(
+            list(dictionaries.rodzajeZbiorow.keys()).index(s.value("qgis_app/settings/rodzajZbioru", "")))
     """Helper methods"""
 
     """Popup windows"""

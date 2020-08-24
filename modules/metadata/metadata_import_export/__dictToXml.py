@@ -200,9 +200,13 @@ def metadataElementDictToXml(metadataElementDict):
             thesaurusName = ET.SubElement(mD_Keywords, 'gmd:thesaurusName')
             cI_Citation = ET.SubElement(thesaurusName, 'gmd:CI_Citation')
             title = ET.SubElement(cI_Citation, 'gmd:title')
+            if listItem['xlink']:
+                anchor = ET.SubElement(title, 'gmx:Anchor', {'xlink:href': listItem['xlink']}) # xlink jeżeli istnieje
+                anchor.text = listItem['e10_lineEdit']
+            else:
+                characterString = ET.SubElement(title, 'gco:CharacterString')
+                characterString.text = listItem['e10_lineEdit']
 
-            anchor = ET.SubElement(title, 'gmx:Anchor', {'xlink:href': listItem['xlink']} if listItem['xlink'] else {}) # xlink jeżeli istnieje
-            anchor.text = listItem['e10_lineEdit']
             date = ET.SubElement(cI_Citation, 'gmd:date')
             cI_Date = ET.SubElement(date, 'gmd:CI_Date')
             date2 = ET.SubElement(cI_Date, 'gmd:date')

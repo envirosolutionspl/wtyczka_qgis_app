@@ -79,7 +79,10 @@ def xmlToMetadataElementDict(xml):
         if thesaurus is not None:
             thesaurus_title = thesaurus.find('.//gmd:title/gmx:Anchor', ns)
             data['e10_lineEdit'] = thesaurus_title.text
-            data['xlink'] = thesaurus_title.attrib['{%s}href' % ns['xlink']]
+            try:
+                data['xlink'] = thesaurus_title.attrib['{%s}href' % ns['xlink']]
+            except KeyError:
+                pass
             date = thesaurus.find('.//gco:Date', ns)
             data['e10_dateTimeEdit'] = QDateTime.fromString(date.text, "yyyy-MM-dd")
             dateTypeCode = thesaurus.find('.//gmd:CI_DateTypeCode', ns)

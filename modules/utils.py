@@ -1676,7 +1676,7 @@ def setValueToListWidget(formElement, objVal):
             # print(objName, objVal)
             if objName == 'data_dateTimeEdit':
                 data[objVal.objectName()] = objVal.dateTime()
-                textList.append(objVal.dateTime().date().toString())
+                # textList.append(objVal.dateTime().date().toString())
                 objValue = objVal.dateTime().date().toString()
                 textList.append(objValue)
             else:

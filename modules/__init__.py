@@ -16,9 +16,23 @@ class QDialogOverride(QtWidgets.QDialog):
                                          "Jesteś pewien, że chcesz opuścić wtyczkę?", QMessageBox.Yes |
                                          QMessageBox.No, QMessageBox.No)
             if reply == QMessageBox.Yes:
+                self.clearOnClose()
                 event.accept()
             else:
                 event.ignore()
+
+    def clearOnClose(self):
+        # czyszczenie formularzy APP
+        try:
+            self.clearForm(self.form_scrollArea)
+        except AttributeError:
+            pass
+        # # czyszczenie formularza metadanych
+        # try:
+        #     self.clearForm_btn_clicked()
+        # except AttributeError:
+        #     pass
+
 class ButtonsDialog:
 
     def __init__(self):

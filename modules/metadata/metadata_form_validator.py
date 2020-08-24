@@ -116,13 +116,26 @@ def validateMetadataForm(dlg):
                     return False, "Niepoprawna wartość w polu '%s'.\nZła wartość współrzędnych prostokąta ograniczającego.\nPodano: '%s'\nPoprawny format to: '<xmin>,<xmax>,<ymin>,<ymax>'\nx musi być w zakresie <-180;180>\ny musi być w zakresie <-90;90>." % (
                         label.text().strip('*'), bbox)
 
-            # E22 i E23 Jednostka odpowiedzialna
-            if elementId == 'e22':
-                roles = []
-                for i in range(listWidget.count()):
-                    item = listWidget.item(i)
-                    data = item.data(Qt.UserRole)
-                    roles.append(data['e23_cmbbx'])
-                if 'Administrator (custodian)' not in roles:
-                    return False, "Brak wymaganej definicji w polu '%s'.\nMusi być zdefiniowany przynajmniej 'Administrator (custodian)'." % label.text().strip('*')
+        # E20
+        print(elementId)
+        if elementId == 'e20':
+            roles = []
+            for i in range(listWidget.count()):
+                item = listWidget.item(i)
+                data = item.data(Qt.UserRole)
+                roles.append(data['e20_lineEdit'])
+                print(roles)
+            if 'Brak warunków dostępu i użytkowania' not in roles:
+                return False, "Brak wymaganej definicji w polu '%s'.\nMusi być zdefiniowana wartość: 'Brak warunków dostępu i użytkowania'." % label.text().strip(
+                    '*')
+
+        # E22 i E23 Jednostka odpowiedzialna
+        if elementId == 'e22':
+            roles = []
+            for i in range(listWidget.count()):
+                item = listWidget.item(i)
+                data = item.data(Qt.UserRole)
+                roles.append(data['e23_cmbbx'])
+            if 'Administrator (custodian)' not in roles:
+                return False, "Brak wymaganej definicji w polu '%s'.\nMusi być zdefiniowany przynajmniej 'Administrator (custodian)'." % label.text().strip('*')
     return [True]

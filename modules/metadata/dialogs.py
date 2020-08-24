@@ -183,6 +183,14 @@ class MetadaneDialog(QDialogOverride, FORM_CLASS, ButtonsDialog):
         self.startFormState = formToMetadataElementDict(self)
         self.e32_btn.clicked.connect(self.e32_btn_clicked)
         self.clearForm_btn.clicked.connect(self.clearForm_btn_clicked)
+        self.lockScrolls()
+
+    def lockScrolls(self):
+        """Blokuje scroll w formularzu metadanych"""
+        for cmbbx in utils.getWidgetsByType(self, QComboBox):
+            cmbbx.wheelEvent = lambda event: None
+        for dateTimeEdit in utils.getWidgetsByType(self, QDateTimeEdit):
+            dateTimeEdit.wheelEvent = lambda event: None
 
     def prepareLayout(self):
         """Przygotowanie layoutu metadanych"""

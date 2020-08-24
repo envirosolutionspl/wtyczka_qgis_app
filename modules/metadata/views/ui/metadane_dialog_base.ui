@@ -445,6 +445,9 @@ Adres zbioru danych przestrzennych  musi być wyspecyfikowany w formie adresu UR
                  </item>
                  <item>
                   <widget class="QComboBox" name="e6_cmbbx">
+                   <property name="focusPolicy">
+                    <enum>Qt::WheelFocus</enum>
+                   </property>
                    <item>
                     <property name="text">
                      <string>polski</string>

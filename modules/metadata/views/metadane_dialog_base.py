@@ -223,6 +223,7 @@ class Ui_Dialog(object):
         spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.hboxlayout7.addItem(spacerItem1)
         self.e6_cmbbx = QtWidgets.QComboBox(self.verticalGroupBox2)
+        self.e6_cmbbx.setFocusPolicy(QtCore.Qt.WheelFocus)
         self.e6_cmbbx.setObjectName("e6_cmbbx")
         self.e6_cmbbx.addItem("")
         self.e6_cmbbx.addItem("")

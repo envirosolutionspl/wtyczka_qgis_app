@@ -1,6 +1,9 @@
+# -*- coding: utf-8 -*-
 from PyQt5.QtWidgets import QWidget, QListWidget, QLineEdit, QCheckBox, QComboBox, QDateTimeEdit, QListWidgetItem
 from PyQt5.QtCore import Qt, QVariant
 from .. import utils
+
+
 def metadataElementDictToForm(metadataElementDict, targetForm):
     """aktualizuje formularz na podstawie słownika metadataElementDict"""
 

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from qgis.core import QgsSettings
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *

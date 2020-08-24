@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 class FormElement:
     """ reprezentuje element definicji formularza zdefiniowany w XSD"""
 

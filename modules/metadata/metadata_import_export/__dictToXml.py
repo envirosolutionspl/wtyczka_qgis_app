@@ -1,7 +1,9 @@
+# -*- coding: utf-8 -*-
 import xml.etree.ElementTree as ET
 from xml.dom import minidom
 from . import translation
 from .. import dictionaries, utils
+
 
 def metadataElementDictToXml(metadataElementDict):
     """tworzy XML na podstawie słownika metadataElementDict"""

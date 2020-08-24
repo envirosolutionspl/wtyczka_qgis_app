@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 translation = {
     'Dostawca zasobu (resourceProvider)': 'resourceProvider',
     'Administrator (custodian)': 'custodian',

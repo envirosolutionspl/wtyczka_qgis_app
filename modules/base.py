@@ -1,4 +1,4 @@
-
+# -*- coding: utf-8 -*-
 from . import utils
 from PyQt5.QtWidgets import *
 from .utils import showPopup

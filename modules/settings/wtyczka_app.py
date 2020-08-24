@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from . import (UstawieniaDialog, PomocDialog, ustawieniaDialog, PLUGIN_VERSION)
 from .. import BaseModule, dictionaries
 from ..utils import showPopup, getWidgetByName

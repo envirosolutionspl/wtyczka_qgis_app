@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from . import poland
 from qgis.core import QgsProject, QgsCoordinateReferenceSystem, QgsCoordinateTransform, QgsGeometry, QgsRectangle
 

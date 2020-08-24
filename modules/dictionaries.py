@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from PyQt5.QtCore import QDateTime
 initialValues = {
     "lokalnyId": "RYS1",

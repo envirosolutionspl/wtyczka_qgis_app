@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import xml.etree.ElementTree as ET
 from PyQt5.QtCore import QDateTime
 from . import translation

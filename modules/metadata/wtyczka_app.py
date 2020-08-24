@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from . import (MetadaneDialog, SmtpDialog, CswDialog)
 from . import (xmlToMetadataElementDict,
                formToMetadataElementDict,

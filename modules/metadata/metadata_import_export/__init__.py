@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from .__translation import translation
 from .__gmlToDict import appGmlToMetadataElementDict
 from .__formToDict import formToMetadataElementDict

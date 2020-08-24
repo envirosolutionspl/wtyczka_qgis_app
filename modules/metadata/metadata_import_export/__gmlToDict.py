@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from .. import dictionaries, utils
 import xml.etree.ElementTree as ET
 import re

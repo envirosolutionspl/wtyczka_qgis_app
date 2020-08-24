@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from .. import PLUGIN_VERSION
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import QIcon

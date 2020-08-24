@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from PyQt5.QtWidgets import *
 from qgis.PyQt.QtCore import Qt, QRegExp, QVariant
 from qgis.core import QgsVectorLayer

@@ -14,13 +14,13 @@ import random
 
 def validateDatasetId(datasetId):
     """sprawdza czy id ma poprawną formę"""
-    pattern = r'PL.ZIPPZP.\d{4}/[012]{1}[02468]{1}\d{0,4}-(PZPW|MPZP|SUIKZP){1}'
+    pattern = r'PL.ZIPPZP.\d+/[012]{1}[02468]{1}\d{0,4}-(PZPW|MPZP|SUIKZP){1}'
     return True if re.fullmatch(pattern, datasetId) else False
 
 
 def validateDatasetUri(datasetUri):
     """sprawdza czy Uri ma poprawną formę"""
-    pattern = r'http://zagospodarowanieprzestrzenne.gov.pl/app/AktPlanowaniaPrzestrzennego/PL.ZIPPZP.\d{4}/[012]{1}[02468]{1}\d{0,4}-(PZPW|MPZP|SUIKZP){1}/'
+    pattern = r'http://zagospodarowanieprzestrzenne.gov.pl/app/AktPlanowaniaPrzestrzennego/PL.ZIPPZP.\d+/[012]{1}[02468]{1}\d{0,4}-(PZPW|MPZP|SUIKZP){1}/'
     return True if re.fullmatch(pattern, datasetUri) else False
 
 

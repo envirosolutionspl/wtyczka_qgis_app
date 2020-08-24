@@ -2,7 +2,8 @@ from .. import dictionaries, utils
 import xml.etree.ElementTree as ET
 import re
 from PyQt5.QtCore import QDateTime
-from qgis.core import QgsVectorLayer
+from qgis.core import QgsVectorLayer, QgsCoordinateReferenceSystem, QgsCoordinateTransform, QgsProject
+
 
 def appGmlToMetadataElementDict(gmlPath):
     """słownik metadataElementDict na podstawie pliku zbioru APP"""
@@ -70,8 +71,12 @@ def appGmlToMetadataElementDict(gmlPath):
     # E11
     layer = QgsVectorLayer(gmlPath + '|layername=AktPlanowaniaPrzestrzennego', "gml",  'ogr')
     if layer:
+        sourceCrs = layer.crs()
         extent = layer.extent()
-        metadataElementDict['e11'] = [{'e11_lineEdit': '%s,%s,%s,%s' % (extent.yMinimum(), extent.yMaximum(), extent.xMinimum(), extent.xMaximum())}]
+        crsDest = QgsCoordinateReferenceSystem(4326)  # WGS84
+        xform = QgsCoordinateTransform(sourceCrs, crsDest, QgsProject.instance())
+        extent84 = xform.transform(extent)
+        metadataElementDict['e11'] = [{'e11_lineEdit': '%s,%s,%s,%s' % (extent84.yMinimum(), extent84.yMaximum(), extent84.xMinimum(), extent84.xMaximum())}]
 
     # E12
     itemsList = []

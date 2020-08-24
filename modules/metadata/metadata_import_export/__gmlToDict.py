@@ -81,7 +81,7 @@ def appGmlToMetadataElementDict(gmlPath):
     # E12
     itemsList = []
     for uklad in root.findall('//*/app:ukladOdniesieniaPrzestrzennego', ns):
-        if uklad.text not in itemsList:
+        if {'e12_cmbbx': uklad.text} not in itemsList:
             itemsList.append({'e12_cmbbx': uklad.text})
     metadataElementDict['e12'] = itemsList
 
@@ -96,7 +96,7 @@ def appGmlToMetadataElementDict(gmlPath):
     # E16
     itemsList = []
     for rozdzielczosc in root.findall('//*/app:rozdzielczoscPrzestrzenna', ns):
-        if rozdzielczosc.text not in itemsList:
+        if {'e16_lineEdit': rozdzielczosc.text} not in itemsList:
             itemsList.append({'e16_lineEdit': rozdzielczosc.text})
     metadataElementDict['e16'] = itemsList
 

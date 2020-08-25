@@ -135,7 +135,7 @@ class Formularz:
                             data[formItem.objectName()] = formItem.text()
                             textList.append(formItem.text())
                         elif isinstance(formItem, QDateTimeEdit):
-                            data[formItem.objectName()] = formItem.dateTime()
+                            data[formItem.objectName()] = formItem.dateTime().date()
                             textList.append(
                                 formItem.dateTime().date().toString())
                         elif isinstance(formItem, QCheckBox):

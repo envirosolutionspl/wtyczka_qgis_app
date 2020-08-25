@@ -2,6 +2,7 @@
 from . import utils
 from PyQt5.QtWidgets import *
 from .utils import showPopup
+from qgis.core import QgsApplication
 
 
 class BaseModule:
@@ -14,6 +15,7 @@ class BaseModule:
 
     def validateFile(self, path, validator, mute=False):
         """walidacja pliku z danymi lub metadanymi"""
+        taskDescriptions = [task.description() for task in QgsApplication.taskManager().activeTasks()]
         if validator:  # walidator gotowy do dzialania
             validationResult = validator.validateXml(xmlPath=path)
             if validationResult[0]:  # poprawnie zwalidowano
@@ -28,9 +30,16 @@ class BaseModule:
                 self.showPopupValidationErrors(
                     "Błąd walidacji", "Wystąpiły błędy walidacji pliku %s :\n\n%s" % (path, validationResult[1]))
                 return False
-        else:  # walidator niegotowy do dzialania - nadal wczytuje XSD
+        elif 'Wczytywanie schematu XSD dla APP' in taskDescriptions or 'Wczytywanie schematu XSD dla metadanych' in taskDescriptions:
+            # walidator niegotowy do dzialania - nadal wczytuje XSD
             self.iface.messageBar().pushWarning("Ostrzeżenie:",
                                                 "Schemat walidacyjny nie został jeszcze zaimportowany, spróbuj ponownie za chwilę.")
+            return False
+        else:  # blad przy wczytywaniu - wczytac jeszcze raz
+            self.showPopupYesNo(
+                "Ostrzeżenie:",
+                "Schemat walidacyjny nie został poprawnie zaimportowany.\nPotrzebne jest połączenie z internetem.\nCzy chcesz spóbować ponownie go zaimportować?",
+                lambda: None)
             return False
 
     def openNewDialog(self, dlg):
@@ -38,6 +47,21 @@ class BaseModule:
             self.activeDlg.close()
         self.activeDlg = dlg
         self.activeDlg.show()
+
+    def showPopupYesNo(self, title, text, functionIfYes):
+        msg = QMessageBox()
+        msg.setIcon(QMessageBox.Question)
+        msg.setWindowTitle(title)
+        msg.setText(text)
+        yes = msg.addButton(
+            'Tak', QMessageBox.AcceptRole)
+        no = msg.addButton(
+            'Nie', QMessageBox.RejectRole)
+        msg.setDefaultButton(yes)
+        msg.exec_()
+        msg.deleteLater()
+        if msg.clickedButton() is yes:
+            functionIfYes()
 
     def showPopupValidationErrors(self, title, text, icon=QMessageBox.Warning):
 

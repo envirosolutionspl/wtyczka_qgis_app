@@ -19,6 +19,22 @@ def validateDatasetId(datasetId):
     return True if re.fullmatch(pattern, datasetId) else False
 
 
+def settingsValidateDatasetId(przestrzenNazw):
+    """Walidacja idIIP pod kątem prawidłowej struktury przestrzeni nazw"""
+    if not przestrzenNazw.startswith('PL.ZIPPZP.'):
+        return False  # Brak wymaganej sekwencji - kod RP, kod dla zbioru
+    try:
+        numer = przestrzenNazw.split('.')[2].split('/')[0]
+        teryt = przestrzenNazw.split('/')[1].split('-')[0]
+    except:
+        return False
+    if not numer.isdigit():
+        return False  # numer porządkowy nie jest liczbą całkowitą
+    if not validate_teryt(teryt, rodzaj='None'):
+        return False
+    return True  # IIP prawidłowe
+
+
 def validateDatasetUri(datasetUri):
     """sprawdza czy Uri ma poprawną formę"""
     pattern = r'http://zagospodarowanieprzestrzenne.gov.pl/app/AktPlanowaniaPrzestrzennego/PL.ZIPPZP.\d+/[012]{1}[02468]{1}\d{0,4}-(PZPW|MPZP|SUIKZP){1}/'
@@ -77,25 +93,22 @@ def validate_teryt_county(teryt):
     return False
 
 
-def validate_teryt(teryt, rodzaj):
+def validate_teryt(teryt, rodzaj='None'):
     # Walidacja terytu
     if not teryt.isdigit():
         return False
     elif len(teryt) == 2 and validate_teryt_voivo(teryt):  # wojewodztwo
-        if rodzaj != 'PZPW':
+        if rodzaj != 'PZPW' and rodzaj != 'None':
             return False
         return True  # sprawdzić, czy rodzaj zbioru poprawny
-    elif len(teryt) == 4 and validate_teryt_county(teryt):
+    elif len(teryt) == 4 and validate_teryt_county(teryt) and rodzaj != 'None':
         # if rodzaj != 'RSZM':
         #     return False
         return True  # sprawdzić, czy rodzaj zbioru poprawny
     elif len(teryt) == 6 and validate_teryt_county(teryt):
-        if rodzaj != 'MPZP' and rodzaj != 'SUIKZP':
+        if rodzaj != 'MPZP' and rodzaj != 'SUIKZP' and rodzaj != 'None':
             return False
-        # Rodzaj jednostki poza walidacją
-        rodzaj_jednostki = [1, 2, 3, 4, 5, 8, 9]
         if 0 < int(teryt[4:6]) < 100:
-            # if int(teryt[6:7]) in rodzaj_jednostki:
             return True
         return False
     else:

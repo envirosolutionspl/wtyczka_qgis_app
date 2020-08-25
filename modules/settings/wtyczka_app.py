@@ -1,13 +1,15 @@
 # -*- coding: utf-8 -*-
 from . import (UstawieniaDialog, PomocDialog, ustawieniaDialog, PLUGIN_VERSION)
 from .. import BaseModule, dictionaries
-from ..utils import showPopup, getWidgetByName
+from ..utils import showPopup, getWidgetByName, settingsValidateDatasetId
 from ..metadata import SmtpDialog, CswDialog
 from qgis.PyQt import QtWidgets
 from PyQt5.QtWidgets import QFileDialog, QTableWidgetItem
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QVariant, QRegExp
 from qgis.core import QgsSettings
 import os
+from PyQt5.QtGui import *
+from qgis.PyQt.QtCore import Qt, QVariant, QRegExp, QDateTime
 
 
 class SettingsModule(BaseModule):
@@ -25,6 +27,7 @@ class SettingsModule(BaseModule):
         # print('kkkkk', PLUGIN_VERSION)
 
         # endregion
+        self.set_field_validators()
         self.add_rodzajZbioru_values()
         self.readSettings()
 
@@ -32,14 +35,19 @@ class SettingsModule(BaseModule):
 
         self.ustawieniaDialog.folder_btn.clicked.connect(
             self.folder_btn_clicked)
-        self.ustawieniaDialog.save_btn.clicked.connect(self.save_btn_clicked)
+        self.ustawieniaDialog.save_btn.clicked.connect(self.validate_settings)
         self.ustawieniaDialog.smtp_btn.clicked.connect(self.smtp_btn_clicked)
         self.ustawieniaDialog.csw_btn.clicked.connect(self.csw_btn_clicked)
 
     """Event handlers"""
 
+    def set_field_validators(self):
+        self.ustawieniaDialog.numerZbioru_lineEdit.setValidator(
+            QRegExpValidator(QRegExp("[0-9]*")))
+        self.ustawieniaDialog.jpt_lineEdit.setValidator(
+            QRegExpValidator(QRegExp("[0-9]*")))
+
     def add_rodzajZbioru_values(self):
-        values = ['PZPW', 'SUIKZP', 'MPZP']
         values = dictionaries.rodzajeZbiorow.keys()
         self.ustawieniaDialog.rodzajZbioru_comboBox.addItems(values)
 
@@ -48,6 +56,15 @@ class SettingsModule(BaseModule):
             self.ustawieniaDialog, "Wskaż domyślny folder zapisu", "/", QFileDialog.ShowDirsOnly)
         if path:
             self.ustawieniaDialog.folder_lbl.setText(path)
+
+    def validate_settings(self):
+
+        if settingsValidateDatasetId(self.ustawieniaDialog.przestrzenNazw_lineEdit.text()):
+            self.save_btn_clicked()
+            showPopup('Ustawienia', 'Ustawienia zostały zapisane.')
+        else:
+            showPopup(
+                'Ustawienia', 'Ustawienia nie zostały zapisane.\nBłędna wartość dla pola przestrzenNazw.')
 
     def save_btn_clicked(self):
         s = QgsSettings()

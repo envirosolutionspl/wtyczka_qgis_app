@@ -138,14 +138,15 @@ def isAppOperative(gmlPath):
           'wfs': 'http://www.opengis.net/wfs/2.0',
           'gmlexr': "http://www.opengis.net/gml/3.3/exr"}
 
-    statusPath = 'wfs:member/app:AktPlanowaniaPrzestrzennego/app:status[@xlink:title="nieaktualny"]'
+    # statusPath = 'wfs:member/app:AktPlanowaniaPrzestrzennego/app:status[@xlink:title="prawnie wiążący lub realizowany"]'
+    statusPath = 'wfs:member/app:AktPlanowaniaPrzestrzennego/app:status'
+
     root = ET.parse(gmlPath).getroot()
     find = root.find(statusPath, ns)
-    if find:
-        print('APP status nieaktualny')
-        return False
-    print('APP status aktualny')
-    return True
+    if find is not None:
+        if find.attrib['{http://www.w3.org/1999/xlink}title'] == 'prawnie wiążący lub realizowany':
+            return True
+    return False
 
 
 def checkZbiorGeometryValidity(gmlFilesPath):

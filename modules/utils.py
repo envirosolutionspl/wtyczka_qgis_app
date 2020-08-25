@@ -663,6 +663,8 @@ def validate_form_dates(formElements):
         if dataOd is None or dataDo is None:
             continue
         if checkElement(dataOd, dataOd.refObject) and checkElement(dataDo, dataDo.refObject) and dataDo.refObject.text() != 'NULL':
+            if not dataDo.refObject.dateTime():
+                continue
             if dataOd.refObject.dateTime() > dataDo.refObject.dateTime():
                 showPopup(title='Błąd wartości atrybutu %s' % atrybut,
                           text='Wartość atrybutu %s nie może być większa niż %s.' % (atrybut, daty_powiazane[atrybut]))

@@ -74,10 +74,10 @@ class WtyczkaAPP(AppModule, MetadataModule, ValidatorModule, SettingsModule):
 
 
 
-        task = QgsTask.fromFunction('Wczytywanie schematu XSD', self.createValidator)
+        task = QgsTask.fromFunction('Wczytywanie schematu XSD dla APP', self.createValidator)
         QgsApplication.taskManager().addTask(task)
         QgsMessageLog.logMessage('starting XSD reading task')
-        task2 = QgsTask.fromFunction('Wczytywanie schematu XSD metadanych', self.createMetadataValidator)
+        task2 = QgsTask.fromFunction('Wczytywanie schematu XSD dla metadanych', self.createMetadataValidator)
         QgsApplication.taskManager().addTask(task2)
         QgsMessageLog.logMessage('starting XSD reading task')
         # print('status1', task.status())

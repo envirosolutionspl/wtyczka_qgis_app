@@ -15,7 +15,7 @@ import random
 
 def validateDatasetId(datasetId):
     """sprawdza czy id ma poprawną formę"""
-    pattern = r'PL.ZIPPZP.\d+/[0123]{1}[02468]{1}\d{0,4}-(PZPW|MPZP|SUIKZP){1}'
+    pattern = r'PL.ZIPPZP.\d+/(02|04|06|08|10|12|14|16|18|20|22|24|26|28|30|32){1}(\d{0}|\d{2}|\d{4})-(PZPW|MPZP|SUIKZP){1}'
     return True if re.fullmatch(pattern, datasetId) else False
 
 
@@ -37,7 +37,7 @@ def settingsValidateDatasetId(przestrzenNazw):
 
 def validateDatasetUri(datasetUri):
     """sprawdza czy Uri ma poprawną formę"""
-    pattern = r'http://zagospodarowanieprzestrzenne.gov.pl/app/AktPlanowaniaPrzestrzennego/PL.ZIPPZP.\d+/[012]{1}[02468]{1}\d{0,4}-(PZPW|MPZP|SUIKZP){1}/'
+    pattern = r'http://zagospodarowanieprzestrzenne.gov.pl/app/AktPlanowaniaPrzestrzennego/PL.ZIPPZP.\d+/(02|04|06|08|10|12|14|16|18|20|22|24|26|28|30|32){1}(\d{0}|\d{2}|\d{4})-(PZPW|MPZP|SUIKZP){1}/'
     return True if re.fullmatch(pattern, datasetUri) else False
 
 

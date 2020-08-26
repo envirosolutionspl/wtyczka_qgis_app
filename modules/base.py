@@ -10,19 +10,27 @@ class BaseModule:
     listaOkienek = []
     activeDlg = None
     iface = None
+    prepareXsdForApp = None
+    prepareXsdForMetadata = None
 
     """Helper methods"""
 
-    def validateFile(self, path, validator, mute=False):
+    def validateFile(self, path, validator, type):
         """walidacja pliku z danymi lub metadanymi"""
         taskDescriptions = [task.description() for task in QgsApplication.taskManager().activeTasks()]
         if validator:  # walidator gotowy do dzialania
-            validationResult = validator.validateXml(xmlPath=path)
+            if type == 'metadane':
+                validationResult = validator.validateMetadataXml(xmlPath=path)
+            elif type == 'zbior':
+                validationResult = validator.validateZbiorXml(xmlPath=path)
+            elif type == 'app':
+                validationResult = validator.validateAppXml(xmlPath=path)
+            else:
+                raise NotImplementedError
             if validationResult[0]:  # poprawnie zwalidowano
                 self.iface.messageBar().pushSuccess(
                     "Sukces:", "Pomyślnie zwalidowano plik. Nie wykryto błędów.")
-                if not mute:
-                    showPopup("Waliduj pliki", "Poprawnie zwalidowano plik.")
+                showPopup("Waliduj pliki", "Poprawnie zwalidowano plik.")
                 return True
             else:   # błędy walidacji
                 self.iface.messageBar().pushCritical(

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import os, datetime
-
+from qgis.core import QgsVectorLayer
+from ..app.app_utils import isLayerInPoland
 xsdPath = os.path.join(os.path.dirname(__file__), 'planowaniePrzestrzenne.xsd')
 
 import lxml
@@ -35,13 +36,25 @@ class ValidatorLxml:
 
     def validateMetadataXml(self, xmlPath):
         print('validate metadata')
-        return self.validateXml(xmlPath)
+        valResult = self.validateXml(xmlPath)
+        return valResult
 
     def validateZbiorXml(self, xmlPath):
         print('validate zbior')
-        return self.validateXml(xmlPath)
+        valResult = self.validateXml(xmlPath)
+        if valResult[0]:
+            layer = QgsVectorLayer(xmlPath + '|layername=AktPlanowaniaPrzestrzennego', "gml", 'ogr')
+            if layer and layer.isValid():
+                if not isLayerInPoland(layer):
+                    return [False, 'Błąd geometrii zbioru: Obrysy leżą poza granicami Polski']
+        return valResult
 
     def validateAppXml(self, xmlPath):
         print('validate app')
-        return self.validateXml(xmlPath)
-
+        valResult = self.validateXml(xmlPath)
+        if valResult[0]:
+            layer = QgsVectorLayer(xmlPath + '|layername=AktPlanowaniaPrzestrzennego', "gml", 'ogr')
+            if layer and layer.isValid():
+                if not isLayerInPoland(layer):
+                    return [False, 'Błąd geometrii zbioru: Obrysy leżą poza granicami Polski']
+        return valResult

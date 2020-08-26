@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
 import os, datetime
+import xml.etree.ElementTree as ET
 from qgis.core import QgsVectorLayer
 from ..app.app_utils import isLayerInPoland
+from ..metadata.metadata_import_export import xmlToMetadataElementDict, xmlToMetadataElementDictFixed
+from .. import dictionaries
 xsdPath = os.path.join(os.path.dirname(__file__), 'planowaniePrzestrzenne.xsd')
 
 import lxml
@@ -16,8 +19,6 @@ class ValidatorLxml:
         print('wczytano XSD w: ', ts.seconds)
 
     def validateXml(self, xmlPath):
-        print('validateXML')
-
         try:
             xml_root = lxml.etree.parse(xmlPath)
         except lxml.etree.XMLSyntaxError as e:  # błąd w składni XML
@@ -35,12 +36,14 @@ class ValidatorLxml:
             return [False, '\n\n'.join(errors)]
 
     def validateMetadataXml(self, xmlPath):
-        print('validate metadata')
         valResult = self.validateXml(xmlPath)
+        if valResult[0]:
+            valTagsResult = self.validateRequiredMetadataTags(xmlPath)
+            if not valTagsResult[0]:
+                return valTagsResult
         return valResult
 
     def validateZbiorXml(self, xmlPath):
-        print('validate zbior')
         valResult = self.validateXml(xmlPath)
         if valResult[0]:
             layer = QgsVectorLayer(xmlPath + '|layername=AktPlanowaniaPrzestrzennego', "gml", 'ogr')
@@ -50,7 +53,6 @@ class ValidatorLxml:
         return valResult
 
     def validateAppXml(self, xmlPath):
-        print('validate app')
         valResult = self.validateXml(xmlPath)
         if valResult[0]:
             layer = QgsVectorLayer(xmlPath + '|layername=AktPlanowaniaPrzestrzennego', "gml", 'ogr')
@@ -58,3 +60,18 @@ class ValidatorLxml:
                 if not isLayerInPoland(layer):
                     return [False, 'Błąd geometrii zbioru: Obrysy leżą poza granicami Polski']
         return valResult
+
+    def validateRequiredMetadataTags(self, xmlPath):
+        """sprawdza czy są wszystkie wymagane tagi w metadanych"""
+        bledy = []
+        metadataElementDict = xmlToMetadataElementDict(xmlPath)
+
+        fixedElementsDict = xmlToMetadataElementDictFixed(xmlPath)
+        unionDict = {**metadataElementDict, **fixedElementsDict}
+        for elementId, licznosc in dictionaries.licznoscMetadataFields.items():
+            if int(licznosc[0]) > 0 and elementId not in list(unionDict.keys()):  # element wymagany i nie ma go w XML
+                bledy.append('Brak definicji wymaganej wartości \'%s\' (%s) z katalogu metadanych w walidowanym pliku XML metadanych' % (dictionaries.nazwyMetadataFields[elementId], elementId))
+        if bledy:
+            return [False, '\n\n'.join(bledy)]
+        return [True]
+

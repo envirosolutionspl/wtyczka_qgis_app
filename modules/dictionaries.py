@@ -153,6 +153,42 @@ licznoscMetadataFields = {
     "e34": '1'
 }
 
+nazwyMetadataFields = {
+    "e1": 'Tytuł zbioru danych przestrzennych',
+    "e2": 'Streszczenie',
+    "e3": 'Typ zbioru danych przestrzennych',
+    "e4": 'Adres zbioru danych przestrzennych',
+    "e5": 'Unikalny identyfikator zbioru danych przestrzennych',
+    "e6": 'Język zbioru danych przestrzennych',
+    "e7": 'Kodowanie znaków',
+    "e8": 'Kategoria tematyczna',
+    "e9": 'Wartość słowa kluczowego',
+    "e10": 'Standardowy słownik źródłowy',
+    "e11": 'Geograficzny prostokąt ograniczający',
+    "e12": 'System odniesienia za pomocą współrzędnych',
+    "e13": 'Data utworzenia',
+    "e14": 'Data opublikowania',
+    "e15": 'Pochodzenie',
+    "e16": 'Rozdzielczość przestrzenna',
+    "e17": 'Typ reprezentacji przestrzennej',
+    "e18": 'Specyfikacja',
+    "e19": 'Stopień',
+    "e20": 'Warunki dotyczące dostępu i użytkowania',
+    "e21": 'Ograniczenia w publicznym dostępie',
+    "e22": 'Jednostka odpowiedzialna',
+    "e23": 'Rola jednostki odpowiedzialnej',
+    "e24": 'Nazwa formatu',
+    "e25": 'Wersja formatu',
+    "e26": 'Częstotliwość aktualizacji',
+    "e27": 'Informacja o szczegółowych wymaganiach dotyczących utrzymania',
+    "e28": 'Zakres danych',
+    "e29": 'Punkt kontaktowy metadanych',
+    "e30": 'Data metadanych',
+    "e31": 'Język metadanych',
+    "e32": 'Unikalny identyfikator rekordu (pliku) metadanych',
+    "e33": 'Standard metadanych',
+    "e34": 'Standard metadanych'
+}
 # domyślne zmienne wartości dla pól wielokrotnych
 metadataListWidgetsDefaultItems = {
     'e6': [{'e6_cmbbx': 'polski'}],

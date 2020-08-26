@@ -48,8 +48,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>625</width>
-          <height>282</height>
+          <width>633</width>
+          <height>236</height>
          </rect>
         </property>
         <layout class="QGridLayout" name="gridLayout">
@@ -67,7 +67,7 @@
             </font>
            </property>
            <property name="text">
-            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;a name=&quot;_Hlk44677223&quot;/&gt;Zbiór APP obejmuje zestaw danych przestrzennych dla wielu (co najmniej jednego) aktów planowania przestrzennego tego samego rodzaju, występujących w danej jednostce podziału terytorialnego np. miejscowe plany zagospodarowania przestrzennego gminy XXX. &lt;/p&gt;&lt;p&gt;Zbiór można stworzyć na dwa sposoby: &lt;br/&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;1.&lt;/span&gt;&lt;span style=&quot; font-family:'Times New Roman'; font-size:7pt;&quot;/&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Stworzenie nowego zbioru&lt;/span&gt;&lt;br/&gt;Należy wgrać wszystkie utworzone pliki GML dla APP i wygenerować z nich zbiór. Zbiór może się składać z jednego APP, może się również składać z kilkuset APP. &lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;2.&lt;/span&gt;&lt;span style=&quot; font-family:'Times New Roman'; font-size:7pt;&quot;/&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;Aktualizacja istniejącego zbioru o nowe APP&lt;/span&gt;&lt;br/&gt;W polu &lt;span style=&quot; font-style:italic;&quot;&gt;Dodaj istniejący zbiór APP (opcjonalne) &lt;/span&gt;należy wgrać istniejący zbiór, który zostanie zaktualizowany. Następnie w polu &lt;span style=&quot; font-style:italic;&quot;&gt;Dodaj wszystkie APP składające się na zbiór (co najmniej jeden APP)&lt;/span&gt; należy wgrać wszystkie APP, które będą dołączone do już istniejącego zbioru. &lt;/p&gt;&lt;p&gt;Należy pamiętać, że granice APP nie mogą się pokrywać (na jednym obszarze nie mogą obowiązywać dwa akty tego samego typu). W sytuacji, kiedy granice APP będą na siebie nachodzić, niezbędna będzie poprawa geometrii obiektów znajdujących się w zbiorze. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Zbiór APP obejmuje zestaw danych przestrzennych dla wielu (co najmniej jednego) aktów planowania przestrzennego tego samego rodzaju, występujących w danej jednostce podziału terytorialnego np. miejscowe plany zagospodarowania przestrzennego danej gminy. &lt;/p&gt;&lt;p&gt;Aby utworzyć zbiór APP, należy wgrać wszystkie utworzone pliki GML dla APP i wygenerować z nich zbiór. Zbiór może się składać z jednego APP, może się również składać z kilkuset APP. &lt;/p&gt;&lt;p&gt;Należy pamiętać, że granice APP nie mogą się na siebie nakładać (na jednym obszarze nie mogą obowiązywać dwa akty tego samego typu). W sytuacji, kiedy granice APP będą na siebie nachodzić, niezbędna będzie poprawa geometrii obiektów znajdujących się w zbiorze. &lt;/p&gt;&lt;p&gt;Aby wygenerować plik GML dla zbioru należy wybrać przycisk &lt;span style=&quot; text-decoration: underline;&quot;&gt;Waliduj/Generuj&lt;/span&gt;. Następnie należy przejść do kolejnego okna wybierając przycisk &lt;span style=&quot; text-decoration: underline;&quot;&gt;Przejdź do metadanych&lt;/span&gt;. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
            <property name="textFormat">
             <enum>Qt::AutoText</enum>

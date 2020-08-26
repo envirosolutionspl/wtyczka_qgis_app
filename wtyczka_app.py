@@ -74,7 +74,6 @@ class WtyczkaAPP(AppModule, MetadataModule, ValidatorModule, SettingsModule):
         self.prepareXsdForApp()
         self.prepareXsdForMetadata()
 
-
     def createValidator(self, task):
         QgsMessageLog.logMessage('walidator start')
         self.dataValidator = validator.ValidatorLxml()

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from . import utils
 from PyQt5.QtWidgets import *
+from PyQt5.QtCore import Qt
 from .utils import showPopup
 from qgis.core import QgsApplication
 
@@ -109,6 +110,8 @@ class BaseModule:
         msg.setText(text)
         msg.setIcon(icon)
         msg.setStandardButtons(QMessageBox.Ok)
+        msg.setEscapeButton(QMessageBox.Ok)
+        msg.setWindowFlags(Qt.WindowSystemMenuHint | Qt.WindowCloseButtonHint)
         raport = msg.addButton('Eksport błędów do pliku',
                                QMessageBox.AcceptRole)
         raport.clicked.connect(saveErrors)

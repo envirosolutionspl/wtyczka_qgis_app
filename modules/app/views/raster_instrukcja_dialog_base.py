@@ -42,6 +42,7 @@ class Ui_Dialog(object):
         self.instruction_lbl.setFont(font)
         self.instruction_lbl.setAlignment(QtCore.Qt.AlignJustify|QtCore.Qt.AlignVCenter)
         self.instruction_lbl.setWordWrap(True)
+        self.instruction_lbl.setOpenExternalLinks(True)
         self.instruction_lbl.setObjectName("instruction_lbl")
         self.gridLayout_2.addWidget(self.instruction_lbl, 0, 0, 1, 1)
         self.instruction_scrollArea.setWidget(self.scrollAreaWidgetContents)
@@ -68,7 +69,7 @@ class Ui_Dialog(object):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
         self.title_lbl.setText(_translate("Dialog", "Przygotowanie rysunku APP"))
-        self.instruction_lbl.setText(_translate("Dialog", "<html><head/><body><p>Dane przestrzenne APP obejmują m.in. informacje nt. adresu internetowego, pod którym dostępny jest rysunek/rysunki APP z nadaną georeferencją. </p><p>Jeżeli użytkownik nie posiada opublikowanych w internecie plików w formacie GeoTIFF dla wybranego APP należy: </p><p>1.Przygotować pliki w formacie GeoTIFF. Należy zapoznać się z instrukcją nadawania georeferencji plikom rastrowym: <a href=\"https://www.envirosolutions.pl/\"><span style=\" text-decoration: underline; color:#0000ff;\">link</span></a></p><p>oraz obejrzyj film:<span style=\" color:#000000;\"/><a href=\"https://www.envirosolutions.pl/\"><span style=\" text-decoration: underline; color:#0000ff;\">link</span></a></p><p>2.Zamieścić przygotowane pliki GeoTIFF na stronie internetowej np. na stronie BIP gminy. </p></body></html>"))
+        self.instruction_lbl.setText(_translate("Dialog", "<html><head/><body><p>Dane przestrzenne APP obejmują m.in. informacje nt. adresu internetowego, pod którym dostępny jest rysunek/rysunki APP z nadaną georeferencją. </p><p>Jeżeli użytkownik nie posiada opublikowanych w internecie plików w formacie GeoTIFF dla wybranego APP należy: </p><p>1. Przygotować pliki w formacie GeoTIFF. Należy zapoznać się z instrukcją nadawania georeferencji plikom rastrowym: <a href=\"https://www.envirosolutions.pl/\"><span style=\" text-decoration: underline; color:#0000ff;\">instrukcja użytkownika</span></a></p><p>oraz obejrzyj film: <a href=\"https://www.envirosolutions.pl/\"><span style=\" text-decoration: underline; color:#0000ff;\">film instruktażowy</span></a></p><p>2. Zamieścić przygotowane pliki GeoTIFF na stronie internetowej np. na stronie BIP gminy. </p></body></html>"))
         self.prev_btn.setText(_translate("Dialog", "Wstecz"))
         self.next_btn.setText(_translate("Dialog", "Dalej"))
 

@@ -31,7 +31,7 @@ class Ui_Dialog(object):
         self.instruction_scrollArea.setWidgetResizable(True)
         self.instruction_scrollArea.setObjectName("instruction_scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 627, 158))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 627, 210))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.gridLayout_2 = QtWidgets.QGridLayout(self.scrollAreaWidgetContents)
         self.gridLayout_2.setObjectName("gridLayout_2")
@@ -109,7 +109,7 @@ class Ui_Dialog(object):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Dialog"))
         self.title_lbl.setText(_translate("Dialog", "Generowanie GML dla APP"))
-        self.instruction_lbl.setText(_translate("Dialog", "<html><head/><body><p>W tym oknie zostanie wygenerowany końcowy plik GML dla pojedynczego APP. Składa się on ze wszystkich formularzy wygenerowanych w poprzednich krokach, to znaczy:<br/>-z co najmniej jednego formularza dla rysunku APP; <br/>- dokładnie jednego formularza dla APP;<br/>- co najmniej jednego formularza dla dokumentów formalnych. </p><p>W tabeli poniżej muszą znaleźć się wszystkie ww. formularze składające się na dany APP, aby został wygenerowany poprawny plik GML. Dla każdego pliku odczytanego jako <span style=\" text-decoration: underline;\">Dokument formalny</span>, użytkownik musi wybrać odpowiednią relację jaka wiąże ten dokument z APP. </p><p>Następnie można wybrać przycisk <span style=\" text-decoration: underline;\">Generuj</span>, który zwaliduje i zapisze plik GML dla APP na dysku. Po poprawnym wygenerowaniu użytkownik może zdecydować czy będzie tworzył kolejne APP, czy przejdzie do tworzenia zbioru. </p><p><br/></p></body></html>"))
+        self.instruction_lbl.setText(_translate("Dialog", "<html><head/><body><p>W tym oknie zostanie wygenerowany końcowy plik GML dla pojedynczego APP. Składa się on ze wszystkich formularzy wygenerowanych w poprzednich krokach, to znaczy:<br/>-z co najmniej jednego formularza dla rysunku APP; <br/>- dokładnie jednego formularza dla APP;<br/>- co najmniej jednego formularza dla dokumentów formalnych. </p><p>W tabeli poniżej muszą znaleźć się wszystkie ww. formularze składające się na dany APP, aby został wygenerowany poprawny plik GML. Dla każdego pliku odczytanego jako <span style=\" text-decoration: underline;\">Dokument formalny</span>, użytkownik musi wybrać odpowiednią relację jaka wiąże ten dokument z APP. </p><p>Następnie można wybrać przycisk <span style=\" text-decoration: underline;\">Generuj</span>, który zwaliduje i zapisze plik GML dla APP na dysku. Po poprawnym wygenerowaniu użytkownik może zdecydować czy będzie tworzył kolejne APP, czy przejdzie do tworzenia zbioru. </p><p><span style=\" font-weight:600;\">Wskazówka</span>: Należy pamiętać, że po wczytywania pliku GML do programu QGIS należy użyć narzędzia <span style=\" text-decoration: underline;\">Zamień współrzędne X i Y</span>, aby dane przestrzenne wyświetliły się poprawnie. <br/></p></body></html>"))
         self.addFile_lbl.setText(_translate("Dialog", "Lista plików na podstawie, których zostanie wygenerowany plik GML"))
         self.addElement_btn.setText(_translate("Dialog", "+"))
         self.deleteElement_btn.setText(_translate("Dialog", "-"))

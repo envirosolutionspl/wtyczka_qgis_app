@@ -396,12 +396,13 @@ def makeXmlListElements(tag, item, element, formData, slownik={}):
                     # except:
                     #     pass
                     if innerElement.name in fd:
+
                         if fee[fd] != '':
                             innerItem = ET.SubElement(
                                 ComplexItem, tag+innerElement.name)
                             if innerElement.type == 'date':
                                 innerItem.text = fee[fd].replace(
-                                    'T00:00:00', '')
+                                    'Thh:mm:ss', '')
                             else:
                                 innerItem.text = fee[fd]
                         break

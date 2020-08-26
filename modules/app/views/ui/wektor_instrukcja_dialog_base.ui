@@ -48,8 +48,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>564</width>
-          <height>245</height>
+          <width>558</width>
+          <height>212</height>
          </rect>
         </property>
         <layout class="QGridLayout" name="gridLayout">
@@ -61,7 +61,7 @@
             </font>
            </property>
            <property name="text">
-            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;W kolejnym kroku tworzenia danych przestrzennych APP niezbędne jest posiadanie granic obszaru objętego danym aktem. &lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;WAŻNE&lt;/span&gt;: Dane przestrzenne muszą być zapisane w układzie PL-1992 lub PL-2000 i być reprezentowane geometrycznie przez jeden poligon lub multipoligon (w przypadku obiektów wieloczęściowych). &lt;/p&gt;&lt;p&gt;Jeżeli posiadasz w ten sposób przygotowane dane skorzystaj z opcji &lt;span style=&quot; font-style:italic;&quot;&gt;Wybierz plik z granicami APP.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;Jeżeli &lt;span style=&quot; font-weight:600;&quot;&gt;nie posiadasz&lt;/span&gt; danych przestrzennych dla APP musisz je przygotować. Zapoznaj się z instrukcją tworzenia danych przestrzennych dla APP: http…. &lt;br/&gt;oraz obejrzyj film: http… &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Dane przestrzenne APP obejmują m.in. wektorowe granice obowiązywania APP w &lt;span style=&quot; font-weight:600;&quot;&gt;układzie PL-2000 lub PL-1992&lt;/span&gt;. W warstwie wektorowej musi znajdować się tylko &lt;span style=&quot; font-weight:600;&quot;&gt;jeden obiekt&lt;/span&gt;, może być to np. &lt;span style=&quot; font-weight:600;&quot;&gt;poligon lub multipoligon&lt;/span&gt; (obiekty wieloczęściowe).&lt;/p&gt;&lt;p&gt;Granice APP są&lt;span style=&quot; font-weight:600;&quot;&gt; niezbędne&lt;/span&gt; do wygenerowania pliku XML z atrybutami dla APP w kolejnym kroku. W przypadku posiadania wcześniej przygotowanego pliku XML z atrybutami dla APP, można wybrać opcję &lt;span style=&quot; text-decoration: underline;&quot;&gt;Pomiń&lt;/span&gt;. Przeniesie ona Użytkownika do okna Praca z APP (krok 5 z 6) Formularz atrybutów dla dokumentów formalnych. &lt;/p&gt;&lt;p&gt;W przypadku posiadania poprawnych granic APP należy wgrać plik do QGIS, a następnie wybrać go z listy rozwijalnej w oknie wtyczki i kliknąć przycisk &lt;span style=&quot; text-decoration: underline;&quot;&gt;Dalej&lt;/span&gt;. &lt;/p&gt;&lt;p&gt;W przypadku nieposiadania poprawnych granic APP należy je przygotować na podstawie istniejących plików (np. naprawić niepoprawne granice APP) lub stworzyć dane od zera. W przypadku tworzenia danych od podstaw można wybrać opcję &lt;span style=&quot; text-decoration: underline;&quot;&gt;Stwórz pustą warstwę&lt;/span&gt;, a następnie postępować zgodnie z &lt;a href=&quot;https://www.envirosolutions.pl/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;instrukcją&lt;/span&gt;&lt;/a&gt;. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignJustify|Qt::AlignVCenter</set>

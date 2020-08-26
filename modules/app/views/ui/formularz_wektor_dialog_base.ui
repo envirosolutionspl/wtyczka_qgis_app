@@ -45,8 +45,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>453</width>
-          <height>250</height>
+          <width>478</width>
+          <height>210</height>
          </rect>
         </property>
         <layout class="QGridLayout" name="gridLayout">
@@ -58,7 +58,7 @@
             </font>
            </property>
            <property name="text">
-            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Poniższy formularz dla APP należy wypełnić zgodnie z informacjami zawartymi w podpowiedzi do każdego atrybutu (ikona znaku zapytania po prawej stronie każdego atrybutu). Część pól zostanie uzupełniona automatycznie na podstawie danych z wczytanego pliku z granicami APP. Uzupełnienie pól oznaczonych gwiazdką jest obligatoryjne. &lt;/p&gt;&lt;p&gt;Jeżeli chcesz rozpocząć uzupełnianie formularza na nowo, należy wybrać przycisk &lt;span style=&quot; font-style:italic;&quot;&gt;Wyczyść formularz&lt;/span&gt;. Wszystkie obecne dane zostaną usunięte. &lt;/p&gt;&lt;p&gt;Kiedy formularz zostanie wypełniony, należy wybrać opcję &lt;span style=&quot; font-style:italic;&quot;&gt;Zapisz aktualny formularz&lt;/span&gt;, spowoduje ona wygenerowanie pliku XML. &lt;/p&gt;&lt;p&gt;Należy pamiętać, że w końcowym kroku tego narzędzia, czyli w okienku &lt;span style=&quot; font-style:italic;&quot;&gt;Generowanie GML&lt;/span&gt;, trzeba będzie wgrać &lt;span style=&quot; font-weight:600;&quot;&gt;dokładnie jeden&lt;/span&gt; formularz aktu planowania przestrzennego. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Poniższy formularz dla APP należy wypełnić zgodnie z informacjami zawartymi w podpowiedzi do każdego atrybutu (ikona znaku zapytania po prawej stronie). Część pól zostanie uzupełniona automatycznie na podstawie danych z wczytanego pliku z granicami APP. Uzupełnienie pól oznaczonych gwiazdką jest obligatoryjne. &lt;/p&gt;&lt;p&gt;Można skorzystać z wcześniej wypełnionego i zapisanego formularza, wybierając opcję &lt;span style=&quot; text-decoration: underline;&quot;&gt;Pobierz wartości z istniejącego formularza&lt;/span&gt;, który odczyta plik XML i przypisze atrybutom analogiczne wartości. Następnie należy sprawdzić lub zmodyfikować wpisane w formularzu dane, tak aby były poprawne dla danego APP oraz zapisać aktualny formularz. &lt;/p&gt;&lt;p&gt;Aby móc uzupełnić formularz na nowo, należy wybrać przycisk &lt;span style=&quot; text-decoration: underline;&quot;&gt;Wyczyść formularz&lt;/span&gt;. Wszystkie obecne dane zostaną usunięte. &lt;/p&gt;&lt;p&gt;Kiedy formularz zostanie wypełniony, należy wybrać opcję &lt;span style=&quot; text-decoration: underline;&quot;&gt;Zapisz aktualny formularz&lt;/span&gt;, spowoduje ona wygenerowanie pliku XML. &lt;/p&gt;&lt;p&gt;Należy pamiętać, że w końcowym kroku tego narzędzia, czyli w oknie &lt;span style=&quot; text-decoration: underline;&quot;&gt;Praca z APP (krok 6 z 6) Generowanie GML dla APP&lt;/span&gt;, trzeba będzie wgrać &lt;span style=&quot; font-weight:600;&quot;&gt;dokładnie jeden&lt;/span&gt; formularz dla APP. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignJustify|Qt::AlignVCenter</set>
@@ -125,8 +125,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>453</width>
-          <height>155</height>
+          <width>478</width>
+          <height>208</height>
          </rect>
         </property>
         <layout class="QGridLayout" name="gridLayout_2">

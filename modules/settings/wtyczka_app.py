@@ -61,7 +61,7 @@ class SettingsModule(BaseModule):
 
         if settingsValidateDatasetId(self.ustawieniaDialog.przestrzenNazw_lineEdit.text()):
             self.save_btn_clicked()
-            showPopup('Ustawienia', 'Ustawienia zostały zapisane.')
+            showPopup('Ustawienia', 'Ustawienia zostały zapisane.\n\nWyłącz i włącz program QGIS lub użyj wtyczki "Plugin Reloader" w celu zastosowania zmian.')
         else:
             showPopup(
                 'Ustawienia', 'Ustawienia nie zostały zapisane.\nBłędna wartość dla pola przestrzenNazw.')

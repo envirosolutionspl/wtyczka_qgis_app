@@ -5,6 +5,7 @@ from qgis.core import QgsVectorLayer
 from ..app.app_utils import isLayerInPoland
 from ..metadata.metadata_import_export import xmlToMetadataElementDict, xmlToMetadataElementDictFixed
 from .. import dictionaries
+import processing
 xsdPath = os.path.join(os.path.dirname(__file__), 'planowaniePrzestrzenne.xsd')
 
 import lxml
@@ -48,8 +49,15 @@ class ValidatorLxml:
         if valResult[0]:
             layer = QgsVectorLayer(xmlPath + '|layername=AktPlanowaniaPrzestrzennego', "gml", 'ogr')
             if layer and layer.isValid():
+                # Dla wersji QGIS <= 3.14 przy wczytywaniu GML
+                # z definicją układu
+                # jako uri do opengis.net np. http://www.opengis.net/def/crs/EPSG/0/2177
+                # QGIS wczytuje odwrócone X i Y
+                # TODO: do wykomentowania gdy błąd zostanie naprawiony w nowej wersji programu
+                # dla starych - pozostaje
+                layer = processing.run("qgis:swapxy",{'INPUT': layer,'OUTPUT': 'TEMPORARY_OUTPUT'})['OUTPUT']
                 if not isLayerInPoland(layer):
-                    return [False, 'Błąd geometrii zbioru: Obrysy leżą poza granicami Polski']
+                    return [False, 'Błąd geometrii zbioru: Obrysy leżą poza granicami Polski. Sprawdź czy w pliku GML jest prawidłowa definicja układu zgodnie ze standardem INSPIRE np: srsName="http://www.opengis.net/def/crs/EPSG/0/2177"']
             # walidacja relacji
             valRelationsResult = self.validateZbiorRelations(xmlPath)
             if not valRelationsResult[0]:

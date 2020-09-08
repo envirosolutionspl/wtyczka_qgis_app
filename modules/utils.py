@@ -219,8 +219,9 @@ def createFormElements(attribute):
             elementAttrib = elementComplexType[0][0].attrib
             elementType = elementAttrib['base']
 
+        elementName = element.attrib['name']
         formElement = FormElement(
-            name=element.attrib['name'],
+            name=elementName,
             type=elementType,
             form=attribute
         )
@@ -237,6 +238,7 @@ def createFormElements(attribute):
 
         # zdefiniowany w app complextype
         if elementType[:4] == 'app:':
+
             formElement.markAsComplex()  # ustawia .isComplex = True
             name = str(elementType).replace('Property', '').split(':')[-1]
 
@@ -250,19 +252,27 @@ def createFormElements(attribute):
                 else:
                     # jeżeli nie ma atrybutu 'type'
                     _formType = "anyURI"
-
+                elementName = complexElement.attrib['name']
                 innerFormElement = FormElement(
-                    name=complexElement.attrib['name'],
+                    name=elementName,
                     type=_formType,
                     form=attribute
                 )
 
-                if 'minOccurs' in complexElement.attrib:
-                    innerFormElement.setMinOccurs(
-                        complexElement.attrib['minOccurs'])
-                if 'maxOccurs' in complexElement.attrib:
-                    innerFormElement.setMaxOccurs(
-                        complexElement.attrib['maxOccurs'])
+
+                if elementName == 'wersjaId' and (
+                        attribute == 'RysunekAktuPlanowniaPrzestrzenegoType'
+                    or
+                        attribute == 'AktPlanowaniaPrzestrzennegoType'
+                ):
+                    innerFormElement.setMinOccurs('1')
+                else:
+                    if 'minOccurs' in complexElement.attrib:
+                        innerFormElement.setMinOccurs(
+                            complexElement.attrib['minOccurs'])
+                    if 'maxOccurs' in complexElement.attrib:
+                        innerFormElement.setMaxOccurs(
+                            complexElement.attrib['maxOccurs'])
 
                 # complex documentation
                 complexDocumentation = complexElement.find(

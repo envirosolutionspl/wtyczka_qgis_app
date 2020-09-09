@@ -717,10 +717,10 @@ def validate_status(formElements):
             if checkElement(obowiazujeOd, obowiazujeOd.refObject):
                 if not obowiazujeOd.refObject.dateTime():
                     showPopup('Brak wartości atrybutu',
-                              'Atrybut obowiazujeOd jest obowiązkowy dla statusów "prawnie wiążący lub realizowany", "nieaktualny".')
+                              'Atrybut obowiazujeOd jest obowiązkowy dla statusów "prawnie wiążący lub realizowany" oraz "nieaktualny".')
                     return False
             if checkElement(obowiazujeDo, obowiazujeDo.refObject):
-                if not obowiazujeDo.refObject.dateTime():
+                if not obowiazujeDo.refObject.dateTime() and status.refObject.currentText() == 'nieaktualny':
                     showPopup('Brak wartości atrybutu',
                               'Atrybut obowiazujeDo jest obowiązkowy dla statusu "nieaktualny".')
                     return False

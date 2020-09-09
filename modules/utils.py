@@ -672,11 +672,63 @@ def getFormElementByName(formElements, name):
     for fe in formElements:
         if fe.name == name:
             return fe
+        else:
+            for inner in fe.innerFormElements:
+                if inner.name == name:
+                    return inner
     return None
 
 
-# walidacja poprawności dat - rozpoczęcie, zakończenie
+def validate_typPlanu(formElements):
+    """walidacja typPlanu"""
+    typPlanu = getFormElementByName(formElements, 'typPlanu')
+    mapaPodkladowa = getFormElementByName(formElements, 'mapaPodkladowa')
+    przestrzenNazw = getFormElementByName(formElements, 'przestrzenNazw')
+    rodzajZbioru = przestrzenNazw.refObject.text().split('-')[-1]
+
+    rodzajZbioru_map = {
+        'PZPW': ['plan zagospodarowania przestrzennego województwa'],
+        'SUIKZP': ['studium uwarunkowań i kier. zagosp. przestrz. gminy'],
+        'MPZP': ['miejscowy plan zagospodarowania przestrzennego', 'miejscowy plan odbudowy', 'miejscowy plan rewitalizacji']
+    }
+
+    typy = ["miejscowy plan zagospodarowania przestrzennego", "studium uwarunkowań i kier. zagosp. przestrz. gminy",
+            "miejscowy plan odbudowy", "miejscowy plan rewitalizacji"]
+    if typPlanu.refObject.currentText() in typy and len(getListWidgetItems(mapaPodkladowa.refObject)) == 0:
+        showPopup('Brak mapy podkładowej', 'Mapa podkładowa jest wymagana dla wartości atrybutu typPlanu:\n - %s' %
+                  '\n - '.join(typy))
+        return False
+
+    if typPlanu.refObject.currentText() not in rodzajZbioru_map[rodzajZbioru]:
+        showPopup('Błąd wartości atrybutu', 'Atrybut typPlanu dla rodzaju zbioru %s przyjmuje wartości:\n - %s' %
+                  (rodzajZbioru, '\n - '.join(rodzajZbioru_map[rodzajZbioru])))
+        return False
+
+    return True
+
+
+def validate_status(formElements):
+    """walidacja statusu"""
+    obowiazujeOd = getFormElementByName(formElements, 'obowiazujeOd')
+    obowiazujeDo = getFormElementByName(formElements, 'obowiazujeDo')
+    status = getFormElementByName(formElements, 'status')
+
+    if status.refObject.currentText() == 'prawnie wiążący lub realizowany' or status.refObject.currentText() == 'nieaktualny':
+        if checkElement(obowiazujeOd, obowiazujeOd.refObject):
+            if not obowiazujeOd.refObject.dateTime():
+                showPopup('Brak wartości atrybutu',
+                          'Atrybut obowiazujeOd jest obowiązkowy dla statusów "prawnie wiążący lub realizowany", "nieaktualny".')
+                return False
+        if checkElement(obowiazujeDo, obowiazujeDo.refObject):
+            if not obowiazujeDo.refObject.dateTime():
+                showPopup('Brak wartości atrybutu',
+                          'Atrybut obowiazujeDo jest obowiązkowy dla statusu "nieaktualny".')
+                return False
+    return True
+
+
 def validate_form_dates(formElements):
+    """walidacja poprawności dat - rozpoczęcie, zakończenie"""
     daty_powiazane = {
         'poczatekWersjiObiektu': 'koniecWersjiObiektu',
         'obowiazujeOd': 'obowiazujeDo',

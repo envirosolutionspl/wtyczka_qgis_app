@@ -748,7 +748,7 @@ class AppModule(BaseModule):
     """Popup windows"""
 
     def showPopupSaveForm(self):
-        if utils.isFormFilled(self.activeDlg) and utils.validate_form_dates(self.activeDlg.formElements):
+        if utils.isFormFilled(self.activeDlg) and utils.validate_form_dates(self.activeDlg.formElements) and utils.validate_status(self.activeDlg.formElements) and utils.validate_typPlanu(self.activeDlg.formElements):
             s = QgsSettings()
             defaultPath = s.value("qgis_app/settings/defaultPath", "/")
             self.fn = QFileDialog.getSaveFileName(directory=defaultPath,

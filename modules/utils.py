@@ -685,24 +685,24 @@ def validate_typPlanu(formElements):
     mapaPodkladowa = getFormElementByName(formElements, 'mapaPodkladowa')
     przestrzenNazw = getFormElementByName(formElements, 'przestrzenNazw')
     rodzajZbioru = przestrzenNazw.refObject.text().split('-')[-1]
+    if typPlanu is not None:
+        rodzajZbioru_map = {
+            'PZPW': ['plan zagospodarowania przestrzennego województwa'],
+            'SUIKZP': ['studium uwarunkowań i kier. zagosp. przestrz. gminy'],
+            'MPZP': ['miejscowy plan zagospodarowania przestrzennego', 'miejscowy plan odbudowy', 'miejscowy plan rewitalizacji']
+        }
 
-    rodzajZbioru_map = {
-        'PZPW': ['plan zagospodarowania przestrzennego województwa'],
-        'SUIKZP': ['studium uwarunkowań i kier. zagosp. przestrz. gminy'],
-        'MPZP': ['miejscowy plan zagospodarowania przestrzennego', 'miejscowy plan odbudowy', 'miejscowy plan rewitalizacji']
-    }
+        typy = ["miejscowy plan zagospodarowania przestrzennego", "studium uwarunkowań i kier. zagosp. przestrz. gminy",
+                "miejscowy plan odbudowy", "miejscowy plan rewitalizacji"]
+        if typPlanu.refObject.currentText() in typy and len(getListWidgetItems(mapaPodkladowa.refObject)) == 0:
+            showPopup('Brak mapy podkładowej', 'Mapa podkładowa jest wymagana dla wartości atrybutu typPlanu:\n - %s' %
+                      '\n - '.join(typy))
+            return False
 
-    typy = ["miejscowy plan zagospodarowania przestrzennego", "studium uwarunkowań i kier. zagosp. przestrz. gminy",
-            "miejscowy plan odbudowy", "miejscowy plan rewitalizacji"]
-    if typPlanu.refObject.currentText() in typy and len(getListWidgetItems(mapaPodkladowa.refObject)) == 0:
-        showPopup('Brak mapy podkładowej', 'Mapa podkładowa jest wymagana dla wartości atrybutu typPlanu:\n - %s' %
-                  '\n - '.join(typy))
-        return False
-
-    if typPlanu.refObject.currentText() not in rodzajZbioru_map[rodzajZbioru]:
-        showPopup('Błąd wartości atrybutu', 'Atrybut typPlanu dla rodzaju zbioru %s przyjmuje wartości:\n - %s' %
-                  (rodzajZbioru, '\n - '.join(rodzajZbioru_map[rodzajZbioru])))
-        return False
+        if typPlanu.refObject.currentText() not in rodzajZbioru_map[rodzajZbioru]:
+            showPopup('Błąd wartości atrybutu', 'Atrybut typPlanu dla rodzaju zbioru %s przyjmuje wartości:\n - %s' %
+                      (rodzajZbioru, '\n - '.join(rodzajZbioru_map[rodzajZbioru])))
+            return False
 
     return True
 
@@ -712,18 +712,18 @@ def validate_status(formElements):
     obowiazujeOd = getFormElementByName(formElements, 'obowiazujeOd')
     obowiazujeDo = getFormElementByName(formElements, 'obowiazujeDo')
     status = getFormElementByName(formElements, 'status')
-
-    if status.refObject.currentText() == 'prawnie wiążący lub realizowany' or status.refObject.currentText() == 'nieaktualny':
-        if checkElement(obowiazujeOd, obowiazujeOd.refObject):
-            if not obowiazujeOd.refObject.dateTime():
-                showPopup('Brak wartości atrybutu',
-                          'Atrybut obowiazujeOd jest obowiązkowy dla statusów "prawnie wiążący lub realizowany", "nieaktualny".')
-                return False
-        if checkElement(obowiazujeDo, obowiazujeDo.refObject):
-            if not obowiazujeDo.refObject.dateTime():
-                showPopup('Brak wartości atrybutu',
-                          'Atrybut obowiazujeDo jest obowiązkowy dla statusu "nieaktualny".')
-                return False
+    if status is not None:
+        if status.refObject.currentText() == 'prawnie wiążący lub realizowany' or status.refObject.currentText() == 'nieaktualny':
+            if checkElement(obowiazujeOd, obowiazujeOd.refObject):
+                if not obowiazujeOd.refObject.dateTime():
+                    showPopup('Brak wartości atrybutu',
+                              'Atrybut obowiazujeOd jest obowiązkowy dla statusów "prawnie wiążący lub realizowany", "nieaktualny".')
+                    return False
+            if checkElement(obowiazujeDo, obowiazujeDo.refObject):
+                if not obowiazujeDo.refObject.dateTime():
+                    showPopup('Brak wartości atrybutu',
+                              'Atrybut obowiazujeDo jest obowiązkowy dla statusu "nieaktualny".')
+                    return False
     return True
 
 
@@ -1980,10 +1980,14 @@ def validateObjectNumber(files):
 def validatePrzestrzenNazwAppSet(files):
     przestrzenNazw_list = []
     for doc in files:
-        root = ET.parse(doc[0]).getroot()
-        przestrzenNazw = '_'.join(getDocIIP(root, IIP='').split('_')[0:2])
-        if przestrzenNazw not in przestrzenNazw_list:
-            przestrzenNazw_list.append(przestrzenNazw)
+        try:
+            root = ET.parse(doc[0]).getroot()
+        except:
+            root = ET.parse(doc.path).getroot()
+        for elem in root:
+            przestrzenNazw = '_'.join(getDocIIP(elem, IIP='').split('_')[0:2])
+            if przestrzenNazw not in przestrzenNazw_list:
+                przestrzenNazw_list.append(przestrzenNazw)
     if len(przestrzenNazw_list) != 1:
         return False
     return True

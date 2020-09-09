@@ -409,8 +409,12 @@ class AppModule(BaseModule):
             layout=self.zbiorPrzygotowanieDialog,
             searchObjectType=QTableWidget,
             name="appTable_widget")
+
+        xmlIip_list = []
         for rowId in range(appTable_widget.rowCount()):
             xmlIpp = appTable_widget.item(rowId, 0).text()
+            if xmlIpp not in xmlIip_list:
+                xmlIip_list.append(xmlIpp)
             xmlPath = os.path.join(appTable_widget.item(rowId, 1).text())
             xmlDate = appTable_widget.item(rowId, 2).text()
             # TODO usunąć zbiór z listy
@@ -418,33 +422,41 @@ class AppModule(BaseModule):
             gmlPaths.append(xmlPath)
         # files = [os.path.join(os.path.dirname(__file__), "../validator", 'appExample_pzpw_v001.xml')] # test
 
-        # Sprawdzenie poprawności każdego z plików składowych
-        for file in files:
-            # nie zwalidowano poprawnie
-            if not self.validateFile(path=file.path, validator=self.dataValidator, type='app'):
+        if not utils.validatePrzestrzenNazwAppSet(files=files):
+            utils.showPopup('Błąd przestrzeni nazw',
+                            'Obiekty pochodzą z różnych przestrzeni nazw.')
+        elif len(xmlIip_list) != appTable_widget.rowCount():
+            utils.showPopup('Błąd liczności obiektów',
+                            'W zbiorze może występować tylko jeden obiekt AktPlanowaniaPrzestrzennego o tym samym idIIP.')
+        else:
+
+            # Sprawdzenie poprawności każdego z plików składowych
+            for file in files:
+                # nie zwalidowano poprawnie
+                if not self.validateFile(path=file.path, validator=self.dataValidator, type='app'):
+                    return False
+
+            # Sprawdzenie zależności geometrycznych miedzy GMLami
+            result = utils.checkZbiorGeometryValidity(gmlPaths)
+            if not result[0]:  # niepoprawne zależności geometryczne
+                trescBledu = result[1]
+                self.iface.messageBar().pushCritical("Błąd geometrii zbioru:", trescBledu)
                 return False
 
-        # Sprawdzenie zależności geometrycznych miedzy GMLami
-        result = utils.checkZbiorGeometryValidity(gmlPaths)
-        if not result[0]:  # niepoprawne zależności geometryczne
-            trescBledu = result[1]
-            self.iface.messageBar().pushCritical("Błąd geometrii zbioru:", trescBledu)
-            return False
-
-        s = QgsSettings()
-        defaultPath = s.value("qgis_app/settings/defaultPath", "/")
-        self.fn = QFileDialog.getSaveFileName(
-            directory=defaultPath, filter="XML Files (*.xml)")[0]
-        if self.fn:
-            xml_string = utils.mergeAppToCollection(files, set={})
-            if xml_string != '':
-                myfile = open(self.fn, "w", encoding='utf-8')
-                myfile.write(xml_string)
-                self.iface.messageBar().pushSuccess("Generowanie zbioru:",
-                                                    "Pomyślnie wygenerowano zbiór APP.")
-                showPopup("Wygeneruj plik GML dla zbioru APP",
-                          "Poprawnie wygenerowano plik GML.")
-                self.generated = True
+            s = QgsSettings()
+            defaultPath = s.value("qgis_app/settings/defaultPath", "/")
+            self.fn = QFileDialog.getSaveFileName(
+                directory=defaultPath, filter="XML Files (*.xml)")[0]
+            if self.fn:
+                xml_string = utils.mergeAppToCollection(files, set={})
+                if xml_string != '':
+                    myfile = open(self.fn, "w", encoding='utf-8')
+                    myfile.write(xml_string)
+                    self.iface.messageBar().pushSuccess("Generowanie zbioru:",
+                                                        "Pomyślnie wygenerowano zbiór APP.")
+                    showPopup("Wygeneruj plik GML dla zbioru APP",
+                              "Poprawnie wygenerowano plik GML.")
+                    self.generated = True
         return True
 
     # endregion
@@ -587,7 +599,7 @@ class AppModule(BaseModule):
                 # utils.showPopup('Błąd', 'Wymagany jest jeden obiekt AktPlanowaniaPrzestrzennego.')
             elif not utils.validatePrzestrzenNazwAppSet(files=docList):
                 utils.showPopup('Błąd przestrzeni nazw',
-                                'Obiekty pochodzą z innych przestrzeń nazw.')
+                                'Obiekty pochodzą z różnych przestrzeni nazw.')
             elif not utils.validateDokumentFormalnyDate(files=docList):
                 utils.showPopup('Błąd relacji dokumentów',
                                 'Dokument z relacją uchwala nie może być starszy od dokumentu z relacją przystąpienie.')

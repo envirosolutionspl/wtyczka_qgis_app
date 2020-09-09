@@ -253,12 +253,12 @@ def createFormElements(attribute):
                     # jeżeli nie ma atrybutu 'type'
                     _formType = "anyURI"
                 elementName = complexElement.attrib['name']
+
                 innerFormElement = FormElement(
                     name=elementName,
                     type=_formType,
                     form=attribute
                 )
-
 
                 if elementName == 'wersjaId' and (
                         attribute == 'RysunekAktuPlanowniaPrzestrzenegoType'

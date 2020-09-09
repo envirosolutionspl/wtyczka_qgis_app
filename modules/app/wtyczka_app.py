@@ -427,7 +427,7 @@ class AppModule(BaseModule):
                             'Obiekty pochodzą z różnych przestrzeni nazw.')
         elif len(xmlIip_list) != appTable_widget.rowCount():
             utils.showPopup('Błąd liczności obiektów',
-                            'W zbiorze może występować tylko jeden obiekt AktPlanowaniaPrzestrzennego o tym samym idIIP.')
+                            'W zbiorze mogą występować tylko obiekty AktPlanowaniaPrzestrzennego o unikalnym idIIP.')
         else:
 
             # Sprawdzenie poprawności każdego z plików składowych

@@ -37,6 +37,12 @@
      </item>
      <item>
       <widget class="QScrollArea" name="instruction_scrollArea">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="widgetResizable">
         <bool>true</bool>
        </property>
@@ -45,8 +51,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>478</width>
-          <height>288</height>
+          <width>461</width>
+          <height>337</height>
          </rect>
         </property>
         <layout class="QGridLayout" name="gridLayout">
@@ -119,8 +125,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>478</width>
-          <height>130</height>
+          <width>461</width>
+          <height>128</height>
          </rect>
         </property>
         <layout class="QGridLayout" name="gridLayout_2">

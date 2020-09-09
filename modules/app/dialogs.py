@@ -139,8 +139,12 @@ class DokumentyFormularzDialog(QDialogOverride, FORM_CLASS4, Formularz, ButtonsD
 
         # schowanie WersjaId dla dokumentu formalnego
         wersjaId_lineEdit = utils.layout_widget_by_name(self.form_scrollArea.widget().layout(), name="wersjaId_lineEdit")
-        wersjaId_lineEdit.setEnabled(False)
-
+        # wersjaId_lineEdit.setEnabled(False)
+        wersjaId_lineEdit.setVisible(False)
+        wersjaId_lbl = utils.layout_widget_by_name(self.form_scrollArea.widget().layout(), name="wersjaId_lbl")
+        wersjaId_lbl.setVisible(False)
+        wersjaId_tooltip = utils.layout_widget_by_name(self.form_scrollArea.widget().layout(), name="wersjaId_tooltip")
+        wersjaId_tooltip.setVisible(False)
         # self.returnFormElements(self.formElements)
         ButtonsDialog.__init__(self)
 

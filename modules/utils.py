@@ -1915,7 +1915,7 @@ def validateObjectNumber(files):
                     showPopup('Błąd wartości atrybutu', 'Dla statusu "nieaktualny" obiektu AktPlanowaniaPrzestrzennego wartość atrybutu obowiazujeDo obiektu RysunekAktuPlanowniaPrzestrzenego jest wymagana.')
                     return False
                 elif obowiazujeOdFind is None:  # Zawsze wymagane - schemat xsd
-                    showPopup('Błąd wartości atrybutu', 'Dla statusów "prawnie wiążący lub realizowany" oraz "nieaktualny" obiektu AktPlanowaniaPrzestrzennego wartość atrybutu obowiazujeOd obiektu RysunekAktuPlanowniaPrzestrzenego jest wymagana.\nPlik: %s' % )
+                    showPopup('Błąd wartości atrybutu', 'Dla statusów "prawnie wiążący lub realizowany" oraz "nieaktualny" obiektu AktPlanowaniaPrzestrzennego wartość atrybutu obowiazujeOd obiektu RysunekAktuPlanowniaPrzestrzenego jest wymagana.')
                     return False
     else:
         showPopup('Błąd liczności obiektów',

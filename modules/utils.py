@@ -1946,8 +1946,17 @@ def validateObjectNumber(files):
         'DokumentFormalny': []
     }
 
+    idIIP_list = []
+
     for doc in files:
         docs[getDocType(doc[0])].append(ET.parse(doc[0]).getroot())
+        iip = getDocIIP(ET.parse(doc[0]).getroot(), IIP='')
+        if iip not in idIIP_list:
+            idIIP_list.append(iip)
+        else:
+            showPopup('Błąd liczności obiektów',
+                      'W APP mogą występować jedynie obiekty o unikalnych idIIP.')
+            return False
 
     if len(docs['AktPlanowaniaPrzestrzennego']) == 1:
         statusPath = 'wfs:member/app:AktPlanowaniaPrzestrzennego/app:status'

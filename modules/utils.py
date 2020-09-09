@@ -259,7 +259,6 @@ def createFormElements(attribute):
                     form=attribute
                 )
 
-
                 if elementName == 'wersjaId' and (
                         attribute == 'RysunekAktuPlanowniaPrzestrzenegoType'
                     or
@@ -692,7 +691,7 @@ def validate_form_dates(formElements):
                 continue
             if dataOd.refObject.dateTime() > dataDo.refObject.dateTime():
                 showPopup(title='Błąd wartości atrybutu %s' % atrybut,
-                          text='Wartość atrybutu %s nie może być większa niż %s.' % (atrybut, daty_powiazane[atrybut]))
+                          text='Wartość atrybutu %s nie może być późniejsza od %s.' % (atrybut, daty_powiazane[atrybut]))
                 return False
     return True
 
@@ -1877,6 +1876,64 @@ def findElementInXmlFile(file, docName, elementName):
     elementPath = 'wfs:member/app:%s/app:%s' % (docName, elementName)
     element = root.find(elementPath, ns)
     return element
+
+
+def validateObjectNumber(files):
+    ns = {'xsi': "http://www.w3.org/2001/XMLSchema",
+          'app': "http://zagospodarowanieprzestrzenne.gov.pl/schemas/app/1.0",
+          'gmd': "http://www.isotc211.org/2005/gmd",
+          'gco': 'http://www.isotc211.org/2005/gco',
+          'xlink': 'http://www.w3.org/1999/xlink',
+          'gml': "http://www.opengis.net/gml/3.2",
+          'wfs': 'http://www.opengis.net/wfs/2.0',
+          'gmlexr': "http://www.opengis.net/gml/3.3/exr"}
+    docs = {
+        'AktPlanowaniaPrzestrzennego': [],
+        'RysunekAktuPlanowniaPrzestrzenego': [],
+        'DokumentFormalny': []
+    }
+
+    for doc in files:
+        docs[getDocType(doc[0])].append(ET.parse(doc[0]).getroot())
+
+    if len(docs['AktPlanowaniaPrzestrzennego']) == 1:
+        statusPath = 'wfs:member/app:AktPlanowaniaPrzestrzennego/app:status'
+        statusFind = docs['AktPlanowaniaPrzestrzennego'][0].find(
+            statusPath, ns)
+        if statusFind.attrib['{http://www.w3.org/1999/xlink}title'] == 'prawnie wiążący lub realizowany' and len(docs['RysunekAktuPlanowniaPrzestrzenego']) == 0:
+            showPopup('Błąd liczności obiektów',
+                      'Wymagany jest co najmniej jeden obiekt RysunekAktuPlanowniaPrzestrzenego.\nWybrano obiektów: %d.' % len(docs['RysunekAktuPlanowniaPrzestrzenego']))
+            return False
+        if statusFind.attrib['{http://www.w3.org/1999/xlink}title'] == 'prawnie wiążący lub realizowany' or statusFind.attrib['{http://www.w3.org/1999/xlink}title'] == 'nieaktualny':
+            for rys in docs['RysunekAktuPlanowniaPrzestrzenego']:
+                obowiazujeOdPath = 'wfs:member/app:RysunekAktuPlanowniaPrzestrzenego/app:obowiazujeOd'
+                obowiazujeOdFind = rys.find(obowiazujeOdPath, ns)
+                obowiazujeDoPath = 'wfs:member/app:RysunekAktuPlanowniaPrzestrzenego/app:obowiazujeDo'
+                obowiazujeDoFind = rys.find(obowiazujeDoPath, ns)
+                if obowiazujeDoFind is None and statusFind.attrib['{http://www.w3.org/1999/xlink}title'] == 'nieaktualny':
+                    showPopup('Błąd wartości atrybutu', 'Dla statusu "nieaktualny" obiektu AktPlanowaniaPrzestrzennego wartość atrybutu obowiazujeDo obiektu RysunekAktuPlanowniaPrzestrzenego jest wymagana.')
+                    return False
+                elif obowiazujeOdFind is None:  # Zawsze wymagane - schemat xsd
+                    showPopup('Błąd wartości atrybutu', 'Dla statusów "prawnie wiążący lub realizowany" oraz "nieaktualny" obiektu AktPlanowaniaPrzestrzennego wartość atrybutu obowiazujeOd obiektu RysunekAktuPlanowniaPrzestrzenego jest wymagana.\nPlik: %s' % )
+                    return False
+    else:
+        showPopup('Błąd liczności obiektów',
+                  'Wymagany jest jeden obiekt AktPlanowaniaPrzestrzennego.\nWybrano obiektów: %d.' % len(docs['AktPlanowaniaPrzestrzennego']))
+        return False
+
+    return True
+
+
+def validatePrzestrzenNazwAppSet(files):
+    przestrzenNazw_list = []
+    for doc in files:
+        root = ET.parse(doc[0]).getroot()
+        przestrzenNazw = '_'.join(getDocIIP(root, IIP='').split('_')[0:2])
+        if przestrzenNazw not in przestrzenNazw_list:
+            przestrzenNazw_list.append(przestrzenNazw)
+    if len(przestrzenNazw_list) != 1:
+        return False
+    return True
 
 
 def validateDokumentFormalnyDate(files):

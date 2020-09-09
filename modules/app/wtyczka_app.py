@@ -225,8 +225,8 @@ class AppModule(BaseModule):
         if not self.obrysLayer:   # brak wybranej warstwy
             pass
         elif self.obrysLayer.featureCount() > 1:     # niepoprawna ilość obiektów w warstwie
-            self.showPopupAggregate(title="Błąd warstwy obrysu", text="Wybrana warstwa posiada obiekty w liczbie: %d.\nObrys może składać się wyłącznie z jednego obiektu.\nCzy chcesz utworzyć zagregowaną warstwę o nazwie: granice_app_zagregowane?" % (
-                self.obrysLayer.featureCount()), layer=self.obrysLayer)
+            showPopup(title="Błąd warstwy obrysu", text="Wybrana warstwa posiada obiekty w liczbie: %d.\nObrys może składać się wyłącznie z jednego obiektu." % (
+                self.obrysLayer.featureCount()))
         elif self.obrysLayer.featureCount() == 0:
             showPopup("Błąd warstwy obrysu", "Wybrana warstwa posiada obiekty w liczbie: %d.\n" % (
                 self.obrysLayer.featureCount()))
@@ -249,23 +249,43 @@ class AppModule(BaseModule):
             self.openNewDialog(self.wektorFormularzDialog)
             self.obrysLayer = self.wektorInstrukcjaDialog.layers_comboBox.currentLayer()
             formElements = self.wektorFormularzDialog.formElements
-            obrys = self.obrysLayer.getFeature(1)
-            attrs = obrys.attributes()
 
-            fields = obrys.fields()
+            obrys = next(self.obrysLayer.getFeatures())
+            attrs = obrys.attributes()
+            fields = self.obrysLayer.fields()
+
+            shpNames = {
+                'przestrzen': 'przestrzenNazw',
+                'lokalnyId': 'lokalnyId',
+                'wersjaId': 'wersjaId',
+                'poczatekWe': 'poczatekWersjiObiektu',
+                'koniecWers': 'koniecWersjiObiektu',
+                'tytul': 'tytul',
+                'obowiazuje': 'obowiazujeOd',
+                'obowiazu_1': 'obowiazujeDo'
+            }
+
+            field_names = []
+
+            for field in fields:
+                if field.name() in shpNames:
+                    field_names.append(shpNames[field.name()])
+                else:
+                    field_names.append(field.name())
 
             for formElement in formElements:
-                if formElement.name in fields.names():
-                    idx = fields.indexFromName(formElement.name)
+                if formElement.name in field_names:
+                    idx = field_names.index(formElement.name)
                     value = attrs[idx]
                     formItem = formElement.refObject
                     try:
                         if isinstance(formItem, QLineEdit):
                             formItem.setText(value)
                         elif isinstance(formItem, QDateTimeEdit):
-                            formItem.setDateTime(value)
-                        elif isinstance(formItem, QDateEdit):
-                            formItem.setDate(value)
+                            if formElement.type == 'date':
+                                formItem.setDate(value)
+                            elif formElement.type == 'dateTime':
+                                formItem.setDateTime(value)
                         elif isinstance(formItem, QCheckBox):
                             formItem.setChecked(value)
                         elif isinstance(formItem, QComboBox):
@@ -273,17 +293,18 @@ class AppModule(BaseModule):
                     except:
                         pass
                 for inner in formElement.innerFormElements:
-                    if inner.name in fields.names():
-                        idx = fields.indexFromName(inner.name)
+                    if inner.name in field_names:
+                        idx = field_names.index(inner.name)
                         value = attrs[idx]
                         formItem = inner.refObject
                         try:
                             if isinstance(formItem, QLineEdit):
                                 formItem.setText(value)
                             elif isinstance(formItem, QDateTimeEdit):
-                                formItem.setDateTime(value)
-                            elif isinstance(formItem, QDateEdit):
-                                formItem.setDate(value)
+                                if inner.type == 'date':
+                                    formItem.setDate(value)
+                                elif inner.type == 'dateTime':
+                                    formItem.setDateTime(value)
                             elif isinstance(formItem, QCheckBox):
                                 formItem.setChecked(value)
                             elif isinstance(formItem, QComboBox):
@@ -552,36 +573,41 @@ class AppModule(BaseModule):
             utils.showPopup(title='Brak Dokumentów',
                             text='Do tabeli nie zostały dodane żadne dokumenty.')
         else:
-            if not utils.validateDokumentFormalnyDate(files=docList):
+            uchwala_count = 0
+            przystapienie_count = 0
+            for doc, rel in docList:
+                if rel == 'uchwala':
+                    uchwala_count += 1
+
+                if rel == 'przystąpienie':
+                    przystapienie_count += 1
+            uchwala_przystapienie_count = przystapienie_count + uchwala_count
+            if not utils.validateObjectNumber(files=docList):
+                pass
+                # utils.showPopup('Błąd', 'Wymagany jest jeden obiekt AktPlanowaniaPrzestrzennego.')
+            elif not utils.validatePrzestrzenNazwAppSet(files=docList):
+                utils.showPopup('Błąd przestrzeni nazw',
+                                'Obiekty pochodzą z innych przestrzeń nazw.')
+            elif not utils.validateDokumentFormalnyDate(files=docList):
                 utils.showPopup('Błąd relacji dokumentów',
                                 'Dokument z relacją uchwala nie może być starszy od dokumentu z relacją przystąpienie.')
+            elif uchwala_przystapienie_count == 0:
+                utils.showPopup(
+                    title='Błąd relacji dokumentów', text='Wymagany jest co najmniej jeden dokument z relacją "przystąpienie" lub "uchwala".')
+            elif uchwala_count > 1:
+                utils.showPopup(
+                    title='Błąd relacji dokumentów', text='W APP dozwolony jest tylko jeden dokument z relacją "uchwala".')
             else:
-                uchwala_count = 0
-                przystapienie_count = 0
-                for doc, rel in docList:
-                    if rel == 'uchwala':
-                        uchwala_count += 1
-
-                    if rel == 'przystąpienie':
-                        przystapienie_count += 1
-                uchwala_przystapienie_count = przystapienie_count + uchwala_count
-                if uchwala_przystapienie_count == 0:
-                    utils.showPopup(
-                        title='Błąd relacji dokumentów', text='Wymagany jest co najmniej jeden dokument z relacją "przystąpienie" lub "uchwala".')
-                elif uchwala_count > 1:
-                    utils.showPopup(
-                        title='Błąd relacji dokumentów', text='W APP dozwolony jest tylko jeden dokument z relacją "uchwala".')
-                else:
-                    s = QgsSettings()
-                    defaultPath = s.value("qgis_app/settings/defaultPath", "/")
-                    self.fn = QFileDialog.getSaveFileName(
-                        directory=defaultPath, filter="XML Files (*.xml)")[0]
-                    if self.fn:
-                        xml_string = utils.mergeDocsToAPP(docList)
-                        if xml_string != '':
-                            myfile = open(self.fn, "w", encoding='utf-8')
-                            myfile.write(xml_string)
-                            self.showPopupApp()
+                s = QgsSettings()
+                defaultPath = s.value("qgis_app/settings/defaultPath", "/")
+                self.fn = QFileDialog.getSaveFileName(
+                    directory=defaultPath, filter="XML Files (*.xml)")[0]
+                if self.fn:
+                    xml_string = utils.mergeDocsToAPP(docList)
+                    if xml_string != '':
+                        myfile = open(self.fn, "w", encoding='utf-8')
+                        myfile.write(xml_string)
+                        self.showPopupApp()
 # Zbiór
 
     def loadSet(self):
@@ -689,16 +715,18 @@ class AppModule(BaseModule):
             pass
 
     def fieldsDefinition(self, fields):
+        pomijane = ['tytulAlternatywny', 'typPlanu', 'poziomHierarchii', 'status', 'zmiana', 'mapaPodkladowa', 'data', 'referencja', 'lacze',
+                    'dokument', 'dokumentPrzystepujacy', 'dokumentUchwalajacy', 'dokumentZmieniajacy', 'dokumentUchylajacy', 'dokumentUniewazniajacy']
         fieldDef = ''
         for field in fields:
+            if field.name in pomijane:
+                continue
             form = Formularz()
-            # TODO Czy mamy uniemożliwiać wpisywanie wartości dla ReferenceType
             if field.isComplex():  # zawiera podrzędne elementy typu complex
                 for fieldElements in field.innerFormElements:
                     fieldDef += '&field=%s:%s' % (
                         fieldElements.name, fieldElements.type.replace('gml:ReferenceType', 'string').replace('anyURI', 'string'))
                 continue
-            # print(field.type)
             if 'gml' not in field.type or 'gml:ReferenceType' in field.type:
                 fieldDef += '&field=%s:%s' % (field.name,
                                               field.type.replace('gml:ReferenceType', 'string').replace('anyURI', 'string'))
@@ -871,10 +899,17 @@ class AppModule(BaseModule):
         # Przenoszenie wartości między formularzami.
         setValue(findElement(self.rasterFormularzDialog.formElements, 'przestrzenNazw'),
                  findElement(self.wektorFormularzDialog.formElements, 'przestrzenNazw'))
+        setValue(findElement(self.rasterFormularzDialog.formElements, 'przestrzenNazw'),
+                 findElement(self.dokumentyFormularzDialog.formElements, 'przestrzenNazw'))
+
         setValue(findElement(self.rasterFormularzDialog.formElements, 'poczatekWersjiObiektu'),
                  findElement(self.wektorFormularzDialog.formElements, 'poczatekWersjiObiektu'))
+        setValue(findElement(self.rasterFormularzDialog.formElements, 'koniecWersjiObiektu'),
+                 findElement(self.wektorFormularzDialog.formElements, 'koniecWersjiObiektu'))
         setValue(findElement(self.rasterFormularzDialog.formElements, 'obowiazujeOd'),
                  findElement(self.wektorFormularzDialog.formElements, 'obowiazujeOd'))
+        setValue(findElement(self.rasterFormularzDialog.formElements, 'obowiazujeDo'),
+                 findElement(self.wektorFormularzDialog.formElements, 'obowiazujeDo'))
         return self.saved
 
     def showPopupSaveForms(self):

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from . import (UstawieniaDialog, PomocDialog, ustawieniaDialog, PLUGIN_VERSION)
 from .. import BaseModule, dictionaries
-from ..utils import showPopup, getWidgetByName, settingsValidateDatasetId
+from ..utils import showPopup, getWidgetByName, settingsValidateDatasetId, validate_IIP
 from ..metadata import SmtpDialog, CswDialog
 from qgis.PyQt import QtWidgets
 from PyQt5.QtWidgets import QFileDialog, QTableWidgetItem
@@ -59,7 +59,8 @@ class SettingsModule(BaseModule):
 
     def validate_settings(self):
 
-        if settingsValidateDatasetId(self.ustawieniaDialog.przestrzenNazw_lineEdit.text()):
+        # if settingsValidateDatasetId(self.ustawieniaDialog.przestrzenNazw_lineEdit.text()):
+        if self.ustawieniaDialog.przestrzenNazw_lineEdit.text() == '' or validate_IIP(self.ustawieniaDialog.przestrzenNazw_lineEdit.text()):
             self.save_btn_clicked()
             showPopup('Ustawienia', 'Ustawienia zostały zapisane.\n\nWyłącz i włącz program QGIS lub użyj wtyczki "Plugin Reloader" w celu zastosowania zmian.')
         else:

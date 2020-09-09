@@ -127,7 +127,7 @@
                 <item row="0" column="0">
                  <widget class="QLabel" name="przestrzenNazw_lbl">
                   <property name="text">
-                   <string>przestrzenNazw</string>
+                   <string>Przestrzeń nazw APP</string>
                   </property>
                  </widget>
                 </item>
@@ -174,7 +174,7 @@
                 <item row="1" column="0">
                  <widget class="QLabel" name="contactMail_lbl">
                   <property name="text">
-                   <string>Adres email</string>
+                   <string>Adres e-mail</string>
                   </property>
                  </widget>
                 </item>
@@ -215,7 +215,7 @@
                 <item row="1" column="0">
                  <widget class="QLabel" name="adminMail_lbl">
                   <property name="text">
-                   <string>Adres email</string>
+                   <string>Adres e-mail</string>
                   </property>
                  </widget>
                 </item>

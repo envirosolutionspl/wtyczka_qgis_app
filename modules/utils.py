@@ -1442,7 +1442,7 @@ def mergeDocsToAPP(docList):  # docList z getTableContent
             APProot = root
             appIIP = getDocIIP(root)
             APPrelLink = 'http://zagospodarowanieprzestrzenne.gov.pl/app/%s/%s' % (
-                docType, appIIP)
+                docType, appIIP.replace('_', '/'))
 
     for doc, relation in docList:
         if relation == 'inna':
@@ -1457,7 +1457,7 @@ def mergeDocsToAPP(docList):  # docList z getTableContent
         docRoots[docType].append(root)
         IIP = getDocIIP(root)
         relLink = 'http://zagospodarowanieprzestrzenne.gov.pl/app/%s/%s' % (
-            docType, IIP)
+            docType, IIP.replace('_', '/'))
         if docType == 'DokumentFormalny':
             if relation == 'przystapienie':
                 pomijane['AktPlanowaniaPrzestrzennego']['dokumentPrzystepujacy'].append(

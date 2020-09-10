@@ -140,7 +140,7 @@ def validate_IIP(przestrzenNazw):
     return True  # IIP prawidłowe
 
 
-def isAppOperative(gmlPath):
+def isAppOperative(gmlPath, gmlId=None):
     """sprawdza czy zbiór APP jest obowiązującym zbiorem"""
     ns = {'xsi': "http://www.w3.org/2001/XMLSchema",
           'app': "http://zagospodarowanieprzestrzenne.gov.pl/schemas/app/1.0",
@@ -155,14 +155,20 @@ def isAppOperative(gmlPath):
     statusPath = 'wfs:member/app:AktPlanowaniaPrzestrzennego/app:status'
 
     root = ET.parse(gmlPath).getroot()
-    find = root.find(statusPath, ns)
-    if find is not None:
-        if find.attrib['{http://www.w3.org/1999/xlink}title'] == 'prawnie wiążący lub realizowany':
+
+    if gmlId is not None:   # w przypadku sprawdzania konkretnego Id w zbiorze
+        app = root.find('wfs:member/app:AktPlanowaniaPrzestrzennego[@gml:id="%s"]' % gmlId, ns)
+        statusElement = app.find('./app:status', ns)
+    else:   # w przypadku sprawdzania pliku APP (nie zbioru)
+        statusElement = root.find(statusPath, ns)
+
+    if statusElement is not None:
+        if statusElement.attrib['{http://www.w3.org/1999/xlink}title'] == 'prawnie wiążący lub realizowany':
             return True
     return False
 
 
-def checkZbiorGeometryValidity(gmlFilesPath):
+def checkZbiorGeometryValidityBeforeCreation(gmlFilesPath):
     """sprawdza integralność zbioru APP, czy np. obrysy się nie przecinają
     na podstawie listy ścieżek do plików GML"""
     geoms = []
@@ -180,8 +186,35 @@ def checkZbiorGeometryValidity(gmlFilesPath):
         path1 = a[1]
         geom2 = b[0]
         path2 = b[1]
-        if geom1.overlaps(geom2):
-            return [False, "Geometrie swóch APP w ramach jednego zbioru nie mogą na siebie nachodzić. Dotyczy plików\n\n%s\n%s" % (path1, path2)]
+        if geom1.overlaps(geom2) or geom1.equals(geom2):
+            return [False, "Geometrie swóch APP o statusie \"prawnie wiążący lub realizowany\" w ramach jednego zbioru nie mogą na siebie nachodzić. Dotyczy plików\n\n%s\n%s" % (path1, path2)]
+    return [True]
+
+
+def checkZbiorGeometryValidityOnCreatedFile(gmlSetFilePath):
+    """sprawdza integralność zbioru APP, czy np. obrysy się nie przecinają
+    na podstawie ścieżki do pliku GML zbioru APP"""
+    geoms = []
+    layer = QgsVectorLayer(gmlSetFilePath + '|layername=AktPlanowaniaPrzestrzennego', "gml", 'ogr')
+    if not layer.isValid():
+        return [False, "Niepoprawna warstwa wektorowa w pliku %s" % gmlSetFilePath]
+    if not layer.featureCount():
+        return [False, "Brak obiektów przestrzennych (APP) w pliku %s" % gmlSetFilePath]
+
+    for feat in layer.getFeatures():
+        gmlId = feat['gml_id']
+        if isAppOperative(gmlSetFilePath, gmlId=gmlId):  # jest obowiązujący - wyszukiwanie w zbiorze
+            print(feat['gml_id'], feat.geometry(), feat.geometry().area())
+            geoms.append((feat.geometry(), gmlId))
+    for a, b in itertools.combinations(geoms, 2):
+        geom1 = a[0]
+        gmlId1 = a[1]
+        geom2 = b[0]
+        gmlId2 = b[1]
+        if geom1.overlaps(geom2) or geom1.equals(geom2):
+            return [False,
+                    "Geometrie swóch APP o statusie \"prawnie wiążący lub realizowany\" w ramach jednego zbioru nie mogą na siebie nachodzić. Dotyczy APP o identyfikatorach\n\n%s\n%s" % (
+                    gmlId1, gmlId2)]
     return [True]
 
 

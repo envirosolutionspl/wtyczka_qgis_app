@@ -437,7 +437,7 @@ class AppModule(BaseModule):
                     return False
 
             # Sprawdzenie zależności geometrycznych miedzy GMLami
-            result = utils.checkZbiorGeometryValidity(gmlPaths)
+            result = utils.checkZbiorGeometryValidityBeforeCreation(gmlPaths)
             if not result[0]:  # niepoprawne zależności geometryczne
                 trescBledu = result[1]
                 self.iface.messageBar().pushCritical("Błąd geometrii zbioru:", trescBledu)

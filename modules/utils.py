@@ -509,7 +509,7 @@ def makeXML(docName, elements, formData, obrysLayer=None):
 
     # Strefa czasowa timezone jest ustawiona na sztywno
     root_data = {
-        'timeStamp': datetime.datetime.utcnow().isoformat()+'Z',
+        'timeStamp': datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%S")+'Z',
         'numberReturned': "1",
         'numberMatched': "unknown",
     }
@@ -948,7 +948,7 @@ def createXmlData(dialog, obrysLayer):  # NOWE
 
     # Strefa czasowa timezone jest ustawiona na sztywno
     root_data = {
-        'timeStamp': datetime.datetime.utcnow().isoformat()+'Z',
+        'timeStamp': datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%S")+'Z',
         'numberReturned': "1",
         'numberMatched': "unknown",
     }
@@ -1237,7 +1237,7 @@ def mergeDocsToAPP2(docList):  # Nowa wersja tworzenia APP - do dokończenia
 
     # Strefa czasowa timezone jest ustawiona na sztywno
     root_data = {
-        'timeStamp': datetime.datetime.utcnow().isoformat()+'Z',
+        'timeStamp': datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%S")+'Z',
         # liczba memberów w wfs:FeatureCollection
         'numberReturned': str(len(docList)),
         'numberMatched': "unknown",
@@ -1362,7 +1362,7 @@ def mergeDocsToAPP(docList):  # docList z getTableContent
 
     # Strefa czasowa timezone jest ustawiona na sztywno
     root_data = {
-        'timeStamp': datetime.datetime.utcnow().isoformat()+'Z',
+        'timeStamp': datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%S")+'Z',
         # liczba memberów w wfs:FeatureCollection
         'numberReturned': str(len(docList)),
         'numberMatched': "unknown",
@@ -1535,7 +1535,7 @@ def mergeDocsToAPP(docList):  # docList z getTableContent
         putElementBelow(element=aktRoot, subElementName='status',
                         newElement=newElement)
     numberReturned = str(len(docList))
-    timeStamp = datetime.datetime.utcnow().isoformat()+'Z'
+    timeStamp = datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%S")+'Z'
     APProot.attrib['timeStamp'] = timeStamp
     APProot.attrib['numberReturned'] = numberReturned
     # eksport APP
@@ -1650,7 +1650,7 @@ def mergeAppToCollection(AppFiles, set={}):
                 member[0].append(element)
         rootMain.append(member)
 
-    timeStamp = datetime.datetime.utcnow().isoformat()+'Z'
+    timeStamp = datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%S")+'Z'
     rootMain.attrib['timeStamp'] = timeStamp
     rootMain.attrib['numberReturned'] = str(numberReturned)
     # eksport APP

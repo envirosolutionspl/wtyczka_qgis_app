@@ -844,8 +844,8 @@ def getListWidgetItems(listWidget):
             elif type(item[key]) == bool:
                 continue
             else:
-                # Uwaga - dla atrybutów typu date należy usuwać "Thh:mm:ss"
-                item[key] = item[key].toString("yyyy-MM-ddThh:mm:ss")
+                # Uwaga - dla atrybutów typu date należy dodawać "Thh:mm:ss"
+                item[key] = item[key].toString("yyyy-MM-dd")
         itemList.append(item)
     return(itemList)
 

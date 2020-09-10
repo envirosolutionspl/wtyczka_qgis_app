@@ -1516,7 +1516,11 @@ def mergeDocsToAPP(docList):  # docList z getTableContent
 
     for atr in pomijane['DokumentFormalny']:
         for root in pomijane['DokumentFormalny'][atr]:
-            newItem(root=root[0][0], name=atr, link=APPrelLink, ns=ns)
+            if atr == 'przystapienie' or atr == 'uchwala':
+                newItem(root=root[0][0], name=atr,
+                        link='/'.join(APPrelLink.split('/')[:-1]), ns=ns)
+            else:
+                newItem(root=root[0][0], name=atr, link=APPrelLink, ns=ns)
 
     for atr in pomijane['DokumentFormalny']:
         for root in pomijane['DokumentFormalny'][atr]:

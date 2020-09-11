@@ -93,7 +93,20 @@ class RasterFormularzDialog(QDialogOverride, FORM_CLASS3, Formularz, ButtonsDial
         self.createForm(container=self.form_scrollArea,
                         formElements=self.formElements)
         # self.returnFormElements(self.formElements)
+
+        # blokada edycji wersjaId
+        self.wersjaId_lineEdit = utils.layout_widget_by_name(self.form_scrollArea.widget().layout(),name="wersjaId_lineEdit")
+        self.wersjaId_lineEdit.setEnabled(False)
+        self.poczatekWersjiObiektu_dateTimeEdit = utils.layout_widget_by_name(self.form_scrollArea.widget().layout(),
+                                                                              name="poczatekWersjiObiektu_dateTimeEdit")
+        # w związku z ułomnoscią QgsDateTimeEdit muszą być oba sygnały:
+        self.poczatekWersjiObiektu_dateTimeEdit.valueChanged.connect(self.updateWersjaId)
+        self.poczatekWersjiObiektu_dateTimeEdit.dateTimeChanged.connect(self.updateWersjaId)
+
         ButtonsDialog.__init__(self)
+
+    def updateWersjaId(self):
+        self.wersjaId_lineEdit.setText(self.poczatekWersjiObiektu_dateTimeEdit.dateTime().toString("yyyyMMddThhmmss"))
 
 
 class WektorInstrukcjaDialog(QDialogOverride, FORM_CLASS7, ButtonsDialog):
@@ -105,6 +118,7 @@ class WektorInstrukcjaDialog(QDialogOverride, FORM_CLASS7, ButtonsDialog):
         self.setWindowIcon(QtGui.QIcon(icon_path))
         self.setWindowFlags(Qt.WindowMinimizeButtonHint | Qt.WindowSystemMenuHint | Qt.WindowMinMaxButtonsHint | Qt.WindowCloseButtonHint)
         self.layers_comboBox.setAllowEmptyLayer(True)
+
         ButtonsDialog.__init__(self)
 
 
@@ -121,8 +135,21 @@ class WektorFormularzDialog(QDialogOverride, FORM_CLASS5, Formularz, ButtonsDial
         self.createForm(container=self.form_scrollArea,
                         formElements=self.formElements)
         # self.returnFormElements(self.formElements)
+
+        # blokada edycji wersjaId
+        self.wersjaId_lineEdit = utils.layout_widget_by_name(self.form_scrollArea.widget().layout(), name="wersjaId_lineEdit")
+        self.wersjaId_lineEdit.setEnabled(False)
+
+        self.poczatekWersjiObiektu_dateTimeEdit = utils.layout_widget_by_name(self.form_scrollArea.widget().layout(),
+                                                                              name="poczatekWersjiObiektu_dateTimeEdit")
+        # w związku z ułomnoscią QgsDateTimeEdit muszą być oba sygnały:
+        self.poczatekWersjiObiektu_dateTimeEdit.valueChanged.connect(self.updateWersjaId)
+        self.poczatekWersjiObiektu_dateTimeEdit.dateTimeChanged.connect(self.updateWersjaId)
+
         ButtonsDialog.__init__(self)
 
+    def updateWersjaId(self):
+        self.wersjaId_lineEdit.setText(self.poczatekWersjiObiektu_dateTimeEdit.dateTime().toString("yyyyMMddThhmmss"))
 
 class DokumentyFormularzDialog(QDialogOverride, FORM_CLASS4, Formularz, ButtonsDialog):
     def __init__(self, parent=None):
@@ -158,3 +185,4 @@ class GenerowanieGMLDialog(QDialogOverride, FORM_CLASS6, ButtonsDialog):
         self.setWindowIcon(QtGui.QIcon(icon_path))
         self.setWindowFlags(Qt.WindowMinimizeButtonHint | Qt.WindowSystemMenuHint | Qt.WindowMinMaxButtonsHint | Qt.WindowCloseButtonHint)
         ButtonsDialog.__init__(self)
+

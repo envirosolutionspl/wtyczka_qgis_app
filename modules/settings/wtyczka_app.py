@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 from . import (UstawieniaDialog, PomocDialog, ustawieniaDialog, PLUGIN_VERSION)
 from .. import BaseModule, dictionaries
-from ..utils import showPopup, getWidgetByName, settingsValidateDatasetId, validate_IIP
+from ..utils import showPopup, getWidgetByName, settingsValidateDatasetId, validate_IIP, validateEmailAddress
 from ..metadata import SmtpDialog, CswDialog
 from qgis.PyQt import QtWidgets
-from PyQt5.QtWidgets import QFileDialog, QTableWidgetItem
+from PyQt5.QtWidgets import QFileDialog, QTableWidgetItem, QMessageBox
 from PyQt5.QtCore import Qt, QVariant, QRegExp
 from qgis.core import QgsSettings
 import os
@@ -35,7 +35,7 @@ class SettingsModule(BaseModule):
 
         self.ustawieniaDialog.folder_btn.clicked.connect(
             self.folder_btn_clicked)
-        self.ustawieniaDialog.save_btn.clicked.connect(self.validate_settings)
+        self.ustawieniaDialog.save_btn.clicked.connect(self.save_btn_clicked)
         self.ustawieniaDialog.smtp_btn.clicked.connect(self.smtp_btn_clicked)
         self.ustawieniaDialog.csw_btn.clicked.connect(self.csw_btn_clicked)
 
@@ -58,35 +58,46 @@ class SettingsModule(BaseModule):
             self.ustawieniaDialog.folder_lbl.setText(path)
 
     def validate_settings(self):
-
-        # if settingsValidateDatasetId(self.ustawieniaDialog.przestrzenNazw_lineEdit.text()):
-        if self.ustawieniaDialog.przestrzenNazw_lineEdit.text() == '' or validate_IIP(self.ustawieniaDialog.przestrzenNazw_lineEdit.text()):
-            self.save_btn_clicked()
-            showPopup('Ustawienia', 'Ustawienia zostały zapisane.\n\nWyłącz i włącz program QGIS lub użyj wtyczki "Plugin Reloader" w celu zastosowania zmian.')
+        bledy = []
+        if not (self.ustawieniaDialog.przestrzenNazw_lineEdit.text() == '' or validate_IIP(self.ustawieniaDialog.przestrzenNazw_lineEdit.text())):  # walidacja idIPP
+            bledy.append('- Błędna wartość dla pola przestrzenNazw.')
+        if not (self.ustawieniaDialog.contactMail_lineEdit.text() == '' or validateEmailAddress(self.ustawieniaDialog.contactMail_lineEdit.text())):
+            bledy.append('- Błędna wartość dla adresu email domyślnego punktu kontaktowego.')
+        if not (self.ustawieniaDialog.adminMail_lineEdit.text() == '' or validateEmailAddress(self.ustawieniaDialog.adminMail_lineEdit.text())):
+            bledy.append('- Błędna wartość dla adresu email administratora danych.')
+        if bledy:
+            return (False, '\n\n'.join(bledy))
         else:
-            showPopup(
-                'Ustawienia', 'Ustawienia nie zostały zapisane.\nBłędna wartość dla pola przestrzenNazw.')
+            return [True]
+
 
     def save_btn_clicked(self):
-        s = QgsSettings()
-        s.setValue("qgis_app/settings/defaultPath",
-                   self.ustawieniaDialog.folder_lbl.text())
-        s.setValue("qgis_app/settings/contactName",
-                   self.ustawieniaDialog.contactName_lineEdit.text())
-        s.setValue("qgis_app/settings/contactMail",
-                   self.ustawieniaDialog.contactMail_lineEdit.text())
-        s.setValue("qgis_app/settings/adminName",
-                   self.ustawieniaDialog.adminName_lineEdit.text())
-        s.setValue("qgis_app/settings/adminMail",
-                   self.ustawieniaDialog.adminMail_lineEdit.text())
-        s.setValue("qgis_app/settings/przestrzenNazw",
-                   self.ustawieniaDialog.przestrzenNazw_lineEdit.text())
-        s.setValue("qgis_app/settings/numerZbioru",
-                   self.ustawieniaDialog.numerZbioru_lineEdit.text())
-        s.setValue("qgis_app/settings/jpt",
-                   self.ustawieniaDialog.jpt_lineEdit.text())
-        s.setValue("qgis_app/settings/rodzajZbioru",
-                   self.ustawieniaDialog.rodzajZbioru_comboBox.currentText())  # COMBOBOX
+        valResult = self.validate_settings()
+        if valResult[0]:
+            s = QgsSettings()
+            s.setValue("qgis_app/settings/defaultPath",
+                       self.ustawieniaDialog.folder_lbl.text())
+            s.setValue("qgis_app/settings/contactName",
+                       self.ustawieniaDialog.contactName_lineEdit.text())
+            s.setValue("qgis_app/settings/contactMail",
+                       self.ustawieniaDialog.contactMail_lineEdit.text())
+            s.setValue("qgis_app/settings/adminName",
+                       self.ustawieniaDialog.adminName_lineEdit.text())
+            s.setValue("qgis_app/settings/adminMail",
+                       self.ustawieniaDialog.adminMail_lineEdit.text())
+            s.setValue("qgis_app/settings/przestrzenNazw",
+                       self.ustawieniaDialog.przestrzenNazw_lineEdit.text())
+            s.setValue("qgis_app/settings/numerZbioru",
+                       self.ustawieniaDialog.numerZbioru_lineEdit.text())
+            s.setValue("qgis_app/settings/jpt",
+                       self.ustawieniaDialog.jpt_lineEdit.text())
+            s.setValue("qgis_app/settings/rodzajZbioru",
+                       self.ustawieniaDialog.rodzajZbioru_comboBox.currentText())  # COMBOBOX
+            showPopup('Ustawienia zapisane pomyślnie',
+                      'Ustawienia zostały zapisane.\n\nWyłącz i włącz program QGIS lub użyj wtyczki "Plugin Reloader" w celu zastosowania zmian.',
+                      icon=QMessageBox.Information)
+        else:   # błędy walidacji
+            showPopup('Błąd zapisu ustawień', 'Ustawienia nie zostały zapisane z następujących powodów:\n\n%s' % valResult[1], icon=QMessageBox.Warning)
 
     def preparePrzestrzenNazw(self):
         def updatePrzestrzenNazw():

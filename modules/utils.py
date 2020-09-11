@@ -43,7 +43,7 @@ def validateDatasetUri(datasetUri):
 
 def validateEmailAddress(email):
     """sprawdza czy adres email ma poprawną formę"""
-    pattern = r'[a-zA-Z0-9_\-+]+@[a-zA-Z0-9\-\.]+.[a-zA-Z0-9]{2,10}'
+    pattern = r'[a-zA-Z0-9_\-+\.]+@[a-zA-Z0-9\-\.]+.[a-zA-Z]{2,10}'
     return True if re.fullmatch(pattern, email) else False
 
 

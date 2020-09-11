@@ -23,31 +23,36 @@ def appGmlToMetadataElementDict(gmlPath):
 
     # E1
     element = root.find('//app:AktPlanowaniaPrzestrzennego/app:typPlanu', ns)
-    typPlanu = element.attrib['{%s}title' % ns['xlink']].replace('plan', 'planu')
-    metadataElementDict['e1'] = {'e1_lineEdit': "Zbiór danych przestrzennych dla %s <typ_jednostki> <nazwa_jednostki>" % typPlanu}
+    typPlanu = element.attrib['{%s}title' %
+                              ns['xlink']].replace('plan', 'planu')
+    metadataElementDict['e1'] = {
+        'e1_lineEdit': "Zbiór danych przestrzennych dla %s <typ_jednostki> <nazwa_jednostki>" % typPlanu}
 
     # E5
-    date = root.find('//app:AktPlanowaniaPrzestrzennego//app:przestrzenNazw', ns)
+    date = root.find(
+        '//app:AktPlanowaniaPrzestrzennego//app:przestrzenNazw', ns)
     metadataElementDict['e5'] = [{'e5_lineEdit': date.text}]
 
     # E7 - kodowanie z nagłówka GML
     with open(gmlPath, 'r') as file:
         line = file.readlines(1)[0]
         line.replace("'", '"')
-        encoding = re.search('encoding="[a-zA-Z0-9\-]{3,10}"', line)[0].split("=")[-1].strip('"').replace(' ', '').replace('-', '').lower()
+        encoding = re.search('encoding="[a-zA-Z0-9\-]{3,10}"', line)[0].split(
+            "=")[-1].strip('"').replace(' ', '').replace('-', '').lower()
         if encoding == 'usascii':
             encoding = 'usAscii'
         metadataElementDict['e7'] = [{'e7_cmbbx': encoding}]
 
     # E9, E10 - słowa kluczowe
     itemsList = []
-    date = root.find('//app:AktPlanowaniaPrzestrzennego/app:poziomHierarchii', ns)
+    date = root.find(
+        '//app:AktPlanowaniaPrzestrzennego/app:poziomHierarchii', ns)
     atrybut_title = date.attrib['{%s}title' % ns['xlink']]
     atrybut_href = date.attrib['{%s}href' % ns['xlink']]
 
     tekst = 'Regionalnym' if atrybut_title == 'regionalny' else 'Lokalne'
 
-    #poziom administracyjny
+    # poziom administracyjny
     itemsList.append({
         'e9_lineEdit': tekst,
         'e10_cmbbx': 'Data opublikowania',
@@ -70,14 +75,17 @@ def appGmlToMetadataElementDict(gmlPath):
     metadataElementDict['e9'] = itemsList
 
     # E11
-    layer = QgsVectorLayer(gmlPath + '|layername=AktPlanowaniaPrzestrzennego', "gml",  'ogr')
+    layer = QgsVectorLayer(
+        gmlPath + '|layername=AktPlanowaniaPrzestrzennego', "gml",  'ogr')
     if layer:
         sourceCrs = layer.crs()
         extent = layer.extent()
         crsDest = QgsCoordinateReferenceSystem(4326)  # WGS84
-        xform = QgsCoordinateTransform(sourceCrs, crsDest, QgsProject.instance())
+        xform = QgsCoordinateTransform(
+            sourceCrs, crsDest, QgsProject.instance())
         extent84 = xform.transform(extent)
-        metadataElementDict['e11'] = [{'e11_lineEdit': '%s,%s,%s,%s' % (extent84.yMinimum(), extent84.yMaximum(), extent84.xMinimum(), extent84.xMaximum())}]
+        metadataElementDict['e11'] = [{'e11_lineEdit': '%s,%s,%s,%s' % (
+            extent84.yMinimum(), extent84.yMaximum(), extent84.xMinimum(), extent84.xMaximum())}]
 
     # E12
     itemsList = []
@@ -101,7 +109,6 @@ def appGmlToMetadataElementDict(gmlPath):
             itemsList.append({'e16_lineEdit': rozdzielczosc.text})
     metadataElementDict['e16'] = itemsList
 
-
     # E18 i E19 i E24 i E25
     itemsList = []
     inspire1 = "Rozporządzenie Komisji (UE) Nr 1089/2010 z dnia 23 listopada 2010 r. w sprawie wykonania dyrektywy 2007/2/WE Parlamentu Europejskiego i Rady w zakresie interoperacyjności zbiorów i usług danych przestrzennych"
@@ -109,10 +116,10 @@ def appGmlToMetadataElementDict(gmlPath):
     krajowy1 = "Rozporządzenie Ministra Rozwoju w sprawie zbiorów danych przestrzennych oraz metadanych w zakresie zagospodarowania przestrzennego"
     krajowy2 = "Planowanie przestrzenne: Specyfikacja danych"
 
-
     ifKrajowy = False
     ifInspire = False
-    namespaces = dict([node for _, node in ET.iterparse(gmlPath, events=['start-ns'])])
+    namespaces = dict(
+        [node for _, node in ET.iterparse(gmlPath, events=['start-ns'])])
     for v in namespaces.values():
         if 'zagospodarowanieprzestrzenne.gov.pl' in v:
             ifKrajowy = True
@@ -141,7 +148,8 @@ def appGmlToMetadataElementDict(gmlPath):
     # E18 i E19 krajowy1
     itemsList.append({
         'e18_lineEdit': krajowy1,
-        'e18_dateTimeEdit': QDateTime(2020, 12, 31, 0, 0),  #TODO: uaktualnić po publikacji
+        # TODO: uaktualnić po publikacji
+        'e18_dateTimeEdit': QDateTime(2020, 12, 31, 0, 0),
         'e18_cmbbx': 'Data opublikowania',
         'e19_cmbbx': 'Zgodny (conformant)' if ifKrajowy else 'Niezgodny (notConformant)',
         'xlink': "http://anyURL/sejm"   # TODO: uaktualnić po publikacji
@@ -149,7 +157,8 @@ def appGmlToMetadataElementDict(gmlPath):
     # E18 i E19 krajowy2
     itemsList.append({
         'e18_lineEdit': krajowy2,
-        'e18_dateTimeEdit': QDateTime(2020, 12, 31, 0, 0),  # TODO: uaktualnić po publikacji
+        # TODO: uaktualnić po publikacji
+        'e18_dateTimeEdit': QDateTime(2020, 12, 31, 0, 0),
         'e18_cmbbx': 'Data opublikowania',
         'e19_cmbbx': 'Zgodny (conformant)' if ifKrajowy else 'Niezgodny (notConformant)',
         'xlink': "http://anyURL/sejm"   # TODO: uaktualnić po publikacji

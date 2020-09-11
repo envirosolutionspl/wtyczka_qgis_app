@@ -4,7 +4,8 @@
 Okna dialogowe modułu Metadata
  ***************************************************************************/
 """
-from .. import QDialogOverride, ButtonsDialog, utils, dictionaries
+from .. import utils, dictionaries
+from ..base_dialogs import CloseMessageDialog, ButtonsDialog
 from . import mail, csw, metadataElementDictToForm, formToMetadataElementDict
 from .metadata_form_initializer import initializeMetadataForm
 import os, re
@@ -169,7 +170,7 @@ class SmtpDialog(QtWidgets.QDialog, FORM_CLASS2, SendFileDialog):
             utils.showPopup("Błąd formularza", msg, QMessageBox.Warning)
 
 
-class MetadaneDialog(QDialogOverride, FORM_CLASS, ButtonsDialog):
+class MetadaneDialog(CloseMessageDialog, FORM_CLASS, ButtonsDialog):
     def __init__(self, parent=None):
         """Constructor."""
         super(MetadaneDialog, self).__init__(parent)

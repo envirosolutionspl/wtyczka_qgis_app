@@ -6,18 +6,13 @@ Okna dialogowe modułu APP
 """
 
 import os
-import sys
-import time
 
-import PyQt5
-from PyQt5.QtWidgets import *
-
-from qgis.PyQt.QtCore import Qt, QRegExp, QSize
+from qgis.PyQt.QtCore import Qt
 from qgis.PyQt import uic, QtGui
-from PyQt5.QtXmlPatterns import *
-from qgis.gui import QgsDateTimeEdit, QgsFilterLineEdit
-from .. import QDialogOverride, ButtonsDialog, utils, Formularz
-from ..models import FormElement
+
+from .. import utils, Formularz
+from ..base_dialogs import CloseMessageDialog, ButtonsDialog
+
 
 
 title_question = 'Praca z APP / zbiorem APP'
@@ -43,7 +38,7 @@ FORM_CLASS7, _ = uic.loadUiType(os.path.join(
     os.path.dirname(__file__), 'views', 'ui', 'wektor_instrukcja_dialog_base.ui'))
 
 
-class PytanieAppDialog(QDialogOverride, FORM_CLASS, ButtonsDialog):
+class PytanieAppDialog(CloseMessageDialog, FORM_CLASS, ButtonsDialog):
     def __init__(self, parent=None):
         """Constructor."""
         super(PytanieAppDialog, self).__init__(parent)
@@ -57,7 +52,7 @@ class PytanieAppDialog(QDialogOverride, FORM_CLASS, ButtonsDialog):
         # self.app_btn.clicked.connect(self.close)
 
 
-class ZbiorPrzygotowanieDialog(QDialogOverride, FORM_CLASS1, ButtonsDialog):
+class ZbiorPrzygotowanieDialog(CloseMessageDialog, FORM_CLASS1, ButtonsDialog):
     def __init__(self, parent=None):
         """Constructor."""
         super(ZbiorPrzygotowanieDialog, self).__init__(parent)
@@ -69,7 +64,7 @@ class ZbiorPrzygotowanieDialog(QDialogOverride, FORM_CLASS1, ButtonsDialog):
         ButtonsDialog.__init__(self)
 
 
-class RasterInstrukcjaDialog(QDialogOverride, FORM_CLASS2, ButtonsDialog):
+class RasterInstrukcjaDialog(CloseMessageDialog, FORM_CLASS2, ButtonsDialog):
     def __init__(self, parent=None):
         """Constructor."""
         super(RasterInstrukcjaDialog, self).__init__(parent)
@@ -80,7 +75,7 @@ class RasterInstrukcjaDialog(QDialogOverride, FORM_CLASS2, ButtonsDialog):
         ButtonsDialog.__init__(self)
 
 
-class RasterFormularzDialog(QDialogOverride, FORM_CLASS3, Formularz, ButtonsDialog):
+class RasterFormularzDialog(CloseMessageDialog, FORM_CLASS3, Formularz, ButtonsDialog):
     def __init__(self, parent=None):
         """Constructor."""
         super(RasterFormularzDialog, self).__init__(parent)
@@ -109,7 +104,7 @@ class RasterFormularzDialog(QDialogOverride, FORM_CLASS3, Formularz, ButtonsDial
         self.wersjaId_lineEdit.setText(self.poczatekWersjiObiektu_dateTimeEdit.dateTime().toString("yyyyMMddThhmmss"))
 
 
-class WektorInstrukcjaDialog(QDialogOverride, FORM_CLASS7, ButtonsDialog):
+class WektorInstrukcjaDialog(CloseMessageDialog, FORM_CLASS7, ButtonsDialog):
     def __init__(self, parent=None):
         """Constructor."""
         super(WektorInstrukcjaDialog, self).__init__(parent)
@@ -122,7 +117,7 @@ class WektorInstrukcjaDialog(QDialogOverride, FORM_CLASS7, ButtonsDialog):
         ButtonsDialog.__init__(self)
 
 
-class WektorFormularzDialog(QDialogOverride, FORM_CLASS5, Formularz, ButtonsDialog):
+class WektorFormularzDialog(CloseMessageDialog, FORM_CLASS5, Formularz, ButtonsDialog):
     def __init__(self, parent=None):
         """Constructor."""
         super(WektorFormularzDialog, self).__init__(parent)
@@ -151,7 +146,7 @@ class WektorFormularzDialog(QDialogOverride, FORM_CLASS5, Formularz, ButtonsDial
     def updateWersjaId(self):
         self.wersjaId_lineEdit.setText(self.poczatekWersjiObiektu_dateTimeEdit.dateTime().toString("yyyyMMddThhmmss"))
 
-class DokumentyFormularzDialog(QDialogOverride, FORM_CLASS4, Formularz, ButtonsDialog):
+class DokumentyFormularzDialog(CloseMessageDialog, FORM_CLASS4, Formularz, ButtonsDialog):
     def __init__(self, parent=None):
         """Constructor."""
         super(DokumentyFormularzDialog, self).__init__(parent)
@@ -176,7 +171,7 @@ class DokumentyFormularzDialog(QDialogOverride, FORM_CLASS4, Formularz, ButtonsD
         ButtonsDialog.__init__(self)
 
 
-class GenerowanieGMLDialog(QDialogOverride, FORM_CLASS6, ButtonsDialog):
+class GenerowanieGMLDialog(CloseMessageDialog, FORM_CLASS6, ButtonsDialog):
     def __init__(self, parent=None):
         """Constructor."""
         super(GenerowanieGMLDialog, self).__init__(parent)

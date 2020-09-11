@@ -37,6 +37,7 @@ from .modules.settings.wtyczka_app import SettingsModule
 from .modules.utils import showPopup
 from .modules.validator import validator
 from .modules import utils
+from .modules.base_dialogs import CloseMessageDialog
 
 
 PLUGIN_NAME = 'Wtyczka APP'
@@ -58,6 +59,13 @@ class WtyczkaAPP(AppModule, MetadataModule, ValidatorModule, SettingsModule):
         # initialize plugin directory
         self.plugin_dir = os.path.dirname(__file__)
 
+        # zamykane okna do czyszczenia
+        self.closableWindows = []
+        for dialogObject in vars(self).values():
+            if isinstance(dialogObject, CloseMessageDialog):
+                self.closableWindows.append(dialogObject)
+        for dialogObject in self.closableWindows:
+            dialogObject.closed.connect(self.clearFormsOnClose)
 
         # Declare instance attributes
         self.actions = []
@@ -73,6 +81,20 @@ class WtyczkaAPP(AppModule, MetadataModule, ValidatorModule, SettingsModule):
         # inicjacja walidatorów
         self.prepareXsdForApp()
         self.prepareXsdForMetadata()
+
+    def clearFormsOnClose(self):
+        """czyści formularze przy zamknięciu"""
+        for dialogObject in self.closableWindows:
+            # czyszczenie formularzy danych (APP)
+            try:
+                dialogObject.clearForm(dialogObject.form_scrollArea)
+            except AttributeError:
+                pass
+            # # czyszczenie formularza metadanych
+            # try:
+            #     dialogObject.clearForm_btn_clicked()
+            # except AttributeError:
+            #     pass
 
     def createValidator(self, task):
         QgsMessageLog.logMessage('walidator start')

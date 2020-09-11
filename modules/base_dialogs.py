@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from . import utils
 from PyQt5.QtWidgets import *
-from PyQt5.QtCore import Qt, QSize
+from PyQt5.QtCore import Qt, QSize, pyqtSignal
 from PyQt5.QtGui import QIcon
 from .utils import showPopup
 from qgis.core import QgsApplication
@@ -9,7 +9,7 @@ from .settings import ustawieniaDialog, pomocDialog
 
 
 class ButtonsDialog:
-
+    """Okno z klawiszami - przejścia do ustawień"""
     def __init__(self):
         vLayout = self.layout().itemAt(0)
 
@@ -42,33 +42,21 @@ class ButtonsDialog:
 
 
 class CloseMessageDialog(QDialog):
+    """Klasa bazowa definiująca zamykanie okna wtyczki"""
+    closed = pyqtSignal()
+
     def closeEvent(self, event):
         if self.sender() is None:
             reply = QMessageBox.question(self, 'Opuszczanie wtyczki APP',
                                          "Jesteś pewien, że chcesz opuścić wtyczkę?", QMessageBox.Yes |
                                          QMessageBox.No, QMessageBox.No)
             if reply == QMessageBox.Yes:
-                self.clearOnClose()
+                # emituje sygnał zamknięcia
+                self.closed.emit()
                 event.accept()
             else:
                 event.ignore()
 
-    def clearOnClose(self):
-        # czyszczenie formularzy APP
-        print('---')
-        # for name, value in globals().items():
-        #     if isinstance(value, someclass):
-        #         print(name, value)
-        print('---')
-        try:
-            self.clearForm(self.form_scrollArea)
-        except AttributeError:
-            pass
-        # # czyszczenie formularza metadanych
-        # try:
-        #     self.clearForm_btn_clicked()
-        # except AttributeError:
-        #     pass
 
 class BaseModule:
     """Klasa bazowa dla wszystkich modułów wtyczka_app.py"""

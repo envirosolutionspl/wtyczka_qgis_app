@@ -157,7 +157,8 @@ def isAppOperative(gmlPath, gmlId=None):
     root = ET.parse(gmlPath).getroot()
 
     if gmlId is not None:   # w przypadku sprawdzania konkretnego Id w zbiorze
-        app = root.find('wfs:member/app:AktPlanowaniaPrzestrzennego[@gml:id="%s"]' % gmlId, ns)
+        app = root.find(
+            'wfs:member/app:AktPlanowaniaPrzestrzennego[@gml:id="%s"]' % gmlId, ns)
         statusElement = app.find('./app:status', ns)
     else:   # w przypadku sprawdzania pliku APP (nie zbioru)
         statusElement = root.find(statusPath, ns)
@@ -195,7 +196,8 @@ def checkZbiorGeometryValidityOnCreatedFile(gmlSetFilePath):
     """sprawdza integralność zbioru APP, czy np. obrysy się nie przecinają
     na podstawie ścieżki do pliku GML zbioru APP"""
     geoms = []
-    layer = QgsVectorLayer(gmlSetFilePath + '|layername=AktPlanowaniaPrzestrzennego', "gml", 'ogr')
+    layer = QgsVectorLayer(
+        gmlSetFilePath + '|layername=AktPlanowaniaPrzestrzennego', "gml", 'ogr')
     if not layer.isValid():
         return [False, "Niepoprawna warstwa wektorowa w pliku %s" % gmlSetFilePath]
     if not layer.featureCount():
@@ -203,7 +205,8 @@ def checkZbiorGeometryValidityOnCreatedFile(gmlSetFilePath):
 
     for feat in layer.getFeatures():
         gmlId = feat['gml_id']
-        if isAppOperative(gmlSetFilePath, gmlId=gmlId):  # jest obowiązujący - wyszukiwanie w zbiorze
+        # jest obowiązujący - wyszukiwanie w zbiorze
+        if isAppOperative(gmlSetFilePath, gmlId=gmlId):
             print(feat['gml_id'], feat.geometry(), feat.geometry().area())
             geoms.append((feat.geometry(), gmlId))
     for a, b in itertools.combinations(geoms, 2):
@@ -214,7 +217,7 @@ def checkZbiorGeometryValidityOnCreatedFile(gmlSetFilePath):
         if geom1.overlaps(geom2) or geom1.equals(geom2):
             return [False,
                     "Geometrie swóch APP o statusie \"prawnie wiążący lub realizowany\" w ramach jednego zbioru nie mogą na siebie nachodzić. Dotyczy APP o identyfikatorach\n\n%s\n%s" % (
-                    gmlId1, gmlId2)]
+                        gmlId1, gmlId2)]
     return [True]
 
 
@@ -602,9 +605,9 @@ def makeXML(docName, elements, formData, obrysLayer=None):
                             try:
                                 # TODO Sprawdzić dla wszystkich formularzy
                                 if element.name == 'typPlanu':
-                                    link = 'http://zagospodarowanieprzestrzenne.gov.pl/codelist/AktPlanowaniaPrzestrzennegoKod/'
+                                    link = 'https://www.gov.pl/static/zagospodarowanieprzestrzenne/codelist/TypAktuPlanowaniaPrzestrzennegoKod/'
                                 elif element.name == 'dziennikUrzedowy':
-                                    link = 'http://zagospodarowanieprzestrzenne.gov.pl/codelist/DziennikUrzedowyKod/'
+                                    link = 'https://www.gov.pl/static/zagospodarowanieprzestrzenne/codelist/DziennikUrzedowyKod/'
                                 else:
                                     link = ''
                                 if 'http' in (link+slownik[formData[fd]]):
@@ -1025,9 +1028,9 @@ def createXmlData(dialog, obrysLayer):  # NOWE
         if fe.name in dict_map.keys():
             slownik = dict_map[fe.name]  # sprawdzać też na innerElements
         if fe.name == 'typPlanu':
-            link = 'http://zagospodarowanieprzestrzenne.gov.pl/codelist/AktPlanowaniaPrzestrzennegoKod/'
+            link = 'https://www.gov.pl/static/zagospodarowanieprzestrzenne/codelist/TypAktuPlanowaniaPrzestrzennegoKod/'
         elif fe.name == 'dziennikUrzedowy':
-            link = 'http://zagospodarowanieprzestrzenne.gov.pl/codelist/DziennikUrzedowyKod/'
+            link = 'https://www.gov.pl/static/zagospodarowanieprzestrzenne/codelist/DziennikUrzedowyKod/'
         else:
             link = ''
         if fe.name == 'idIIP':

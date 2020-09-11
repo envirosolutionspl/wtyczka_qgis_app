@@ -881,16 +881,24 @@ class AppModule(BaseModule):
                 if utils.checkForNoDateValue(formElement1.refObject):
                     return
                 dateValue = formElement1.refObject.text()
-                date_time_obj = datetime.datetime.strptime(
-                    dateValue, '%d.%m.%Y')
+                try:
+                    date_time_obj = datetime.datetime.strptime(
+                        dateValue, '%d.%m.%Y')
+                except:
+                    date_time_obj = datetime.datetime.strptime(
+                        dateValue, '%Y-%m-%d')
                 str_date = date_time_obj.strftime("%Y-%m-%d")
                 utils.setValueToWidget(formElement2, str_date)
             elif formElement1.type == 'dateTime':
                 if utils.checkForNoDateValue(formElement1.refObject):
                     return
                 dateValue = formElement1.refObject.text()
-                date_time_obj = datetime.datetime.strptime(
-                    dateValue, '%d.%m.%Y %H:%M')
+                try:
+                    date_time_obj = datetime.datetime.strptime(
+                        dateValue, '%d.%m.%Y %H:%M')
+                except:
+                    date_time_obj = datetime.datetime.strptime(
+                        dateValue, '%Y-%m-%d %H:%M')
                 str_date = date_time_obj.strftime("%Y-%m-%dT%H:%M")+':00'
                 utils.setValueToWidget(formElement2, str_date)
 

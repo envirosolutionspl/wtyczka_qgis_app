@@ -178,7 +178,7 @@ class Formularz:
                     if isinstance(formItem, QLineEdit):
                         formItem.setText(data[formItem.objectName()])
                     elif isinstance(formItem, QDateTimeEdit):
-                        formItem.setDateTime(data[formItem.objectName()])
+                        formItem.setDate(data[formItem.objectName()])
                     elif isinstance(formItem, QCheckBox):
                         formItem.setChecked(data[formItem.objectName()])
                     elif isinstance(formItem, QComboBox):

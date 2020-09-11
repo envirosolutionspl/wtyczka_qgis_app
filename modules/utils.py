@@ -143,7 +143,7 @@ def validate_IIP(przestrzenNazw):
 def isAppOperative(gmlPath, gmlId=None):
     """sprawdza czy zbiór APP jest obowiązującym zbiorem"""
     ns = {'xsi': "http://www.w3.org/2001/XMLSchema",
-          'app': "https://www.gov.pl/static/zagospodarowanieprzestrzenne/schemas/app/1.0",
+          'app': "http://zagospodarowanieprzestrzenne.gov.pl/schemas/app/1.0",
           'gmd': "http://www.isotc211.org/2005/gmd",
           'gco': 'http://www.isotc211.org/2005/gco',
           'xlink': 'http://www.w3.org/1999/xlink',
@@ -234,7 +234,7 @@ def createFormElements(attribute):
                        'validator', 'planowaniePrzestrzenne.xsd')
 
     ns = {'glowny': "http://www.w3.org/2001/XMLSchema",
-          'app': "https://www.gov.pl/static/zagospodarowanieprzestrzenne/schemas/app/1.0",
+          'app': "http://zagospodarowanieprzestrzenne.gov.pl/schemas/app/1.0",
           'gmd': "http://www.isotc211.org/2005/gmd",
           'gml': "http://www.opengis.net/gml/3.2",
           'gmlexr': "http://www.opengis.net/gml/3.3/exr"}
@@ -557,8 +557,8 @@ def makeXML(docName, elements, formData, obrysLayer=None):
         'xmlns:wfs': "http://www.opengis.net/wfs/2.0",
         'xmlns:xlink': "http://www.w3.org/1999/xlink",
         'xmlns:xsi': "http://www.w3.org/2001/XMLSchema-instance",
-        'xmlns:app': "https://www.gov.pl/static/zagospodarowanieprzestrzenne/schemas/app/1.0",
-        'xsi:schemaLocation': "https://www.gov.pl/static/zagospodarowanieprzestrzenne/schemas/app/1.0 ../appSchema/appSchema_app_v0_0_1/planowaniePrzestrzenne.xsd http://www.opengis.net/gml/3.2 http://schemas.opengis.net/gml/3.2.1/gml.xsd http://www.opengis.net/wfs/2.0 http://schemas.opengis.net/wfs/2.0/wfs.xsd"
+        'xmlns:app': "http://zagospodarowanieprzestrzenne.gov.pl/schemas/app/1.0",
+        'xsi:schemaLocation': "http://zagospodarowanieprzestrzenne.gov.pl/schemas/app/1.0 ../appSchema/appSchema_app_v0_0_1/planowaniePrzestrzenne.xsd http://www.opengis.net/gml/3.2 http://schemas.opengis.net/gml/3.2.1/gml.xsd http://www.opengis.net/wfs/2.0 http://schemas.opengis.net/wfs/2.0/wfs.xsd"
     }
     # create the file structure
     data = ET.Element('wfs:FeatureCollection')
@@ -997,8 +997,8 @@ def createXmlData(dialog, obrysLayer):  # NOWE
         'xmlns:wfs': "http://www.opengis.net/wfs/2.0",
         'xmlns:xlink': "http://www.w3.org/1999/xlink",
         'xmlns:xsi': "http://www.w3.org/2001/XMLSchema-instance",
-        'xmlns:app': "https://www.gov.pl/static/zagospodarowanieprzestrzenne/schemas/app/1.0",
-        'xsi:schemaLocation': "https://www.gov.pl/static/zagospodarowanieprzestrzenne/schemas/app/1.0 ../appSchema/appSchema_app_v0_0_1/planowaniePrzestrzenne.xsd http://www.opengis.net/gml/3.2 http://schemas.opengis.net/gml/3.2.1/gml.xsd http://www.opengis.net/wfs/2.0 http://schemas.opengis.net/wfs/2.0/wfs.xsd"
+        'xmlns:app': "http://zagospodarowanieprzestrzenne.gov.pl/schemas/app/1.0",
+        'xsi:schemaLocation': "http://zagospodarowanieprzestrzenne.gov.pl/schemas/app/1.0 ../appSchema/appSchema_app_v0_0_1/planowaniePrzestrzenne.xsd http://www.opengis.net/gml/3.2 http://schemas.opengis.net/gml/3.2.1/gml.xsd http://www.opengis.net/wfs/2.0 http://schemas.opengis.net/wfs/2.0/wfs.xsd"
     }
     # create the file structure
     data = ET.Element('wfs:FeatureCollection')
@@ -1262,7 +1262,7 @@ def mergeDocsToAPP2(docList):  # Nowa wersja tworzenia APP - do dokończenia
 
     ns = {
         'xsi': "http://www.w3.org/2001/XMLSchema",
-        'app': "https://www.gov.pl/static/zagospodarowanieprzestrzenne/schemas/app/1.0",
+        'app': "http://zagospodarowanieprzestrzenne.gov.pl/schemas/app/1.0",
         'gmd': "http://www.isotc211.org/2005/gmd",
         'gco': 'http://www.isotc211.org/2005/gco',
         'xlink': 'http://www.w3.org/1999/xlink',
@@ -1290,8 +1290,8 @@ def mergeDocsToAPP2(docList):  # Nowa wersja tworzenia APP - do dokończenia
         'xmlns:wfs': "http://www.opengis.net/wfs/2.0",
         'xmlns:xlink': "http://www.w3.org/1999/xlink",
         'xmlns:xsi': "http://www.w3.org/2001/XMLSchema-instance",
-        'xmlns:app': "https://www.gov.pl/static/zagospodarowanieprzestrzenne/schemas/app/1.0",
-        'xsi:schemaLocation': "https://www.gov.pl/static/zagospodarowanieprzestrzenne/schemas/app/1.0 ../appSchema/appSchema_app_v0_0_1/planowaniePrzestrzenne.xsd http://www.opengis.net/gml/3.2 http://schemas.opengis.net/gml/3.2.1/gml.xsd http://www.opengis.net/wfs/2.0 http://schemas.opengis.net/wfs/2.0/wfs.xsd"
+        'xmlns:app': "http://zagospodarowanieprzestrzenne.gov.pl/schemas/app/1.0",
+        'xsi:schemaLocation': "http://zagospodarowanieprzestrzenne.gov.pl/schemas/app/1.0 ../appSchema/appSchema_app_v0_0_1/planowaniePrzestrzenne.xsd http://www.opengis.net/gml/3.2 http://schemas.opengis.net/gml/3.2.1/gml.xsd http://www.opengis.net/wfs/2.0 http://schemas.opengis.net/wfs/2.0/wfs.xsd"
     }
 
     # create the file structure
@@ -1387,7 +1387,7 @@ def mergeDocsToAPP(docList):  # docList z getTableContent
     # Dodać liczbę zwracanych obiektów 'numberReturned': str(len(docList))
     ns = {
         'xsi': "http://www.w3.org/2001/XMLSchema",
-        'app': "https://www.gov.pl/static/zagospodarowanieprzestrzenne/schemas/app/1.0",
+        'app': "http://zagospodarowanieprzestrzenne.gov.pl/schemas/app/1.0",
         'gmd': "http://www.isotc211.org/2005/gmd",
         'gco': 'http://www.isotc211.org/2005/gco',
         'xlink': 'http://www.w3.org/1999/xlink',
@@ -1415,8 +1415,8 @@ def mergeDocsToAPP(docList):  # docList z getTableContent
         'xmlns:wfs': "http://www.opengis.net/wfs/2.0",
         'xmlns:xlink': "http://www.w3.org/1999/xlink",
         'xmlns:xsi': "http://www.w3.org/2001/XMLSchema-instance",
-        'xmlns:app': "https://www.gov.pl/static/zagospodarowanieprzestrzenne/schemas/app/1.0",
-        'xsi:schemaLocation': "https://www.gov.pl/static/zagospodarowanieprzestrzenne/schemas/app/1.0 ../appSchema/appSchema_app_v0_0_1/planowaniePrzestrzenne.xsd http://www.opengis.net/gml/3.2 http://schemas.opengis.net/gml/3.2.1/gml.xsd http://www.opengis.net/wfs/2.0 http://schemas.opengis.net/wfs/2.0/wfs.xsd"
+        'xmlns:app': "http://zagospodarowanieprzestrzenne.gov.pl/schemas/app/1.0",
+        'xsi:schemaLocation': "http://zagospodarowanieprzestrzenne.gov.pl/schemas/app/1.0 ../appSchema/appSchema_app_v0_0_1/planowaniePrzestrzenne.xsd http://www.opengis.net/gml/3.2 http://schemas.opengis.net/gml/3.2.1/gml.xsd http://www.opengis.net/wfs/2.0 http://schemas.opengis.net/wfs/2.0/wfs.xsd"
     }
 
     # create the file structure
@@ -1431,7 +1431,7 @@ def mergeDocsToAPP(docList):  # docList z getTableContent
     ##############################
     # ns = {
     #     'xsi': "http://www.w3.org/2001/XMLSchema",
-    #     'app': "https://www.gov.pl/static/zagospodarowanieprzestrzenne/schemas/app/1.0",
+    #     'app': "http://zagospodarowanieprzestrzenne.gov.pl/schemas/app/1.0",
     #     'gmd': "http://www.isotc211.org/2005/gmd",
     #     'gco': 'http://www.isotc211.org/2005/gco',
     #     'xlink': 'http://www.w3.org/1999/xlink',
@@ -1601,7 +1601,7 @@ def mergeFormalDocuments(root, elements=[]):
                 "zmienia",
                 "uchyla",
                 "uniewaznia"]
-    ns = "{https://www.gov.pl/static/zagospodarowanieprzestrzenne/schemas/app/1.0}"
+    ns = "{http://zagospodarowanieprzestrzenne.gov.pl/schemas/app/1.0}"
     for element in root:
         el_name = element.tag.replace(ns, '')
         if el_name in pomijane:
@@ -1620,7 +1620,7 @@ def sortDocRelations(relationList):
         "uchyla": [],  # Dokument
         "uniewaznia": []  # Dokument
     }
-    ns = "{https://www.gov.pl/static/zagospodarowanieprzestrzenne/schemas/app/1.0}"
+    ns = "{http://zagospodarowanieprzestrzenne.gov.pl/schemas/app/1.0}"
     for relation in relationList:
         rel_name = relation.tag.replace(ns, '')
         DokumentFormalny[relationList].append(relation)
@@ -1633,7 +1633,7 @@ def mergeAppToCollection(AppFiles, set={}):
     #     print(elem.name)
     ns = {
         'xsi': "http://www.w3.org/2001/XMLSchema",
-        'app': 'https://www.gov.pl/static/zagospodarowanieprzestrzenne/schemas/app/1.0',
+        'app': 'http://zagospodarowanieprzestrzenne.gov.pl/schemas/app/1.0',
         'gmd': "http://www.isotc211.org/2005/gmd",
         'gco': 'http://www.isotc211.org/2005/gco',
         'xlink': 'http://www.w3.org/1999/xlink',
@@ -1725,7 +1725,7 @@ def getIPPapp(filePath):
 
 def findElementByTag(root, name, elem=None):
     for element in root:
-        if '{https://www.gov.pl/static/zagospodarowanieprzestrzenne/schemas/app/1.0}'+name in element.tag:
+        if '{http://zagospodarowanieprzestrzenne.gov.pl/schemas/app/1.0}'+name in element.tag:
             return element
         if len(list(element)) > 0:
             elem = findElementByTag(element, name)
@@ -1827,7 +1827,7 @@ def loadItemsToForm(filePath, formElements):
 
     ns = {
         'xsi': "http://www.w3.org/2001/XMLSchema",
-        'app': "https://www.gov.pl/static/zagospodarowanieprzestrzenne/schemas/app/1.0",
+        'app': "http://zagospodarowanieprzestrzenne.gov.pl/schemas/app/1.0",
         'gmd': "http://www.isotc211.org/2005/gmd",
         'gco': 'http://www.isotc211.org/2005/gco',
         'xlink': 'http://www.w3.org/1999/xlink',
@@ -1894,7 +1894,7 @@ def loadItemsToForm(filePath, formElements):
                     for el in elem[0]:
 
                         objName = (el.tag.replace(
-                            '{https://www.gov.pl/static/zagospodarowanieprzestrzenne/schemas/app/1.0}', ''))
+                            '{http://zagospodarowanieprzestrzenne.gov.pl/schemas/app/1.0}', ''))
 
                         for inner in fe.innerFormElements:
                             if inner.name == objName:
@@ -1915,7 +1915,7 @@ def loadItemsToForm(filePath, formElements):
                     setValueToListWidget(fe, objValues)
                 else:
                     objName = (elem.tag.replace(
-                        '{https://www.gov.pl/static/zagospodarowanieprzestrzenne/schemas/app/1.0}', ''))+'_lineEdit'
+                        '{http://zagospodarowanieprzestrzenne.gov.pl/schemas/app/1.0}', ''))+'_lineEdit'
                     objValue = elem.text
                     setValueToListWidget(fe, {objName: objValue})
 
@@ -1936,7 +1936,7 @@ def setAppId(setPath):
     """pozyskiwanie id IIP z aktów (APP) w zadanym zbiorze"""
     ns = {
         'xsi': "http://www.w3.org/2001/XMLSchema",
-        'app': "https://www.gov.pl/static/zagospodarowanieprzestrzenne/schemas/app/1.0",
+        'app': "http://zagospodarowanieprzestrzenne.gov.pl/schemas/app/1.0",
         'gmd': "http://www.isotc211.org/2005/gmd",
         'gco': 'http://www.isotc211.org/2005/gco',
         'xlink': 'http://www.w3.org/1999/xlink',
@@ -1957,7 +1957,7 @@ def setAppId(setPath):
 def findElementInXmlFile(file, docName, elementName):
     ns = {
         'xsi': "http://www.w3.org/2001/XMLSchema",
-        'app': "https://www.gov.pl/static/zagospodarowanieprzestrzenne/schemas/app/1.0",
+        'app': "http://zagospodarowanieprzestrzenne.gov.pl/schemas/app/1.0",
         'gmd': "http://www.isotc211.org/2005/gmd",
         'gco': 'http://www.isotc211.org/2005/gco',
         'xlink': 'http://www.w3.org/1999/xlink',
@@ -1973,7 +1973,7 @@ def findElementInXmlFile(file, docName, elementName):
 
 def validateObjectNumber(files):
     ns = {'xsi': "http://www.w3.org/2001/XMLSchema",
-          'app': "https://www.gov.pl/static/zagospodarowanieprzestrzenne/schemas/app/1.0",
+          'app': "http://zagospodarowanieprzestrzenne.gov.pl/schemas/app/1.0",
           'gmd': "http://www.isotc211.org/2005/gmd",
           'gco': 'http://www.isotc211.org/2005/gco',
           'xlink': 'http://www.w3.org/1999/xlink',
@@ -2068,7 +2068,7 @@ def validateDokumentFormalnyDate(files):
 def checkIfAPP(file):
     ns = {
         'xsi': "http://www.w3.org/2001/XMLSchema",
-        'app': "https://www.gov.pl/static/zagospodarowanieprzestrzenne/schemas/app/1.0",
+        'app': "http://zagospodarowanieprzestrzenne.gov.pl/schemas/app/1.0",
         'gmd': "http://www.isotc211.org/2005/gmd",
         'gco': 'http://www.isotc211.org/2005/gco',
         'xlink': 'http://www.w3.org/1999/xlink',

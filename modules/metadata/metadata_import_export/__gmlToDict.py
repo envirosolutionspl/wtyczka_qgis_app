@@ -11,7 +11,7 @@ def appGmlToMetadataElementDict(gmlPath):
     metadataElementDict = {}
 
     ns = {'gco': "http://www.isotc211.org/2005/gco",
-          'app': "https://www.gov.pl/static/zagospodarowanieprzestrzenne/schemas/app/1.0",
+          'app': "http://zagospodarowanieprzestrzenne.gov.pl/schemas/app/1.0",
           'gmd': "http://www.isotc211.org/2005/gmd",
           'gml': "http://www.opengis.net/gml/3.2",
           'wfs': "http://www.opengis.net/wfs/2.0",

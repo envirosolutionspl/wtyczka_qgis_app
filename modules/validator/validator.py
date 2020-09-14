@@ -3,6 +3,7 @@ import lxml
 import os
 import datetime
 import xml.etree.ElementTree as ET
+from . import validator_utils
 from qgis.core import QgsVectorLayer
 from ..app.app_utils import isLayerInPoland
 from ..metadata.metadata_import_export import xmlToMetadataElementDict, xmlToMetadataElementDictFixed
@@ -69,7 +70,7 @@ class ValidatorLxml:
                 return [False, 'Błąd geometrii zbioru: Geometria zbioru nie jest poprawną warstwą wektorową']
 
             # walidacja relacji
-            valRelationsResult = self.validateZbiorRelations(xmlPath)
+            valRelationsResult = self.validateAppRelations(xmlPath)
             if not valRelationsResult[0]:
                 return valRelationsResult
 
@@ -102,6 +103,12 @@ class ValidatorLxml:
                             'Błąd geometrii APP: Obrysy leżą poza granicami Polski. Sprawdź czy w pliku GML jest prawidłowa definicja układu zgodnie ze standardem INSPIRE np: srsName="http://www.opengis.net/def/crs/EPSG/0/2177"']
             else:
                 return [False, 'Błąd geometrii APP: Geometria APP nie jest poprawną warstwą wektorową']
+
+            # walidacja relacji
+            valRelationsResult = self.validateAppRelations(xmlPath)
+            if not valRelationsResult[0]:
+                return valRelationsResult
+
         return valResult
 
     def validateRequiredMetadataTags(self, xmlPath):
@@ -120,7 +127,7 @@ class ValidatorLxml:
             return [False, '\n\n'.join(bledy)]
         return [True]
 
-    def validateZbiorRelations(self, gmlPath):
+    def validateAppRelations(self, gmlPath):
         """Sprawdza czy relacje wewnątrz zbioru są zgodne"""
         ns = {'gco': "http://www.isotc211.org/2005/gco",
               'app': "https://www.gov.pl/static/zagospodarowanieprzestrzenne/schemas/app/1.0",
@@ -144,15 +151,15 @@ class ValidatorLxml:
                 dok_przystepujacy_id = dok_przystepujacy.attrib['{%s}href' %
                                                                 ns['xlink']]
                 df = root.find('/wfs:member/app:DokumentFormalny[@{%s}id="%s"]' % (
-                    ns['gml'], dok_przystepujacy_id.split('/')[-1]), ns)
+                    ns['gml'], validator_utils.urlIdToGmlId(dok_przystepujacy_id)), ns)
                 if df is None:
                     bledy.append('Brak dokumentu formalnego o identyfikatorze %s' %
-                                 dok_przystepujacy_id.split('/')[-1])
+                                 validator_utils.urlIdToGmlId(dok_przystepujacy_id))
                 else:
                     przystapienie = df.find('./app:przystapienie', ns)
                     if przystapienie is None:
                         bledy.append('Brak zdefiniowanej relacji \'przystapienie\' dla dokumentu formalnego o identyfikatorze %s' %
-                                     dok_przystepujacy_id.split('/')[-1])
+                                     validator_utils.urlIdToGmlId(dok_przystepujacy_id))
 
             # uchwala
             dok_uchwalajacy = app.find('./app:dokumentUchwalajacy', ns)
@@ -160,15 +167,15 @@ class ValidatorLxml:
                 dok_uchwalajacy_id = dok_uchwalajacy.attrib['{%s}href' %
                                                             ns['xlink']]
                 df = root.find('/wfs:member/app:DokumentFormalny[@{%s}id="%s"]' % (
-                    ns['gml'], dok_uchwalajacy_id.split('/')[-1]), ns)
+                    ns['gml'], validator_utils.urlIdToGmlId(dok_uchwalajacy_id)), ns)
                 if df is None:
                     bledy.append('Brak dokumentu formalnego o identyfikatorze %s' %
-                                 dok_uchwalajacy_id.split('/')[-1])
+                                 validator_utils.urlIdToGmlId(dok_uchwalajacy_id))
                 else:
                     uchwala = df.find('./app:uchwala', ns)
                     if uchwala is None:
                         bledy.append(
-                            'Brak zdefiniowanej relacji \'uchwala\' dla dokumentu formalnego o identyfikatorze %s' % dok_uchwalajacy_id.split('/')[-1])
+                            'Brak zdefiniowanej relacji \'uchwala\' dla dokumentu formalnego o identyfikatorze %s' % validator_utils.urlIdToGmlId(dok_uchwalajacy_id))
 
             # zmienia
             dok_zmieniajacy = app.find('./app:dokumentZmieniajacy', ns)
@@ -176,15 +183,15 @@ class ValidatorLxml:
                 dok_zmieniajacy_id = dok_zmieniajacy.attrib['{%s}href' %
                                                             ns['xlink']]
                 df = root.find('/wfs:member/app:DokumentFormalny[@{%s}id="%s"]' % (
-                    ns['gml'], dok_zmieniajacy_id.split('/')[-1]), ns)
+                    ns['gml'], validator_utils.urlIdToGmlId(dok_zmieniajacy_id)), ns)
                 if df is None:
                     bledy.append('Brak dokumentu formalnego o identyfikatorze %s' %
-                                 dok_zmieniajacy_id.split('/')[-1])
+                                 validator_utils.urlIdToGmlId(dok_zmieniajacy_id))
                 else:
                     zmienia = df.find('./app:zmienia', ns)
                     if zmienia is None:
                         bledy.append(
-                            'Brak zdefiniowanej relacji \'zmienia\' dla dokumentu formalnego o identyfikatorze %s' % dok_zmieniajacy_id.split('/')[-1])
+                            'Brak zdefiniowanej relacji \'zmienia\' dla dokumentu formalnego o identyfikatorze %s' % validator_utils.urlIdToGmlId(dok_zmieniajacy_id))
 
             # uchyla
             dok_uchylajacy = app.find('./app:dokumentUchylajacy', ns)
@@ -192,15 +199,15 @@ class ValidatorLxml:
                 dok_uchylajacy_id = dok_uchylajacy.attrib['{%s}href' %
                                                           ns['xlink']]
                 df = root.find('/wfs:member/app:DokumentFormalny[@{%s}id="%s"]' % (
-                    ns['gml'], dok_uchylajacy_id.split('/')[-1]), ns)
+                    ns['gml'], validator_utils.urlIdToGmlId(dok_uchylajacy_id)), ns)
                 if df is None:
                     bledy.append('Brak dokumentu formalnego o identyfikatorze %s' %
-                                 dok_uchylajacy_id.split('/')[-1])
+                                 validator_utils.urlIdToGmlId(dok_uchylajacy_id))
                 else:
                     uchyla = df.find('./app:zmienia', ns)
                     if uchyla is None:
                         bledy.append(
-                            'Brak zdefiniowanej relacji \'uchyla\' dla dokumentu formalnego o identyfikatorze %s' % dok_uchylajacy_id.split('/')[-1])
+                            'Brak zdefiniowanej relacji \'uchyla\' dla dokumentu formalnego o identyfikatorze %s' % validator_utils.urlIdToGmlId(dok_uchylajacy_id))
 
             # uniewaznia
             dok_uniewazniajacy = app.find('./app:dokumentUniewazniajacy', ns)
@@ -208,15 +215,15 @@ class ValidatorLxml:
                 dok_uniewazniajacy_id = dok_uniewazniajacy.attrib['{%s}href' %
                                                                   ns['xlink']]
                 df = root.find('/wfs:member/app:DokumentFormalny[@{%s}id="%s"]' % (
-                    ns['gml'], dok_uniewazniajacy_id.split('/')[-1]), ns)
+                    ns['gml'], validator_utils.urlIdToGmlId(dok_uniewazniajacy_id)), ns)
                 if df is None:
                     bledy.append('Brak dokumentu formalnego o identyfikatorze %s' %
-                                 dok_uniewazniajacy_id.split('/')[-1])
+                                 validator_utils.urlIdToGmlId(dok_uniewazniajacy_id))
                 else:
                     uniewaznia = df.find('./app:zmienia', ns)
                     if uniewaznia is None:
                         bledy.append('Brak zdefiniowanej relacji \'uniewaznia\' dla dokumentu formalnego o identyfikatorze %s' %
-                                     dok_uniewazniajacy_id.split('/')[-1])
+                                     validator_utils.urlIdToGmlId(dok_uniewazniajacy_id))
 
         if bledy:
             return False, '\n\n'.join(bledy)

@@ -23,10 +23,11 @@ def appGmlToMetadataElementDict(gmlPath):
 
     # E1
     element = root.find('//app:AktPlanowaniaPrzestrzennego/app:typPlanu', ns)
-    typPlanu = element.attrib['{%s}title' %
-                              ns['xlink']].replace('plan', 'planu')
-    metadataElementDict['e1'] = {
-        'e1_lineEdit': "Zbiór danych przestrzennych dla %s <typ_jednostki> <nazwa_jednostki>" % typPlanu}
+    if element is not None:
+        typPlanu = element.attrib['{%s}title' %
+                                  ns['xlink']].replace('plan', 'planu')
+        metadataElementDict['e1'] = {
+            'e1_lineEdit': "Zbiór danych przestrzennych dla %s <typ_jednostki> <nazwa_jednostki>" % typPlanu}
 
     # E5
     date = root.find(
@@ -41,14 +42,16 @@ def appGmlToMetadataElementDict(gmlPath):
             "=")[-1].strip('"').replace(' ', '').replace('-', '').lower()
         if encoding == 'usascii':
             encoding = 'usAscii'
+        print(encoding)
         metadataElementDict['e7'] = [{'e7_cmbbx': encoding}]
 
     # E9, E10 - słowa kluczowe
     itemsList = []
     date = root.find(
         '//app:AktPlanowaniaPrzestrzennego/app:poziomHierarchii', ns)
-    atrybut_title = date.attrib['{%s}title' % ns['xlink']]
-    atrybut_href = date.attrib['{%s}href' % ns['xlink']]
+    if date is not None:
+        atrybut_title = date.attrib['{%s}title' % ns['xlink']]
+        atrybut_href = date.attrib['{%s}href' % ns['xlink']]
 
     tekst = 'Regionalnym' if atrybut_title == 'regionalny' else 'Lokalne'
 

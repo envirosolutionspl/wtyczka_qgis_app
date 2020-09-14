@@ -697,6 +697,10 @@ class AppModule(BaseModule):
 
     def tableContentSet(self, file, rows):
         """Dodanie APP do tabeli zbioru"""
+        def path_leaf(file):
+            head, tail = ntpath.split(file)
+            return tail or ntpath.basename(head)
+        file2 = path_leaf(file)
         flags = Qt.ItemFlags(32)
         self.zbiorPrzygotowanieDialog.appTable_widget.setRowCount(rows + 1)
 
@@ -708,7 +712,9 @@ class AppModule(BaseModule):
             rows, 0, itemIIP)
         # druga kolumna
         self.zbiorPrzygotowanieDialog.appTable_widget.setItem(
-            rows, 1, QTableWidgetItem(file))
+            rows, 1, QTableWidgetItem(file2))
+        test = self.zbiorPrzygotowanieDialog.appTable_widget.item(rows, 1)
+        test.setToolTip(file)
         # trzecia kolumna
         t = os.path.getmtime(file)
         mtime = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(t))

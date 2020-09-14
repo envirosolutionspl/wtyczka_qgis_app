@@ -42,7 +42,6 @@ def appGmlToMetadataElementDict(gmlPath):
             "=")[-1].strip('"').replace(' ', '').replace('-', '').lower()
         if encoding == 'usascii':
             encoding = 'usAscii'
-        print(encoding)
         metadataElementDict['e7'] = [{'e7_cmbbx': encoding}]
 
     # E9, E10 - słowa kluczowe
@@ -129,7 +128,7 @@ def appGmlToMetadataElementDict(gmlPath):
     namespaces = dict(
         [node for _, node in ET.iterparse(gmlPath, events=['start-ns'])])
     for v in namespaces.values():
-        if 'zagospodarowanieprzestrzenne.gov.pl' in v:
+        if 'https://www.gov.pl/static/zagospodarowanieprzestrzenne' in v:
             ifKrajowy = True
             # ifInspire = False
             break

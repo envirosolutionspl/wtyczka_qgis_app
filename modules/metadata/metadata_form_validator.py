@@ -54,7 +54,7 @@ def validateMetadataForm(dlg):
             # if '<' in text or '>' in text:
             #     return False, "W polu '%s' musisz wprowadzić poprawną wartość w miejsce <...>" % (
             #         label.text().strip('*'))
-            # pattern = r'http://zagospodarowanieprzestrzenne.gov.pl/app/AktPlanowaniaPrzestrzennego/PL.ZIPPZP.\d{4}/[012]{1}[02468]{1}\d{0,4}-(PZPW)|(MPZP)|(SUIKZP)/'
+            # pattern = r'https://www.gov.pl/static/zagospodarowanieprzestrzenne/app/AktPlanowaniaPrzestrzennego/PL.ZIPPZP.\d{4}/[012]{1}[02468]{1}\d{0,4}-(PZPW)|(MPZP)|(SUIKZP)/'
             # if not utils.validateDatasetId():
             #     return False, "W polu '%s' musisz zdefiniować wartośc zgodnie z §4 rozporządzenia" % (
             #         label.text().strip('*'))

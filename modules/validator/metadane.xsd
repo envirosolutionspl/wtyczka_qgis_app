@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schema xmlns="http://www.w3.org/2001/XMLSchema"
-      	targetNamespace="http://zagospodarowanieprzestrzenne.gov.pl/schemas/app/1.0"
+      	targetNamespace="https://www.gov.pl/static/zagospodarowanieprzestrzenne/schemas/app/1.0"
       	elementFormDefault="qualified"
       	version="1.0">
 	<import namespace="http://www.isotc211.org/2005/gmd"

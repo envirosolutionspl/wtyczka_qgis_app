@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from PyQt5.QtWidgets import *
-from qgis.core import QgsMapLayerProxyModel
+from qgis.core import QgsSettings
 from qgis.gui import QgsDateTimeEdit, QgsFilterLineEdit, QgsMapLayerComboBox
 from qgis.PyQt.QtCore import Qt, QRegExp, QVariant
 from qgis.PyQt.QtGui import QRegExpValidator, QPixmap
@@ -384,3 +384,25 @@ class Formularz:
             "<FONT COLOR=black>%s</FONT><b>%s</b>" % (formElement.documentation, placeholder))  # dodanie tooltip z documentation 'rich text' dla zawijania
         tooltipImg.setObjectName(formElement.name + '_tooltip')
         return tooltipImg
+
+
+    def setDefaultValues(self):
+        s = QgsSettings()
+        for fe in self.formElements:
+            try:
+                valuePath = "qgis_app/settings/%s" % fe.name
+                feValue = s.value(valuePath, "")
+                utils.setValueToWidget(fe, feValue)
+            except:
+                pass
+            for inner in fe.innerFormElements:
+                # if inner.name == 'przestrzenNazw':
+                #     print('tak')
+                #     valuePath = "qgis_app/settings/%s" % inner.name
+                #     utils.setValueToWidget(inner, s.value(valuePath, ""))
+                try:
+                    valuePath = "qgis_app/settings/%s" % inner.name
+                    feValue = s.value(valuePath, "")
+                    utils.setValueToWidget(inner, feValue)
+                except:
+                    pass

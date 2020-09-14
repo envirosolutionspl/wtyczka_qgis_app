@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from . import poland
-from qgis.core import QgsProject, QgsCoordinateReferenceSystem, QgsCoordinateTransform, QgsGeometry, QgsRectangle
+from .. import utils
+from qgis.core import QgsProject, QgsCoordinateReferenceSystem, QgsCoordinateTransform, QgsGeometry, QgsSettings
 
 
 def isLayerInPoland(obrysLayer):
@@ -15,3 +16,4 @@ def isLayerInPoland(obrysLayer):
     geom_obrysLayer.transform(transform)
     geom_poland = QgsGeometry.fromWkt(poland.wkt)
     return geom_obrysLayer.within(geom_poland)
+

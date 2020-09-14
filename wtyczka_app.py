@@ -88,6 +88,7 @@ class WtyczkaAPP(AppModule, MetadataModule, ValidatorModule, SettingsModule):
             # czyszczenie formularzy danych (APP)
             try:
                 dialogObject.clearForm(dialogObject.form_scrollArea)
+                dialogObject.setDefaultValues()
             except AttributeError:
                 pass
             # # czyszczenie formularza metadanych

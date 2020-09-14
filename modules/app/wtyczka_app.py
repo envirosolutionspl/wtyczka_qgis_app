@@ -483,7 +483,7 @@ class AppModule(BaseModule):
             param = True
             docNames = {
                 'AktPlanowaniaPrzestrzennego': 'APP',
-                'RysunekAktuPlanowniaPrzestrzenego': 'Rysunek APP',
+                'RysunekAktuPlanowaniaPrzestrzennego': 'Rysunek APP',
                 'DokumentFormalny': 'Dokument Formalny'
             }
             try:
@@ -536,7 +536,7 @@ class AppModule(BaseModule):
         # Ustawianie rodzaju dokumentu
         docNames = {
             'AktPlanowaniaPrzestrzennego': 'APP',
-            'RysunekAktuPlanowniaPrzestrzenego': 'Rysunek APP',
+            'RysunekAktuPlanowaniaPrzestrzennego': 'Rysunek APP',
             'DokumentFormalny': 'Dokument Formalny'
         }
 

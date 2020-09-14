@@ -53,13 +53,13 @@ wfs:FeatureCollection timeStamp="2020-06-02T00:00:00.000Z" numberReturned="10000
 				</gml:MultiSurface>
 			</app:zasiegPrzestrzenny>
 			<app:aktNormatywnyUchwalajacy xlink:href="http://zagospodarowanieprzestrzenne.gov.pl/app/DokumentFormalny/PL.ZIPPZP.9999/14-PZPW/DOC1/20200525" />
-			<app:rysunek xlink:href="http://zagospodarowanieprzestrzenne.gov.pl/app/RysunekAktuPlanowniaPrzestrzenego/PL.ZIPPZP.9999/14-PZPW/RYS1/20200525" />
+			<app:rysunek xlink:href="http://zagospodarowanieprzestrzenne.gov.pl/app/RysunekAktuPlanowaniaPrzestrzennego/PL.ZIPPZP.9999/14-PZPW/RYS1/20200525" />
 		</app:AktPlanowaniaPrzestrzennego>
 	</wfs:member>
 	<wfs:member>
 		<!--Instancja typu obiektu-->
-		<app:RysunekAktuPlanowniaPrzestrzenego gml:id="PL.ZIPPZP.9999_14-PZPW_RYS1_20200525">
-			<gml:identifier codeSpace="http://zagospodarowanieprzestrzenne.gov.pl/app">http://zagospodarowanieprzestrzenne.gov.pl/app/RysunekAktuPlanowniaPrzestrzenego/PL.ZIPPZP.9999/14-PZPW/RYS1/20200525</gml:identifier>
+		<app:RysunekAktuPlanowaniaPrzestrzennego gml:id="PL.ZIPPZP.9999_14-PZPW_RYS1_20200525">
+			<gml:identifier codeSpace="http://zagospodarowanieprzestrzenne.gov.pl/app">http://zagospodarowanieprzestrzenne.gov.pl/app/RysunekAktuPlanowaniaPrzestrzennego/PL.ZIPPZP.9999/14-PZPW/RYS1/20200525</gml:identifier>
 			<app:idIIP>
 				<app:Identyfikator>
 					<app:lokalnyId>RYS1</app:lokalnyId>
@@ -76,7 +76,7 @@ wfs:FeatureCollection timeStamp="2020-06-02T00:00:00.000Z" numberReturned="10000
 			<app:opis>Zał. 2 stan zagospodarowania</app:opis>
 			<app:obowiazujeOd>2019-01-11</app:obowiazujeOd>
 			<app:plan xlink:href="http://zagospodarowanieprzestrzenne.gov.pl/app/AktPlanowaniaPrzestrzennego/PL.ZIPPZP.9999/14-PZPW/P1/20200525" />
-		</app:RysunekAktuPlanowniaPrzestrzenego>
+		</app:RysunekAktuPlanowaniaPrzestrzennego>
 	</wfs:member>
 	
 	<wfs:member>

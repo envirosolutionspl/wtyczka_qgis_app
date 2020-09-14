@@ -16,7 +16,7 @@
 	
 	<wfs:member>
 		<!--Instancja typu obiektu-->
-		<app:RysunekAktuPlanowniaPrzestrzenego gml:id="placeholder">
+		<app:RysunekAktuPlanowaniaPrzestrzennego gml:id="placeholder">
 			<gml:identifier codeSpace="http://zagospodarowanieprzestrzenne.gov.pl/app">placeholder</gml:identifier>
 			<app:idIIP>
 				<app:Identyfikator>
@@ -34,7 +34,7 @@
 			<app:opis>placeholder</app:opis>
 			<app:obowiazujeOd>placeholder</app:obowiazujeOd>
 			<app:plan xlink:href="placeholder" />
-		</app:RysunekAktuPlanowniaPrzestrzenego>
+		</app:RysunekAktuPlanowaniaPrzestrzennego>
 	</wfs:member>
 	
 </wfs:FeatureCollection>

@@ -5,14 +5,14 @@ initialValues = {
     "przestrzenNazw": "PL.ZIPPZP.9999/14-PZPW"
 }
 placeholders = {
-    "RysunekAktuPlanowniaPrzestrzenegoType:lokalnyId": "121_Rys1 LUB np. XXVI.49.2010_Rys1",
-    "RysunekAktuPlanowniaPrzestrzenegoType:przestrzenNazw": "PL.PIPPZP.2481/206101-MPZP",
-    "RysunekAktuPlanowniaPrzestrzenegoType:wersjaId": "20200630T223418",
-    "RysunekAktuPlanowniaPrzestrzenegoType:tytul": "Plan zagospodarowania przestrzennego województwa mazowieckiego Stan zagospodarowania",
-    "RysunekAktuPlanowniaPrzestrzenegoType:lacze": "http://www.przykladowa.domena/zagospodarowanie.tif",
-    "RysunekAktuPlanowniaPrzestrzenegoType:legenda": "http://www.przykladowa.domena/legenda.png",
-    "RysunekAktuPlanowniaPrzestrzenegoType:rozdzielczoscPrzestrzenna": "2000",
-    "RysunekAktuPlanowniaPrzestrzenegoType:opis": "Zał. 2 stan zagospodarowania",
+    "RysunekAktuPlanowaniaPrzestrzennegoType:lokalnyId": "121_Rys1 LUB np. XXVI.49.2010_Rys1",
+    "RysunekAktuPlanowaniaPrzestrzennegoType:przestrzenNazw": "PL.PIPPZP.2481/206101-MPZP",
+    "RysunekAktuPlanowaniaPrzestrzennegoType:wersjaId": "20200630T223418",
+    "RysunekAktuPlanowaniaPrzestrzennegoType:tytul": "Plan zagospodarowania przestrzennego województwa mazowieckiego Stan zagospodarowania",
+    "RysunekAktuPlanowaniaPrzestrzennegoType:lacze": "http://www.przykladowa.domena/zagospodarowanie.tif",
+    "RysunekAktuPlanowaniaPrzestrzennegoType:legenda": "http://www.przykladowa.domena/legenda.png",
+    "RysunekAktuPlanowaniaPrzestrzennegoType:rozdzielczoscPrzestrzenna": "2000",
+    "RysunekAktuPlanowaniaPrzestrzennegoType:opis": "Zał. 2 stan zagospodarowania",
     "AktPlanowaniaPrzestrzennegoType:lokalnyId": "121_P1 LUB np. XXVI.49.2010_P1",
     "AktPlanowaniaPrzestrzennegoType:przestrzenNazw": "PL.PIPPZP.2481/206101-MPZP",
     "AktPlanowaniaPrzestrzennegoType:wersjaId": "20200630T223418",

@@ -297,7 +297,7 @@ def createFormElements(attribute):
                 )
 
                 if elementName == 'wersjaId' and (
-                        attribute == 'RysunekAktuPlanowniaPrzestrzenegoType'
+                        attribute == 'RysunekAktuPlanowaniaPrzestrzennegoType'
                     or
                         attribute == 'AktPlanowaniaPrzestrzennegoType'
                 ):
@@ -325,7 +325,7 @@ def createFormElementsRysunekAPP():
     """Tworzy listę obiektów klasy 'FormElement'
     na podstawie pliku xsd dla Rysunku APP"""
 
-    return createFormElements('RysunekAktuPlanowniaPrzestrzenegoType')
+    return createFormElements('RysunekAktuPlanowaniaPrzestrzennegoType')
 
 
 def createFormElementsDokumentFormalny():
@@ -650,7 +650,7 @@ def formSkippedElements(docName):
     if docName == 'AktPlanowaniaPrzestrzennego':
         pomijane = ['dokument', 'dokumentPrzystepujacy', 'dokumentUchwalajacy',
                     'dokumentZmieniajacy', 'dokumentUchylajacy', 'dokumentUniewazniajacy', 'rysunek']
-    elif docName == 'RysunekAktuPlanowniaPrzestrzenego':
+    elif docName == 'RysunekAktuPlanowaniaPrzestrzennego':
         pomijane = ['plan']
     elif docName == 'DokumentFormalny':
         pomijane = ['przystapienie', 'uchwala',
@@ -664,7 +664,7 @@ def formSkippedObjects(docName):
     if docName == 'AktPlanowaniaPrzestrzennego':
         pomijane = ['mapaPodkladowa_lineEdit', 'referencja_lineEdit',
                     'data_dateTimeEdit', 'lacze_lineEdit', 'lacze_lineEdit_nilReason_chkbx']
-    elif docName == 'RysunekAktuPlanowniaPrzestrzenego':
+    elif docName == 'RysunekAktuPlanowaniaPrzestrzennego':
         pomijane = []
     elif docName == 'DokumentFormalny':
         pomijane = []
@@ -962,7 +962,7 @@ def createXmlData(dialog, obrysLayer):  # NOWE
     }
 
     docNames = {
-        'RasterFormularzDialog': 'RysunekAktuPlanowniaPrzestrzenego',
+        'RasterFormularzDialog': 'RysunekAktuPlanowaniaPrzestrzennego',
         'WektorFormularzDialog': 'AktPlanowaniaPrzestrzennego',
         'DokumentyFormularzDialog': 'DokumentFormalny'
     }
@@ -1121,7 +1121,7 @@ def createXmlData(dialog, obrysLayer):  # NOWE
 
 def createXmlRysunekAPP(layout):
     """Tworzy szablon xml dla Rysunku APP"""
-    docName = 'RysunekAktuPlanowniaPrzestrzenego'
+    docName = 'RysunekAktuPlanowaniaPrzestrzennego'
     elements = createFormElements(docName+'Type')
     data = makeXML(docName=docName,
                    elements=elements,
@@ -1195,7 +1195,7 @@ def putElementBelow(element, subElementName, newElement):
 
 def getDocType(filePath):
     docNames = ['AktPlanowaniaPrzestrzennego',
-                'RysunekAktuPlanowniaPrzestrzenego',
+                'RysunekAktuPlanowaniaPrzestrzennego',
                 'DokumentFormalny']
     try:
         tree = ET.parse(filePath)
@@ -1322,7 +1322,7 @@ def mergeDocsToAPP2(docList):  # Nowa wersja tworzenia APP - do dokończenia
             aktForm = formElements
             aktRoot = root
 
-        if docType == 'RysunekAktuPlanowniaPrzestrzenego':
+        if docType == 'RysunekAktuPlanowaniaPrzestrzennego':
             rysForm = formElements
             rysIIP.append(idIIP)
             rysRoots.append(root)
@@ -1347,7 +1347,7 @@ def mergeDocsToAPP2(docList):  # Nowa wersja tworzenia APP - do dokończenia
 
     # Wypełnianie Rysunków APP
     for root in rysRoots:
-        docType = 'RysunekAktuPlanowniaPrzestrzenego'
+        docType = 'RysunekAktuPlanowaniaPrzestrzennego'
         dataDoc = initializeMember(
             data, docType, root, ns)
         addElements(rysForm, root, dataDoc, docType, relations=aktIdIIP)
@@ -1457,14 +1457,14 @@ def mergeDocsToAPP(docList):  # docList z getTableContent
             "uchyla": [],  # Dokument
             "uniewaznia": []  # Dokument
         },
-        'RysunekAktuPlanowniaPrzestrzenego': {
+        'RysunekAktuPlanowaniaPrzestrzennego': {
             "plan": []  # Rysunek
         }
     }
     docRoots = {
         'AktPlanowaniaPrzestrzennego': [],
         'DokumentFormalny': [],
-        'RysunekAktuPlanowniaPrzestrzenego': []
+        'RysunekAktuPlanowaniaPrzestrzennego': []
     }
 
     # for prefix, uri in ns.items():
@@ -1518,7 +1518,7 @@ def mergeDocsToAPP(docList):  # docList z getTableContent
             if relation == 'dokument':
                 pomijane['AktPlanowaniaPrzestrzennego']['dokument'].append(
                     relLink)
-        if docType == 'RysunekAktuPlanowniaPrzestrzenego':
+        if docType == 'RysunekAktuPlanowaniaPrzestrzennego':
             pomijane['AktPlanowaniaPrzestrzennego']['rysunek'].append(relLink)
             pomijane[docType]['plan'].append(root)
             # Dodaje atrybut do rysunku
@@ -1540,9 +1540,9 @@ def mergeDocsToAPP(docList):  # docList z getTableContent
         showPopup(title='Błąd liczności dokumentu',
                   text='Liczba Dokumentów Formalnych: %i\nWymagana liczba: 1+' % len(docRoots['DokumentFormalny']))
         return ''
-    # if len(docRoots['RysunekAktuPlanowniaPrzestrzenego']) < 1:
+    # if len(docRoots['RysunekAktuPlanowaniaPrzestrzennego']) < 1:
     #     showPopup(title='Błąd liczności dokumentu',
-    #               text='Liczba Rysunków: %i\nWymagana liczba: 1+' % len(docRoots['RysunekAktuPlanowniaPrzestrzenego']))
+    #               text='Liczba Rysunków: %i\nWymagana liczba: 1+' % len(docRoots['RysunekAktuPlanowaniaPrzestrzennego']))
     #     return ''
 
     # Dodawanie atrybutów do APP
@@ -1561,8 +1561,8 @@ def mergeDocsToAPP(docList):  # docList z getTableContent
     for atr in pomijane['DokumentFormalny']:
         for root in pomijane['DokumentFormalny'][atr]:
             APProot.append(root[0])
-    for atr in pomijane['RysunekAktuPlanowniaPrzestrzenego']:
-        for root in pomijane['RysunekAktuPlanowniaPrzestrzenego'][atr]:
+    for atr in pomijane['RysunekAktuPlanowaniaPrzestrzennego']:
+        for root in pomijane['RysunekAktuPlanowaniaPrzestrzennego'][atr]:
             APProot.append(root[0])
 
     zmiana_count = len(
@@ -1879,7 +1879,7 @@ def loadItemsToForm(filePath, formElements):
                                 widget.setCurrentText(key)
         elif fe.maxOccurs == 'unbounded':
             formNames = ['AktPlanowaniaPrzestrzennego',
-                         'RysunekAktuPlanowniaPrzestrzenego', 'DokumentFormalny']
+                         'RysunekAktuPlanowaniaPrzestrzennego', 'DokumentFormalny']
             elements = []
             for formName in formNames:
                 elementPath = 'wfs:member/app:%s/app:%s' % (formName, fe.name)
@@ -1982,7 +1982,7 @@ def validateObjectNumber(files):
           'gmlexr': "http://www.opengis.net/gml/3.3/exr"}
     docs = {
         'AktPlanowaniaPrzestrzennego': [],
-        'RysunekAktuPlanowniaPrzestrzenego': [],
+        'RysunekAktuPlanowaniaPrzestrzennego': [],
         'DokumentFormalny': []
     }
 
@@ -2002,21 +2002,21 @@ def validateObjectNumber(files):
         statusPath = 'wfs:member/app:AktPlanowaniaPrzestrzennego/app:status'
         statusFind = docs['AktPlanowaniaPrzestrzennego'][0].find(
             statusPath, ns)
-        if statusFind.attrib['{http://www.w3.org/1999/xlink}title'] == 'prawnie wiążący lub realizowany' and len(docs['RysunekAktuPlanowniaPrzestrzenego']) == 0:
+        if statusFind.attrib['{http://www.w3.org/1999/xlink}title'] == 'prawnie wiążący lub realizowany' and len(docs['RysunekAktuPlanowaniaPrzestrzennego']) == 0:
             showPopup('Błąd liczności obiektów',
-                      'Wymagany jest co najmniej jeden obiekt RysunekAktuPlanowniaPrzestrzenego.\nWybrano obiektów: %d.' % len(docs['RysunekAktuPlanowniaPrzestrzenego']))
+                      'Wymagany jest co najmniej jeden obiekt RysunekAktuPlanowaniaPrzestrzennego.\nWybrano obiektów: %d.' % len(docs['RysunekAktuPlanowaniaPrzestrzennego']))
             return False
         if statusFind.attrib['{http://www.w3.org/1999/xlink}title'] == 'prawnie wiążący lub realizowany' or statusFind.attrib['{http://www.w3.org/1999/xlink}title'] == 'nieaktualny':
-            for rys in docs['RysunekAktuPlanowniaPrzestrzenego']:
-                obowiazujeOdPath = 'wfs:member/app:RysunekAktuPlanowniaPrzestrzenego/app:obowiazujeOd'
+            for rys in docs['RysunekAktuPlanowaniaPrzestrzennego']:
+                obowiazujeOdPath = 'wfs:member/app:RysunekAktuPlanowaniaPrzestrzennego/app:obowiazujeOd'
                 obowiazujeOdFind = rys.find(obowiazujeOdPath, ns)
-                obowiazujeDoPath = 'wfs:member/app:RysunekAktuPlanowniaPrzestrzenego/app:obowiazujeDo'
+                obowiazujeDoPath = 'wfs:member/app:RysunekAktuPlanowaniaPrzestrzennego/app:obowiazujeDo'
                 obowiazujeDoFind = rys.find(obowiazujeDoPath, ns)
                 if obowiazujeDoFind is None and statusFind.attrib['{http://www.w3.org/1999/xlink}title'] == 'nieaktualny':
-                    showPopup('Błąd wartości atrybutu', 'Dla statusu "nieaktualny" obiektu AktPlanowaniaPrzestrzennego wartość atrybutu obowiazujeDo obiektu RysunekAktuPlanowniaPrzestrzenego jest wymagana.')
+                    showPopup('Błąd wartości atrybutu', 'Dla statusu "nieaktualny" obiektu AktPlanowaniaPrzestrzennego wartość atrybutu obowiazujeDo obiektu RysunekAktuPlanowaniaPrzestrzennego jest wymagana.')
                     return False
                 elif obowiazujeOdFind is None:  # Zawsze wymagane - schemat xsd
-                    showPopup('Błąd wartości atrybutu', 'Dla statusów "prawnie wiążący lub realizowany" oraz "nieaktualny" obiektu AktPlanowaniaPrzestrzennego wartość atrybutu obowiazujeOd obiektu RysunekAktuPlanowniaPrzestrzenego jest wymagana.')
+                    showPopup('Błąd wartości atrybutu', 'Dla statusów "prawnie wiążący lub realizowany" oraz "nieaktualny" obiektu AktPlanowaniaPrzestrzennego wartość atrybutu obowiazujeOd obiektu RysunekAktuPlanowaniaPrzestrzennego jest wymagana.')
                     return False
     else:
         showPopup('Błąd liczności obiektów',

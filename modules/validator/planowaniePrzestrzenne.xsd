@@ -334,7 +334,7 @@ KOMENTARZ 02. Za pośrednictwem asocjacji dokument może wskazywać wszystkie in
 						<annotation>
 							<documentation>rysunek: Odniesienie do cyfrowej reprezentacji graficznych części aktu planowania przestrzennego z nadaną georeferencją.</documentation>
 							<appinfo>
-								<targetElement xmlns="http://www.opengis.net/gml/3.2">app:RysunekAktuPlanowniaPrzestrzenego</targetElement>
+								<targetElement xmlns="http://www.opengis.net/gml/3.2">app:RysunekAktuPlanowaniaPrzestrzennego</targetElement>
 								<reversePropertyName xmlns="http://www.opengis.net/gml/3.2">app:plan</reversePropertyName>
 							</appinfo>
 						</annotation>
@@ -358,12 +358,12 @@ KOMENTARZ 02. Za pośrednictwem asocjacji dokument może wskazywać wszystkie in
 		<attributeGroup ref="gml:AssociationAttributeGroup"/>
 		<attributeGroup ref="gml:OwnershipAttributeGroup"/>
 	</complexType>
-	<element name="RysunekAktuPlanowniaPrzestrzenego" type="app:RysunekAktuPlanowniaPrzestrzenegoType" substitutionGroup="gml:AbstractFeature">
+	<element name="RysunekAktuPlanowaniaPrzestrzennego" type="app:RysunekAktuPlanowaniaPrzestrzennegoType" substitutionGroup="gml:AbstractFeature">
 		<annotation>
 			<documentation>Rysunek aktu planowania przestrzennego: Cyfrowa reprezentacja części graficznej aktu planowania przestrzennego z nadaną georeferencją.</documentation>
 		</annotation>
 	</element>
-	<complexType name="RysunekAktuPlanowniaPrzestrzenegoType">
+	<complexType name="RysunekAktuPlanowaniaPrzestrzennegoType">
 		<complexContent>
 			<extension base="gml:AbstractFeatureType">
 				<sequence>
@@ -437,9 +437,9 @@ KOMENTARZ 01. Układ odniesienia przestrzennego musi zostać podany zgodnie z EP
 			</extension>
 		</complexContent>
 	</complexType>
-	<complexType name="RysunekAktuPlanowniaPrzestrzenegoPropertyType">
+	<complexType name="RysunekAktuPlanowaniaPrzestrzennegoPropertyType">
 		<sequence minOccurs="0">
-			<element ref="app:RysunekAktuPlanowniaPrzestrzenego"/>
+			<element ref="app:RysunekAktuPlanowaniaPrzestrzennego"/>
 		</sequence>
 		<attributeGroup ref="gml:AssociationAttributeGroup"/>
 		<attributeGroup ref="gml:OwnershipAttributeGroup"/>

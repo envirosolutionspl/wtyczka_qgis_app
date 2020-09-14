@@ -134,7 +134,7 @@ def metadataElementDictToXml(metadataElementDict):
         code = ET.SubElement(mD_Identifier, 'gmd:code')
         characterString = ET.SubElement(code, 'gco:CharacterString')
         idIpp = listItem['e5_lineEdit']
-        idIppUri = 'http://zagospodarowanieprzestrzenne.gov.pl/app/AktPlanowaniaPrzestrzennego/%s/' % idIpp
+        idIppUri = 'https://www.gov.pl/static/zagospodarowanieprzestrzenne/app/AktPlanowaniaPrzestrzennego/%s/' % idIpp
         characterString.text = idIppUri
 
     """gmd:abstract"""

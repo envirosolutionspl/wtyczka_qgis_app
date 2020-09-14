@@ -436,7 +436,7 @@ class AppModule(BaseModule):
             # Sprawdzenie poprawności każdego z plików składowych
             for file in files:
                 # nie zwalidowano poprawnie
-                if not self.validateFile(path=file.path, validator=self.dataValidator, type='app'):
+                if not self.validateFile(path=file.path, validator=self.dataValidator, type='app', muted=True):
                     return False
 
             # Sprawdzenie zależności geometrycznych miedzy GMLami

@@ -68,7 +68,7 @@ class BaseModule:
 
     """Helper methods"""
 
-    def validateFile(self, path, validator, type):
+    def validateFile(self, path, validator, type, muted=False):
         """walidacja pliku z danymi lub metadanymi"""
         taskDescriptions = [task.description() for task in QgsApplication.taskManager().activeTasks()]
         if validator:  # walidator gotowy do dzialania
@@ -81,9 +81,10 @@ class BaseModule:
             else:
                 raise NotImplementedError
             if validationResult[0]:  # poprawnie zwalidowano
-                self.iface.messageBar().pushSuccess(
-                    "Sukces:", "Pomyślnie zwalidowano plik. Nie wykryto błędów.")
-                showPopup("Waliduj pliki", "Poprawnie zwalidowano plik.")
+                if not muted:
+                    self.iface.messageBar().pushSuccess(
+                        "Sukces:", "Pomyślnie zwalidowano plik. Nie wykryto błędów.")
+                    showPopup("Waliduj pliki", "Poprawnie zwalidowano plik.")
                 return True
             else:   # błędy walidacji
                 self.iface.messageBar().pushCritical(

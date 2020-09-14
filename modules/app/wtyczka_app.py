@@ -418,7 +418,7 @@ class AppModule(BaseModule):
             xmlIpp = appTable_widget.item(rowId, 0).text()
             if xmlIpp not in xmlIip_list:
                 xmlIip_list.append(xmlIpp)
-            xmlPath = os.path.join(appTable_widget.item(rowId, 1).text())
+            xmlPath = os.path.join(appTable_widget.item(rowId, 1).toolTip())
             xmlDate = appTable_widget.item(rowId, 2).text()
             # TODO usunąć zbiór z listy
             files.append(AppTableModel(rowId, xmlPath, xmlDate))

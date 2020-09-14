@@ -558,7 +558,7 @@ def makeXML(docName, elements, formData, obrysLayer=None):
         'xmlns:xlink': "http://www.w3.org/1999/xlink",
         'xmlns:xsi': "http://www.w3.org/2001/XMLSchema-instance",
         'xmlns:app': "https://www.gov.pl/static/zagospodarowanieprzestrzenne/schemas/app/1.0",
-        'xsi:schemaLocation': "https://www.gov.pl/static/zagospodarowanieprzestrzenne/schemas/app/1.0 ../appSchema/appSchema_app_v0_0_1/planowaniePrzestrzenne.xsd http://www.opengis.net/gml/3.2 http://schemas.opengis.net/gml/3.2.1/gml.xsd http://www.opengis.net/wfs/2.0 http://schemas.opengis.net/wfs/2.0/wfs.xsd"
+        'xsi:schemaLocation': "https://www.gov.pl/static/zagospodarowanieprzestrzenne/schemas/app/1.0 planowaniePrzestrzenne.xsd http://www.opengis.net/gml/3.2 http://schemas.opengis.net/gml/3.2.1/gml.xsd http://www.opengis.net/wfs/2.0 http://schemas.opengis.net/wfs/2.0/wfs.xsd"
     }
     # create the file structure
     data = ET.Element('wfs:FeatureCollection')
@@ -998,7 +998,7 @@ def createXmlData(dialog, obrysLayer):  # NOWE
         'xmlns:xlink': "http://www.w3.org/1999/xlink",
         'xmlns:xsi': "http://www.w3.org/2001/XMLSchema-instance",
         'xmlns:app': "https://www.gov.pl/static/zagospodarowanieprzestrzenne/schemas/app/1.0",
-        'xsi:schemaLocation': "https://www.gov.pl/static/zagospodarowanieprzestrzenne/schemas/app/1.0 ../appSchema/appSchema_app_v0_0_1/planowaniePrzestrzenne.xsd http://www.opengis.net/gml/3.2 http://schemas.opengis.net/gml/3.2.1/gml.xsd http://www.opengis.net/wfs/2.0 http://schemas.opengis.net/wfs/2.0/wfs.xsd"
+        'xsi:schemaLocation': "https://www.gov.pl/static/zagospodarowanieprzestrzenne/schemas/app/1.0 planowaniePrzestrzenne.xsd http://www.opengis.net/gml/3.2 http://schemas.opengis.net/gml/3.2.1/gml.xsd http://www.opengis.net/wfs/2.0 http://schemas.opengis.net/wfs/2.0/wfs.xsd"
     }
     # create the file structure
     data = ET.Element('wfs:FeatureCollection')
@@ -1291,7 +1291,7 @@ def mergeDocsToAPP2(docList):  # Nowa wersja tworzenia APP - do dokończenia
         'xmlns:xlink': "http://www.w3.org/1999/xlink",
         'xmlns:xsi': "http://www.w3.org/2001/XMLSchema-instance",
         'xmlns:app': "https://www.gov.pl/static/zagospodarowanieprzestrzenne/schemas/app/1.0",
-        'xsi:schemaLocation': "https://www.gov.pl/static/zagospodarowanieprzestrzenne/schemas/app/1.0 ../appSchema/appSchema_app_v0_0_1/planowaniePrzestrzenne.xsd http://www.opengis.net/gml/3.2 http://schemas.opengis.net/gml/3.2.1/gml.xsd http://www.opengis.net/wfs/2.0 http://schemas.opengis.net/wfs/2.0/wfs.xsd"
+        'xsi:schemaLocation': "https://www.gov.pl/static/zagospodarowanieprzestrzenne/schemas/app/1.0 planowaniePrzestrzenne.xsd http://www.opengis.net/gml/3.2 http://schemas.opengis.net/gml/3.2.1/gml.xsd http://www.opengis.net/wfs/2.0 http://schemas.opengis.net/wfs/2.0/wfs.xsd"
     }
 
     # create the file structure
@@ -1416,7 +1416,7 @@ def mergeDocsToAPP(docList):  # docList z getTableContent
         'xmlns:xlink': "http://www.w3.org/1999/xlink",
         'xmlns:xsi': "http://www.w3.org/2001/XMLSchema-instance",
         'xmlns:app': "https://www.gov.pl/static/zagospodarowanieprzestrzenne/schemas/app/1.0",
-        'xsi:schemaLocation': "https://www.gov.pl/static/zagospodarowanieprzestrzenne/schemas/app/1.0 ../appSchema/appSchema_app_v0_0_1/planowaniePrzestrzenne.xsd http://www.opengis.net/gml/3.2 http://schemas.opengis.net/gml/3.2.1/gml.xsd http://www.opengis.net/wfs/2.0 http://schemas.opengis.net/wfs/2.0/wfs.xsd"
+        'xsi:schemaLocation': "https://www.gov.pl/static/zagospodarowanieprzestrzenne/schemas/app/1.0 planowaniePrzestrzenne.xsd http://www.opengis.net/gml/3.2 http://schemas.opengis.net/gml/3.2.1/gml.xsd http://www.opengis.net/wfs/2.0 http://schemas.opengis.net/wfs/2.0/wfs.xsd"
     }
 
     # create the file structure

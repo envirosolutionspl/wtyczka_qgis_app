@@ -80,9 +80,9 @@ def validateMetadataForm(dlg):
                 return False, "W polu '%s' nie wprowadzono wszystkich wymaganych wartości.\nBrak klucza '%s', wymagane słowo kluczowe %s." % (
                     label.text().strip('*'), 'zakres przestrzenny', '\'Regionalnym\' lub \'Lokalne\'')
             # Poziom planu zagospodarowania przestrzennego
-            if not ('regionalny' in keywords or 'lokalny' in keywords):
+            if not ('regionalny' in keywords or 'lokalny' in keywords or 'sublokalny' in keywords):
                 return False, "W polu '%s' nie wprowadzono wszystkich wymaganych wartości.\nBrak klucza '%s', wymagane słowo kluczowe %s." % (
-                    label.text().strip('*'), 'Poziom planu zagospodarowania przestrzennego', '\'regionalny\' lub \'lokalny\'')
+                    label.text().strip('*'), 'Poziom planu zagospodarowania przestrzennego', '\'regionalny\', \'lokalny\' lub \'sublokalny\'')
 
         # E11 prostokąt ograniczający
         if elementId == 'e11':

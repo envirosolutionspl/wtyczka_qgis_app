@@ -7,17 +7,17 @@ wfs:FeatureCollection timeStamp="2020-06-02T00:00:00.000Z" numberReturned="10000
 	xmlns:xlink="http://www.w3.org/1999/xlink" 
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 	
-	xmlns:app="http://zagospodarowanieprzestrzenne.gov.pl/schemas/app/1.0"
+	xmlns:app="https://www.gov.pl/static/zagospodarowanieprzestrzenne/schemas/app/1.0"
 	
 	xsi:schemaLocation="
-	http://zagospodarowanieprzestrzenne.gov.pl/schemas/app/1.0 ./planowaniePrzestrzenne.xsd
+	https://www.gov.pl/static/zagospodarowanieprzestrzenne/schemas/app/1.0 ./planowaniePrzestrzenne.xsd
 	http://www.opengis.net/gml/3.2 http://schemas.opengis.net/gml/3.2.1/gml.xsd 
 	http://www.opengis.net/wfs/2.0 http://schemas.opengis.net/wfs/2.0/wfs.xsd">
 	
 	<wfs:member>
 		<!--Instancja typu obiektu-->
 		<app:AktPlanowaniaPrzestrzennego gml:id="PL.ZIPPZP.9999_14-PZPW_P1_20200525">
-			<gml:identifier codeSpace="http://zagospodarowanieprzestrzenne.gov.pl/app">http://zagospodarowanieprzestrzenne.gov.pl/app/AktPlanowaniaPrzestrzennego/PL.ZIPPZP.9999/14-PZPW/P1/20200525</gml:identifier>
+			<gml:identifier codeSpace="https://www.gov.pl/static/zagospodarowanieprzestrzenne/app">https://www.gov.pl/static/zagospodarowanieprzestrzenne/app/AktPlanowaniaPrzestrzennego/PL.ZIPPZP.9999/14-PZPW/P1/20200525</gml:identifier>
 			<app:idIIP>
 				<app:Identyfikator>
 					<app:lokalnyId>P1</app:lokalnyId>
@@ -27,7 +27,7 @@ wfs:FeatureCollection timeStamp="2020-06-02T00:00:00.000Z" numberReturned="10000
 			</app:idIIP>
 			<app:poczatekWersjiObiektu>2020-05-25T22:56:00</app:poczatekWersjiObiektu>
 			<app:tytul>Plan zagospodarowania przestrzennego województwa mazowieckiego</app:tytul>
-			<app:typPlanu xlink:href="http://zagospodarowanieprzestrzenne.gov.pl/codelist/AktPlanowaniaPrzestrzennegoKod/planZagospodarowaniaPrzestrzennegoWojewodztwa" xlink:title="plan zagospodarowania przestrzennego województwa" />
+			<app:typPlanu xlink:href="https://www.gov.pl/static/zagospodarowanieprzestrzenne/codelist/AktPlanowaniaPrzestrzennegoKod/planZagospodarowaniaPrzestrzennegoWojewodztwa" xlink:title="plan zagospodarowania przestrzennego województwa" />
 			<app:poziomHierarchii xlink:href="http://inspire.ec.europa.eu/codelist/LevelOfSpatialPlanValue/regional" xlink:title="regionalny" />
 			<app:obowiazujeOd>2019-01-11</app:obowiazujeOd>
 			<app:status xlink:href="https://inspire.ec.europa.eu/codelist/ProcessStepGeneralValue/legalForce" xlink:title="prawnie wiążący lub realizowany" />
@@ -52,14 +52,14 @@ wfs:FeatureCollection timeStamp="2020-06-02T00:00:00.000Z" numberReturned="10000
 					</gml:surfaceMember>
 				</gml:MultiSurface>
 			</app:zasiegPrzestrzenny>
-			<app:aktNormatywnyUchwalajacy xlink:href="http://zagospodarowanieprzestrzenne.gov.pl/app/DokumentFormalny/PL.ZIPPZP.9999/14-PZPW/DOC1/20200525" />
-			<app:rysunek xlink:href="http://zagospodarowanieprzestrzenne.gov.pl/app/RysunekAktuPlanowniaPrzestrzenego/PL.ZIPPZP.9999/14-PZPW/RYS1/20200525" />
+			<app:aktNormatywnyUchwalajacy xlink:href="https://www.gov.pl/static/zagospodarowanieprzestrzenne/app/DokumentFormalny/PL.ZIPPZP.9999/14-PZPW/DOC1/20200525" />
+			<app:rysunek xlink:href="https://www.gov.pl/static/zagospodarowanieprzestrzenne/app/RysunekAktuPlanowniaPrzestrzenego/PL.ZIPPZP.9999/14-PZPW/RYS1/20200525" />
 		</app:AktPlanowaniaPrzestrzennego>
 	</wfs:member>
 	<wfs:member>
 		<!--Instancja typu obiektu-->
 		<app:RysunekAktuPlanowniaPrzestrzenego gml:id="PL.ZIPPZP.9999_14-PZPW_RYS1_20200525">
-			<gml:identifier codeSpace="http://zagospodarowanieprzestrzenne.gov.pl/app">http://zagospodarowanieprzestrzenne.gov.pl/app/RysunekAktuPlanowniaPrzestrzenego/PL.ZIPPZP.9999/14-PZPW/RYS1/20200525</gml:identifier>
+			<gml:identifier codeSpace="https://www.gov.pl/static/zagospodarowanieprzestrzenne/app">https://www.gov.pl/static/zagospodarowanieprzestrzenne/app/RysunekAktuPlanowniaPrzestrzenego/PL.ZIPPZP.9999/14-PZPW/RYS1/20200525</gml:identifier>
 			<app:idIIP>
 				<app:Identyfikator>
 					<app:lokalnyId>RYS1</app:lokalnyId>
@@ -75,14 +75,14 @@ wfs:FeatureCollection timeStamp="2020-06-02T00:00:00.000Z" numberReturned="10000
 			<app:rozdzielczoscPrzestrzenna>250000</app:rozdzielczoscPrzestrzenna>
 			<app:opis>Zał. 2 stan zagospodarowania</app:opis>
 			<app:obowiazujeOd>2019-01-11</app:obowiazujeOd>
-			<app:plan xlink:href="http://zagospodarowanieprzestrzenne.gov.pl/app/AktPlanowaniaPrzestrzennego/PL.ZIPPZP.9999/14-PZPW/P1/20200525" />
+			<app:plan xlink:href="https://www.gov.pl/static/zagospodarowanieprzestrzenne/app/AktPlanowaniaPrzestrzennego/PL.ZIPPZP.9999/14-PZPW/P1/20200525" />
 		</app:RysunekAktuPlanowniaPrzestrzenego>
 	</wfs:member>
 	
 	<wfs:member>
 		<!--Instancja typu obiektu-->
 		<app:DokumentFormalny gml:id="PL.ZIPPZP.9999_14-PZPW_DOC1_20200525">
-			<gml:identifier codeSpace="http://zagospodarowanieprzestrzenne.gov.pl/app">http://zagospodarowanieprzestrzenne.gov.pl/app/DokumentFormalny/PL.ZIPPZP.9999/14-PZPW/DOC1/20200525</gml:identifier>
+			<gml:identifier codeSpace="https://www.gov.pl/static/zagospodarowanieprzestrzenne/app">https://www.gov.pl/static/zagospodarowanieprzestrzenne/app/DokumentFormalny/PL.ZIPPZP.9999/14-PZPW/DOC1/20200525</gml:identifier>
 			<app:idIIP>
 				<app:Identyfikator>
 					<app:lokalnyId>DOC1</app:lokalnyId>
@@ -105,9 +105,9 @@ wfs:FeatureCollection timeStamp="2020-06-02T00:00:00.000Z" numberReturned="10000
 				</gmd:CI_Date>
 			</app:data>
 			<app:dataWejsciaWZycie>2019-01-11</app:dataWejsciaWZycie>
-			<app:dziennikUrzedowy xlink:href="http://zagospodarowanieprzestrzenne.gov.pl/codelist/DziennikUrzedowyKod/dziennikUrzedowyWojMazowieckiego" xlink:title="Dziennik Urzędowy Woj. Mazowieckiego" />
+			<app:dziennikUrzedowy xlink:href="https://www.gov.pl/static/zagospodarowanieprzestrzenne/codelist/DziennikUrzedowyKod/dziennikUrzedowyWojMazowieckiego" xlink:title="Dziennik Urzędowy Woj. Mazowieckiego" />
 			<app:lacze>https://edziennik.mazowieckie.pl/WDU_W/2018/13180/akt.pdf</app:lacze>
-			<app:uchwala xlink:href="http://zagospodarowanieprzestrzenne.gov.pl/app/AktPlanowaniaPrzestrzennego/PL.ZIPPZP.9999/14-PZPW/P1/20200525" />
+			<app:uchwala xlink:href="https://www.gov.pl/static/zagospodarowanieprzestrzenne/app/AktPlanowaniaPrzestrzennego/PL.ZIPPZP.9999/14-PZPW/P1/20200525" />
 		</app:DokumentFormalny>
 	</wfs:member>
 </wfs:FeatureCollection>

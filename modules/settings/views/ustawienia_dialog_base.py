@@ -175,7 +175,7 @@ class Ui_Dialog(object):
         self.title_lbl.setText(_translate("Dialog", "Ustawienia wtyczki APP"))
         self.verticalGroupBox.setTitle(_translate("Dialog", "Domyślna ścieżka zapisu plików"))
         self.folder_btn.setText(_translate("Dialog", "Wybierz katalog"))
-        self.verticalGroupBox_2.setTitle(_translate("Dialog", "Domyślne wartości atrybutów"))
+        self.verticalGroupBox_2.setTitle(_translate("Dialog", "Konfiguracja identyfiktora zbioru danych przestrzennych"))
         self.rodzajZbioru_lbl.setText(_translate("Dialog", "Rodzaj zbioru"))
         self.numerZbioru_lbl.setText(_translate("Dialog", "Numer zbioru"))
         self.jpt_lbl.setText(_translate("Dialog", "JPT"))

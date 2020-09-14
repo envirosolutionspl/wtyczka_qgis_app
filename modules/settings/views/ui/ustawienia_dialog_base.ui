@@ -91,7 +91,7 @@
            <item>
             <widget class="QgsCollapsibleGroupBox" name="verticalGroupBox_2">
              <property name="title">
-              <string>Domyślne wartości atrybutów</string>
+              <string>Konfiguracja identyfiktora zbioru danych przestrzennych</string>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_5">
               <item>

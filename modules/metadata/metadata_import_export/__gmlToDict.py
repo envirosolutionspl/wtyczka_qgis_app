@@ -89,9 +89,14 @@ def appGmlToMetadataElementDict(gmlPath):
 
     # E12
     itemsList = []
+    # szukaj w rysunkach APP
     for uklad in root.findall('//*/app:ukladOdniesieniaPrzestrzennego', ns):
         if {'e12_cmbbx': uklad.text} not in itemsList:
             itemsList.append({'e12_cmbbx': uklad.text})
+    # szukaj w zasięgach APP
+    for multiSurface in root.findall('//*/app:zasiegPrzestrzenny/gml:MultiSurface', ns):
+        if {'e12_cmbbx': multiSurface.attrib['srsName']} not in itemsList:
+            itemsList.append({'e12_cmbbx': multiSurface.attrib['srsName']})
     metadataElementDict['e12'] = itemsList
 
     # E13

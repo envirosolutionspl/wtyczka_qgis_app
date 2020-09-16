@@ -362,15 +362,6 @@ class AppModule(BaseModule):
     def generowanieGMLDialog_next_btn_clicked(self):
         self.openNewDialog(self.zbiorPrzygotowanieDialog)
         self.listaOkienek.append(self.generowanieGMLDialog)
-        # if self.generowanieGMLDialog.yesMakeAnotherApp_radioBtn.isChecked():
-        #     self.openNewDialog(self.rasterInstrukcjaDialog)
-        #     self.listaOkienek.append(self.generowanieGMLDialog)
-        # if self.generowanieGMLDialog.noMakeAnotherApp_radioBtn.isChecked():
-        #     if self.generowanieGMLDialog.yesMakeSet_radioBtn.isChecked():
-        #         self.openNewDialog(self.zbiorPrzygotowanieDialog)
-        #         self.listaOkienek.append(self.generowanieGMLDialog)
-        #     if self.generowanieGMLDialog.noMakeSet_radioBtn.isChecked():
-        #         self.generowanieGMLDialog.close()
 
     def makeAnotherApp_radioBtn_toggled(self, setYes):
         if setYes:  # tak - utworzenie kolejnego APP

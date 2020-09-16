@@ -156,19 +156,19 @@ def appGmlToMetadataElementDict(gmlPath):
     itemsList.append({
         'e18_lineEdit': krajowy1,
         # TODO: uaktualnić po publikacji
-        'e18_dateTimeEdit': QDateTime(2020, 12, 31, 0, 0),
+        'e18_dateTimeEdit': QDateTime(2020, 10, 31, 0, 0),
         'e18_cmbbx': 'Data opublikowania',
         'e19_cmbbx': 'Zgodny (conformant)' if ifKrajowy else 'Niezgodny (notConformant)',
-        'xlink': "http://anyURL/sejm"   # TODO: uaktualnić po publikacji
+        'xlink': ""   # TODO: uaktualnić po publikacji
     })
     # E18 i E19 krajowy2
     itemsList.append({
         'e18_lineEdit': krajowy2,
         # TODO: uaktualnić po publikacji
-        'e18_dateTimeEdit': QDateTime(2020, 12, 31, 0, 0),
+        'e18_dateTimeEdit': QDateTime(2020, 10, 31, 0, 0),
         'e18_cmbbx': 'Data opublikowania',
         'e19_cmbbx': 'Zgodny (conformant)' if ifKrajowy else 'Niezgodny (notConformant)',
-        'xlink': "http://anyURL/sejm"   # TODO: uaktualnić po publikacji
+        'xlink': ""   # TODO: uaktualnić po publikacji
     })
     metadataElementDict['e18'] = itemsList
 

@@ -651,7 +651,7 @@ class AppModule(BaseModule):
                     if rows > 0:
                         for i in range(rows):
                             item = self.zbiorPrzygotowanieDialog.appTable_widget.item(
-                                i, 1).text()
+                                i, 1).toolTip()
                             if plik == item:
                                 param = False
                                 showPopup("Błąd tabeli",

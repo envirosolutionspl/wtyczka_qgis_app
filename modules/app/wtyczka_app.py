@@ -418,7 +418,7 @@ class AppModule(BaseModule):
 
         if not utils.validatePrzestrzenNazwAppSet(files=files):
             utils.showPopup('Błąd przestrzeni nazw',
-                            'Obiekty pochodzą z różnych przestrzeni nazw.')
+                            'Obiekty posiadają różne przestrzenie nazw w idIIP.')
         elif len(xmlIip_list) != appTable_widget.rowCount():
             utils.showPopup('Błąd liczności obiektów',
                             'W zbiorze mogą występować tylko obiekty AktPlanowaniaPrzestrzennego o unikalnym idIIP.')

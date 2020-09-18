@@ -70,12 +70,17 @@ class ValidatorLxml:
             else:
                 return [False, 'Błąd geometrii APP: Geometria APP nie jest poprawną warstwą wektorową']
 
+            # walidacja unikalności przestrzeni nazw w pliku GML
+            valRelationsResult = self.validatePrzestrzenNazwIntegrity(xmlPath)
+            if not valRelationsResult[0]:
+                return valRelationsResult
+
             # walidacja relacji
             valRelationsResult = self.validateAppRelations(xmlPath)
             if not valRelationsResult[0]:
                 return valRelationsResult
 
-        return valResult
+        return [True]
 
     def validateZbiorXml(self, xmlPath):
 
@@ -89,7 +94,7 @@ class ValidatorLxml:
         if not valOverlayResult[0]:
             return valOverlayResult
 
-        return valRes
+        return [True]
 
 
     def validateRequiredMetadataTags(self, xmlPath):
@@ -210,3 +215,33 @@ class ValidatorLxml:
             return False, '\n\n'.join(bledy)
 
         return [True]
+
+
+    def validatePrzestrzenNazwIntegrity(self, gmlPath):
+        """Sprawdza czy przestrzenie nazw są zgodne"""
+        ns = {'gco': "http://www.isotc211.org/2005/gco",
+              'app': "https://www.gov.pl/static/zagospodarowanieprzestrzenne/schemas/app/1.0",
+              'gmd': "http://www.isotc211.org/2005/gmd",
+              'gml': "http://www.opengis.net/gml/3.2",
+              'wfs': "http://www.opengis.net/wfs/2.0",
+              'xlink': "http://www.w3.org/1999/xlink",
+              'xsi': "http://www.w3.org/2001/XMLSchema-instance"
+              }
+
+        root = ET.parse(gmlPath)
+
+        przestrzenie = []
+        # wydobycie unikalnych przestrzeni nazw
+        for p in root.findall('//app:idIIP/app:Identyfikator/app:przestrzenNazw', ns):
+            przestrzenie.append(p.text)
+        unikalnePrzestrzenie = list(set(przestrzenie))
+
+        if len(unikalnePrzestrzenie) == 0:
+            return False, 'Brak zdefiniowanych przestrzeni nazw w pliku'
+        elif len(unikalnePrzestrzenie) > 1:
+            return False, 'W APP/Zbiorze APP może występować TYLKO JEDNA przestrzeń nazw. \nW pliku %s znajdują się następujące przestrzenie nazw:\n\n%s' % (
+                gmlPath,
+                '\n'.join(unikalnePrzestrzenie)
+            )
+        else:
+            return [True]

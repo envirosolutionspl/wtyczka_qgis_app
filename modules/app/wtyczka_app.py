@@ -464,7 +464,6 @@ class AppModule(BaseModule):
             formElements = self.activeDlg.formElements
             self.activeDlg.clearForm(self.activeDlg.form_scrollArea)
             utils.loadItemsToForm(plik, formElements)
-            pass
 
     def addTableContentGML(self):
         files = QFileDialog.getOpenFileNames(

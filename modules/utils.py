@@ -176,7 +176,6 @@ def checkZbiorGeometryValidityBeforeCreation(gmlFilesPath):
     geoms = []
     for gmlPath in gmlFilesPath:
         if isAppOperative(gmlPath):  # jest obowiązujący
-            print("operative", gmlPath)
             layer = QgsVectorLayer(gmlPath, "", 'ogr')
             if not layer.isValid():
                 return [False, "Niepoprawna warstwa wektorowa w pliku %s" % gmlPath]
@@ -209,7 +208,6 @@ def checkZbiorGeometryValidityOnCreatedFile(gmlSetFilePath):
         gmlId = feat['gml_id']
         # jest obowiązujący - wyszukiwanie w zbiorze
         if isAppOperative(gmlSetFilePath, gmlId=gmlId):
-            print(feat['gml_id'], feat.geometry(), feat.geometry().area())
             geoms.append((feat.geometry(), gmlId))
     for a, b in itertools.combinations(geoms, 2):
         geom1 = a[0]
@@ -1795,11 +1793,12 @@ def setValueToListWidget(formElement, objVal):
         textList = []
 
         for objName, objVal in objVal.items():
-            # print(objName, objVal)
+
             if objName == 'data_dateTimeEdit':
-                data[objVal.objectName()] = objVal.dateTime()
+                data[objVal.objectName()] = objVal.date()
                 # textList.append(objVal.dateTime().date().toString())
-                objValue = objVal.dateTime().date().toString()
+
+                objValue = objVal.dateTime().date().toString("dd-MM-yyyy")
                 textList.append(objValue)
             else:
                 data[objName] = objVal

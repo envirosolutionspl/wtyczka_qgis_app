@@ -172,9 +172,11 @@ def isAppOperative(gmlPath, gmlId=None):
 def checkZbiorGeometryValidityBeforeCreation(gmlFilesPath):
     """sprawdza integralność zbioru APP, czy np. obrysy się nie przecinają
     na podstawie listy ścieżek do plików GML"""
+
     geoms = []
     for gmlPath in gmlFilesPath:
         if isAppOperative(gmlPath):  # jest obowiązujący
+            print("operative", gmlPath)
             layer = QgsVectorLayer(gmlPath, "", 'ogr')
             if not layer.isValid():
                 return [False, "Niepoprawna warstwa wektorowa w pliku %s" % gmlPath]
@@ -187,7 +189,7 @@ def checkZbiorGeometryValidityBeforeCreation(gmlFilesPath):
         path1 = a[1]
         geom2 = b[0]
         path2 = b[1]
-        if geom1.overlaps(geom2) or geom1.equals(geom2):
+        if geom1.intersects(geom2) and not geom1.touches(geom2):
             return [False, "Geometrie swóch APP o statusie \"prawnie wiążący lub realizowany\" w ramach jednego zbioru nie mogą na siebie nachodzić. Dotyczy plików\n\n%s\n%s" % (path1, path2)]
     return [True]
 
@@ -214,7 +216,7 @@ def checkZbiorGeometryValidityOnCreatedFile(gmlSetFilePath):
         gmlId1 = a[1]
         geom2 = b[0]
         gmlId2 = b[1]
-        if geom1.overlaps(geom2) or geom1.equals(geom2):
+        if geom1.intersects(geom2) and not geom1.touches(geom2):
             return [False,
                     "Geometrie swóch APP o statusie \"prawnie wiążący lub realizowany\" w ramach jednego zbioru nie mogą na siebie nachodzić. Dotyczy APP o identyfikatorach\n\n%s\n%s" % (
                         gmlId1, gmlId2)]

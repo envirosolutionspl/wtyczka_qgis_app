@@ -14,7 +14,7 @@ placeholders = {
     "RysunekAktuPlanowaniaPrzestrzennegoType:rozdzielczoscPrzestrzenna": "2000",
     "RysunekAktuPlanowaniaPrzestrzennegoType:opis": "Zał. 2 stan zagospodarowania",
     "AktPlanowaniaPrzestrzennegoType:lokalnyId": "121_P1 LUB np. XXVI.49.2010_P1",
-    "AktPlanowaniaPrzestrzennegoType:przestrzenNazw": "PL.PIPPZP.2481/206101-MPZP",
+    "AktPlanowaniaPrzestrzennegoType:przestrzenNazw": "PL.ZIPPZP.2481/206101-MPZP",
     "AktPlanowaniaPrzestrzennegoType:wersjaId": "20200630T223418",
     "AktPlanowaniaPrzestrzennegoType:tytul": "Plan zagospodarowania przestrzennego województwa mazowieckiego",
     "AktPlanowaniaPrzestrzennegoType:zmiana": "0",
@@ -23,10 +23,10 @@ placeholders = {
     "DokumentFormalnyType:lokalnyId": "121_Doc1 LUB np. XXVI.49.2010_Doc1",
     "DokumentFormalnyType:przestrzenNazw": "PL.PIPPZP.2481/206101-MPZP",
     # "DokumentFormalnyType:wersjaId": "20200630T223418",
-    "DokumentFormalnyType:tytul": "Uchwała nr 22/18 Sejmiku Wojewodztwa Mazowieckiego z dnia 19 grudnia 2018r. w sprawie Planu zagospodarowania przestrzennego województwa mazowieckiego",
+    "DokumentFormalnyType:tytul": "Uchwała nr 22/18 Sejmiku Województwa Mazowieckiego z dnia 19 grudnia 2018r. w sprawie Planu zagospodarowania przestrzennego województwa mazowieckiego",
     "DokumentFormalnyType:nazwaSkrocona": "Plan zagospodarowania przestrzennego województwa mazowieckiego",
     "DokumentFormalnyType:numerIdentyfikacyjny": "DZ. URZ. WOJ. 2018.13180",
-    "DokumentFormalnyType:organUstanawiajacy": "Sejmik Wojewodztwa Mazowieckiego",
+    "DokumentFormalnyType:organUstanawiajacy": "Sejmik Województwa Mazowieckiego",
     "DokumentFormalnyType:lacze": "http://www.przykladowa.domena/akt.pdf"
 }
 

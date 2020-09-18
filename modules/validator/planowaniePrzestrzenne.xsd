@@ -153,7 +153,8 @@ KOMENTARZ 01. Unikalność identyfikatora w przestrzeni nazw gwarantuje dostawca
 				<annotation>
 					<documentation>identyfikator wersji: Identyfikator poszczególnej wersji obiektu przestrzennego.
 
-KOMENTARZ 01. W zestawie wszystkich wersji danego obiektu identyfikator wersji musi być unikalny.</documentation>
+KOMENTARZ 01. W zestawie wszystkich wersji danego obiektu identyfikator wersji musi być unikalny.
+POLE „WERSJAID” GENEROWANY JEST AUTOMATYCZNIE NA PODSTAWIE ATRYBUTU "POCZATEKWERSJIOBIEKTU"</documentation>
 				</annotation>
 			</element>
 		</sequence>

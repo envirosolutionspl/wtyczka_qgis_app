@@ -6,7 +6,7 @@ initialValues = {
 }
 placeholders = {
     "RysunekAktuPlanowaniaPrzestrzennegoType:lokalnyId": "121_Rys1 LUB np. XXVI.49.2010_Rys1",
-    "RysunekAktuPlanowaniaPrzestrzennegoType:przestrzenNazw": "PL.PIPPZP.2481/206101-MPZP",
+    "RysunekAktuPlanowaniaPrzestrzennegoType:przestrzenNazw": "PL.ZIPPZP.2481/206101-MPZP",
     "RysunekAktuPlanowaniaPrzestrzennegoType:wersjaId": "20200630T223418",
     "RysunekAktuPlanowaniaPrzestrzennegoType:tytul": "Plan zagospodarowania przestrzennego województwa mazowieckiego Stan zagospodarowania",
     "RysunekAktuPlanowaniaPrzestrzennegoType:lacze": "http://www.przykladowa.domena/zagospodarowanie.tif",
@@ -21,7 +21,7 @@ placeholders = {
     "AktPlanowaniaPrzestrzennegoType:referencja": "Plan zagospodarowania przestrzennego województwa mazowieckiego został sporządzony na podkładzie Bazy Danych Obiektów Ogólnogeograficznych (BDOO).",
     "AktPlanowaniaPrzestrzennegoType:lacze": "http://mapy.geoportal.gov.pl/wss/service/ATOM/httpauth/atom/CODGIK_BDOO",
     "DokumentFormalnyType:lokalnyId": "121_Doc1 LUB np. XXVI.49.2010_Doc1",
-    "DokumentFormalnyType:przestrzenNazw": "PL.PIPPZP.2481/206101-MPZP",
+    "DokumentFormalnyType:przestrzenNazw": "PL.ZIPPZP.2481/206101-MPZP",
     # "DokumentFormalnyType:wersjaId": "20200630T223418",
     "DokumentFormalnyType:tytul": "Uchwała nr 22/18 Sejmiku Województwa Mazowieckiego z dnia 19 grudnia 2018r. w sprawie Planu zagospodarowania przestrzennego województwa mazowieckiego",
     "DokumentFormalnyType:nazwaSkrocona": "Plan zagospodarowania przestrzennego województwa mazowieckiego",

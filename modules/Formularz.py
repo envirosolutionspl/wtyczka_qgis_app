@@ -17,6 +17,10 @@ class NoScrollQComboBox(QComboBox):
 class NoScrollQgsDateTimeEdit(QgsDateTimeEdit):
     """QgsDateTimeEdit bez scrolla"""
 
+    def __init__(self, parent=None):
+        super(NoScrollQgsDateTimeEdit, self).__init__()
+        self.setDisplayFormat('dd.MM.yyyy hh:mm')
+
     def wheelEvent(self, event):
         event.ignore()
 
@@ -384,7 +388,6 @@ class Formularz:
             "<FONT COLOR=black>%s</FONT><b>%s</b>" % (formElement.documentation, placeholder))  # dodanie tooltip z documentation 'rich text' dla zawijania
         tooltipImg.setObjectName(formElement.name + '_tooltip')
         return tooltipImg
-
 
     def setDefaultValues(self):
         s = QgsSettings()

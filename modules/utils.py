@@ -37,7 +37,8 @@ def settingsValidateDatasetId(przestrzenNazw):
 
 def validateDatasetUri(datasetUri):
     """sprawdza czy Uri ma poprawną formę"""
-    pattern = r'https://www.gov.pl/static/zagospodarowanieprzestrzenne/app/AktPlanowaniaPrzestrzennego/PL.ZIPPZP.\d+/\d{1}[02468]{1}(\d{0}|\d{2}|\d{4})-(PZPW|MPZP|SUIKZP){1}/'
+    pattern = r'https://www.gov.pl/zagospodarowanieprzestrzenne/app/AktPlanowaniaPrzestrzennego/PL.ZIPPZP.\d+/\d{1}[02468]{1}(\d{0}|\d{2}|\d{4})-(PZPW|MPZP|SUIKZP){1}/'
+    # pattern = r'https://www.gov.pl/static/zagospodarowanieprzestrzenne/app/AktPlanowaniaPrzestrzennego/PL.ZIPPZP.\d+/\d{1}[02468]{1}(\d{0}|\d{2}|\d{4})-(PZPW|MPZP|SUIKZP){1}/'
     return True if re.fullmatch(pattern, datasetUri) else False
 
 
@@ -1223,7 +1224,7 @@ def mergeDocsToAPP2(docList):  # Nowa wersja tworzenia APP - do dokończenia
         gmlIdentifier = ET.SubElement(dataDoc, 'gml:identifier')
         gmlIdentifier.set(
             'codeSpace', "https://www.gov.pl/static/zagospodarowanieprzestrzenne/app")
-        gmlIdentifier.text = 'https://www.gov.pl/static/zagospodarowanieprzestrzenne/app/%s/%s' % (
+        gmlIdentifier.text = 'https://www.gov.pl/zagospodarowanieprzestrzenne/app/%s/%s' % (
             docType, idIIP.replace('_', '/'))
         return dataDoc
 
@@ -1415,7 +1416,7 @@ def mergeDocsToAPP(docList):  # docList z getTableContent
         if docType == 'AktPlanowaniaPrzestrzennego':
             APProot = root
             appIIP = getDocIIP(root)
-            APPrelLink = 'https://www.gov.pl/static/zagospodarowanieprzestrzenne/app/%s/%s' % (
+            APPrelLink = 'https://www.gov.pl/zagospodarowanieprzestrzenne/app/%s/%s' % (
                 docType, appIIP.replace('_', '/'))
 
     for doc, relation in docList:

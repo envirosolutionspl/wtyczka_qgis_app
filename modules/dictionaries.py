@@ -236,3 +236,25 @@ rodzajeZbiorow = {
     'SUIKZP': 'SUIKZP',
     'MPZP': 'MPZP'
 }
+
+nameSpaces = {
+    'xsi': "http://www.w3.org/2001/XMLSchema",
+    'app': "https://www.gov.pl/static/zagospodarowanieprzestrzenne/schemas/app/1.0",
+    'gmd': "http://www.isotc211.org/2005/gmd",
+    'gco': 'http://www.isotc211.org/2005/gco',
+    'xlink': 'http://www.w3.org/1999/xlink',
+    'gml': "http://www.opengis.net/gml/3.2",
+    'wfs': 'http://www.opengis.net/wfs/2.0',
+    'gmlexr': "http://www.opengis.net/gml/3.3/exr"
+}
+
+xmlNameSpaces = {
+    'xmlns:gco': "http://www.isotc211.org/2005/gco",
+    'xmlns:gmd': "http://www.isotc211.org/2005/gmd",
+    'xmlns:gml': "http://www.opengis.net/gml/3.2",
+    'xmlns:wfs': "http://www.opengis.net/wfs/2.0",
+    'xmlns:xlink': "http://www.w3.org/1999/xlink",
+    'xmlns:xsi': "http://www.w3.org/2001/XMLSchema-instance",
+    'xmlns:app': "https://www.gov.pl/static/zagospodarowanieprzestrzenne/schemas/app/1.0",
+    'xsi:schemaLocation': "https://www.gov.pl/static/zagospodarowanieprzestrzenne/schemas/app/1.0 planowaniePrzestrzenne.xsd http://www.opengis.net/gml/3.2 http://schemas.opengis.net/gml/3.2.1/gml.xsd http://www.opengis.net/wfs/2.0 http://schemas.opengis.net/wfs/2.0/wfs.xsd"
+}

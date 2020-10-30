@@ -415,7 +415,7 @@ KOMENTARZ 01. Układ odniesienia przestrzennego musi zostać podany zgodnie z EP
 							<documentation>opis: Krótka charakterystyka rysunku aktu planowania przestrzennego.</documentation>
 						</annotation>
 					</element>
-					<element name="obowiazujeOd" type="date">
+					<element name="obowiazujeOd" type="date" minOccurs="0">
 						<annotation>
 							<documentation>obowiązuje od: Data, od której dana wersja aktu planowania przestrzennego obowiązuje.</documentation>
 						</annotation>

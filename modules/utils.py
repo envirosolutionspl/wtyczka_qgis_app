@@ -558,7 +558,7 @@ def makeXML(docName, elements, formData, obrysLayer=None):
     items = ET.SubElement(datamember, tag + docName)
     items.set('gml:id', IPP)
     item = ET.SubElement(items, 'gml:identifier')
-    codeSpace = 'https://www.gov.pl/static/zagospodarowanieprzestrzenne/app'
+    codeSpace = 'https://www.gov.pl/zagospodarowanieprzestrzenne/app'
     item.set('codeSpace', codeSpace)
     item.text = '/'.join([codeSpace, docName, IPP.replace('_', '/')])
 
@@ -989,7 +989,7 @@ def createXmlData(dialog, obrysLayer):  # NOWE
     items = ET.SubElement(datamember, tag + docName)
 
     itemid = ET.SubElement(items, 'gml:identifier')
-    codeSpace = 'https://www.gov.pl/static/zagospodarowanieprzestrzenne/app'
+    codeSpace = 'https://www.gov.pl/zagospodarowanieprzestrzenne/app'
     itemid.set('codeSpace', codeSpace)
 
     for fe in dialog.formElements:
@@ -1223,7 +1223,7 @@ def mergeDocsToAPP2(docList):  # Nowa wersja tworzenia APP - do dokończenia
         dataDoc.set('gml:id', idIIP)
         gmlIdentifier = ET.SubElement(dataDoc, 'gml:identifier')
         gmlIdentifier.set(
-            'codeSpace', "https://www.gov.pl/static/zagospodarowanieprzestrzenne/app")
+            'codeSpace', "https://www.gov.pl/zagospodarowanieprzestrzenne/app")
         gmlIdentifier.text = 'https://www.gov.pl/zagospodarowanieprzestrzenne/app/%s/%s' % (
             docType, idIIP.replace('_', '/'))
         return dataDoc

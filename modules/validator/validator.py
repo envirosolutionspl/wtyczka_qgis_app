@@ -75,6 +75,11 @@ class ValidatorLxml:
             if not valRelationsResult[0]:
                 return valRelationsResult
 
+            # walidacja obligatoryjności mapy podkładowej tylko dla APP poziomu lokalnego
+            valRelationsResult = self.validateMapaPodkladowaQuantityRequirement(xmlPath)
+            if not valRelationsResult[0]:
+                return valRelationsResult
+
             # walidacja relacji
             valRelationsResult = self.validateAppRelations(xmlPath)
             if not valRelationsResult[0]:
@@ -215,7 +220,6 @@ class ValidatorLxml:
 
         return [True]
 
-
     def validatePrzestrzenNazwIntegrity(self, gmlPath):
         """Sprawdza czy przestrzenie nazw są zgodne"""
         ns = {'gco': "http://www.isotc211.org/2005/gco",
@@ -242,5 +246,35 @@ class ValidatorLxml:
                 gmlPath,
                 '\n'.join(unikalnePrzestrzenie)
             )
+        else:
+            return [True]
+
+    def validateMapaPodkladowaQuantityRequirement(self, gmlPath):
+        """Sprawdza czy przestrzenie nazw są zgodne"""
+        ns = {'gco': "http://www.isotc211.org/2005/gco",
+              'app': "https://www.gov.pl/static/zagospodarowanieprzestrzenne/schemas/app/1.0",
+              'gmd': "http://www.isotc211.org/2005/gmd",
+              'gml': "http://www.opengis.net/gml/3.2",
+              'wfs': "http://www.opengis.net/wfs/2.0",
+              'xlink': "http://www.w3.org/1999/xlink",
+              'xsi': "http://www.w3.org/2001/XMLSchema-instance"
+              }
+
+        root = ET.parse(gmlPath)
+
+        bledy = []
+        # wydobycie unikalnych przestrzeni nazw
+        for poziomHierarchii in root.findall('//app:AktPlanowaniaPrzestrzennego/app:poziomHierarchii', ns):
+            poziom = poziomHierarchii.attrib['{%s}title' % ns['xlink']]
+            if poziom == 'lokalny':
+                mapyPodkladowe = poziomHierarchii.findall('../app:mapaPodkladowa/app:MapaPodkladowa/app:referencja', ns)
+                if len(mapyPodkladowe) == 0:
+                    app = poziomHierarchii.find['../gml:identifier']
+                    appId = validator_utils.urlIdToGmlId(app.text)
+                    bledy.append(f'''Dla Aktu Planowania Przestrzennego o identyfikatorze {appId} brak definicji atrybutu \'mapaPodkladowa\'.
+                    Atrybut \'mapaPodkladowa\' jest wymagany dla wszystkich APP poziomu lokalnego (poziomHierarchii = http://inspire.ec.europa.eu/codelist/LevelOfSpatialPlanValue/local)''')
+
+        if len(bledy) > 0:
+            return False, '\n'.join(bledy)
         else:
             return [True]

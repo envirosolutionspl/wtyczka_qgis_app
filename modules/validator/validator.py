@@ -75,6 +75,11 @@ class ValidatorLxml:
             if not valRelationsResult[0]:
                 return valRelationsResult
 
+            # walidacja obligatoryjności mapy podkładowej tylko dla APP poziomu lokalnego
+            valRelationsResult = self.validateMapaPodkladowaQuantityRequirement(xmlPath)
+            if not valRelationsResult[0]:
+                return valRelationsResult
+
             # walidacja relacji
             valRelationsResult = self.validateAppRelations(xmlPath)
             if not valRelationsResult[0]:
@@ -102,13 +107,12 @@ class ValidatorLxml:
         bledy = []
         metadataElementDict = xmlToMetadataElementDict(xmlPath)
 
-        fixedElementsDict = xmlToMetadataElementDictFixed(xmlPath)
-        unionDict = {**metadataElementDict, **fixedElementsDict}
-        for elementId, licznosc in dictionaries.licznoscMetadataFields.items():
+        for elementId, content in metadataElementDict.items():
+            licznosc = dictionaries.licznoscMetadataFields[elementId]
             # element wymagany i nie ma go w XML
-            if int(licznosc[0]) > 0 and elementId not in list(unionDict.keys()):
+            if int(licznosc[0]) > 0 and not content:
                 bledy.append('Brak definicji wymaganej wartości \'%s\' (%s) z katalogu metadanych w walidowanym pliku XML metadanych' % (
-                    dictionaries.nazwyMetadataFields[elementId], elementId))
+                        dictionaries.nazwyMetadataFields[elementId], elementId))
         if bledy:
             return [False, '\n\n'.join(bledy)]
         return [True]
@@ -216,7 +220,6 @@ class ValidatorLxml:
 
         return [True]
 
-
     def validatePrzestrzenNazwIntegrity(self, gmlPath):
         """Sprawdza czy przestrzenie nazw są zgodne"""
         ns = {'gco': "http://www.isotc211.org/2005/gco",
@@ -243,5 +246,37 @@ class ValidatorLxml:
                 gmlPath,
                 '\n'.join(unikalnePrzestrzenie)
             )
+        else:
+            return [True]
+
+    def validateMapaPodkladowaQuantityRequirement(self, gmlPath):
+        """Sprawdza czy przestrzenie nazw są zgodne"""
+        ns = {'gco': "http://www.isotc211.org/2005/gco",
+              'app': "https://www.gov.pl/static/zagospodarowanieprzestrzenne/schemas/app/1.0",
+              'gmd': "http://www.isotc211.org/2005/gmd",
+              'gml': "http://www.opengis.net/gml/3.2",
+              'wfs': "http://www.opengis.net/wfs/2.0",
+              'xlink': "http://www.w3.org/1999/xlink",
+              'xsi': "http://www.w3.org/2001/XMLSchema-instance"
+              }
+
+        root = ET.parse(gmlPath)
+
+        bledy = []
+        # wydobycie unikalnych przestrzeni nazw
+        for app in root.findall('//app:AktPlanowaniaPrzestrzennego', ns):
+            poziomHierarchii = app.find('app:poziomHierarchii', ns)
+            poziom = poziomHierarchii.attrib['{%s}title' % ns['xlink']]
+            print(poziom)
+            if poziom == 'lokalny':
+                mapyPodkladowe = app.findall('app:mapaPodkladowa/app:MapaPodkladowa/app:referencja', ns)
+                print(len(mapyPodkladowe))
+                if len(mapyPodkladowe) == 0:
+                    appId = validator_utils.urlIdToGmlId(app.find('gml:identifier', ns).text)
+                    bledy.append(
+                        f'Dla Aktu Planowania Przestrzennego o identyfikatorze {appId} brak definicji atrybutu \'mapaPodkladowa\'.\nAtrybut \'mapaPodkladowa\' jest wymagany dla wszystkich APP poziomu lokalnego (poziomHierarchii = http://inspire.ec.europa.eu/codelist/LevelOfSpatialPlanValue/local)')
+
+        if len(bledy) > 0:
+            return False, '\n'.join(bledy)
         else:
             return [True]

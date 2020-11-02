@@ -147,9 +147,9 @@
         <property name="geometry">
          <rect>
           <x>0</x>
-          <y>0</y>
+          <y>-5</y>
           <width>709</width>
-          <height>300</height>
+          <height>1025</height>
          </rect>
         </property>
         <layout class="QGridLayout" name="gridLayout_2">
@@ -168,7 +168,7 @@
             <bool>false</bool>
            </property>
            <property name="collapsed">
-            <bool>true</bool>
+            <bool>false</bool>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_2">
             <property name="sizeConstraint">
@@ -296,7 +296,7 @@ Wartości elementu metadanych zawsze jest równa: zbiór danych przestrzennych (
                  <item>
                   <widget class="QLabel" name="e4_lbl">
                    <property name="text">
-                    <string>Adres zbioru danych przestrzennych</string>
+                    <string>Adres zbioru danych przestrzennych*</string>
                    </property>
                   </widget>
                  </item>

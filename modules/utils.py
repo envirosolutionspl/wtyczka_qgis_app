@@ -37,7 +37,8 @@ def settingsValidateDatasetId(przestrzenNazw):
 
 def validateDatasetUri(datasetUri):
     """sprawdza czy Uri ma poprawną formę"""
-    pattern = r'https://www.gov.pl/static/zagospodarowanieprzestrzenne/app/AktPlanowaniaPrzestrzennego/PL.ZIPPZP.\d+/\d{1}[02468]{1}(\d{0}|\d{2}|\d{4})-(PZPW|MPZP|SUIKZP){1}/'
+    pattern = r'https://www.gov.pl/zagospodarowanieprzestrzenne/app/AktPlanowaniaPrzestrzennego/PL.ZIPPZP.\d+/\d{1}[02468]{1}(\d{0}|\d{2}|\d{4})-(PZPW|MPZP|SUIKZP){1}/'
+    # pattern = r'https://www.gov.pl/static/zagospodarowanieprzestrzenne/app/AktPlanowaniaPrzestrzennego/PL.ZIPPZP.\d+/\d{1}[02468]{1}(\d{0}|\d{2}|\d{4})-(PZPW|MPZP|SUIKZP){1}/'
     return True if re.fullmatch(pattern, datasetUri) else False
 
 
@@ -142,15 +143,7 @@ def validate_IIP(przestrzenNazw):
 
 def isAppOperative(gmlPath, gmlId=None):
     """sprawdza czy zbiór APP jest obowiązującym zbiorem"""
-    ns = {'xsi': "http://www.w3.org/2001/XMLSchema",
-          'app': "https://www.gov.pl/static/zagospodarowanieprzestrzenne/schemas/app/1.0",
-          'gmd': "http://www.isotc211.org/2005/gmd",
-          'gco': 'http://www.isotc211.org/2005/gco',
-          'xlink': 'http://www.w3.org/1999/xlink',
-          'gml': "http://www.opengis.net/gml/3.2",
-          'wfs': 'http://www.opengis.net/wfs/2.0',
-          'gmlexr': "http://www.opengis.net/gml/3.3/exr"}
-
+    ns = dictionaries.nameSpaces
     # statusPath = 'wfs:member/app:AktPlanowaniaPrzestrzennego/app:status[@xlink:title="prawnie wiążący lub realizowany"]'
     statusPath = 'wfs:member/app:AktPlanowaniaPrzestrzennego/app:status'
 
@@ -550,16 +543,7 @@ def makeXML(docName, elements, formData, obrysLayer=None):
         'numberMatched': "unknown",
     }
     # Przestrzenie nazw ustawione na sztywno
-    namespaces = {
-        'xmlns:gco': "http://www.isotc211.org/2005/gco",
-        'xmlns:gmd': "http://www.isotc211.org/2005/gmd",
-        'xmlns:gml': "http://www.opengis.net/gml/3.2",
-        'xmlns:wfs': "http://www.opengis.net/wfs/2.0",
-        'xmlns:xlink': "http://www.w3.org/1999/xlink",
-        'xmlns:xsi': "http://www.w3.org/2001/XMLSchema-instance",
-        'xmlns:app': "https://www.gov.pl/static/zagospodarowanieprzestrzenne/schemas/app/1.0",
-        'xsi:schemaLocation': "https://www.gov.pl/static/zagospodarowanieprzestrzenne/schemas/app/1.0 planowaniePrzestrzenne.xsd http://www.opengis.net/gml/3.2 http://schemas.opengis.net/gml/3.2.1/gml.xsd http://www.opengis.net/wfs/2.0 http://schemas.opengis.net/wfs/2.0/wfs.xsd"
-    }
+    namespaces = dictionaries.xmlNameSpaces
     # create the file structure
     data = ET.Element('wfs:FeatureCollection')
     datamember = ET.SubElement(data, 'wfs:member')
@@ -574,7 +558,7 @@ def makeXML(docName, elements, formData, obrysLayer=None):
     items = ET.SubElement(datamember, tag + docName)
     items.set('gml:id', IPP)
     item = ET.SubElement(items, 'gml:identifier')
-    codeSpace = 'https://www.gov.pl/static/zagospodarowanieprzestrzenne/app'
+    codeSpace = 'https://www.gov.pl/zagospodarowanieprzestrzenne/app'
     item.set('codeSpace', codeSpace)
     item.text = '/'.join([codeSpace, docName, IPP.replace('_', '/')])
 
@@ -990,16 +974,7 @@ def createXmlData(dialog, obrysLayer):  # NOWE
     }
 
     # Przestrzenie nazw ustawione na sztywno
-    namespaces = {
-        'xmlns:gco': "http://www.isotc211.org/2005/gco",
-        'xmlns:gmd': "http://www.isotc211.org/2005/gmd",
-        'xmlns:gml': "http://www.opengis.net/gml/3.2",
-        'xmlns:wfs': "http://www.opengis.net/wfs/2.0",
-        'xmlns:xlink': "http://www.w3.org/1999/xlink",
-        'xmlns:xsi': "http://www.w3.org/2001/XMLSchema-instance",
-        'xmlns:app': "https://www.gov.pl/static/zagospodarowanieprzestrzenne/schemas/app/1.0",
-        'xsi:schemaLocation': "https://www.gov.pl/static/zagospodarowanieprzestrzenne/schemas/app/1.0 planowaniePrzestrzenne.xsd http://www.opengis.net/gml/3.2 http://schemas.opengis.net/gml/3.2.1/gml.xsd http://www.opengis.net/wfs/2.0 http://schemas.opengis.net/wfs/2.0/wfs.xsd"
-    }
+    namespaces = dictionaries.xmlNameSpaces
     # create the file structure
     data = ET.Element('wfs:FeatureCollection')
     datamember = ET.SubElement(data, 'wfs:member')
@@ -1014,7 +989,7 @@ def createXmlData(dialog, obrysLayer):  # NOWE
     items = ET.SubElement(datamember, tag + docName)
 
     itemid = ET.SubElement(items, 'gml:identifier')
-    codeSpace = 'https://www.gov.pl/static/zagospodarowanieprzestrzenne/app'
+    codeSpace = 'https://www.gov.pl/zagospodarowanieprzestrzenne/app'
     itemid.set('codeSpace', codeSpace)
 
     for fe in dialog.formElements:
@@ -1248,8 +1223,8 @@ def mergeDocsToAPP2(docList):  # Nowa wersja tworzenia APP - do dokończenia
         dataDoc.set('gml:id', idIIP)
         gmlIdentifier = ET.SubElement(dataDoc, 'gml:identifier')
         gmlIdentifier.set(
-            'codeSpace', "https://www.gov.pl/static/zagospodarowanieprzestrzenne/app")
-        gmlIdentifier.text = 'https://www.gov.pl/static/zagospodarowanieprzestrzenne/app/%s/%s' % (
+            'codeSpace', "https://www.gov.pl/zagospodarowanieprzestrzenne/app")
+        gmlIdentifier.text = 'https://www.gov.pl/zagospodarowanieprzestrzenne/app/%s/%s' % (
             docType, idIIP.replace('_', '/'))
         return dataDoc
 
@@ -1260,16 +1235,7 @@ def mergeDocsToAPP2(docList):  # Nowa wersja tworzenia APP - do dokończenia
             for element in elements:
                 dataDoc.append(element)
 
-    ns = {
-        'xsi': "http://www.w3.org/2001/XMLSchema",
-        'app': "https://www.gov.pl/static/zagospodarowanieprzestrzenne/schemas/app/1.0",
-        'gmd': "http://www.isotc211.org/2005/gmd",
-        'gco': 'http://www.isotc211.org/2005/gco',
-        'xlink': 'http://www.w3.org/1999/xlink',
-        'gml': "http://www.opengis.net/gml/3.2",
-        'wfs': 'http://www.opengis.net/wfs/2.0',
-        'gmlexr': "http://www.opengis.net/gml/3.3/exr"
-    }
+    ns = dictionaries.nameSpaces
 
     # Strefa czasowa timezone jest ustawiona na sztywno
     root_data = {
@@ -1283,16 +1249,7 @@ def mergeDocsToAPP2(docList):  # Nowa wersja tworzenia APP - do dokończenia
         ET.register_namespace(prefix, uri)
 
     # Przestrzenie nazw ustawione na sztywno
-    namespaces = {
-        'xmlns:gco': "http://www.isotc211.org/2005/gco",
-        'xmlns:gmd': "http://www.isotc211.org/2005/gmd",
-        'xmlns:gml': "http://www.opengis.net/gml/3.2",
-        'xmlns:wfs': "http://www.opengis.net/wfs/2.0",
-        'xmlns:xlink': "http://www.w3.org/1999/xlink",
-        'xmlns:xsi': "http://www.w3.org/2001/XMLSchema-instance",
-        'xmlns:app': "https://www.gov.pl/static/zagospodarowanieprzestrzenne/schemas/app/1.0",
-        'xsi:schemaLocation': "https://www.gov.pl/static/zagospodarowanieprzestrzenne/schemas/app/1.0 planowaniePrzestrzenne.xsd http://www.opengis.net/gml/3.2 http://schemas.opengis.net/gml/3.2.1/gml.xsd http://www.opengis.net/wfs/2.0 http://schemas.opengis.net/wfs/2.0/wfs.xsd"
-    }
+    namespaces = dictionaries.xmlNameSpaces
 
     # create the file structure
     data = ET.Element('wfs:FeatureCollection')
@@ -1385,16 +1342,7 @@ def mergeDocsToAPP(docList):  # docList z getTableContent
     # docList[0] - ścieżka
     # docList[0] - relacja dokumentu / '' dla APP, Rysunek
     # Dodać liczbę zwracanych obiektów 'numberReturned': str(len(docList))
-    ns = {
-        'xsi': "http://www.w3.org/2001/XMLSchema",
-        'app': "https://www.gov.pl/static/zagospodarowanieprzestrzenne/schemas/app/1.0",
-        'gmd': "http://www.isotc211.org/2005/gmd",
-        'gco': 'http://www.isotc211.org/2005/gco',
-        'xlink': 'http://www.w3.org/1999/xlink',
-        'gml': "http://www.opengis.net/gml/3.2",
-        'wfs': 'http://www.opengis.net/wfs/2.0',
-        'gmlexr': "http://www.opengis.net/gml/3.3/exr"
-    }
+    ns = dictionaries.nameSpaces
 
     # Strefa czasowa timezone jest ustawiona na sztywno
     root_data = {
@@ -1408,16 +1356,7 @@ def mergeDocsToAPP(docList):  # docList z getTableContent
         ET.register_namespace(prefix, uri)
 
     # Przestrzenie nazw ustawione na sztywno
-    namespaces = {
-        'xmlns:gco': "http://www.isotc211.org/2005/gco",
-        'xmlns:gmd': "http://www.isotc211.org/2005/gmd",
-        'xmlns:gml': "http://www.opengis.net/gml/3.2",
-        'xmlns:wfs': "http://www.opengis.net/wfs/2.0",
-        'xmlns:xlink': "http://www.w3.org/1999/xlink",
-        'xmlns:xsi': "http://www.w3.org/2001/XMLSchema-instance",
-        'xmlns:app': "https://www.gov.pl/static/zagospodarowanieprzestrzenne/schemas/app/1.0",
-        'xsi:schemaLocation': "https://www.gov.pl/static/zagospodarowanieprzestrzenne/schemas/app/1.0 planowaniePrzestrzenne.xsd http://www.opengis.net/gml/3.2 http://schemas.opengis.net/gml/3.2.1/gml.xsd http://www.opengis.net/wfs/2.0 http://schemas.opengis.net/wfs/2.0/wfs.xsd"
-    }
+    namespaces = dictionaries.xmlNameSpaces
 
     # create the file structure
     data = ET.Element('wfs:FeatureCollection')
@@ -1477,7 +1416,7 @@ def mergeDocsToAPP(docList):  # docList z getTableContent
         if docType == 'AktPlanowaniaPrzestrzennego':
             APProot = root
             appIIP = getDocIIP(root)
-            APPrelLink = 'https://www.gov.pl/static/zagospodarowanieprzestrzenne/app/%s/%s' % (
+            APPrelLink = 'https://www.gov.pl/zagospodarowanieprzestrzenne/app/%s/%s' % (
                 docType, appIIP.replace('_', '/'))
 
     for doc, relation in docList:
@@ -1492,7 +1431,7 @@ def mergeDocsToAPP(docList):  # docList z getTableContent
         # słownik/tablica rootów poszczególnych dokumentów
         docRoots[docType].append(root)
         IIP = getDocIIP(root)
-        relLink = 'https://www.gov.pl/static/zagospodarowanieprzestrzenne/app/%s/%s' % (
+        relLink = 'https://www.gov.pl/zagospodarowanieprzestrzenne/app/%s/%s' % (
             docType, IIP.replace('_', '/'))
         if docType == 'DokumentFormalny':
             if relation == 'przystapienie':
@@ -1631,16 +1570,7 @@ def mergeAppToCollection(AppFiles, set={}):
     app_form = createFormElementsAktPlanowaniaPrzestrzennego()
     # for elem in app_form:
     #     print(elem.name)
-    ns = {
-        'xsi': "http://www.w3.org/2001/XMLSchema",
-        'app': 'https://www.gov.pl/static/zagospodarowanieprzestrzenne/schemas/app/1.0',
-        'gmd': "http://www.isotc211.org/2005/gmd",
-        'gco': 'http://www.isotc211.org/2005/gco',
-        'xlink': 'http://www.w3.org/1999/xlink',
-        'gml': "http://www.opengis.net/gml/3.2",
-        'wfs': 'http://www.opengis.net/wfs/2.0',
-        'gmlexr': "http://www.opengis.net/gml/3.3/exr"
-    }
+    ns = dictionaries.nameSpaces
 
     formalDocIIP = {}
 
@@ -1826,16 +1756,7 @@ def loadItemsToForm(filePath, formElements):
     # TODO czyszczenie formularza przed wywołaniem
     root = ET.parse(filePath).getroot()
 
-    ns = {
-        'xsi': "http://www.w3.org/2001/XMLSchema",
-        'app': "https://www.gov.pl/static/zagospodarowanieprzestrzenne/schemas/app/1.0",
-        'gmd': "http://www.isotc211.org/2005/gmd",
-        'gco': 'http://www.isotc211.org/2005/gco',
-        'xlink': 'http://www.w3.org/1999/xlink',
-        'gml': "http://www.opengis.net/gml/3.2",
-        'wfs': 'http://www.opengis.net/wfs/2.0',
-        'gmlexr': "http://www.opengis.net/gml/3.3/exr"
-    }
+    ns = dictionaries.nameSpaces
 
     for prefix, uri in ns.items():
         ET.register_namespace(prefix, uri)
@@ -1935,16 +1856,7 @@ def loadItemsToForm(filePath, formElements):
 
 def setAppId(setPath):
     """pozyskiwanie id IIP z aktów (APP) w zadanym zbiorze"""
-    ns = {
-        'xsi': "http://www.w3.org/2001/XMLSchema",
-        'app': "https://www.gov.pl/static/zagospodarowanieprzestrzenne/schemas/app/1.0",
-        'gmd': "http://www.isotc211.org/2005/gmd",
-        'gco': 'http://www.isotc211.org/2005/gco',
-        'xlink': 'http://www.w3.org/1999/xlink',
-        'gml': "http://www.opengis.net/gml/3.2",
-        'wfs': 'http://www.opengis.net/wfs/2.0',
-        'gmlexr': "http://www.opengis.net/gml/3.3/exr"
-    }
+    ns = dictionaries.nameSpaces
     root = ET.parse(setPath).getroot()
     appPath = 'wfs:member/app:AktPlanowaniaPrzestrzennego'
     appList = root.findall(appPath, ns)
@@ -1956,16 +1868,7 @@ def setAppId(setPath):
 
 
 def findElementInXmlFile(file, docName, elementName):
-    ns = {
-        'xsi': "http://www.w3.org/2001/XMLSchema",
-        'app': "https://www.gov.pl/static/zagospodarowanieprzestrzenne/schemas/app/1.0",
-        'gmd': "http://www.isotc211.org/2005/gmd",
-        'gco': 'http://www.isotc211.org/2005/gco',
-        'xlink': 'http://www.w3.org/1999/xlink',
-        'gml': "http://www.opengis.net/gml/3.2",
-        'wfs': 'http://www.opengis.net/wfs/2.0',
-        'gmlexr': "http://www.opengis.net/gml/3.3/exr"
-    }
+    ns = dictionaries.nameSpaces
     root = ET.parse(file).getroot()
     elementPath = 'wfs:member/app:%s/app:%s' % (docName, elementName)
     element = root.find(elementPath, ns)
@@ -1973,14 +1876,7 @@ def findElementInXmlFile(file, docName, elementName):
 
 
 def validateObjectNumber(files):
-    ns = {'xsi': "http://www.w3.org/2001/XMLSchema",
-          'app': "https://www.gov.pl/static/zagospodarowanieprzestrzenne/schemas/app/1.0",
-          'gmd': "http://www.isotc211.org/2005/gmd",
-          'gco': 'http://www.isotc211.org/2005/gco',
-          'xlink': 'http://www.w3.org/1999/xlink',
-          'gml': "http://www.opengis.net/gml/3.2",
-          'wfs': 'http://www.opengis.net/wfs/2.0',
-          'gmlexr': "http://www.opengis.net/gml/3.3/exr"}
+    ns = dictionaries.nameSpaces
     docs = {
         'AktPlanowaniaPrzestrzennego': [],
         'RysunekAktuPlanowaniaPrzestrzennego': [],
@@ -2067,16 +1963,7 @@ def validateDokumentFormalnyDate(files):
 
 
 def checkIfAPP(file):
-    ns = {
-        'xsi': "http://www.w3.org/2001/XMLSchema",
-        'app': "https://www.gov.pl/static/zagospodarowanieprzestrzenne/schemas/app/1.0",
-        'gmd': "http://www.isotc211.org/2005/gmd",
-        'gco': 'http://www.isotc211.org/2005/gco',
-        'xlink': 'http://www.w3.org/1999/xlink',
-        'gml': "http://www.opengis.net/gml/3.2",
-        'wfs': 'http://www.opengis.net/wfs/2.0',
-        'gmlexr': "http://www.opengis.net/gml/3.3/exr"
-    }
+    ns = dictionaries.nameSpaces
     root = ET.parse(file).getroot()
     appPath = 'wfs:member/app:AktPlanowaniaPrzestrzennego'
     appList = root.findall(appPath, ns)

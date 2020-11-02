@@ -34,61 +34,74 @@ def metadataElementDictToXml(metadataElementDict):
     """gmd:language"""
     language = ET.SubElement(root, 'gmd:language')
     lang = metadataElementDict['e31']['e31_lineEdit']
-    languageCode = ET.SubElement(language, 'gmd:LanguageCode', {'codeList': "http://www.loc.gov/standards/iso639-2/", 'codeListValue': dictionaries.languages[lang]})
+    languageCode = ET.SubElement(language, 'gmd:LanguageCode', {
+                                 'codeList': "http://www.loc.gov/standards/iso639-2/", 'codeListValue': dictionaries.languages[lang]})
     languageCode.text = lang
 
     """gmd:characterSet"""
     for listItem in metadataElementDict['e7']:
         characterSet = ET.SubElement(root, 'gmd:characterSet')
         ET.SubElement(characterSet, 'gmd:MD_CharacterSetCode',
-                                     {'codeList': "http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#MD_CharacterSetCode", 'codeListValue': listItem['e7_cmbbx']})
+                      {'codeList': "http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#MD_CharacterSetCode", 'codeListValue': listItem['e7_cmbbx']})
 
     """gmd:hierarchyLevel"""
     hierarchyLevel = ET.SubElement(root, 'gmd:hierarchyLevel')
     ET.SubElement(hierarchyLevel, 'gmd:MD_ScopeCode',
-                                 {'codeList': "http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#MD_ScopeCode", 'codeListValue': metadataElementDict['e3']['e3_lineEdit']})
+                  {'codeList': "http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#MD_ScopeCode", 'codeListValue': metadataElementDict['e3']['e3_lineEdit']})
 
     """gmd:contact"""
     for listItem in metadataElementDict['e29']:
         contact = ET.SubElement(root, 'gmd:contact')
         cI_ResponsibleParty = ET.SubElement(contact, 'gmd:CI_ResponsibleParty')
         """gmd:organisationName"""
-        organisationName = ET.SubElement(cI_ResponsibleParty, 'gmd:organisationName')
-        characterString = ET.SubElement(organisationName, 'gco:CharacterString')
+        organisationName = ET.SubElement(
+            cI_ResponsibleParty, 'gmd:organisationName')
+        characterString = ET.SubElement(
+            organisationName, 'gco:CharacterString')
         characterString.text = listItem['e29_name_lineEdit']
         """gmd:contactInfo"""
         contactInfo = ET.SubElement(cI_ResponsibleParty, 'gmd:contactInfo')
         cI_Contact = ET.SubElement(contactInfo, 'gmd:CI_Contact')
         address = ET.SubElement(cI_Contact, 'gmd:address')
         cI_Address = ET.SubElement(address, 'gmd:CI_Address')
-        electronicMailAddress = ET.SubElement(cI_Address, 'gmd:electronicMailAddress')
-        characterString = ET.SubElement(electronicMailAddress, 'gco:CharacterString')
+        electronicMailAddress = ET.SubElement(
+            cI_Address, 'gmd:electronicMailAddress')
+        characterString = ET.SubElement(
+            electronicMailAddress, 'gco:CharacterString')
         characterString.text = listItem['e29_mail_lineEdit']
         """gmd:role"""
         role = ET.SubElement(cI_ResponsibleParty, 'gmd:role')
-        ET.SubElement(role, 'gmd:CI_RoleCode', {'codeList': "http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#CI_RoleCode", 'codeListValue': translation[listItem['e29_cmbbx']]})
+        ET.SubElement(role, 'gmd:CI_RoleCode', {
+                      'codeList': "http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#CI_RoleCode", 'codeListValue': translation[listItem['e29_cmbbx']]})
 
     """gmd:dateStamp"""
     dateStamp = ET.SubElement(root, 'gmd:dateStamp')
     date = ET.SubElement(dateStamp, 'gco:Date')
-    date.text = metadataElementDict['e30']['e30_dateTimeEdit'].toString("yyyy-MM-dd")
+    date.text = metadataElementDict['e30']['e30_dateTimeEdit'].toString(
+        "yyyy-MM-dd")
 
     """gmd:metadataStandardName"""
     metadataStandardName = ET.SubElement(root, 'gmd:metadataStandardName')
-    characterString = ET.SubElement(metadataStandardName, 'gco:CharacterString')
+    characterString = ET.SubElement(
+        metadataStandardName, 'gco:CharacterString')
     characterString.text = metadataElementDict['e33']['e33_lineEdit']
 
     """gmd:metadataStandardVersion"""
-    metadataStandardVersion = ET.SubElement(root, 'gmd:metadataStandardVersion')
-    characterString = ET.SubElement(metadataStandardVersion, 'gco:CharacterString')
+    metadataStandardVersion = ET.SubElement(
+        root, 'gmd:metadataStandardVersion')
+    characterString = ET.SubElement(
+        metadataStandardVersion, 'gco:CharacterString')
     characterString.text = metadataElementDict['e34']['e34_lineEdit']
 
     """gmd:referenceSystemInfo"""
     for listItem in metadataElementDict['e12']:
         referenceSystemInfo = ET.SubElement(root, 'gmd:referenceSystemInfo')
-        mD_ReferenceSystem = ET.SubElement(referenceSystemInfo, 'gmd:MD_ReferenceSystem')
-        referenceSystemIdentifier = ET.SubElement(mD_ReferenceSystem, 'gmd:referenceSystemIdentifier')
-        rS_Identifier = ET.SubElement(referenceSystemIdentifier, 'gmd:RS_Identifier')
+        mD_ReferenceSystem = ET.SubElement(
+            referenceSystemInfo, 'gmd:MD_ReferenceSystem')
+        referenceSystemIdentifier = ET.SubElement(
+            mD_ReferenceSystem, 'gmd:referenceSystemIdentifier')
+        rS_Identifier = ET.SubElement(
+            referenceSystemIdentifier, 'gmd:RS_Identifier')
         code = ET.SubElement(rS_Identifier, 'gmd:code')
         characterString = ET.SubElement(code, 'gco:CharacterString')
         characterString.text = listItem['e12_cmbbx']
@@ -99,9 +112,11 @@ def metadataElementDictToXml(metadataElementDict):
     typZbioru = ''
     for listItem in metadataElementDict['e5']:
         if utils.validateDatasetId(listItem['e5_lineEdit']):
-            typZbioru = listItem['e5_lineEdit'].strip('/').split("/")[-1].split('-')[-1]
+            typZbioru = listItem['e5_lineEdit'].strip(
+                '/').split("/")[-1].split('-')[-1]
             break
-    mD_DataIdentification = ET.SubElement(identificationInfo, 'gmd:MD_DataIdentification', {'id': typZbioru})
+    mD_DataIdentification = ET.SubElement(
+        identificationInfo, 'gmd:MD_DataIdentification', {'id': typZbioru})
 
     """gmd:citation"""
     citation = ET.SubElement(mD_DataIdentification, 'gmd:citation')
@@ -113,16 +128,18 @@ def metadataElementDictToXml(metadataElementDict):
     cI_Date = ET.SubElement(date, 'gmd:CI_Date')
     date2 = ET.SubElement(cI_Date, 'gmd:date')
     date3 = ET.SubElement(date2, 'gco:Date')
-    date3.text = metadataElementDict['e13']['e13_dateTimeEdit'].toString("yyyy-MM-dd")
+    date3.text = metadataElementDict['e13']['e13_dateTimeEdit'].toString(
+        "yyyy-MM-dd")
     dateType = ET.SubElement(cI_Date, 'gmd:dateType')
     ET.SubElement(dateType, 'gmd:CI_DateTypeCode', {'codeList': 'http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#CI_DateTypeCode',
-                                                                      'codeListValue': translation[metadataElementDict['e13']['e13_cmbbx']]})
+                                                    'codeListValue': translation[metadataElementDict['e13']['e13_cmbbx']]})
     if metadataElementDict['e14']['e14_dateTimeEdit']:
         date = ET.SubElement(cI_Citation, 'gmd:date')
         cI_Date = ET.SubElement(date, 'gmd:CI_Date')
         date2 = ET.SubElement(cI_Date, 'gmd:date')
         date3 = ET.SubElement(date2, 'gco:Date')
-        date3.text = metadataElementDict['e14']['e14_dateTimeEdit'].toString("yyyy-MM-dd")
+        date3.text = metadataElementDict['e14']['e14_dateTimeEdit'].toString(
+            "yyyy-MM-dd")
         dateType = ET.SubElement(cI_Date, 'gmd:dateType')
         ET.SubElement(dateType, 'gmd:CI_DateTypeCode',
                       {'codeList': 'http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#CI_DateTypeCode',
@@ -134,7 +151,7 @@ def metadataElementDictToXml(metadataElementDict):
         code = ET.SubElement(mD_Identifier, 'gmd:code')
         characterString = ET.SubElement(code, 'gco:CharacterString')
         idIpp = listItem['e5_lineEdit']
-        idIppUri = 'https://www.gov.pl/static/zagospodarowanieprzestrzenne/app/AktPlanowaniaPrzestrzennego/%s/' % idIpp
+        idIppUri = 'https://www.gov.pl/zagospodarowanieprzestrzenne/app/AktPlanowaniaPrzestrzennego/%s/' % idIpp
         characterString.text = idIppUri
 
     """gmd:abstract"""
@@ -144,19 +161,25 @@ def metadataElementDictToXml(metadataElementDict):
 
     """gmd:pointOfContact"""
     for listItem in metadataElementDict['e22']:
-        pointOfContact = ET.SubElement(mD_DataIdentification, 'gmd:pointOfContact')
-        cI_ResponsibleParty = ET.SubElement(pointOfContact, 'gmd:CI_ResponsibleParty')
+        pointOfContact = ET.SubElement(
+            mD_DataIdentification, 'gmd:pointOfContact')
+        cI_ResponsibleParty = ET.SubElement(
+            pointOfContact, 'gmd:CI_ResponsibleParty')
         """gmd:organisationName"""
-        organisationName = ET.SubElement(cI_ResponsibleParty, 'gmd:organisationName')
-        characterString = ET.SubElement(organisationName, 'gco:CharacterString')
+        organisationName = ET.SubElement(
+            cI_ResponsibleParty, 'gmd:organisationName')
+        characterString = ET.SubElement(
+            organisationName, 'gco:CharacterString')
         characterString.text = listItem['e22_name_lineEdit']
         """gmd:contactInfo"""
         contactInfo = ET.SubElement(cI_ResponsibleParty, 'gmd:contactInfo')
         cI_Contact = ET.SubElement(contactInfo, 'gmd:CI_Contact')
         address = ET.SubElement(cI_Contact, 'gmd:address')
         cI_Address = ET.SubElement(address, 'gmd:CI_Address')
-        electronicMailAddress = ET.SubElement(cI_Address, 'gmd:electronicMailAddress')
-        characterString = ET.SubElement(electronicMailAddress, 'gco:CharacterString')
+        electronicMailAddress = ET.SubElement(
+            cI_Address, 'gmd:electronicMailAddress')
+        characterString = ET.SubElement(
+            electronicMailAddress, 'gco:CharacterString')
         characterString.text = listItem['e22_mail_lineEdit']
         """gmd:role"""
         role = ET.SubElement(cI_ResponsibleParty, 'gmd:role')
@@ -165,35 +188,41 @@ def metadataElementDictToXml(metadataElementDict):
                        'codeListValue': translation[listItem['e23_cmbbx']]})
 
     """gmd:resourceMaintenance"""
-    resourceMaintenance = ET.SubElement(mD_DataIdentification, 'gmd:resourceMaintenance')
-    mD_MaintenanceInformation = ET.SubElement(resourceMaintenance, 'gmd:MD_MaintenanceInformation')
-    maintenanceAndUpdateFrequency = ET.SubElement(mD_MaintenanceInformation, 'gmd:maintenanceAndUpdateFrequency')
+    resourceMaintenance = ET.SubElement(
+        mD_DataIdentification, 'gmd:resourceMaintenance')
+    mD_MaintenanceInformation = ET.SubElement(
+        resourceMaintenance, 'gmd:MD_MaintenanceInformation')
+    maintenanceAndUpdateFrequency = ET.SubElement(
+        mD_MaintenanceInformation, 'gmd:maintenanceAndUpdateFrequency')
     ET.SubElement(maintenanceAndUpdateFrequency, 'gmd:MD_MaintenanceFrequencyCode', {'codeList': "http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#MD_MaintenanceFrequencyCode",
-                       'codeListValue': translation[metadataElementDict['e26']['e26_lineEdit']]})
+                                                                                     'codeListValue': translation[metadataElementDict['e26']['e26_lineEdit']]})
     updateScope = ET.SubElement(mD_MaintenanceInformation, 'gmd:updateScope')
     ET.SubElement(updateScope, 'gmd:MD_ScopeCode', {
         'codeList': "http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#MD_ScopeCode",
         'codeListValue': translation[metadataElementDict['e28']['e28_lineEdit']]})
 
     for listItem in metadataElementDict['e27']:
-        maintenanceNote = ET.SubElement(mD_MaintenanceInformation, 'gmd:maintenanceNote')
+        maintenanceNote = ET.SubElement(
+            mD_MaintenanceInformation, 'gmd:maintenanceNote')
         characterString = ET.SubElement(maintenanceNote, 'gco:CharacterString')
         characterString.text = listItem['e27_lineEdit']
 
     """gmd:descriptiveKeywords"""
     for listItem in metadataElementDict['e9']:
-        descriptiveKeywords = ET.SubElement(mD_DataIdentification, 'gmd:descriptiveKeywords')
+        descriptiveKeywords = ET.SubElement(
+            mD_DataIdentification, 'gmd:descriptiveKeywords')
         mD_Keywords = ET.SubElement(descriptiveKeywords, 'gmd:MD_Keywords')
         keyword = ET.SubElement(mD_Keywords, 'gmd:keyword')
         keywordValue = listItem['e9_lineEdit']
         keywordValueLower = keywordValue[:].lower()
-        slownikRoboczy = {**dictionaries.metadataKeywordAnchors, **dictionaries.poziomyHierarchii}
-        if keywordValueLower in slownikRoboczy: # jest anchor w slowniku
+        slownikRoboczy = {**dictionaries.metadataKeywordAnchors,
+                          **dictionaries.poziomyHierarchii}
+        if keywordValueLower in slownikRoboczy:  # jest anchor w slowniku
             anchor = ET.SubElement(keyword,
                                    'gmx:Anchor',
                                    {'xlink:href': slownikRoboczy[keywordValueLower]})
             anchor.text = keywordValue
-        else:   #zwykly tekst
+        else:  # zwykly tekst
             characterString = ET.SubElement(keyword, 'gco:CharacterString')
             characterString.text = keywordValue
 
@@ -203,7 +232,9 @@ def metadataElementDictToXml(metadataElementDict):
             cI_Citation = ET.SubElement(thesaurusName, 'gmd:CI_Citation')
             title = ET.SubElement(cI_Citation, 'gmd:title')
             if listItem['xlink']:
-                anchor = ET.SubElement(title, 'gmx:Anchor', {'xlink:href': listItem['xlink']}) # xlink jeżeli istnieje
+                # xlink jeżeli istnieje
+                anchor = ET.SubElement(title, 'gmx:Anchor', {
+                                       'xlink:href': listItem['xlink']})
                 anchor.text = listItem['e10_lineEdit']
             else:
                 characterString = ET.SubElement(title, 'gco:CharacterString')
@@ -220,49 +251,62 @@ def metadataElementDictToXml(metadataElementDict):
                            'codeListValue': translation[listItem['e10_cmbbx']]})
 
     """gmd:resourceConstraints E21"""
-    resourceConstraints = ET.SubElement(mD_DataIdentification, 'gmd:resourceConstraints')
-    mD_LegalConstraints = ET.SubElement(resourceConstraints, 'gmd:MD_LegalConstraints')
-    accessConstraints = ET.SubElement(mD_LegalConstraints, 'gmd:accessConstraints')
+    resourceConstraints = ET.SubElement(
+        mD_DataIdentification, 'gmd:resourceConstraints')
+    mD_LegalConstraints = ET.SubElement(
+        resourceConstraints, 'gmd:MD_LegalConstraints')
+    accessConstraints = ET.SubElement(
+        mD_LegalConstraints, 'gmd:accessConstraints')
     ET.SubElement(accessConstraints, 'gmd:MD_RestrictionCode',
                   {'codeList': 'http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#MD_RestrictionCode',
-                    'codeListValue': 'otherRestrictions'})
-    otherConstraints = ET.SubElement(mD_LegalConstraints, 'gmd:otherConstraints')
+                   'codeListValue': 'otherRestrictions'})
+    otherConstraints = ET.SubElement(
+        mD_LegalConstraints, 'gmd:otherConstraints')
     anchor = ET.SubElement(otherConstraints, 'gmx:Anchor',
                            {'xlink:href': "http://inspire.ec.europa.eu/metadata-codelist/LimitationsOnPublicAccess/noLimitations"})  # xlink jeżeli istnieje
     anchor.text = metadataElementDict['e21']['e21_lineEdit']
 
     """gmd:resourceConstraints E20"""
     for listItem in metadataElementDict['e20']:
-        resourceConstraints = ET.SubElement(mD_DataIdentification, 'gmd:resourceConstraints')
-        mD_LegalConstraints = ET.SubElement(resourceConstraints, 'gmd:MD_LegalConstraints')
-        useConstraints = ET.SubElement(mD_LegalConstraints, 'gmd:useConstraints')
+        resourceConstraints = ET.SubElement(
+            mD_DataIdentification, 'gmd:resourceConstraints')
+        mD_LegalConstraints = ET.SubElement(
+            resourceConstraints, 'gmd:MD_LegalConstraints')
+        useConstraints = ET.SubElement(
+            mD_LegalConstraints, 'gmd:useConstraints')
         ET.SubElement(useConstraints, 'gmd:MD_RestrictionCode',
                       {
                           'codeList': 'http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#MD_RestrictionCode',
                           'codeListValue': 'otherRestrictions'})
-        otherConstraints = ET.SubElement(mD_LegalConstraints, 'gmd:otherConstraints')
+        otherConstraints = ET.SubElement(
+            mD_LegalConstraints, 'gmd:otherConstraints')
 
         if 'e20_lineEdit' in listItem and listItem['e20_lineEdit'] in dictionaries.metadataKeywordAnchors:
             xlink = dictionaries.metadataKeywordAnchors[listItem['e20_lineEdit']]
         else:
             xlink = ""
-        anchor = ET.SubElement(otherConstraints, 'gmx:Anchor', {'xlink:href': xlink})
+        anchor = ET.SubElement(otherConstraints, 'gmx:Anchor', {
+                               'xlink:href': xlink})
         anchor.text = listItem['e20_lineEdit']
 
     """gmd:spatialRepresentationType"""
     for listItem in metadataElementDict['e17']:
-        spatialRepresentationType = ET.SubElement(mD_DataIdentification, 'gmd:spatialRepresentationType')
+        spatialRepresentationType = ET.SubElement(
+            mD_DataIdentification, 'gmd:spatialRepresentationType')
         ET.SubElement(spatialRepresentationType, 'gmd:MD_SpatialRepresentationTypeCode', {
-                              'codeList': 'http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#MD_SpatialRepresentationTypeCode',
-                              'codeListValue': translation[listItem['e17_lineEdit']]})
+            'codeList': 'http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#MD_SpatialRepresentationTypeCode',
+            'codeListValue': translation[listItem['e17_lineEdit']]})
 
     """gmd:spatialResolution"""
     for listItem in metadataElementDict['e16']:
-        spatialResolution = ET.SubElement(mD_DataIdentification, 'gmd:spatialResolution')
+        spatialResolution = ET.SubElement(
+            mD_DataIdentification, 'gmd:spatialResolution')
         mD_Resolution = ET.SubElement(spatialResolution, 'gmd:MD_Resolution')
         equivalentScale = ET.SubElement(mD_Resolution, 'gmd:equivalentScale')
-        mD_RepresentativeFraction = ET.SubElement(equivalentScale, 'gmd:MD_RepresentativeFraction')
-        denominator = ET.SubElement(mD_RepresentativeFraction, 'gmd:denominator')
+        mD_RepresentativeFraction = ET.SubElement(
+            equivalentScale, 'gmd:MD_RepresentativeFraction')
+        denominator = ET.SubElement(
+            mD_RepresentativeFraction, 'gmd:denominator')
         integer = ET.SubElement(denominator, 'gco:Integer')
         integer.text = listItem['e16_lineEdit']
 
@@ -277,7 +321,8 @@ def metadataElementDictToXml(metadataElementDict):
 
     """gmd:topicCategory"""
     topicCategory = ET.SubElement(mD_DataIdentification, 'gmd:topicCategory')
-    mD_TopicCategoryCode = ET.SubElement(topicCategory, 'gmd:MD_TopicCategoryCode')
+    mD_TopicCategoryCode = ET.SubElement(
+        topicCategory, 'gmd:MD_TopicCategoryCode')
     mD_TopicCategoryCode.text = translation[metadataElementDict['e8']['e8_lineEdit']]
 
     """gmd:extent"""
@@ -291,18 +336,24 @@ def metadataElementDictToXml(metadataElementDict):
             ymax = bboxList[3]
             extent = ET.SubElement(mD_DataIdentification, 'gmd:extent')
             eX_Extent = ET.SubElement(extent, 'gmd:EX_Extent')
-            geographicElement = ET.SubElement(eX_Extent, 'gmd:geographicElement')
-            eX_GeographicBoundingBox = ET.SubElement(geographicElement, 'gmd:EX_GeographicBoundingBox')
-            westBoundLongitude = ET.SubElement(eX_GeographicBoundingBox, 'gmd:westBoundLongitude')
+            geographicElement = ET.SubElement(
+                eX_Extent, 'gmd:geographicElement')
+            eX_GeographicBoundingBox = ET.SubElement(
+                geographicElement, 'gmd:EX_GeographicBoundingBox')
+            westBoundLongitude = ET.SubElement(
+                eX_GeographicBoundingBox, 'gmd:westBoundLongitude')
             decimal = ET.SubElement(westBoundLongitude, 'gco:Decimal')
             decimal.text = xmin
-            eastBoundLongitude = ET.SubElement(eX_GeographicBoundingBox, 'gmd:eastBoundLongitude')
+            eastBoundLongitude = ET.SubElement(
+                eX_GeographicBoundingBox, 'gmd:eastBoundLongitude')
             decimal = ET.SubElement(eastBoundLongitude, 'gco:Decimal')
             decimal.text = xmax
-            southBoundLatitude = ET.SubElement(eX_GeographicBoundingBox, 'gmd:southBoundLatitude')
+            southBoundLatitude = ET.SubElement(
+                eX_GeographicBoundingBox, 'gmd:southBoundLatitude')
             decimal = ET.SubElement(southBoundLatitude, 'gco:Decimal')
             decimal.text = ymin
-            northBoundLatitude = ET.SubElement(eX_GeographicBoundingBox, 'gmd:northBoundLatitude')
+            northBoundLatitude = ET.SubElement(
+                eX_GeographicBoundingBox, 'gmd:northBoundLatitude')
             decimal = ET.SubElement(northBoundLatitude, 'gco:Decimal')
             decimal.text = ymax
 
@@ -312,7 +363,8 @@ def metadataElementDictToXml(metadataElementDict):
     """gmd:distributionFormat"""
     for listItem in metadataElementDict['e24']:
 
-        distributionFormat = ET.SubElement(mD_Distribution, 'gmd:distributionFormat')
+        distributionFormat = ET.SubElement(
+            mD_Distribution, 'gmd:distributionFormat')
         mD_Format = ET.SubElement(distributionFormat, 'gmd:MD_Format')
         name = ET.SubElement(mD_Format, 'gmd:name')
         characterString = ET.SubElement(name, 'gco:CharacterString')
@@ -322,22 +374,25 @@ def metadataElementDictToXml(metadataElementDict):
         characterString.text = listItem['e25_lineEdit']
 
         if (listItem['e24_lineEdit'].split() == 'Schemat aplikacyjny GML Planowanie przestrzenne' and
-                listItem['e25_lineEdit'].split() == '1.0'
-        ):
+            listItem['e25_lineEdit'].split() == '1.0'
+            ):
             specification = ET.SubElement(mD_Format, 'gmd:specification')
-            characterString = ET.SubElement(specification, 'gco:CharacterString')
+            characterString = ET.SubElement(
+                specification, 'gco:CharacterString')
             characterString.text = 'Specyfikacja danych: Planowanie przestrzenne v1.0'
         if (listItem['e24_lineEdit'].split() == 'Planned Land Use GML Application Schema' and
-                listItem['e25_lineEdit'].split() == '4.0'
-        ):
+            listItem['e25_lineEdit'].split() == '4.0'
+            ):
             specification = ET.SubElement(mD_Format, 'gmd:specification')
-            characterString = ET.SubElement(specification, 'gco:CharacterString')
+            characterString = ET.SubElement(
+                specification, 'gco:CharacterString')
             characterString.text = 'D2.8.III.4 Data Specification on Land Use – Technical Guidelines'
 
     """gmd:transferOptions"""
     for listItem in metadataElementDict['e4']:
         transferOptions = ET.SubElement(mD_Distribution, 'gmd:transferOptions')
-        mD_DigitalTransferOptions = ET.SubElement(transferOptions, 'gmd:MD_DigitalTransferOptions')
+        mD_DigitalTransferOptions = ET.SubElement(
+            transferOptions, 'gmd:MD_DigitalTransferOptions')
         onLine = ET.SubElement(mD_DigitalTransferOptions, 'gmd:onLine')
         cI_OnlineResource = ET.SubElement(onLine, 'gmd:CI_OnlineResource')
         linkage = ET.SubElement(cI_OnlineResource, 'gmd:linkage')
@@ -359,15 +414,19 @@ def metadataElementDictToXml(metadataElementDict):
     for listItem in metadataElementDict['e18']:
         """gmd:report"""
         report = ET.SubElement(dQ_DataQuality, 'gmd:report')
-        dQ_DomainConsistency = ET.SubElement(report, 'gmd:DQ_DomainConsistency')
+        dQ_DomainConsistency = ET.SubElement(
+            report, 'gmd:DQ_DomainConsistency')
         result = ET.SubElement(dQ_DomainConsistency, 'gmd:result')
-        dQ_ConformanceResult = ET.SubElement(result, 'gmd:DQ_ConformanceResult')
-        specification = ET.SubElement(dQ_ConformanceResult, 'gmd:specification')
+        dQ_ConformanceResult = ET.SubElement(
+            result, 'gmd:DQ_ConformanceResult')
+        specification = ET.SubElement(
+            dQ_ConformanceResult, 'gmd:specification')
         cI_Citation = ET.SubElement(specification, 'gmd:CI_Citation')
         title = ET.SubElement(cI_Citation, 'gmd:title')
 
         if 'xlink' in listItem and listItem['xlink']:
-            anchor = ET.SubElement(title, 'gmx:Anchor', {'xlink:href': listItem['xlink']})
+            anchor = ET.SubElement(title, 'gmx:Anchor', {
+                                   'xlink:href': listItem['xlink']})
             anchor.text = listItem['e18_lineEdit']
         else:
             characterString = ET.SubElement(title, 'gco:CharacterString')
@@ -383,7 +442,8 @@ def metadataElementDictToXml(metadataElementDict):
                       {'codeList': 'http://standards.iso.org/iso/19139/resources/gmxCodelists.xml#CI_DateTypeCode',
                        'codeListValue': translation[listItem['e18_cmbbx']]})
         explanation = ET.SubElement(dQ_ConformanceResult, 'gmd:explanation')
-        exp_anchor = ET.SubElement(explanation, 'gmx:Anchor', {'xlink:href': dictionaries.zgodnoscAnchors[listItem['e19_cmbbx']]})
+        exp_anchor = ET.SubElement(explanation, 'gmx:Anchor', {
+                                   'xlink:href': dictionaries.zgodnoscAnchors[listItem['e19_cmbbx']]})
         exp_anchor.text = listItem['e19_cmbbx']
 
         conformancyLevel = listItem['e19_cmbbx']
@@ -397,9 +457,8 @@ def metadataElementDictToXml(metadataElementDict):
             boolean = ET.SubElement(_pass, 'gco:Boolean')
             boolean.text = 'false'
         elif conformancyLevel == 'Brak oceny zgodności (notEvaluated)':
-            _pass = ET.SubElement(dQ_ConformanceResult, 'gmd:pass', {'gco:nilReason': "unknown"})
-
-
+            _pass = ET.SubElement(dQ_ConformanceResult, 'gmd:pass', {
+                                  'gco:nilReason': "unknown"})
 
     """gmd:lineage"""
     lineage = ET.SubElement(dQ_DataQuality, 'gmd:lineage')
@@ -407,6 +466,5 @@ def metadataElementDictToXml(metadataElementDict):
     statement = ET.SubElement(lI_Lineage, 'gmd:statement')
     characterString = ET.SubElement(statement, 'gco:CharacterString')
     characterString.text = metadataElementDict['e15']['e15_lineEdit']
-
 
     return minidom.parseString(ET.tostring(root, encoding='utf-8', method='xml').decode('utf-8')).toprettyxml(encoding='utf-8').decode('UTF-8')

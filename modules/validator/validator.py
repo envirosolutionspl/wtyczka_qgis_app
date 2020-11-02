@@ -264,17 +264,18 @@ class ValidatorLxml:
 
         bledy = []
         # wydobycie unikalnych przestrzeni nazw
-        for poziomHierarchii in root.findall('//app:AktPlanowaniaPrzestrzennego/app:poziomHierarchii', ns):
+        for app in root.findall('//app:AktPlanowaniaPrzestrzennego', ns):
+            poziomHierarchii = app.find('app:poziomHierarchii', ns)
             poziom = poziomHierarchii.attrib['{%s}title' % ns['xlink']]
+            print(poziom)
             if poziom == 'lokalny':
-                mapyPodkladowe = poziomHierarchii.findall('../app:mapaPodkladowa/app:MapaPodkladowa/app:referencja', ns)
-                print(poziomHierarchii, poziom)
-                print(mapyPodkladowe)
+                mapyPodkladowe = app.findall('app:mapaPodkladowa/app:MapaPodkladowa/app:referencja', ns)
+                print(len(mapyPodkladowe))
                 if len(mapyPodkladowe) == 0:
-                    app = poziomHierarchii.find('../gml:identifier')
-                    appId = validator_utils.urlIdToGmlId(app.text)
-                    bledy.append(f'''Dla Aktu Planowania Przestrzennego o identyfikatorze {appId} brak definicji atrybutu \'mapaPodkladowa\'.
-                    Atrybut \'mapaPodkladowa\' jest wymagany dla wszystkich APP poziomu lokalnego (poziomHierarchii = http://inspire.ec.europa.eu/codelist/LevelOfSpatialPlanValue/local)''')
+                    appId = validator_utils.urlIdToGmlId(app.find('gml:identifier', ns).text)
+                    bledy.append(
+                        f'''Dla Aktu Planowania Przestrzennego o identyfikatorze {appId} brak definicji atrybutu \'mapaPodkladowa\'.
+                                        Atrybut \'mapaPodkladowa\' jest wymagany dla wszystkich APP poziomu lokalnego (poziomHierarchii = http://inspire.ec.europa.eu/codelist/LevelOfSpatialPlanValue/local)''')
 
         if len(bledy) > 0:
             return False, '\n'.join(bledy)

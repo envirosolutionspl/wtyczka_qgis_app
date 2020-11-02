@@ -268,8 +268,10 @@ class ValidatorLxml:
             poziom = poziomHierarchii.attrib['{%s}title' % ns['xlink']]
             if poziom == 'lokalny':
                 mapyPodkladowe = poziomHierarchii.findall('../app:mapaPodkladowa/app:MapaPodkladowa/app:referencja', ns)
+                print(poziomHierarchii, poziom)
+                print(mapyPodkladowe)
                 if len(mapyPodkladowe) == 0:
-                    app = poziomHierarchii.find['../gml:identifier']
+                    app = poziomHierarchii.find('../gml:identifier')
                     appId = validator_utils.urlIdToGmlId(app.text)
                     bledy.append(f'''Dla Aktu Planowania Przestrzennego o identyfikatorze {appId} brak definicji atrybutu \'mapaPodkladowa\'.
                     Atrybut \'mapaPodkladowa\' jest wymagany dla wszystkich APP poziomu lokalnego (poziomHierarchii = http://inspire.ec.europa.eu/codelist/LevelOfSpatialPlanValue/local)''')

@@ -120,7 +120,7 @@ def appGmlToMetadataElementDict(gmlPath):
     itemsList = []
     inspire1 = "Rozporządzenie Komisji (UE) Nr 1089/2010 z dnia 23 listopada 2010 r. w sprawie wykonania dyrektywy 2007/2/WE Parlamentu Europejskiego i Rady w zakresie interoperacyjności zbiorów i usług danych przestrzennych"
     inspire2 = "D2.8.III.4 Data Specification on Land Use – Technical Guidelines"
-    krajowy1 = "Rozporządzenie Ministra Rozwoju w sprawie zbiorów danych przestrzennych oraz metadanych w zakresie zagospodarowania przestrzennego"
+    krajowy1 = "Rozporządzenie Ministra Rozwoju, Pracy i Technologii w sprawie zbiorów danych przestrzennych oraz metadanych w zakresie zagospodarowania przestrzennego"
     krajowy2 = "Planowanie przestrzenne: Specyfikacja danych"
 
     ifKrajowy = False

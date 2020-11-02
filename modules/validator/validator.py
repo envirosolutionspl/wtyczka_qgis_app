@@ -102,13 +102,12 @@ class ValidatorLxml:
         bledy = []
         metadataElementDict = xmlToMetadataElementDict(xmlPath)
 
-        fixedElementsDict = xmlToMetadataElementDictFixed(xmlPath)
-        unionDict = {**metadataElementDict, **fixedElementsDict}
-        for elementId, licznosc in dictionaries.licznoscMetadataFields.items():
+        for elementId, content in metadataElementDict.items():
+            licznosc = dictionaries.licznoscMetadataFields[elementId]
             # element wymagany i nie ma go w XML
-            if int(licznosc[0]) > 0 and elementId not in list(unionDict.keys()):
+            if int(licznosc[0]) > 0 and not content:
                 bledy.append('Brak definicji wymaganej wartości \'%s\' (%s) z katalogu metadanych w walidowanym pliku XML metadanych' % (
-                    dictionaries.nazwyMetadataFields[elementId], elementId))
+                        dictionaries.nazwyMetadataFields[elementId], elementId))
         if bledy:
             return [False, '\n\n'.join(bledy)]
         return [True]

@@ -120,7 +120,7 @@ def appGmlToMetadataElementDict(gmlPath):
     itemsList = []
     inspire1 = "Rozporządzenie Komisji (UE) Nr 1089/2010 z dnia 23 listopada 2010 r. w sprawie wykonania dyrektywy 2007/2/WE Parlamentu Europejskiego i Rady w zakresie interoperacyjności zbiorów i usług danych przestrzennych"
     inspire2 = "D2.8.III.4 Data Specification on Land Use – Technical Guidelines"
-    krajowy1 = "Rozporządzenie Ministra Rozwoju, Pracy i Technologii w sprawie zbiorów danych przestrzennych oraz metadanych w zakresie zagospodarowania przestrzennego"
+    krajowy1 = "Rozporządzenie Ministra Rozwoju, Pracy i Technologii z dnia 26 października 2020 r. w sprawie zbiorów danych przestrzennych oraz metadanych w zakresie zagospodarowania przestrzennego"
     krajowy2 = "Planowanie przestrzenne: Specyfikacja danych"
 
     ifKrajowy = False
@@ -155,16 +155,14 @@ def appGmlToMetadataElementDict(gmlPath):
     # E18 i E19 krajowy1
     itemsList.append({
         'e18_lineEdit': krajowy1,
-        # TODO: uaktualnić po publikacji
         'e18_dateTimeEdit': QDateTime(2020, 10, 31, 0, 0),
         'e18_cmbbx': 'Data opublikowania',
         'e19_cmbbx': 'Zgodny (conformant)' if ifKrajowy else 'Niezgodny (notConformant)',
-        'xlink': ""   # TODO: uaktualnić po publikacji
+        'xlink': "https://dziennikustaw.gov.pl/DU/2020/1916"
     })
     # E18 i E19 krajowy2
     itemsList.append({
         'e18_lineEdit': krajowy2,
-        # TODO: uaktualnić po publikacji
         'e18_dateTimeEdit': QDateTime(2020, 10, 31, 0, 0),
         'e18_cmbbx': 'Data opublikowania',
         'e19_cmbbx': 'Zgodny (conformant)' if ifKrajowy else 'Niezgodny (notConformant)',

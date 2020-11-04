@@ -25,7 +25,7 @@ def appGmlToMetadataElementDict(gmlPath):
     element = root.find('//app:AktPlanowaniaPrzestrzennego/app:typPlanu', ns)
     if element is not None:
         typPlanu = element.attrib['{%s}title' %
-                                  ns['xlink']].replace('plan', 'planu')
+                                  ns['xlink']].replace('miejscowy', 'miejscowych').replace('plan', 'planów').replace('kier.', 'kierunków').replace('zagosp.', 'zagospodarowania').replace('przestrz.', 'przestrzennego')
         metadataElementDict['e1'] = {
             'e1_lineEdit': "Zbiór danych przestrzennych dla %s <typ_jednostki> <nazwa_jednostki>" % typPlanu}
 

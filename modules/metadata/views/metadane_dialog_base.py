@@ -84,7 +84,7 @@ class Ui_Dialog(object):
         self.form_scrollArea.setWidgetResizable(True)
         self.form_scrollArea.setObjectName("form_scrollArea")
         self.scrollAreaWidgetContents_2 = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 709, 300))
+        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, -1, 709, 300))
         self.scrollAreaWidgetContents_2.setObjectName("scrollAreaWidgetContents_2")
         self.gridLayout_2 = QtWidgets.QGridLayout(self.scrollAreaWidgetContents_2)
         self.gridLayout_2.setObjectName("gridLayout_2")
@@ -1218,7 +1218,7 @@ class Ui_Dialog(object):
 "\n"
 "Wartości elementu metadanych zawsze jest równa: zbiór danych przestrzennych („dataset”).\n"
 ""))
-        self.e4_lbl.setText(_translate("Dialog", "Adres zbioru danych przestrzennych"))
+        self.e4_lbl.setText(_translate("Dialog", "Adres zbioru danych przestrzennych*"))
         self.e4_tooltip.setToolTip(_translate("Dialog", "Adres zbioru danych przestrzennych określa odnośnik (odnośniki) do tego zbioru lub odnośnik do dodatkowych informacji na jego temat.\n"
 "\n"
 "Adres zbioru danych przestrzennych  musi być wyspecyfikowany w formie adresu URI:\n"

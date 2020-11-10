@@ -466,9 +466,8 @@ def make_polygon(polygons):
     for polygon in polygons:
         Boundary = ''
         for point in polygon:
-
             Boundary = ' '.join(
-                [Boundary, "{} {}".format(point.x(), point.y())])
+                [Boundary, "{} {}".format(point.y(), point.x())])
         BoundaryList.append(Boundary[1:])
     return(BoundaryList)
 

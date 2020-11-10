@@ -5,12 +5,15 @@
 [general]
 name=Wtyczka APP
 qgisMinimumVersion=3.0
-description=Wtyczka QGIS wspomagająca przygotowanie aktów planowania przestrzennego zgodnych z rozporządzeniem Ministra Rozwoju.
-version=0.1
+description=Wtyczka wspomaga tworzenie danych przestrzennych dla aktów planowania przestrzennego (APP), zbiorów APP oraz metadanych zgodnie z polskimi przepisami obowiązującymi od 31 października 2020 r. Dedykowaną wersją oprogramowania QGIS do korzystania z Wtyczki APP są wersje powyżej 3.10.
+version=1.0
 author=EnviroSolutions Sp. z o.o.
 email=office@envirosolutions.pl
 
-about=Wtyczka QGIS umożliwiająca tworzenie i przekształcanie danych do postaci zgodnej z modelem danych dla podstawowego zakresu APP oraz tworzenie metadanych zgodnych z profilem metadanych dla tematu zagospodarowanie przestrzenne.
+about=PL: Wtyczka wspomaga tworzenie danych przestrzennych dla aktów planowania przestrzennego (APP), zbiorów APP oraz metadanych zgodnie z polskimi przepisami obowiązującymi od 31 października 2020 r.
+  Dedykowaną wersją oprogramowania QGIS do korzystania z Wtyczki APP są wersje powyżej 3.10.
+  ENG: The plugin supports creation of spatial data for Polish spatial planning acts (APP), APP datasets and APP metadata in accordance with the Polish regulations.
+  Dedicated version of QGIS software to use APP Plugin are versions above 3.10.
 
 tracker=https://github.com/envirosolutionspl/wtyczka_qgis_app/issues
 repository=https://github.com/envirosolutionspl/wtyczka_qgis_app
@@ -21,9 +24,14 @@ repository=https://github.com/envirosolutionspl/wtyczka_qgis_app
 hasProcessingProvider=no
 # Uncomment the following line and add your changelog:
 # changelog=
+  Wersja 1.0
+  * modyfikacje walidatora danych i metadanych
+  * zmiany struktury generowanych plików GML
+  Wersja 0.1
+  * utworzenie narzędzia "Wtyczka APP"
 
 # Tags are comma separated with spaces allowed
-tags=python
+tags=python, land use planning, gml, poland, urban planning, polska, planowanie przestrzenne, zagospodarowanie przestrzenne
 
 homepage=https://github.com/envirosolutionspl/wtyczka_qgis_app
 category=Plugins

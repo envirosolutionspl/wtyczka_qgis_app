@@ -147,9 +147,9 @@
         <property name="geometry">
          <rect>
           <x>0</x>
-          <y>-5</y>
+          <y>-1</y>
           <width>709</width>
-          <height>1025</height>
+          <height>300</height>
          </rect>
         </property>
         <layout class="QGridLayout" name="gridLayout_2">
@@ -168,7 +168,7 @@
             <bool>false</bool>
            </property>
            <property name="collapsed">
-            <bool>false</bool>
+            <bool>true</bool>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_2">
             <property name="sizeConstraint">

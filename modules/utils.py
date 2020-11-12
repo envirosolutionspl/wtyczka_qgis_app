@@ -145,14 +145,14 @@ def isAppOperative(gmlPath, gmlId=None):
     """sprawdza czy zbiór APP jest obowiązującym zbiorem"""
     ns = dictionaries.nameSpaces
     # statusPath = 'wfs:member/app:AktPlanowaniaPrzestrzennego/app:status[@xlink:title="prawnie wiążący lub realizowany"]'
-    statusPath = 'wfs:member/app:AktPlanowaniaPrzestrzennego/app:status'
+    statusPath = 'app:AktPlanowaniaPrzestrzennego/app:status'
 
     root = ET.parse(gmlPath).getroot()
 
     if gmlId is not None:   # w przypadku sprawdzania konkretnego Id w zbiorze
         app = root.find(
-            'wfs:member/app:AktPlanowaniaPrzestrzennego[@gml:id="%s"]' % gmlId, ns)
-        statusElement = app.find('./app:status', ns)
+            'app:AktPlanowaniaPrzestrzennego[@gml:id="%s"]' % gmlId, ns)
+        statusElement = app.find('./app:status', ns) if app else None
     else:   # w przypadku sprawdzania pliku APP (nie zbioru)
         statusElement = root.find(statusPath, ns)
 
@@ -171,9 +171,9 @@ def checkZbiorGeometryValidityBeforeCreation(gmlFilesPath):
         if isAppOperative(gmlPath):  # jest obowiązujący
             layer = QgsVectorLayer(gmlPath, "", 'ogr')
             if not layer.isValid():
-                return [False, "Niepoprawna warstwa wektorowa w pliku %s" % gmlPath]
+                return [False, "Niepoprawna warstwa wektorowa w pliku %s lub brak poprawnie zdefiniowanego elementu \"AktPlanowaniaPrzestrzennego\" w GML" % gmlPath]
             if not layer.featureCount():
-                return [False, "Brak obiektów przestrzennych w warstwie %s" % gmlPath]
+                return [False, "Brak obiektów przestrzennych (APP) w warstwie %s" % gmlPath]
             feat = next(layer.getFeatures())
             geoms.append((feat.geometry(), gmlPath))
     for a, b in itertools.combinations(geoms, 2):
@@ -192,8 +192,11 @@ def checkZbiorGeometryValidityOnCreatedFile(gmlSetFilePath):
     geoms = []
     layer = QgsVectorLayer(
         gmlSetFilePath + '|layername=AktPlanowaniaPrzestrzennego', "gml", 'ogr')
-    if not layer.isValid():
-        return [False, "Niepoprawna warstwa wektorowa w pliku %s" % gmlSetFilePath]
+    if not layer.isValid(): # sprawdzanie czy AktPlanowaniaPrzestrzennego jest w wfs:member lub gml:featureMember (bezpośrednio)
+        layer = QgsVectorLayer(
+            gmlSetFilePath + '|layername=featureMember', "gml", 'ogr')
+        if not layer.isValid(): # sprawdzanie czy AktPlanowaniaPrzestrzennego jest w gml:featureMember (w kolekcji gml:featureMembers)
+            return [False, "Niepoprawna warstwa wektorowa w pliku %s lub brak poprawnie zdefiniowanego elementu \"AktPlanowaniaPrzestrzennego\" w GML" % gmlSetFilePath]
     if not layer.featureCount():
         return [False, "Brak obiektów przestrzennych (APP) w pliku %s" % gmlSetFilePath]
 

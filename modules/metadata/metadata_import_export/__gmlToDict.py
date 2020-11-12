@@ -79,13 +79,19 @@ def appGmlToMetadataElementDict(gmlPath):
     # E11
     layer = QgsVectorLayer(
         gmlPath + '|layername=AktPlanowaniaPrzestrzennego', "gml",  'ogr')
+    if not layer: # sprawdzanie czy AktPlanowaniaPrzestrzennego jest w wfs:member lub gml:featureMember (bezpośrednio)
+        print('ggfdgfg', layer)
+        layer = QgsVectorLayer(gmlPath + '|layername=featureMember', "gml", 'ogr')
     if layer:
+
         sourceCrs = layer.crs()
         extent = layer.extent()
+        print(extent)
         crsDest = QgsCoordinateReferenceSystem(4326)  # WGS84
         xform = QgsCoordinateTransform(
             sourceCrs, crsDest, QgsProject.instance())
         extent84 = xform.transform(extent)
+        print(extent84)
         metadataElementDict['e11'] = [{'e11_lineEdit': '%s,%s,%s,%s' % (
             extent84.yMinimum(), extent84.yMaximum(), extent84.xMinimum(), extent84.xMaximum())}]
 

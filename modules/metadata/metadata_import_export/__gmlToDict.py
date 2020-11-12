@@ -3,7 +3,7 @@ from .. import dictionaries, utils
 import xml.etree.ElementTree as ET
 import re
 from PyQt5.QtCore import QDateTime
-from qgis.core import QgsVectorLayer, QgsCoordinateReferenceSystem, QgsCoordinateTransform, QgsProject
+from qgis.core import QgsVectorLayer, QgsCoordinateReferenceSystem, QgsCoordinateTransform, QgsProject, QgsRectangle
 from PyQt5.QtWidgets import QMessageBox
 
 def appGmlToMetadataElementDict(gmlPath):
@@ -88,12 +88,13 @@ def appGmlToMetadataElementDict(gmlPath):
 
         sourceCrs = layer.crs()
         extent = layer.extent()
+        # w zwiazku z niepoprawnym zaczytywaniem zasiegu GML przez QGIS - odwrocenie osi
+        extentInverted = QgsRectangle(extent.yMinimum(), extent.xMinimum(), extent.yMaximum(), extent.xMaximum())
         crsDest = QgsCoordinateReferenceSystem(4326)  # WGS84
         xform = QgsCoordinateTransform(
             sourceCrs, crsDest, QgsProject.instance())
-        extent84 = xform.transform(extent)
-        metadataElementDict['e11'] = [{'e11_lineEdit': '%s,%s,%s,%s' % (
-            extent84.yMinimum(), extent84.yMaximum(), extent84.xMinimum(), extent84.xMaximum())}]
+        extent84 = xform.transform(extentInverted)
+        metadataElementDict['e11'] = [{'e11_lineEdit': '%s,%s,%s,%s' % (extent84.xMinimum(), extent84.xMaximum(), extent84.yMinimum(), extent84.yMaximum())}]
 
     # E12
     itemsList = []

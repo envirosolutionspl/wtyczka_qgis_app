@@ -63,10 +63,11 @@ class MetadataModule(BaseModule):
             metadataElementDict = appGmlToMetadataElementDict(path)
             # print(metadataElementDict)
 
-            # zapisanie słownika do formularza
-            metadataElementDictToForm(metadataElementDict, self.metadaneDialog)
-            self.iface.messageBar().pushSuccess("Aktualizacja formularza metadanych:",
-                                                "Zaktualizowano formularz metadanych w oparciu o plik zbioru APP.")
+            if metadataElementDict:
+                # zapisanie słownika do formularza
+                metadataElementDictToForm(metadataElementDict, self.metadaneDialog)
+                self.iface.messageBar().pushSuccess("Aktualizacja formularza metadanych:",
+                                                    "Zaktualizowano formularz metadanych w oparciu o plik zbioru APP.")
 
     def chooseFile_widget_fileChanged(self, path):
         if path:

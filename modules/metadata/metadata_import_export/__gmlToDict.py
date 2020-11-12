@@ -4,7 +4,7 @@ import xml.etree.ElementTree as ET
 import re
 from PyQt5.QtCore import QDateTime
 from qgis.core import QgsVectorLayer, QgsCoordinateReferenceSystem, QgsCoordinateTransform, QgsProject
-
+from PyQt5.QtWidgets import QMessageBox
 
 def appGmlToMetadataElementDict(gmlPath):
     """słownik metadataElementDict na podstawie pliku zbioru APP"""
@@ -32,6 +32,9 @@ def appGmlToMetadataElementDict(gmlPath):
     # E5
     date = root.find(
         '//app:AktPlanowaniaPrzestrzennego//app:przestrzenNazw', ns)
+    if date is None:
+        utils.showPopup("Błąd pliku", "wczytany plik nie jest poprawną definicją GML dla zbioru APP. Zwaliduj plik przed wczytaniem do formularza metadanych", QMessageBox.Warning)
+        return False
     metadataElementDict['e5'] = [{'e5_lineEdit': date.text}]
 
     # E7 - kodowanie z nagłówka GML
@@ -79,19 +82,16 @@ def appGmlToMetadataElementDict(gmlPath):
     # E11
     layer = QgsVectorLayer(
         gmlPath + '|layername=AktPlanowaniaPrzestrzennego', "gml",  'ogr')
-    if not layer: # sprawdzanie czy AktPlanowaniaPrzestrzennego jest w wfs:member lub gml:featureMember (bezpośrednio)
-        print('ggfdgfg', layer)
+    if not layer.isValid(): # sprawdzanie czy AktPlanowaniaPrzestrzennego jest w wfs:member lub gml:featureMember (bezpośrednio)
         layer = QgsVectorLayer(gmlPath + '|layername=featureMember', "gml", 'ogr')
-    if layer:
+    if layer.isValid():
 
         sourceCrs = layer.crs()
         extent = layer.extent()
-        print(extent)
         crsDest = QgsCoordinateReferenceSystem(4326)  # WGS84
         xform = QgsCoordinateTransform(
             sourceCrs, crsDest, QgsProject.instance())
         extent84 = xform.transform(extent)
-        print(extent84)
         metadataElementDict['e11'] = [{'e11_lineEdit': '%s,%s,%s,%s' % (
             extent84.yMinimum(), extent84.yMaximum(), extent84.xMinimum(), extent84.xMaximum())}]
 

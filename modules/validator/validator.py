@@ -26,9 +26,9 @@ class ValidatorLxml:
         try:
             xml_root = lxml.etree.parse(xmlPath)
         except lxml.etree.XMLSyntaxError as e:  # błąd w składni XML
-            return [False, "Błąd w składni XML:\n" + str(e.msg)]
+            return [False, "Błąd w składni XML:\n" + str(e)]
         except OSError as e:  # błąd odczytu pliku
-            return [False, "Błąd odczytu pliku lub plik nie istnieje:\n" + str(e.msg)]
+            return [False, "Błąd odczytu pliku lub plik nie istnieje:\n" + str(e)]
 
         if self.schema.validate(xml_root):
             return [True]

@@ -49,7 +49,6 @@ class ValidatorLxml:
         return valResult
 
     def validateAppXml(self, xmlPath):
-        print('walidator')
         valResult = self.validateXml(xmlPath)
         if valResult[0]:
             layer = QgsVectorLayer(xmlPath + '|layername=AktPlanowaniaPrzestrzennego', "gml", 'ogr')

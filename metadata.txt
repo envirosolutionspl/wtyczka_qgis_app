@@ -6,7 +6,7 @@
 name=Wtyczka APP
 qgisMinimumVersion=3.0
 description=Wtyczka wspomaga tworzenie danych przestrzennych dla aktów planowania przestrzennego (APP), zbiorów APP oraz metadanych zgodnie z polskimi przepisami obowiązującymi od 31 października 2020 r. Dedykowaną wersją oprogramowania QGIS do korzystania z Wtyczki APP są wersje powyżej 3.10.
-version=1.0
+version=1.1
 author=EnviroSolutions Sp. z o.o.
 email=office@envirosolutions.pl
 
@@ -24,6 +24,10 @@ repository=https://github.com/envirosolutionspl/wtyczka_qgis_app
 hasProcessingProvider=no
 # Uncomment the following line and add your changelog:
 # changelog=
+  Wersja 1.1
+  * poprawa błędu powodującego generowanie GML z odwróconymi osiami
+  * poprawa błędu powodującego niepoprawne walidowanie plików GML zawierających element gml:featureMember
+  * poprawa kilku mniejszych błędów
   Wersja 1.0
   * modyfikacje walidatora danych i metadanych
   * zmiany struktury generowanych plików GML

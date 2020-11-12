@@ -190,15 +190,15 @@ def checkZbiorGeometryValidityOnCreatedFile(gmlSetFilePath):
     """sprawdza integralność zbioru APP, czy np. obrysy się nie przecinają
     na podstawie ścieżki do pliku GML zbioru APP"""
     geoms = []
-    layer = QgsVectorLayer(
-        gmlSetFilePath + '|layername=AktPlanowaniaPrzestrzennego', "gml", 'ogr')
+    layer = QgsVectorLayer(gmlSetFilePath + '|layername=AktPlanowaniaPrzestrzennego', "gml", 'ogr')
     if not layer.isValid(): # sprawdzanie czy AktPlanowaniaPrzestrzennego jest w wfs:member lub gml:featureMember (bezpośrednio)
-        layer = QgsVectorLayer(
-            gmlSetFilePath + '|layername=featureMember', "gml", 'ogr')
-        if not layer.isValid(): # sprawdzanie czy AktPlanowaniaPrzestrzennego jest w gml:featureMember (w kolekcji gml:featureMembers)
-            return [False, "Niepoprawna warstwa wektorowa w pliku %s lub brak poprawnie zdefiniowanego elementu \"AktPlanowaniaPrzestrzennego\" w GML" % gmlSetFilePath]
+        return False, "Niepoprawna warstwa wektorowa w pliku %s lub brak poprawnie zdefiniowanego elementu \"AktPlanowaniaPrzestrzennego\" w GML" % gmlSetFilePath
+        # layer = QgsVectorLayer(gmlSetFilePath + '|layername=featureMember', "gml", 'ogr')
+        # if not layer.isValid(): # sprawdzanie czy AktPlanowaniaPrzestrzennego jest w gml:featureMember (w kolekcji gml:featureMembers)
+        #     return [False, "Niepoprawna warstwa wektorowa w pliku %s lub brak poprawnie zdefiniowanego elementu \"AktPlanowaniaPrzestrzennego\" w GML" % gmlSetFilePath]
+
     if not layer.featureCount():
-        return [False, "Brak obiektów przestrzennych (APP) w pliku %s" % gmlSetFilePath]
+        return False, "Brak obiektów przestrzennych (APP) w pliku %s" % gmlSetFilePath
 
     for feat in layer.getFeatures():
         gmlId = feat['gml_id']

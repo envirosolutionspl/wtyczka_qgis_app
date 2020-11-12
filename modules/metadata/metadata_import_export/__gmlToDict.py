@@ -82,13 +82,21 @@ def appGmlToMetadataElementDict(gmlPath):
     # E11
     layer = QgsVectorLayer(
         gmlPath + '|layername=AktPlanowaniaPrzestrzennego', "gml",  'ogr')
-    if not layer.isValid(): # sprawdzanie czy AktPlanowaniaPrzestrzennego jest w wfs:member lub gml:featureMember (bezpośrednio)
-        layer = QgsVectorLayer(gmlPath + '|layername=featureMember', "gml", 'ogr')
+    # if not layer.isValid(): # sprawdzanie czy AktPlanowaniaPrzestrzennego jest w wfs:member lub gml:featureMember (bezpośrednio)
+    #     layer = QgsVectorLayer(gmlPath + '|layername=featureMember', "gml", 'ogr')
     if layer.isValid():
 
         sourceCrs = layer.crs()
         extent = layer.extent()
         # w zwiazku z niepoprawnym zaczytywaniem zasiegu GML przez QGIS - odwrocenie osi
+        '''
+        Dla wersji QGIS <= 3.14 przy wczytywaniu GML
+        # z definicją układu
+        # jako uri do opengis.net np. http://www.opengis.net/def/crs/EPSG/0/2177
+        # QGIS wczytuje zasięg z odwróconymi X i Y
+        # TODO: do wykomentowania gdy błąd zostanie naprawiony w nowej wersji programu
+        # dla starych - pozostaje
+        '''
         extentInverted = QgsRectangle(extent.yMinimum(), extent.xMinimum(), extent.yMaximum(), extent.xMaximum())
         crsDest = QgsCoordinateReferenceSystem(4326)  # WGS84
         xform = QgsCoordinateTransform(

@@ -49,26 +49,18 @@ class ValidatorLxml:
         return valResult
 
     def validateAppXml(self, xmlPath):
+        print('walidator')
         valResult = self.validateXml(xmlPath)
         if valResult[0]:
-            layer = QgsVectorLayer(
-                xmlPath + '|layername=AktPlanowaniaPrzestrzennego', "gml", 'ogr')
+            layer = QgsVectorLayer(xmlPath + '|layername=AktPlanowaniaPrzestrzennego', "gml", 'ogr')
+            # if not layer.isValid():
+            #     layer = QgsVectorLayer(xmlPath + '|layername=featureMember', "gml", 'ogr')
             if layer and layer.isValid():
-                '''
-                Dla wersji QGIS <= 3.14 przy wczytywaniu GML
-                # z definicją układu
-                # jako uri do opengis.net np. http://www.opengis.net/def/crs/EPSG/0/2177
-                # QGIS wczytuje odwrócone X i Y
-                # TODO: do wykomentowania gdy błąd zostanie naprawiony w nowej wersji programu
-                # dla starych - pozostaje
-                '''
-                layer = processing.run(
-                    "qgis:swapxy", {'INPUT': layer, 'OUTPUT': 'TEMPORARY_OUTPUT'})['OUTPUT']
                 if not isLayerInPoland(layer):
                     return [False,
                             'Błąd geometrii APP: Obrysy leżą poza granicami Polski. Sprawdź czy w pliku GML jest prawidłowa definicja układu zgodnie ze standardem INSPIRE np: srsName="http://www.opengis.net/def/crs/EPSG/0/2177"']
             else:
-                return [False, 'Błąd geometrii APP: Geometria APP nie jest poprawną warstwą wektorową']
+                return [False, 'Błąd geometrii APP: Geometria APP nie jest poprawną warstwą wektorową lub brak poprawnie zdefiniowanego elementu \"AktPlanowaniaPrzestrzennego\" w GML']
 
             # walidacja unikalności przestrzeni nazw w pliku GML
             valRelationsResult = self.validatePrzestrzenNazwIntegrity(xmlPath)
@@ -85,7 +77,7 @@ class ValidatorLxml:
             if not valRelationsResult[0]:
                 return valRelationsResult
 
-        return [True]
+        return valResult
 
     def validateZbiorXml(self, xmlPath):
 
@@ -132,15 +124,14 @@ class ValidatorLxml:
 
         # przystąpienie
         bledy = []
-        for app in root.findall('/wfs:member/app:AktPlanowaniaPrzestrzennego', ns):
-            # identifier = app.find('./gml:identifier', ns).text
+        for app in root.findall('//app:AktPlanowaniaPrzestrzennego', ns):
 
             # przystapienie
             dok_przystepujacy = app.find('./app:dokumentPrzystepujacy', ns)
             if dok_przystepujacy is not None:
                 dok_przystepujacy_id = dok_przystepujacy.attrib['{%s}href' %
                                                                 ns['xlink']]
-                df = root.find('/wfs:member/app:DokumentFormalny[@{%s}id="%s"]' % (
+                df = root.find('//app:DokumentFormalny[@{%s}id="%s"]' % (
                     ns['gml'], validator_utils.urlIdToGmlId(dok_przystepujacy_id)), ns)
                 if df is None:
                     bledy.append('Brak dokumentu formalnego o identyfikatorze %s' %
@@ -156,7 +147,7 @@ class ValidatorLxml:
             if dok_uchwalajacy is not None:
                 dok_uchwalajacy_id = dok_uchwalajacy.attrib['{%s}href' %
                                                             ns['xlink']]
-                df = root.find('/wfs:member/app:DokumentFormalny[@{%s}id="%s"]' % (
+                df = root.find('//app:DokumentFormalny[@{%s}id="%s"]' % (
                     ns['gml'], validator_utils.urlIdToGmlId(dok_uchwalajacy_id)), ns)
                 if df is None:
                     bledy.append('Brak dokumentu formalnego o identyfikatorze %s' %
@@ -172,7 +163,7 @@ class ValidatorLxml:
             if dok_zmieniajacy is not None:
                 dok_zmieniajacy_id = dok_zmieniajacy.attrib['{%s}href' %
                                                             ns['xlink']]
-                df = root.find('/wfs:member/app:DokumentFormalny[@{%s}id="%s"]' % (
+                df = root.find('//app:DokumentFormalny[@{%s}id="%s"]' % (
                     ns['gml'], validator_utils.urlIdToGmlId(dok_zmieniajacy_id)), ns)
                 if df is None:
                     bledy.append('Brak dokumentu formalnego o identyfikatorze %s' %
@@ -188,7 +179,7 @@ class ValidatorLxml:
             if dok_uchylajacy is not None:
                 dok_uchylajacy_id = dok_uchylajacy.attrib['{%s}href' %
                                                           ns['xlink']]
-                df = root.find('/wfs:member/app:DokumentFormalny[@{%s}id="%s"]' % (
+                df = root.find('//app:DokumentFormalny[@{%s}id="%s"]' % (
                     ns['gml'], validator_utils.urlIdToGmlId(dok_uchylajacy_id)), ns)
                 if df is None:
                     bledy.append('Brak dokumentu formalnego o identyfikatorze %s' %
@@ -204,7 +195,7 @@ class ValidatorLxml:
             if dok_uniewazniajacy is not None:
                 dok_uniewazniajacy_id = dok_uniewazniajacy.attrib['{%s}href' %
                                                                   ns['xlink']]
-                df = root.find('/wfs:member/app:DokumentFormalny[@{%s}id="%s"]' % (
+                df = root.find('//app:DokumentFormalny[@{%s}id="%s"]' % (
                     ns['gml'], validator_utils.urlIdToGmlId(dok_uniewazniajacy_id)), ns)
                 if df is None:
                     bledy.append('Brak dokumentu formalnego o identyfikatorze %s' %

@@ -7,8 +7,8 @@
 	<!--XML Schema document created by ShapeChange - http://shapechange.net/-->
 	<element name="DokumentFormalny" type="app:DokumentFormalnyType" substitutionGroup="gml:AbstractFeature">
 		<annotation>
-			<documentation>Dokument formalny: Dokument formalny powiązany z aktem planowania przestrzennego. 
-Szczególnym przypadkiem dokumentu formalnego jest akt prawny, będący rezultatem tworzenia prawa przez właściwy organ państwowy lub organ do tego upoważniony.</documentation>
+			<documentation>Dokument formalny: Dokument formalny powiązany z aktem planowania przestrzennego.
+Szczególnym przypadkiem dokumentu formalnego jest akt prawny.</documentation>
 		</annotation>
 	</element>
 	<complexType name="DokumentFormalnyType">
@@ -37,7 +37,7 @@ Szczególnym przypadkiem dokumentu formalnego jest akt prawny, będący rezultat
 					</element>
 					<element name="organUstanawiajacy" type="string" minOccurs="0">
 						<annotation>
-							<documentation>organ ustanawiający: Organ ustanawiający (wydający) dokument formalny np. Sejm Rzeczypospolitej Polskiej, organ administracji rządowej lub organ jednostki samorządu terytorialnego.</documentation>
+							<documentation>organ ustanawiający: Organ ustanawiający (wydający) dokument formalny. Atrybut może przyjąć wartość np. Sejm Rzeczypospolitej Polskiej lub będącą nazwą organu administracji rządowej lub organu jednostki samorządu terytorialnego.</documentation>
 						</annotation>
 					</element>
 					<element name="data" type="gmd:CI_Date_PropertyType">
@@ -59,7 +59,7 @@ KOMENTARZ 01. Atrybut ma zastosowanie tylko w przypadku dokumentów urzędowych 
 					</element>
 					<element name="szczegoloweOdniesienie" type="string" minOccurs="0">
 						<annotation>
-							<documentation>szczegółowe odniesienie: Odniesienie do konkretnej części dokumentu istotnej z punktu widzenia procesu planowania przestrzenego np. artykułu ustawy.</documentation>
+							<documentation>szczegółowe odniesienie: Odniesienie do konkretnej części dokumentu istotnej z punktu widzenia procesu planowania przestrzennego np. artykułu ustawy.</documentation>
 						</annotation>
 					</element>
 					<element name="dziennikUrzedowy" type="gml:ReferenceType" minOccurs="0">
@@ -137,24 +137,24 @@ KOMENTARZ 01. Atrybut ma zastosowanie tylko w przypadku dokumentów urzędowych 
 		<sequence>
 			<element name="przestrzenNazw" type="string">
 				<annotation>
-					<documentation>przestrzeń nazw: Przestrzeń nazw identyfikująca w sposób jednoznaczny źródło danych obiektu, o której mowa w § 5 ust. 2 pkt 1 rozporządzenia.
+					<documentation>przestrzeń nazw: Przestrzeń nazw identyfikująca w sposób jednoznaczny źródło danych obiektu, o której mowa w § 5 ust. 1 pkt 1 rozporządzenia.
 
 KOMENTARZ 01. Wartość atrybutu przestrzeń nazw powinna jednoznacznie identyfikować zbiór danych przestrzennych, do którego należy instancja typu obiektu.</documentation>
 				</annotation>
 			</element>
 			<element name="lokalnyId" type="string">
 				<annotation>
-					<documentation>identyfikator lokalny: Lokalny identyfikator obiektu, o którym mowa w § 5 ust. 2 pkt 2 rozporządzenia,  przypisany przez dostawcę danych. 
+					<documentation>identyfikator lokalny: Lokalny identyfikator obiektu, o którym mowa w § 5 ust. 1 pkt 2 rozporządzenia,  przypisany przez dostawcę danych.
 
 KOMENTARZ 01. Unikalność identyfikatora w przestrzeni nazw gwarantuje dostawca zbioru danych przestrzennych.</documentation>
 				</annotation>
 			</element>
 			<element name="wersjaId" type="string" minOccurs="0">
 				<annotation>
-					<documentation>identyfikator wersji: Identyfikator poszczególnej wersji obiektu przestrzennego.
+					<documentation>identyfikator wersji: Identyfikator poszczególnej wersji obiektu przestrzennego, o którym mowa w § 5 ust. 1 pkt 3 rozporządzenia, przypisany przez dostawcę danych.
 
-KOMENTARZ 01. W zestawie wszystkich wersji danego obiektu identyfikator wersji musi być unikalny.
-POLE „WERSJAID” GENEROWANY JEST AUTOMATYCZNIE NA PODSTAWIE ATRYBUTU "POCZATEKWERSJIOBIEKTU"</documentation>
+KOMENTARZ 01. W zestawie wszystkich wersji danego obiektu identyfikator wersji musi być unikalny.</documentation>
+
 				</annotation>
 			</element>
 		</sequence>
@@ -172,9 +172,9 @@ POLE „WERSJAID” GENEROWANY JEST AUTOMATYCZNIE NA PODSTAWIE ATRYBUTU "POCZATE
 
 ·	studium uwarunkowań i kierunków zagospodarowania przestrzennego gminy,
 
-·	miejscowy plan zagospodarowania przestrzennego,   
+·	miejscowy plan zagospodarowania przestrzennego,
 
-·	miejscowy plan odbudowy, 
+·	miejscowy plan odbudowy,
 
 ·	miejscowy plan rewitalizacji.
 
@@ -254,7 +254,7 @@ Zasięg przestrzenny obiektu reprezentuje granicę obszaru, który jest objęty 
 					</element>
 					<element name="zmiana" type="integer" minOccurs="0">
 						<annotation>
-							<documentation>zmiana: Informacja o ilości zmian aktu planowania przestrzennego lub wydanych dla niego rozstrzygnięć nadzorczych lub wyroków sądowych.</documentation>
+							<documentation>zmiana: Informacja o liczbie zmian aktu planowania przestrzennego lub wydanych dla niego rozstrzygnięć nadzorczych lub wyroków sądowych.</documentation>
 						</annotation>
 					</element>
 					<element name="mapaPodkladowa" type="app:MapaPodkladowaPropertyType" minOccurs="0" maxOccurs="unbounded">
@@ -407,7 +407,7 @@ KOMENTARZ 01. Układ odniesienia przestrzennego musi zostać podany zgodnie z EP
 					</element>
 					<element name="rozdzielczoscPrzestrzenna" type="integer">
 						<annotation>
-							<documentation>rozdzielczość przestrzenna: Informacja o rozdzielczości przestrzennej części graficznej aktu planowania przestrzennego, odpowiadającej skali sporządzania danego aktu. Wielkość wyrażona za pomocą liczby całkowitej stanowiącej mianownik skali.</documentation>
+							<documentation>rozdzielczość przestrzenna: Informacja o rozdzielczości przestrzennej rysunku aktu planowania przestrzennego, odpowiadającej skali sporządzania danego aktu. Wielkość opisująca poziom szczegółowości części graficznej aktu planowania przestrzennego wyrażona za pomocą liczby całkowitej stanowiącej mianownik skali.</documentation>
 						</annotation>
 					</element>
 					<element name="opis" type="string" minOccurs="0">

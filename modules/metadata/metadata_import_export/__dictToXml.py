@@ -231,7 +231,8 @@ def metadataElementDictToXml(metadataElementDict):
             thesaurusName = ET.SubElement(mD_Keywords, 'gmd:thesaurusName')
             cI_Citation = ET.SubElement(thesaurusName, 'gmd:CI_Citation')
             title = ET.SubElement(cI_Citation, 'gmd:title')
-            if listItem['xlink']:
+            # if listItem['xlink']:
+            if 'xlink' in listItem and listItem['xlink']:
                 # xlink jeżeli istnieje
                 anchor = ET.SubElement(title, 'gmx:Anchor', {
                                        'xlink:href': listItem['xlink']})

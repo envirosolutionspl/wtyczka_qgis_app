@@ -79,7 +79,12 @@ def xmlToMetadataElementDict(xml):
         thesaurus = descriptiveKeywords.find('.//gmd:thesaurusName', ns)
         if thesaurus is not None:
             thesaurus_title = thesaurus.find('.//gmd:title/gmx:Anchor', ns)
-            data['e10_lineEdit'] = thesaurus_title.text
+            if thesaurus_title is None:
+                thesaurus_title = thesaurus.find('.//gmd:title/gco:CharacterString', ns)
+            try:
+                data['e10_lineEdit'] = thesaurus_title.text
+            except AttributeError:
+                pass
             try:
                 data['xlink'] = thesaurus_title.attrib['{%s}href' % ns['xlink']]
             except KeyError:

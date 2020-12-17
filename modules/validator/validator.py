@@ -9,6 +9,8 @@ from ..app.app_utils import isLayerInPoland
 from ..metadata.metadata_import_export import xmlToMetadataElementDict, xmlToMetadataElementDictFixed
 from .. import dictionaries, utils
 import processing
+import re
+dsSignaturePattern = re.compile(r'\/.*\/\w{1,5}\:Signature')
 xsdPath = os.path.join(os.path.dirname(__file__), 'planowaniePrzestrzenne.xsd')
 
 
@@ -26,19 +28,22 @@ class ValidatorLxml:
         try:
             xml_root = lxml.etree.parse(xmlPath)
         except lxml.etree.XMLSyntaxError as e:  # błąd w składni XML
-            return [False, "Błąd w składni XML:\n" + str(e)]
+            return False, "Błąd w składni XML:\n" + str(e)
         except OSError as e:  # błąd odczytu pliku
-            return [False, "Błąd odczytu pliku lub plik nie istnieje:\n" + str(e)]
+            return False, "Błąd odczytu pliku lub plik nie istnieje:\n" + str(e)
 
         if self.schema.validate(xml_root):
             return [True]
         else:
             errors = []
             for error in self.schema.error_log:
-                errors.append("Błąd w linii %s: %s" % (
-                    error.line, error.message.encode("utf-8").decode("utf-8")))
+                # pomijanie błędu spowodowanego podpisem cyfrowym #dirtysolution
+                if not dsSignaturePattern.match(error.path):
+                    errors.append("Błąd w linii %s: %s" % (error.line, error.message.encode("utf-8").decode("utf-8")))
+            if not errors:
+                return [True]
 
-            return [False, '\n\n'.join(errors)]
+            return False, '\n\n'.join(errors)
 
     def validateMetadataXml(self, xmlPath):
         valResult = self.validateXml(xmlPath)

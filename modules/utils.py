@@ -1390,12 +1390,12 @@ def mergeDocsToAPP(docList):  # docList z getTableContent
             "rysunek": []  # APP
         },
         'DokumentFormalny': {
+            "dokument": [],
             "przystapienie": [],  # Dokument
             "uchwala": [],  # Dokument
             "zmienia": [],  # Dokument
             "uchyla": [],  # Dokument
-            "uniewaznia": [],  # Dokument
-            "dokument": []
+            "uniewaznia": []  # Dokument
         },
         'RysunekAktuPlanowaniaPrzestrzennego': {
             "plan": []  # Rysunek
@@ -1496,7 +1496,7 @@ def mergeDocsToAPP(docList):  # docList z getTableContent
             if atr == 'przystapienie' or atr == 'uchwala':
                 newItem(root=root[0][0], name=atr,
                         link='/'.join(APPrelLink.split('/')[:-1]), ns=ns)
-            else:
+            elif atr != 'dokument':
                 newItem(root=root[0][0], name=atr, link=APPrelLink, ns=ns)
 
     for atr in pomijane['DokumentFormalny']:

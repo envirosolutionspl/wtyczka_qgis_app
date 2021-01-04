@@ -508,8 +508,6 @@ def makeSpatialExtent(node, CoordinatesList):
 
 
 def makeXML(docName, elements, formData, obrysLayer=None):
-    # TODO Dodać obsługę nillable: https://inspire.ec.europa.eu/forum/discussion/view/61478/contents-of-attribute-nilreason-eg-unknown-vs-httpinspireeceuropaeucodelistvoidreasonvalueunknown
-    # TODO Dodać iterację po obiektach z licznością *
     import datetime
     dict_map = {
         'status': dictionaries.statusListaKodowa,
@@ -1396,7 +1394,8 @@ def mergeDocsToAPP(docList):  # docList z getTableContent
             "uchwala": [],  # Dokument
             "zmienia": [],  # Dokument
             "uchyla": [],  # Dokument
-            "uniewaznia": []  # Dokument
+            "uniewaznia": [],  # Dokument
+            "dokument": []
         },
         'RysunekAktuPlanowaniaPrzestrzennego': {
             "plan": []  # Rysunek
@@ -1459,6 +1458,7 @@ def mergeDocsToAPP(docList):  # docList z getTableContent
             if relation == 'dokument':
                 pomijane['AktPlanowaniaPrzestrzennego']['dokument'].append(
                     relLink)
+                pomijane[docType][relation].append(root)
         if docType == 'RysunekAktuPlanowaniaPrzestrzennego':
             pomijane['AktPlanowaniaPrzestrzennego']['rysunek'].append(relLink)
             pomijane[docType]['plan'].append(root)

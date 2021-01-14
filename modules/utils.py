@@ -190,8 +190,9 @@ def checkZbiorGeometryValidityOnCreatedFile(gmlSetFilePath):
     """sprawdza integralność zbioru APP, czy np. obrysy się nie przecinają
     na podstawie ścieżki do pliku GML zbioru APP"""
     geoms = []
-    layer = QgsVectorLayer(gmlSetFilePath + '|layername=AktPlanowaniaPrzestrzennego', "gml", 'ogr')
-    if not layer.isValid(): # sprawdzanie czy AktPlanowaniaPrzestrzennego jest w wfs:member lub gml:featureMember (bezpośrednio)
+    layer = QgsVectorLayer(
+        gmlSetFilePath + '|layername=AktPlanowaniaPrzestrzennego', "gml", 'ogr')
+    if not layer.isValid():  # sprawdzanie czy AktPlanowaniaPrzestrzennego jest w wfs:member lub gml:featureMember (bezpośrednio)
         return False, "Niepoprawna warstwa wektorowa w pliku %s lub brak poprawnie zdefiniowanego elementu \"AktPlanowaniaPrzestrzennego\" w GML" % gmlSetFilePath
         # layer = QgsVectorLayer(gmlSetFilePath + '|layername=featureMember', "gml", 'ogr')
         # if not layer.isValid(): # sprawdzanie czy AktPlanowaniaPrzestrzennego jest w gml:featureMember (w kolekcji gml:featureMembers)
@@ -1468,10 +1469,10 @@ def mergeDocsToAPP(docList):  # docList z getTableContent
     l_przystapienie = len(pomijane['DokumentFormalny']['przystapienie'])
     l_uchwala = len(pomijane['DokumentFormalny']['uchwala'])
     suma = l_przystapienie + l_uchwala
-    if suma > 2 or suma == 0:
+    if suma < 1:
         # Wymagany jest co najmniej 1 dokument
         showPopup(title='Błąd liczności Dokumentów',
-                  text='Nieprawidłowa liczba dokumentów.\n Przystąpienie: %i (0..*)\nUchwala: %i (0..1)' % (l_przystapienie, l_uchwala))
+                  text='Nieprawidłowa liczba dokumentów.\nPrzystąpienie: %i (0..*)\nUchwala: %i (0..1)' % (l_przystapienie, l_uchwala))
         return ''
     if len(docRoots['AktPlanowaniaPrzestrzennego']) != 1:
         showPopup(title='Błąd liczności dokumentu',
@@ -1903,7 +1904,7 @@ def validateObjectNumber(files):
             statusPath, ns)
         if statusFind.attrib['{http://www.w3.org/1999/xlink}title'] == 'prawnie wiążący lub realizowany' and len(docs['RysunekAktuPlanowaniaPrzestrzennego']) == 0:
             showPopup('Błąd liczności obiektów',
-                      'Wymagany jest co najmniej jeden obiekt RysunekAktuPlanowaniaPrzestrzennego.\nWybrano obiektów: %d.' % len(docs['RysunekAktuPlanowaniaPrzestrzennego']))
+                      'Wymagany jest co najmniej jeden obiekt typu RysunekAktuPlanowaniaPrzestrzennego.\nWybrano obiektów: %d.' % len(docs['RysunekAktuPlanowaniaPrzestrzennego']))
             return False
         if statusFind.attrib['{http://www.w3.org/1999/xlink}title'] == 'prawnie wiążący lub realizowany' or statusFind.attrib['{http://www.w3.org/1999/xlink}title'] == 'nieaktualny':
             for rys in docs['RysunekAktuPlanowaniaPrzestrzennego']:

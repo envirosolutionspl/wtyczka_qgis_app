@@ -47,7 +47,6 @@ class AppModule(BaseModule):
         self.dokumentyFormularzDialog = DokumentyFormularzDialog()
         self.generowanieGMLDialog = GenerowanieGMLDialog()
 
-
     # endregion
     # region pytanieAppDialog
         self.pytanieAppDialog.zbior_btn.clicked.connect(
@@ -772,10 +771,7 @@ class AppModule(BaseModule):
                 data = utils.createXmlData(self.activeDlg, self.obrysLayer)
 
                 xml_string = ET.tostring(data, 'unicode')
-                # root = etree.XML(mydata)
 
-                # xml_string = etree.tostring(root, xml_declaration=True,
-                #                             encoding='utf-8', pretty_print=True).decode('utf-8')  # TODO Sprawdzić bez pretty_print
                 myfile = open(self.fn, "w", encoding='utf-8')
                 myfile.write(xml_string)
 
@@ -986,13 +982,17 @@ class AppModule(BaseModule):
             idIPP_list = []
             przestrzenNazw = przestrzenNazw_lineEdit.text().replace("/", "_")
             lokalnyId = lokalnyId_lineEdit.text()
+            if self.activeDlg == self.dokumentyFormularzDialog:
+                wersjaId_lineEdit.setText('')
             wersjaId = wersjaId_lineEdit.text()
+
             if przestrzenNazw.strip():
                 idIPP_list.append(przestrzenNazw.strip())
             if lokalnyId.strip():
                 idIPP_list.append(lokalnyId.strip())
             if wersjaId.strip():
-                idIPP_list.append(wersjaId.strip())
+                if self.activeDlg != self.dokumentyFormularzDialog:
+                    idIPP_list.append(wersjaId.strip())
 
             idIIP_lineEdit.setText("_".join(idIPP_list))
 

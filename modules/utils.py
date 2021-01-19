@@ -412,10 +412,13 @@ def getWidgetByName(layout, searchObjectType, name):
     return widget
 
 
-def makeXmlComplex(tag, item, element):
+def makeXmlComplex(tag, item, element, doc=False):
     ComplexItem = ET.SubElement(
         item, element.type.replace('PropertyType', ''))
     for inner in element.innerFormElements:
+        if doc == 'DokumentFormalny' and inner.name == 'wersjaId':
+            continue
+        # print(inner.name, inner.refObject.text())
         if inner.refObject.text() != '':
             subItem = ET.SubElement(ComplexItem, tag + inner.name)
             subItem.text = inner.refObject.text()
@@ -561,6 +564,7 @@ def makeXML(docName, elements, formData, obrysLayer=None):
     item = ET.SubElement(items, 'gml:identifier')
     codeSpace = 'https://www.gov.pl/zagospodarowanieprzestrzenne/app'
     item.set('codeSpace', codeSpace)
+
     item.text = '/'.join([codeSpace, docName, IPP.replace('_', '/')])
 
     for element in elements:
@@ -995,6 +999,7 @@ def createXmlData(dialog, obrysLayer):  # NOWE
 
     for fe in dialog.formElements:
         refObject = fe.refObject
+
         if checkForNoValue(refObject) and fe.minOccurs < 1:
             continue
         if (fe.type == 'date' or fe.type == 'dateTime') and checkForNoDateValue(refObject):
@@ -1010,12 +1015,15 @@ def createXmlData(dialog, obrysLayer):  # NOWE
         else:
             link = ''
         if fe.name == 'idIIP':
+            __lokalnyId__ = fe.innerFormElements[1].refObject.text()
             IIP = refObject.text()
             items.set('gml:id', IIP)
+            # zamienia podlogi z lokalnyId na /
             itemid.text = '/'.join([codeSpace, docName, IIP.replace('_', '/')])
+            # itemid.text = '/'.join([codeSpace, docName, IIP.replace('_', '/').replace(__lokalnyId__.replace('_', '/'), __lokalnyId__)])
 
         if fe.isComplex():
-
+            # print(docName, fe.name, refObject)
             if fe.maxOccurs == 'unbounded':  # Element jest wielokrotny
                 params = getListWidgetItems(refObject)
                 # print(params)
@@ -1023,7 +1031,7 @@ def createXmlData(dialog, obrysLayer):  # NOWE
                 continue
             else:
                 item = ET.SubElement(items, tag + fe.name)
-                makeXmlComplex(tag, item, fe)
+                makeXmlComplex(tag, item, fe, docName)
                 continue
         elif fe.maxOccurs == 'unbounded':  # Element jest wielokrotny
             params = getListWidgetItems(refObject)
@@ -1434,7 +1442,7 @@ def mergeDocsToAPP(docList):  # docList z getTableContent
         docRoots[docType].append(root)
         IIP = getDocIIP(root)
         relLink = 'https://www.gov.pl/zagospodarowanieprzestrzenne/app/%s/%s' % (
-            docType, IIP.replace('_', '/'))
+            docType, IIP.replace('_', '/'))  # '/'.join([codeSpace, docName, IIP.replace('_', '/').replace(__lokalnyId__.replace('_', '/'), __lokalnyId__)])
         if docType == 'DokumentFormalny':
             if relation == 'przystapienie':
                 pomijane['AktPlanowaniaPrzestrzennego']['dokumentPrzystepujacy'].append(

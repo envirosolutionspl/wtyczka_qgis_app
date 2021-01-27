@@ -234,6 +234,12 @@ class ValidatorLxml:
             przestrzenie.append(p.text)
         unikalnePrzestrzenie = list(set(przestrzenie))
 
+        #sprawdzenie poprawności przestrzeni nazw
+        for przestrzenNazw in unikalnePrzestrzenie:
+            if not utils.validate_IIP(przestrzenNazw):
+                return False, f'Przestrzeń nazw "{przestrzenNazw}" nie jest zgodna z Rozporządzeniem.'
+
+        #sprawdzenie integralności przestrzeni nazw
         if len(unikalnePrzestrzenie) == 0:
             return False, 'Brak zdefiniowanych przestrzeni nazw w pliku'
         elif len(unikalnePrzestrzenie) > 1:

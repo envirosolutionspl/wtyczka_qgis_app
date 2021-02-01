@@ -215,7 +215,11 @@ class AppModule(BaseModule):
             showPopup("Błąd warstwy obrysu", "Nie wskazano warstwy z obrysem.")
         else:
             # Sprawdzanie CRS warstwy wejściowej
-            epsg = str(self.obrysLayer.crs().authid()).split(':')[1]
+            authid = str(self.obrysLayer.crs().authid())
+            if authid == '':
+                showPopup("Błąd warstwy obrysu", "Obrys nie ma zdefiniowanego układu współrzędnych")
+                return False
+            epsg = authid.split(':')[1]
             srsName = ''
             # Układ współrzędnych
             for crs in dictionaries.ukladyOdniesieniaPrzestrzennego.values():

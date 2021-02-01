@@ -14,6 +14,8 @@ def isLayerInPoland(obrysLayer):
     feat = next(obrysLayer.getFeatures())
     geom_obrysLayer = feat.geometry()
     geom_obrysLayer.transform(transform)
+    if not geom_obrysLayer.isGeosValid():
+        geom_obrysLayer = geom_obrysLayer.makeValid()
     geom_poland = QgsGeometry.fromWkt(poland.wkt)
     return geom_obrysLayer.within(geom_poland)
 

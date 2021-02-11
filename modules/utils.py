@@ -1019,8 +1019,9 @@ def createXmlData(dialog, obrysLayer):  # NOWE
             IIP = refObject.text()
             items.set('gml:id', IIP)
             # zamienia podlogi z lokalnyId na /
-            itemid.text = '/'.join([codeSpace, docName, IIP.replace('_', '/')])
-            # itemid.text = '/'.join([codeSpace, docName, IIP.replace('_', '/').replace(__lokalnyId__.replace('_', '/'), __lokalnyId__)])
+            # itemid.text = '/'.join([codeSpace, docName, IIP.replace('_', '/')])
+            itemid.text = '/'.join([codeSpace, docName, IIP.replace(
+                '_', '/').replace(__lokalnyId__.replace('_', '/'), __lokalnyId__)])
 
         if fe.isComplex():
             # print(docName, fe.name, refObject)
@@ -1370,23 +1371,6 @@ def mergeDocsToAPP(docList):  # docList z getTableContent
     # create the file structure
     data = ET.Element('wfs:FeatureCollection')
 
-    # for attr, value in root_data.items():
-    #     data.set(attr, value)
-
-    # for tag, uri in namespaces.items():
-    #     data.set(tag, uri)
-
-    ##############################
-    # ns = {
-    #     'xsi': "http://www.w3.org/2001/XMLSchema",
-    #     'app': "https://www.gov.pl/static/zagospodarowanieprzestrzenne/schemas/app/1.0",
-    #     'gmd': "http://www.isotc211.org/2005/gmd",
-    #     'gco': 'http://www.isotc211.org/2005/gco',
-    #     'xlink': 'http://www.w3.org/1999/xlink',
-    #     'gml': "http://www.opengis.net/gml/3.2",
-    #     'wfs': 'http://www.opengis.net/wfs/2.0',
-    #     'gmlexr': "http://www.opengis.net/gml/3.3/exr"
-    # }
     # Przechowywanie elementów referencyjnych
     pomijane = {
         'AktPlanowaniaPrzestrzennego': {  # + zmiana
@@ -1416,9 +1400,6 @@ def mergeDocsToAPP(docList):  # docList z getTableContent
         'RysunekAktuPlanowaniaPrzestrzennego': []
     }
 
-    # for prefix, uri in ns.items():
-    #     ET.register_namespace(prefix, uri)
-
     # Pozyskiwanie APP
     for doc, relation in docList:
         docType = getDocType(doc)
@@ -1426,8 +1407,9 @@ def mergeDocsToAPP(docList):  # docList z getTableContent
         if docType == 'AktPlanowaniaPrzestrzennego':
             APProot = root
             appIIP = getDocIIP(root)
+            __lokalnyId_app__ = findElementByTag(root, 'lokalnyId', None).text
             APPrelLink = 'https://www.gov.pl/zagospodarowanieprzestrzenne/app/%s/%s' % (
-                docType, appIIP.replace('_', '/'))
+                docType, appIIP.replace('_', '/').replace(__lokalnyId_app__.replace('_', '/'), __lokalnyId_app__))
 
     for doc, relation in docList:
         if relation == 'inna':
@@ -1441,8 +1423,10 @@ def mergeDocsToAPP(docList):  # docList z getTableContent
         # słownik/tablica rootów poszczególnych dokumentów
         docRoots[docType].append(root)
         IIP = getDocIIP(root)
+        __lokalnyId__ = findElementByTag(root, 'lokalnyId', None).text
         relLink = 'https://www.gov.pl/zagospodarowanieprzestrzenne/app/%s/%s' % (
-            docType, IIP.replace('_', '/'))  # '/'.join([codeSpace, docName, IIP.replace('_', '/').replace(__lokalnyId__.replace('_', '/'), __lokalnyId__)])
+            docType, IIP.replace('_', '/').replace(__lokalnyId__.replace('_', '/'), __lokalnyId__))  # '/'.join([codeSpace, docName, IIP.replace('_', '/').replace(__lokalnyId__.replace('_', '/'), __lokalnyId__)])
+
         if docType == 'DokumentFormalny':
             if relation == 'przystapienie':
                 pomijane['AktPlanowaniaPrzestrzennego']['dokumentPrzystepujacy'].append(
@@ -1504,7 +1488,7 @@ def mergeDocsToAPP(docList):  # docList z getTableContent
         for root in pomijane['DokumentFormalny'][atr]:
             if atr == 'przystapienie' or atr == 'uchwala':
                 newItem(root=root[0][0], name=atr,
-                        link='/'.join(APPrelLink.split('/')[:-1]), ns=ns)
+                        link='/'.join(APPrelLink.split('/')[: -1]), ns=ns)
             elif atr != 'dokument':
                 newItem(root=root[0][0], name=atr, link=APPrelLink, ns=ns)
 
@@ -1666,11 +1650,17 @@ def getIPPapp(filePath):
 
 def findElementByTag(root, name, elem=None):
     for element in root:
+        # print(element.tag)
         if '{https://www.gov.pl/static/zagospodarowanieprzestrzenne/schemas/app/1.0}'+name in element.tag:
+            # print(name+' Znaleziony w '+root.tag)
             return element
         if len(list(element)) > 0:
             elem = findElementByTag(element, name)
+        if elem is not None:
+            break
+    # print('elem', root.tag, elem)
     if elem is not None:
+        # print('Zwracam '+elem.tag)
         return elem
     return None
 

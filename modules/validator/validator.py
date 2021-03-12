@@ -126,7 +126,6 @@ class ValidatorLxml:
 
         root = ET.parse(gmlPath)
 
-        # przystąpienie
         bledy = []
         for app in root.findall('//app:AktPlanowaniaPrzestrzennego', ns):
 
@@ -189,7 +188,7 @@ class ValidatorLxml:
                     bledy.append('Brak dokumentu formalnego o identyfikatorze %s' %
                                  validator_utils.urlIdToGmlId(dok_uchylajacy_id))
                 else:
-                    uchyla = df.find('./app:zmienia', ns)
+                    uchyla = df.find('./app:uchyla', ns)
                     if uchyla is None:
                         bledy.append(
                             'Brak zdefiniowanej relacji \'uchyla\' dla dokumentu formalnego o identyfikatorze %s' % validator_utils.urlIdToGmlId(dok_uchylajacy_id))
@@ -205,7 +204,7 @@ class ValidatorLxml:
                     bledy.append('Brak dokumentu formalnego o identyfikatorze %s' %
                                  validator_utils.urlIdToGmlId(dok_uniewazniajacy_id))
                 else:
-                    uniewaznia = df.find('./app:zmienia', ns)
+                    uniewaznia = df.find('./app:uniewaznia', ns)
                     if uniewaznia is None:
                         bledy.append('Brak zdefiniowanej relacji \'uniewaznia\' dla dokumentu formalnego o identyfikatorze %s' %
                                      validator_utils.urlIdToGmlId(dok_uniewazniajacy_id))

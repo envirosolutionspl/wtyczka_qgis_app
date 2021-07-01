@@ -33,6 +33,7 @@ class ValidatorLxml:
         print('wczytano XSD w: ', ts.seconds)
 
     def validateXml(self, xmlPath):
+        """Walidacja XML w zakresie składni i zgodności ze schematem """
         try:
             xml_root = lxml.etree.parse(xmlPath)
         except lxml.etree.XMLSyntaxError as e:  # błąd w składni XML
@@ -54,6 +55,7 @@ class ValidatorLxml:
             return False, '\n\n'.join(errors)
 
     def validateMetadataXml(self, xmlPath):
+        """Walidacja XML z metadanymi """
         valResult = self.validateXml(xmlPath)
         if valResult[0]:
             valTagsResult = self.validateRequiredMetadataTags(xmlPath)
@@ -62,6 +64,7 @@ class ValidatorLxml:
         return valResult
 
     def validateAppXml(self, xmlPath):
+        """Walidacja XML z APP"""
         valResult = self.validateXml(xmlPath)
         if valResult[0]:
             layer = QgsVectorLayer(xmlPath + '|layername=AktPlanowaniaPrzestrzennego', "gml", 'ogr')
@@ -89,10 +92,15 @@ class ValidatorLxml:
             if not valRelationsResult[0]:
                 return valRelationsResult
 
+            # walidacja dokumentów formalnych
+            valDokFormResult = self.validateDokumentFormalny(xmlPath)
+            if not valDokFormResult[0]:
+                return valDokFormResult
+
         return valResult
 
     def validateZbiorXml(self, xmlPath):
-
+        """Walidacja zbioru APP w zakresie zalezności między elementami"""
         # walidacja założeń APP
         valRes = self.validateAppXml(xmlPath)
         if not valRes[0]:
@@ -262,5 +270,24 @@ class ValidatorLxml:
 
         if len(bledy) > 0:
             return False, '\n'.join(bledy)
+        else:
+            return [True]
+
+    def validateDokumentFormalny(self, gmlPath):
+        """Sprawdza czy dokumrnt formalny jest poprawnie zdefiniowany"""
+
+        root = ET.parse(gmlPath)
+
+        lokalneId = []
+        # wydobycie wersjaId dla dokumentów formalnych
+        for idIIP in root.findall('//app:DokumentFormalny/app:idIIP', ns):
+            wersjaId = idIIP.find('.//app:wersjaId', ns)
+            if wersjaId is not None:
+                lokalneId.append(idIIP.find('.//app:lokalnyId', ns).text)
+        #wypisanie dokumentów z błędami
+        if len(lokalneId) > 0:
+            return False, "Instancje typu obiektu DokumentFormalny nie mogą być wersjonowane.\nZnaleziono błąd dla następujących dokumentów formalnych:\n%s" % (
+                '\n'.join(lokalneId)
+            )
         else:
             return [True]

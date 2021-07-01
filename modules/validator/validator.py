@@ -13,6 +13,14 @@ import re
 dsSignaturePattern = re.compile(r'\/.*\/\w{1,5}\:Signature')
 xsdPath = os.path.join(os.path.dirname(__file__), 'planowaniePrzestrzenne.xsd')
 
+ns = {'gco': "http://www.isotc211.org/2005/gco",
+              'app': "https://www.gov.pl/static/zagospodarowanieprzestrzenne/schemas/app/1.0",
+              'gmd': "http://www.isotc211.org/2005/gmd",
+              'gml': "http://www.opengis.net/gml/3.2",
+              'wfs': "http://www.opengis.net/wfs/2.0",
+              'xlink': "http://www.w3.org/1999/xlink",
+              'xsi': "http://www.w3.org/2001/XMLSchema-instance"
+              }
 
 class ValidatorLxml:
     """Walidator oparty o bibliotekę lxml - wczytuje XSD z internetu 30-40 sekund """
@@ -115,14 +123,6 @@ class ValidatorLxml:
 
     def validateAppRelations(self, gmlPath):
         """Sprawdza czy relacje wewnątrz zbioru są zgodne"""
-        ns = {'gco': "http://www.isotc211.org/2005/gco",
-              'app': "https://www.gov.pl/static/zagospodarowanieprzestrzenne/schemas/app/1.0",
-              'gmd': "http://www.isotc211.org/2005/gmd",
-              'gml': "http://www.opengis.net/gml/3.2",
-              'wfs': "http://www.opengis.net/wfs/2.0",
-              'xlink': "http://www.w3.org/1999/xlink",
-              'xsi': "http://www.w3.org/2001/XMLSchema-instance"
-              }
 
         root = ET.parse(gmlPath)
 
@@ -216,14 +216,6 @@ class ValidatorLxml:
 
     def validatePrzestrzenNazwIntegrity(self, gmlPath):
         """Sprawdza czy przestrzenie nazw są zgodne"""
-        ns = {'gco': "http://www.isotc211.org/2005/gco",
-              'app': "https://www.gov.pl/static/zagospodarowanieprzestrzenne/schemas/app/1.0",
-              'gmd': "http://www.isotc211.org/2005/gmd",
-              'gml': "http://www.opengis.net/gml/3.2",
-              'wfs': "http://www.opengis.net/wfs/2.0",
-              'xlink': "http://www.w3.org/1999/xlink",
-              'xsi': "http://www.w3.org/2001/XMLSchema-instance"
-              }
 
         root = ET.parse(gmlPath)
 
@@ -251,14 +243,6 @@ class ValidatorLxml:
 
     def validateMapaPodkladowaQuantityRequirement(self, gmlPath):
         """Sprawdza czy przestrzenie nazw są zgodne"""
-        ns = {'gco': "http://www.isotc211.org/2005/gco",
-              'app': "https://www.gov.pl/static/zagospodarowanieprzestrzenne/schemas/app/1.0",
-              'gmd': "http://www.isotc211.org/2005/gmd",
-              'gml': "http://www.opengis.net/gml/3.2",
-              'wfs': "http://www.opengis.net/wfs/2.0",
-              'xlink': "http://www.w3.org/1999/xlink",
-              'xsi': "http://www.w3.org/2001/XMLSchema-instance"
-              }
 
         root = ET.parse(gmlPath)
 

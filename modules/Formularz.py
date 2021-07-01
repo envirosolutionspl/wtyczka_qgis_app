@@ -19,7 +19,7 @@ class NoScrollQgsDateTimeEdit(QgsDateTimeEdit):
 
     def __init__(self, parent=None):
         super(NoScrollQgsDateTimeEdit, self).__init__()
-        self.setDisplayFormat('dd.MM.yyyy hh:mm')
+        self.setDisplayFormat('dd.MM.yyyy hh:mm:ss')
 
     def wheelEvent(self, event):
         event.ignore()

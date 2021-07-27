@@ -27,6 +27,7 @@ hasProcessingProvider=no
   Wersja 1.1.5
   * poprawa walidatora APP w zakresie występowania wersji w dokumentach formalnych
   * dodanie możliwości wprowadzania sekund w polach typu dateTime formularzy
+  * optymalizacja kodu w walidatorze
   Wersja 1.1.4
   * poprawa walidatora APP w zakresie dokumentów uchylających i unieważniających
   * korekta w zakresie atrybutów typu ReferenceType

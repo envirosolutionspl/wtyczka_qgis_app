@@ -24,7 +24,7 @@ repository=https://github.com/envirosolutionspl/wtyczka_qgis_app
 hasProcessingProvider=no
 # Uncomment the following line and add your changelog:
 # changelog=
-  Wersja ???
+  Wersja 1.1.5
   * poprawa walidatora APP w zakresie występowania wersji w dokumentach formalnych
   * dodanie możliwości wprowadzania sekund w polach typu dateTime formularzy
   Wersja 1.1.4

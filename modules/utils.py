@@ -1778,14 +1778,15 @@ def loadItemsToForm(filePath, formElements):
             datePath = 'gmd:CI_Date/gmd:date/gco:Date'
             dateTypePath = 'gmd:CI_Date/gmd:dateType/gmd:CI_DateTypeCode'
             dataDate = element.find(datePath, ns)
-            dataDateTypeCode = element.find(dateTypePath, ns)
-            date_time_obj = datetime.datetime.strptime(
-                dataDate.text, '%Y-%m-%d')
-            fe.refObject[0].setDate(date_time_obj)
-            feDict = dictionaries.cI_DateTypeCode
-            for key in feDict.keys():
-                if dataDateTypeCode.text == key:
-                    fe.refObject[1].setCurrentText(key)
+            if dataDate:    # Obejście błędu wczytywania APP w oknie 5/6 #140
+                dataDateTypeCode = element.find(dateTypePath, ns)
+                date_time_obj = datetime.datetime.strptime(
+                    dataDate.text, '%Y-%m-%d')
+                fe.refObject[0].setDate(date_time_obj)
+                feDict = dictionaries.cI_DateTypeCode
+                for key in feDict.keys():
+                    if dataDateTypeCode.text == key:
+                        fe.refObject[1].setCurrentText(key)
         elif fe.isNillable and len(elementAttrib) > 0:
             if 'nilReason' in elementAttrib:
                 refNilObject = fe.refNilObject

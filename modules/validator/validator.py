@@ -216,6 +216,20 @@ class ValidatorLxml:
                     if uniewaznia is None:
                         bledy.append('Brak zdefiniowanej relacji \'uniewaznia\' dla dokumentu formalnego o identyfikatorze %s' %
                                      validator_utils.urlIdToGmlId(dok_uniewazniajacy_id))
+            # rysunek
+            rysunek = app.find('./app:rysunek', ns)
+            if rysunek is not None:
+                rysunek_id = rysunek.attrib['{%s}href' % ns['xlink']]
+                rys = root.find('//app:RysunekAktuPlanowaniaPrzestrzennego[@{%s}id="%s"]' % (
+                    ns['gml'], validator_utils.urlIdToGmlId(rysunek_id)), ns)
+                if rys is None:
+                    bledy.append('Brak rysunku aktu planu przestrzennego o identyfikatorze %s' %
+                                 validator_utils.urlIdToGmlId(rysunek_id))
+                else:
+                    plan = rys.find('./app:plan', ns)
+                    if plan is None:
+                        bledy.append('Brak zdefiniowanej relacji \'plan\' dla rysunku aktu planu przestrzennego o identyfikatorze %s' %
+                                     validator_utils.urlIdToGmlId(rysunek_id))
 
         if bledy:
             return False, '\n\n'.join(bledy)
@@ -291,3 +305,4 @@ class ValidatorLxml:
             )
         else:
             return [True]
+

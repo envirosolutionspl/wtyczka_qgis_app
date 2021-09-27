@@ -6,7 +6,7 @@
 name=Wtyczka APP
 qgisMinimumVersion=3.10
 description=Wtyczka wspomaga tworzenie danych przestrzennych dla aktów planowania przestrzennego (APP), zbiorów APP oraz metadanych zgodnie z polskimi przepisami obowiązującymi od 31 października 2020 r. Dedykowaną wersją oprogramowania QGIS do korzystania z Wtyczki APP są wersje powyżej 3.10.
-version=1.2.0
+version=1.2.1
 author=EnviroSolutions Sp. z o.o.
 email=office@envirosolutions.pl
 
@@ -24,6 +24,11 @@ repository=https://github.com/envirosolutionspl/wtyczka_qgis_app
 hasProcessingProvider=no
 # Uncomment the following line and add your changelog:
 # changelog=
+  Wersja 1.2.1
+  * poprawa błędu powodującego zawieszanie się wtyczki przy wczytywaniu formularzy (krok 5/6)
+  * poprawa błędu przy wczytywaniu godzin do formularza
+  * optymalizacja wagi Wtyczki - kompresja grafik
+  * dodanie walidacji istnienia odwołania do planu (relacja app:plan <-> app:rysunek) w obiekcie RysunekAktuPlanowaniaPrzestrzennego
   Wersja 1.2.0
   * poprawa walidatora APP w zakresie występowania wersji w dokumentach formalnych
   * dodanie możliwości wprowadzania sekund w polach typu dateTime formularzy

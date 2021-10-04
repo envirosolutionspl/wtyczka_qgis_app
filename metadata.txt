@@ -23,7 +23,7 @@ repository=https://github.com/envirosolutionspl/wtyczka_qgis_app
 
 hasProcessingProvider=no
 # Uncomment the following line and add your changelog:
-# changelog=
+changelog=
   Wersja 1.2.1
   * poprawa błędu powodującego zawieszanie się wtyczki przy wczytywaniu formularzy (krok 5/6)
   * poprawa błędu przy wczytywaniu godzin do formularza
